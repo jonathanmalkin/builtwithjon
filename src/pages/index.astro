@@ -12,7 +12,7 @@ const personSchema = {
   '@type': 'Person',
   name: 'Jonathan Malkin',
   jobTitle: 'AI Builder & Solo Founder',
-  description: 'I build AI systems for communities mainstream tech ignores. Solo founder of Open Door Learning LLC.',
+  description: 'Software development and technical advisory. Building assessment tools, an open-source AI framework, and educational content. Solo founder of Open Door Learning LLC.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
@@ -32,7 +32,7 @@ const websiteSchema = {
 
 <Base
   title="Jonathan Malkin"
-  description="I build AI systems for communities mainstream tech ignores. Writing about Claude Code, AI agents, and building as a solo founder with AI."
+  description="Software development and technical advisory. Building assessment tools, an open-source AI framework, and educational content. Writing about Claude Code, AI agents, and solo founding with AI."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
@@ -43,10 +43,11 @@ const websiteSchema = {
     <h1>I build AI systems for communities<br>mainstream tech ignores.</h1>
     <p class="subtitle">
       Former enterprise tech. Now running a solo business entirely through a Claude Code system called Jules.
-      Writing about the infrastructure, the thesis, and the playbook.
+      Current products: <a href="https://quiz.9archetypes.app">Kink Archetypes</a> personality assessment,
+      <a href="/jules/">Jules</a> open-source AI framework, and <a href="/articles/">educational content</a>.
     </p>
     <div class="hero-links">
-      <a href="https://github.com/jonathanmalkin/jules" class="hero-btn">Jules on GitHub</a>
+      <a href="/projects/" class="hero-btn">See All Projects</a>
       <a href="/articles/" class="hero-btn hero-btn-outline">Read the Articles</a>
       <a href="#subscribe" class="hero-btn hero-btn-outline">Subscribe</a>
     </div>

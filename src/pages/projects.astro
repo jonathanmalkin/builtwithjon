@@ -4,37 +4,49 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Projects"
-  description="Current and past projects: Jules (Claude Code system), Kink Archetype Quiz, and more."
+  description="Current projects: Kink Archetypes personality assessment, Jules AI framework, educational content, and more."
 >
   <div class="container">
     <h1>Projects</h1>
 
     <div class="project-card">
-      <h3><a href="/jules/">Jules</a></h3>
-      <span class="status">Active</span>
-      <p>
-        A 116-configuration Claude Code system that runs a solo business. Custom personality, decision framework, autonomous workflows, VPS infrastructure.
-        35+ skills, 24 rules, 8 hooks.
-      </p>
-      <p><a href="https://github.com/jonathanmalkin/jules">GitHub &rarr;</a></p>
-    </div>
-
-    <div class="project-card">
-      <h3>Kink Archetype Quiz</h3>
+      <h3><a href="https://quiz.9archetypes.app">Kink Archetypes</a></h3>
       <span class="status">Live</span>
       <p>
-        Interactive personality assessment that identifies kink archetypes. React + TypeScript frontend, PHP + MySQL backend. 200+ daily users with high completion rates.
+        Interactive personality assessment exploring kink education for adult audiences. Identifies relationship and communication styles across 9 archetypes.
+        React + TypeScript frontend, PHP + MySQL backend. 200+ daily users.
       </p>
       <p><a href="https://quiz.9archetypes.app">quiz.9archetypes.app &rarr;</a></p>
     </div>
 
     <div class="project-card">
-      <h3>This Site</h3>
+      <h3><a href="/jules/">Jules</a></h3>
       <span class="status">Active</span>
       <p>
-        Built with Astro v6, hosted on Cloudflare Pages. Markdown content, zero JavaScript by default, optimized for both Google and AI search engines. Open source.
+        Open-source AI assistant framework built on Claude Code. Custom personality, decision framework, autonomous workflows, VPS infrastructure.
+        33 skills, 15 rules, 12 hooks.
       </p>
-      <p><a href="https://github.com/jonathanmalkin/builtwithjon">Source &rarr;</a></p>
+      <p><a href="https://github.com/jonathanmalkin/jules">GitHub &rarr;</a></p>
+    </div>
+
+    <div class="project-card">
+      <h3>Articles &amp; Content</h3>
+      <span class="status">Active</span>
+      <p>
+        Educational articles and a subscriber newsletter covering Claude Code, AI agents, and solo founding. Published at builtwithjon.com.
+        Built with Astro v6, hosted on Cloudflare.
+      </p>
+      <p><a href="/articles/">Read the articles &rarr;</a></p>
+    </div>
+
+    <div class="project-card">
+      <h3>What's Next</h3>
+      <span class="status">In Development</span>
+      <p>
+        Expanding the assessment toolkit in two directions: more tools for the kink education space
+        (interest exploration, negotiation frameworks) and personal development assessments for
+        general audiences. Same interactive assessment approach, new domains.
+      </p>
     </div>
   </div>
 </Base>
