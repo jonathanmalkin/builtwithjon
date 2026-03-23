@@ -237,6 +237,18 @@ hr {
   color: var(--color-accent);
 }
 
+.site-footer .footer-legal {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.legal-updated {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
 /* Article card */
 .article-card {
   padding: 1.25rem 0;
@@ -903,6 +915,17 @@ a.story-card:hover {
 
 .email-submit:hover {
   background: var(--color-accent-hover);
+}
+
+.email-disclosure {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+}
+
+.email-disclosure a {
+  color: var(--color-muted);
+  text-decoration: underline;
 }
 
 @media (max-width: 640px) {
