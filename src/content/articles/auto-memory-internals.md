@@ -4,7 +4,8 @@ date: 2026-03-24
 description: "Claude Code's autoMemoryDirectory is simple to set, but each environment (CLI, self-hosted Docker, Claude Code Web) needs its own configuration path. Here's how to wire it up everywhere, with the sync strategy that ties them together."
 story: 1
 tags: ["claude-code", "memory", "hooks", "docker", "cloud", "settings"]
-platforms: {}
+platforms:
+  reddit: "https://www.reddit.com/r/ClaudeCode/comments/1s2o9c6/automemory_internals_across_every_claude_code/"
 draft: false
 ---
 
