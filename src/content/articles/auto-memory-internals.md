@@ -6,6 +6,8 @@ story: 1
 tags: ["claude-code", "memory", "hooks", "docker", "cloud", "settings"]
 platforms:
   reddit: "https://www.reddit.com/r/ClaudeCode/comments/1s2o9c6/automemory_internals_across_every_claude_code/"
+  x_thread: "https://x.com/builtwithjon/status/2036530553160085982"
+  linkedin: "https://www.linkedin.com/feed/update/urn:li:share:7442296434684571649/"
 draft: false
 ---
 
