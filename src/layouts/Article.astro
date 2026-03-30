@@ -1,7 +1,5 @@
 ---
 import Base from './Base.astro';
-import StoryBadge from '../components/StoryBadge.astro';
-
 interface Props {
   title: string;
   description: string;
@@ -67,8 +65,6 @@ const articleSchema = {
         {formattedUpdated && updated && updated.getTime() !== date.getTime() && (
           <span> &middot; Updated {formattedUpdated}</span>
         )}
-        &middot;
-        <StoryBadge story={story} />
       </div>
     </header>
     <div class="article-content">

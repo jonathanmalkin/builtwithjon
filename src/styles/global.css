@@ -173,6 +173,11 @@ hr {
   margin: 0 auto;
 }
 
+.container-wide {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+}
+
 /* Header */
 .site-header {
   padding: 1.5rem 0;
@@ -1236,4 +1241,59 @@ a.story-card:hover {
 
 .getting-started-sub a {
   color: #60a5fa;
+}
+
+/* Contact form */
+.contact-form {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.form-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -1px;
+  border-color: var(--color-accent);
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-submit {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-submit:hover {
+  background: var(--color-accent-hover);
 }

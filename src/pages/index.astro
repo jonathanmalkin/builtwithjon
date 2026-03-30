@@ -11,13 +11,14 @@ const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Jonathan Malkin',
-  jobTitle: 'AI Builder & Solo Founder',
-  description: 'Software development and technical advisory. Building assessment tools, an open-source AI framework, and educational content. Solo founder of Open Door Learning LLC.',
+  jobTitle: 'Solo Founder & Technical Advisor',
+  description: 'Solo founder of Open Door Learning LLC. 20+ years translating between technical and business teams. Now building software, automations, and assessment tools.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
     'https://www.reddit.com/user/jonathanmalkin/',
     'https://x.com/builtwithjon',
+    'https://linkedin.com/in/jonathanmalkin',
   ],
 };
 
@@ -26,231 +27,46 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'AI builder, solo founder. Writing about Claude Code, AI agents, and building where mainstream tech won\'t.',
+  description: 'Jonathan Malkin: solo founder and technical advisor. 20+ years translating between technical and business teams. Building software, automations, and assessment tools.',
 };
 ---
 
 <Base
   title="Jonathan Malkin"
-  description="Software development and technical advisory. Building assessment tools, an open-source AI framework, and educational content. Writing about Claude Code, AI agents, and solo founding with AI."
+  description="Jonathan Malkin: solo founder and technical advisor. 20+ years translating between technical and business teams. Building software, automations, and assessment tools."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
   <!-- Hero -->
-  <section class="hero container">
-    <h1>My business partner is a fox<br>who never sleeps.</h1>
+  <section class="hero container-wide">
+    <h1>I figure out what businesses actually need, then I build it.</h1>
     <p class="subtitle">
-      I left enterprise tech to build my own business. Then I built <a href="/jules/">Jules</a>,
-      an AI system that runs most of it for me. Here's what's inside.
+      20 years translating between technical and business teams.
+      Now a solo founder building software, automations, and assessment tools.
     </p>
     <div class="hero-links">
-      <a href="/jules/" class="hero-btn">See the System</a>
-      <a href="/articles/" class="hero-btn hero-btn-outline">Read the Articles</a>
-      <a href="#subscribe" class="hero-btn hero-btn-outline">Subscribe</a>
+      <a href="/articles/" class="hero-btn">Read the Articles</a>
+      <a href="/contact/" class="hero-btn hero-btn-outline">Work With Me</a>
     </div>
   </section>
 
-  <!-- Dashboard: Jules System Stats -->
-  <section class="dashboard">
-    <div class="dashboard-header">
-      <h2>Jules System <span class="pulse">LIVE</span> <span class="version-badge">v4</span></h2>
-      <p class="dashboard-sub">A Claude Code system that runs a solo business. Simplified: same power, half the complexity.</p>
-    </div>
-
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-number">18</div>
-        <div class="stat-label">Skills</div>
-        <div class="stat-detail">Consolidated workflows: /think, /build, /write, /research, /debug — skill-to-skill chaining</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">5</div>
-        <div class="stat-label">Hooks</div>
-        <div class="stat-detail">Unified safety guard, RTK token optimization, desktop notifications, session-start sync</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number always-on">ON</div>
-        <div class="stat-label">Cloud Batch</div>
-        <div class="stat-detail">Overnight: daily retro, morning briefing assembly, email fetch. Ready before the laptop opens.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number always-on">ON</div>
-        <div class="stat-label">Telegram</div>
-        <div class="stat-detail">Interactive access from phone when laptop is open. Cloud web sessions when it's not.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">60-90%</div>
-        <div class="stat-label">Token Savings</div>
-        <div class="stat-detail">RTK (Rust Token Killer) rewrites dev commands for massive context savings.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">&lt;500</div>
-        <div class="stat-label">Lines in CLAUDE.md</div>
-        <div class="stat-detail">Rules absorbed into one file. Identity, routing, authority, safety — always loaded.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Version Evolution -->
-  <section class="container" style="margin-bottom: 3rem;">
-    <h2>How Jules Evolved</h2>
-    <div class="version-strip">
-      <div class="version-col">
-        <div class="version-tag">v1</div>
-        <div class="version-title">Identity + Skills</div>
-        <p>Personality, voice registers, decision authority. CLAUDE.md files and early skill workflows.</p>
-      </div>
-      <div class="version-col">
-        <div class="version-tag">v2-v3</div>
-        <div class="version-title">Automation + Planning</div>
-        <p>Container infrastructure, scheduled jobs, planning dispatch, research agents, security hooks.</p>
-      </div>
-      <div class="version-col version-col-current">
-        <div class="version-tag">v4</div>
-        <div class="version-title">Simplification</div>
-        <p>32 skills became 18. 15 hooks became 5. VPS eliminated. Cloud batch + Telegram. Same power, half the parts.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Architecture Diagram -->
-  <section class="container" style="margin-bottom: 3rem;">
-    <h2>How It Works</h2>
-    <div class="layer-stack">
-      <div class="layer-bar layer-products">
-        <span class="layer-icon">&#9881;</span>
-        <div>
-          <div class="layer-name">Products</div>
-          <div class="layer-desc">Quiz app, website, content pipeline. Applications the system builds and ships.</div>
-        </div>
-      </div>
-      <div class="layer-bar layer-automation">
-        <span class="layer-icon">&#9200;</span>
-        <div>
-          <div class="layer-name">Automation</div>
-          <div class="layer-desc">Cloud overnight batch, session-start sync, Telegram access.</div>
-        </div>
-      </div>
-      <div class="layer-bar layer-infra">
-        <span class="layer-icon">&#128736;</span>
-        <div>
-          <div class="layer-name">Infrastructure</div>
-          <div class="layer-desc">5 hooks: unified safety guard, RTK token optimization, notifications.</div>
-        </div>
-      </div>
-      <div class="layer-bar layer-config">
-        <span class="layer-icon">&#9881;</span>
-        <div>
-          <div class="layer-name">Configuration</div>
-          <div class="layer-desc">18 skills, CLAUDE.md (absorbed rules). Request routing, research, planning.</div>
-        </div>
-      </div>
-      <div class="layer-bar layer-state">
-        <span class="layer-icon">&#128203;</span>
-        <div>
-          <div class="layer-name">Operational State</div>
-          <div class="layer-desc">Terrain, daily briefings, decision queue. Live working state that evolves daily.</div>
-        </div>
-      </div>
-      <div class="layer-bar layer-identity">
-        <span class="layer-icon">&#129418;</span>
-        <div>
-          <div class="layer-name">Identity</div>
-          <div class="layer-desc">Agent personality, user context, goals, voice registers, decision authority.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hybrid Architecture -->
-  <section class="container" style="margin-bottom: 3rem;">
-    <h2>Architecture</h2>
-    <p style="color: var(--color-text-muted); margin-bottom: 1rem;">Mac for interactive development. Cloud for scheduled tasks. No VPS, no Docker, no daemons.</p>
-    <div class="hybrid-arch">
-      <div class="hybrid-node hybrid-mac">
-        <div class="hybrid-label">Mac</div>
-        <div class="hybrid-detail">Interactive dev</div>
-      </div>
-      <div class="hybrid-arrow">&rarr;</div>
-      <div class="hybrid-node hybrid-github">
-        <div class="hybrid-label">Cloud</div>
-        <div class="hybrid-detail">Overnight batch</div>
-      </div>
-      <div class="hybrid-arrow">&rarr;</div>
-      <div class="hybrid-node hybrid-vps">
-        <div class="hybrid-label">Telegram</div>
-        <div class="hybrid-detail">Phone access</div>
-      </div>
-      <div class="hybrid-arrow">&rarr;</div>
-      <div class="hybrid-node hybrid-phone">
-        <div class="hybrid-label">Cloud Web</div>
-        <div class="hybrid-detail">Remote sessions</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- A Day with Jules -->
-  <section class="container" style="margin-bottom: 3rem;">
-    <h2>A Day with Jules</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-time">Session start</div>
-        <div class="timeline-content">
-          <strong>Auto-sync</strong> &mdash; Hook pulls latest code from GitHub on every session open.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">Sessions</div>
-        <div class="timeline-content">
-          <strong>Real-time collaboration</strong> &mdash; Interactive terminal or VS Code. Skills route requests, hooks guard every tool call.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">Anytime</div>
-        <div class="timeline-content">
-          <strong>Telegram from phone</strong> &mdash; Message Jules when the laptop is open. Cloud web sessions when it's not.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">Overnight</div>
-        <div class="timeline-content">
-          <strong>Cloud batch</strong> &mdash; Retro + memory analysis, morning briefing assembly, email fetch. Ready before the laptop opens.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">Wrap-up</div>
-        <div class="timeline-content">
-          <strong>Session report</strong> &mdash; Commit code, update memory, run quality checks, flag publishable content.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- v3 Capabilities -->
-  <section class="container" style="margin-bottom: 3rem;">
-    <h2>What's New in v4</h2>
-    <div class="capabilities-grid">
-      <div class="capability-card">
-        <strong>Radical Simplification</strong>
-        <p>32 skills became 18 via consolidation. 15 hooks became 5. 20+ rule files absorbed into CLAUDE.md. Same power, half the parts.</p>
-      </div>
-      <div class="capability-card">
-        <strong>No More VPS</strong>
-        <p>Docker container, 9 cron jobs, Slack daemon, auth infrastructure — all eliminated. Replaced by one Cloud scheduled batch task.</p>
-      </div>
-      <div class="capability-card">
-        <strong>Unified Safety Guard</strong>
-        <p>6 hook scripts consolidated into one: command blocking, secret scanning, financial data guard, domain blocking. One file, four sections.</p>
-      </div>
-      <div class="capability-card">
-        <strong>RTK Token Optimization</strong>
-        <p>Rust Token Killer rewrites bash commands for 60-90% token savings on dev operations. Hook-based, zero overhead.</p>
-      </div>
-      <div class="capability-card">
-        <strong>Consolidated Skills</strong>
-        <p>/think replaces decompose + advisory. /build replaces scope + plans + execution. /write handles all content. Fewer skills, deeper workflows.</p>
-      </div>
+  <!-- What I Do -->
+  <section class="container" id="what-i-do" style="margin-bottom: 3rem;">
+    <h2>What I Do</h2>
+    <div class="story-grid">
+      <a href="/jules/" class="story-card story-card-1">
+        <h3>Automation &amp; Operations</h3>
+        <p>I build systems that handle the work businesses shouldn't do manually. Content pipelines, scheduling, research, reporting. My own business runs on one of these systems. It's open source.</p>
+      </a>
+      <a href="/projects/" class="story-card story-card-2">
+        <h3>Assessment Tools</h3>
+        <p>Interactive assessments that help people understand themselves better. Personality frameworks, self-discovery tools, educational content. 200+ daily users on the first one.</p>
+      </a>
+      <a href="/articles/" class="story-card story-card-3">
+        <h3>Writing &amp; Advisory</h3>
+        <p>Practitioner articles on AI automation, solo founding, and building for underserved markets. Available for consulting on automation architecture and technical strategy.</p>
+      </a>
     </div>
   </section>
 
@@ -261,34 +77,18 @@ const websiteSchema = {
       <a href="/jules/" class="story-card story-card-1">
         <div class="story-num">Story 1</div>
         <h3>The Setup Is The Product</h3>
-        <p>Claude Code infrastructure, skills, hooks, rules, workflows. The system itself is the work product.</p>
+        <p>How I built an AI operational system that runs a solo business. Infrastructure, automation, the practical details.</p>
       </a>
       <div class="story-card story-card-2">
         <div class="story-num">Story 2</div>
         <h3>Build Where They Won't</h3>
-        <p>The taboo-to-mainstream thesis. Why underserved communities are the next frontier for AI builders.</p>
+        <p>Why underserved communities are the next frontier. The taboo-to-mainstream trajectory and what it means for builders.</p>
       </div>
       <div class="story-card story-card-3">
         <div class="story-num">Story 3</div>
         <h3>Solo Founder + AI</h3>
-        <p>One person with AI doing what used to require a team. The practical reality, not the hype.</p>
+        <p>One person doing what used to require a team. The practical reality, not the hype.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Getting Started -->
-  <section class="container" style="margin-bottom: 3rem;">
-    <h2>Build Your Own</h2>
-    <div class="getting-started">
-      <p class="getting-started-lead">You don't need dozens of configurations to start. Try this one prompt:</p>
-      <pre><code>claude "Read my codebase. Create a .claude/CLAUDE.md that describes
-the project, key conventions, and common workflows. Then create
-one skill in .claude/skills/ for the task I do most often."</code></pre>
-      <p class="getting-started-sub">
-        That's it. One CLAUDE.md and one skill. Build up from there.
-        <br>Full source: <a href="https://github.com/jonathanmalkin/jules">github.com/jonathanmalkin/jules</a>
-        &middot; <a href="/jules/">How Jules works &rarr;</a>
-      </p>
     </div>
   </section>
 
