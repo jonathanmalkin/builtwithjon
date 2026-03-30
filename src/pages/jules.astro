@@ -19,7 +19,7 @@ const faqSchema = {
       name: 'How many configurations does Jules have?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Jules has 80+ configurations across custom skills, rules, hooks, agents, memory files, and automated workflows. This includes 32 skills, 21 rules, 14 hooks, 4 specialized agents, and a VPS running 9 scheduled jobs plus a 24/7 Slack daemon.',
+        text: 'Jules has 18 custom skills, 5 hooks (including a unified safety guard), Cloud scheduled batch tasks, Telegram access, and a CLAUDE.md under 500 lines that absorbs what used to be 20+ rule files. v4 simplified the system dramatically — same capabilities with half the complexity.',
       },
     },
     {
@@ -27,7 +27,7 @@ const faqSchema = {
       name: 'Can I build something like Jules?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. Jules is built entirely with Claude Code\'s built-in features: CLAUDE.md files, skills, rules, hooks, and MCP servers. No external frameworks. The full source is available on GitHub. Start with a solid CLAUDE.md, add skills for repeated workflows, and build up from there.',
+        text: 'Yes. Jules is built entirely with Claude Code\'s built-in features: CLAUDE.md files, skills, hooks, and MCP servers. No external frameworks. The full source is available on GitHub. Start with a solid CLAUDE.md, add skills for repeated workflows, and build up from there.',
       },
     },
   ],
@@ -36,7 +36,7 @@ const faqSchema = {
 
 <Base
   title="Jules"
-  description="Jules is an 80+ configuration Claude Code system that runs an entire solo business. 32 skills, 21 rules, 14 hooks, 4 agents, and autonomous workflows on a 24/7 VPS."
+  description="Jules is a Claude Code system that runs an entire solo business. 18 skills, 5 hooks, Cloud scheduled batch, and Telegram access. v4: same power, half the complexity."
   schema={faqSchema}
 >
   <div class="container">
@@ -51,13 +51,12 @@ const faqSchema = {
     <div style="overflow-x: auto;">
       <table>
         <tbody>
-          <tr><td>Custom skills</td><td>32</td></tr>
-          <tr><td>Rules</td><td>21</td></tr>
-          <tr><td>Hooks (middleware)</td><td>14</td></tr>
-          <tr><td>Specialized agents</td><td>4</td></tr>
-          <tr><td>Memory files</td><td>28</td></tr>
-          <tr><td>Scheduled jobs</td><td>9</td></tr>
-          <tr><td>Slack daemon</td><td>Always on</td></tr>
+          <tr><td>Custom skills</td><td>18</td></tr>
+          <tr><td>Hooks</td><td>5 (unified safety guard + 4 others)</td></tr>
+          <tr><td>CLAUDE.md</td><td>&lt;500 lines (absorbed 20+ rule files)</td></tr>
+          <tr><td>Scheduled tasks</td><td>Cloud overnight batch (3 phases)</td></tr>
+          <tr><td>Mobile access</td><td>Telegram + Cloud web sessions</td></tr>
+          <tr><td>Token savings</td><td>60-90% via RTK hook</td></tr>
         </tbody>
       </table>
     </div>
@@ -71,10 +70,10 @@ const faqSchema = {
     <ul>
       <li><strong>Identity and voice.</strong> Five defined registers (quick reply, technical, advisory, serious, excited) with anti-patterns that prevent corporate chatbot drift.</li>
       <li><strong>Decision authority.</strong> A formal framework: what Jules acts on autonomously, what requires approval, how the boundary expands over time through standing orders.</li>
-      <li><strong>Planning infrastructure.</strong> Goal decomposition via Socratic dialogue, task dispatch system, batched decision cards. Turns vague goals into executable work.</li>
-      <li><strong>Deep research pipeline.</strong> Parallel Haiku agents gather context, Sonnet synthesizes. Full audit trails with confidence tiers and source citations.</li>
-      <li><strong>Security hooks.</strong> 14 hooks running deterministic code: safety guards, credential protection, output sanitization. They fire on every tool call, not as instructions that might be ignored.</li>
-      <li><strong>A VPS running 24/7.</strong> 9 scheduled jobs, Slack daemon, auth heartbeat. Daily retros, morning briefings, email fetch. Jules works while I sleep.</li>
+      <li><strong>Consolidated skills.</strong> 18 skills that do real work: /think for strategy, /build for software, /write for content, /research for deep investigation. Each is a multi-phase workflow, not a prompt.</li>
+      <li><strong>Unified safety guard.</strong> One hook script with four sections: command blocking, secret scanning, financial data guard, domain blocking. Deterministic — fires on every tool call, not as instructions that might be ignored.</li>
+      <li><strong>Cloud overnight batch.</strong> Daily retro, morning briefing assembly, email fetch. Runs on Anthropic Cloud. No VPS, no Docker, no daemon.</li>
+      <li><strong>Simplification as a feature.</strong> v4 cut the system in half. 32 skills → 18. 15 hooks → 5. 20+ rule files → CLAUDE.md sections. Same capabilities, dramatically less to maintain.</li>
     </ul>
 
     <h2>Architecture</h2>
@@ -83,15 +82,30 @@ const faqSchema = {
       Everything is built with Claude Code's native features. No external frameworks, no custom runtimes, no wrappers.
     </p>
 
-    <p>Six layers, bottom-up: Identity, Operational State, Configuration (32 skills, 21 rules, 4 agents), Infrastructure (14 hooks, Docker), Automation (9 jobs, Slack daemon), and Products.</p>
+    <p>Five layers, bottom-up: Identity, Operational State, Configuration (18 skills, CLAUDE.md), Infrastructure (5 hooks), Automation (Cloud batch), and Products.</p>
 
     <ul>
       <li><strong>Skills</strong> replace copy-paste prompts. Multi-phase workflows with routing logic, model selection, and skill-to-skill chaining.</li>
-      <li><strong>Rules</strong> encode decisions. Request routing, token efficiency, investigation budgets, credential lookup, research standards.</li>
+      <li><strong>CLAUDE.md</strong> absorbs what used to be 20+ rule files. Routing, decision authority, safety rules, research standards — one file, always loaded, under 500 lines.</li>
       <li><strong>Hooks</strong> run deterministic code. A bash script executes the same way every time. A prompt might be followed; a hook always fires.</li>
-      <li><strong>Agents</strong> handle specialized work. Code review, quiz testing, content authoring, codebase exploration. Each with its own tools and constraints.</li>
-      <li><strong>Memory</strong> persists across sessions. 28 files covering feedback, project context, references, and operational state. Indexed, not dumped.</li>
+      <li><strong>Cloud batch</strong> handles overnight work. Retro + memory analysis, morning briefing, email fetch. Calls APIs directly via HTTP — no MCP dependency.</li>
     </ul>
+
+    <h2>The Simplification Story</h2>
+
+    <p>
+      Jules grew to 32 skills, 20+ rules, 15 hooks, a Docker container with 9 cron jobs, and a Slack daemon. It worked, but the maintenance overhead was real. v4 asked: what if the system got more powerful by getting smaller?
+    </p>
+
+    <ul>
+      <li><strong>/think</strong> replaced decompose + advisory. One skill handles all strategic thinking.</li>
+      <li><strong>/build</strong> replaced scope + writing-plans + executing-plans + subagent-driven-development. One skill handles all software work.</li>
+      <li><strong>safety-guard.sh</strong> replaced 6 hook scripts + 4 subscripts. One file, four sections, same protection.</li>
+      <li><strong>Cloud batch</strong> replaced a VPS, Docker, 9 cron jobs, and an auth infrastructure. One scheduled task.</li>
+      <li><strong>CLAUDE.md</strong> absorbed 20+ rule files. One file that loads every session.</li>
+    </ul>
+
+    <p>The lesson: complexity is easy to add and hard to remove. The simplification made the system faster, more reliable, and easier to reason about.</p>
 
     <h2>Source</h2>
 
