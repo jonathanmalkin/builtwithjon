@@ -40,7 +40,7 @@ That is a harder moment to recognize than a failure. The system still worked. I 
 
 In the middle of the simplification, I audited the self-improvement loop I had built around the system.
 
-Over 47 retrospective cycles, it had applied 115 changes: 
+Over 47 retrospective cycles, it had applied 115 changes:
 - 105 additive
 - 3 simplifications
 
