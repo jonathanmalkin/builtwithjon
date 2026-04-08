@@ -20,6 +20,44 @@ All that material is publicly available. Enough to build my own Alex Hormozi Bra
 - 15 guest podcast transcripts
 - X threads
 
+## Fast Path
+
+If you just want the agent running, start with the public repo instead of rebuilding the whole pipeline:
+
+[github.com/jonathanmalkin/hormozi-brain-claude-project](https://github.com/jonathanmalkin/hormozi-brain-claude-project)
+
+It includes:
+
+- Project instructions you can paste straight into Claude
+- Distilled knowledge files for frameworks, voice patterns, and background
+- Evaluation prompts to test whether the agent is actually useful
+- A source manifest if you want to upgrade to the full-source version later
+
+Setup takes five moves:
+
+1. Open the repo and grab `PROJECT-INSTRUCTIONS.md`
+2. Create a new Claude Project
+3. Paste `PROJECT-INSTRUCTIONS.md` into Project Instructions
+4. Upload the four files in `knowledge/`
+5. Run the prompts in `evals/test-prompts.md`
+
+That gets most people to a usable advisor in 20-30 minutes instead of spending a day doing transcript operations.
+
+## Builder Path
+
+If you want the higher-fidelity version, use the repo as the starter kit and then keep going.
+
+Builder path:
+
+1. Start with the GitHub repo so you have a working baseline
+2. Inventory the full public source landscape
+3. Download transcripts and audiobooks
+4. Analyze the voice and frameworks
+5. Repackage the highest-signal material for Claude Projects
+6. Test, refine, and only then keep expanding the corpus
+
+The rest of this article is the full builder walkthrough.
+
 ## What I Did in Four Phases
 
 Phase 1 maps the full source landscape: YouTube channel (4,754 videos), The Game podcast (~900+ episodes), three books, guest podcast appearances, X/Twitter. Figure out what's worth downloading before you start.
@@ -115,7 +153,7 @@ Without the anti-patterns list, the model defaults to hedge-everything business 
 
 ### Hitting the Knowledge Limit
 
-First attempt: 47 files, 11.4MB. Claude Projects lets you attach reference documents that persist across conversations, but the knowledge base caps out around 7MB of content. Not close.
+First attempt: 47 files, 11.4MB. In practice, that was too much to manage cleanly inside Claude Projects as a single high-signal knowledge base.
 
 The optimization process:
 
@@ -125,13 +163,35 @@ The optimization process:
 - X/Twitter threads (2KB): tiny footprint, worth including for voice calibration.
 - System prompt (8KB): the persona specification.
 
-Result: 8 files, 7.0MB. 94% of Claude Projects' capacity. The 84 remaining video transcripts didn't make the cut. The books and guest appearances got priority because they contain the most unique material. Video transcripts have significant overlap with each other (he repeats his frameworks constantly, which is great for learning but redundant in a knowledge base).
+Result: 8 files, 7.0MB. The 84 remaining video transcripts didn't make the cut. The books and guest appearances got priority because they contain the most unique material. Video transcripts have significant overlap with each other (he repeats his frameworks constantly, which is great for learning but redundant in a knowledge base).
+
+Anthropic now says Projects can use retrieval to expand effective capacity by up to 10x. Useful. But the real bottleneck is still curation. If half your files repeat the same points, more storage just gives the model more duplicated material to sift through. The highest-leverage move is still packaging the most unique, diagnostic content first.
 
 ### NotebookLM Alternative
 
 Before settling on Claude Projects, I also bundled the transcripts for Google's NotebookLM, which has a 50 sources/notebook limit. That required combining 102 individual files into 38 uploadable text files: 3 books as individual files, 14 top video transcripts as individual files, and 21 "Video Bundle" files containing the remaining 84 videos in groups of 4.
 
 Same content, completely different packaging decisions. Claude Projects has the tighter budget but a better conversational agent on the other end. NotebookLM lets you upload more but the agent doesn't use it as flexibly.
+
+### Can You Copy or Share the Claude Project?
+
+Inside a Claude Team or Enterprise workspace, yes, you can share the Project directly with other people in the workspace.
+
+Across separate accounts, there isn't a clean export-import path for a full Claude Project configuration. That's why the easier unit to share is the kit, not the Project itself.
+
+The portable public repo looks like this:
+
+- `PROJECT-INSTRUCTIONS.md`
+- `knowledge/01-core-frameworks.md`
+- `knowledge/02-voice-patterns.md`
+- `knowledge/03-background-and-beliefs.md`
+- `knowledge/04-how-to-use-this-agent.md`
+- `evals/test-prompts.md`
+- `sources.csv`
+
+Repo:
+
+[github.com/jonathanmalkin/hormozi-brain-claude-project](https://github.com/jonathanmalkin/hormozi-brain-claude-project)
 
 ---
 
@@ -141,13 +201,13 @@ Hormozi was mine. Pick whoever matters to your business.
 
 The material is out there for almost anyone with a substantial public body of work. Naval Ravikant, Patrick Bet-David, Seth Godin, Brene Brown. Podcasters, authors, YouTubers. If they've published 100+ hours of content, there's enough to build a useful advisor agent.
 
-The process is the same regardless of who you pick. Inventory the sources. Download the transcripts. Analyze the voice. Package it for your LLM of choice. The whole project took about a day with Claude Code running the collection and analysis.
+The process is the same regardless of who you pick. Start with a starter kit. Then, if it proves useful, inventory the sources, download transcripts, analyze the voice, and upgrade the knowledge base. The whole full-source project took about a day with Claude Code running the collection and analysis.
 
 You still read the books and watch the videos. The agent gives you a different interface to the same material. Pressure-test your specific business problem against their frameworks instead of hoping you remember the right chapter when you need it.
 
 ## The Packaging Bottleneck
 
-The work is in the packaging. Auto-generated captions need cleaning. Files need deduplication. A 7MB knowledge limit means hard choices about what makes the cut. Voice analysis requires reading for patterns, not just content volume.
+The work is in the packaging. Auto-generated captions need cleaning. Files need deduplication. Even with better retrieval, you still need hard choices about what makes the cut. Voice analysis requires reading for patterns, not just content volume.
 
 Most major business thinkers have enough publicly available material to build a useful advisor. The information exists. Turning hours of video into a structured knowledge base is where the effort goes.
 
