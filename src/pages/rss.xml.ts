@@ -8,7 +8,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'Jonathan Malkin',
-    description: 'AI builder, solo founder. Writing about Claude Code, AI agents, and building where mainstream tech won\'t.',
+    description: 'Articles on Claude Code, AI systems, automation workflows, and implementation strategy.',
     site: context.site!,
     items: articles.map((article) => ({
       title: article.data.title,

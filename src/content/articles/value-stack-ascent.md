@@ -87,9 +87,9 @@ When I say "strategic layer," I don't mean sitting in a conference room with a w
 
 For a solo founder building an app for a specific audience, strategic layer work looks like:
 
-**Customer research.** Talking to users. Reading their survey responses. Understanding what they're actually looking for versus what they say they're looking for. The quiz app has users with high completion rates and real engagement. What do they want next? I don't know. That question requires thinking, not automation.
+**Customer research.** Talking to users. Reading their feedback. Understanding what they're actually looking for versus what they say they're looking for. An AI product can have strong engagement and still point in the wrong strategic direction. What do users want next? I don't know. That question requires thinking, not automation.
 
-**Direction-setting.** Not "which task should Jules do today" but "what should we be building, and for whom." A few weeks ago I made the decision to shift primary focus from the kink quiz to building reputation as an AI developer. That decision changed everything downstream. Jules executes within whatever direction I've set. Jules can't set the direction.
+**Direction-setting.** Not "which task should Jules do today" but "what should we be building, and for whom." A few weeks ago I made the decision to shift primary focus toward AI services and implementation work. That decision changed everything downstream. Jules executes within whatever direction I've set. Jules can't set the direction.
 
 **Judgment calls under uncertainty.** Should the rebrand happen now or later? Should I add a monetization layer or stay value-first longer? What kind of content builds the right audience? These questions don't have optimizable answers. They require making a call with incomplete information and seeing what happens. That's the job at the top of the stack.
 

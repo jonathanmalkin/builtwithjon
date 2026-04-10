@@ -11,12 +11,11 @@ const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Jonathan Malkin',
-  jobTitle: 'Solo Founder & Technical Advisor',
-  description: 'Solo founder of Open Door Learning LLC. Building AI-powered software and tools for communities mainstream tech ignores.',
+  jobTitle: 'AI Automation Consultant',
+  description: 'AI automation consultant and product builder helping teams design workflows, internal tools, and operational systems with AI.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
-    'https://www.reddit.com/user/jonathanmalkin/',
     'https://x.com/builtwithjon',
     'https://linkedin.com/in/jonathanmalkin',
   ],
@@ -27,26 +26,26 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Jonathan Malkin: solo founder building with AI for the communities mainstream tech ignores. 20 years in enterprise tech.',
+  description: 'Jonathan Malkin builds AI systems, automation workflows, and implementation plans for businesses that want practical results.',
 };
 ---
 
 <Base
   title="Jonathan Malkin"
-  description="Jonathan Malkin: solo founder building with AI for the communities mainstream tech ignores. 20 years in enterprise tech."
+  description="Jonathan Malkin builds AI systems, automation workflows, and implementation plans for businesses that want practical results."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
   <!-- Hero -->
   <section class="hero container-wide">
-    <h1>I solve problems that make other<br/>builders uncomfortable.</h1>
+    <h1>AI systems for work that still<br/>depends on human glue.</h1>
     <p class="subtitle">
-      20 years in enterprise tech.<br />Now a solo founder building with AI for the communities mainstream tech ignores.
+      20+ years in enterprise technology. Now I help founders and small teams turn messy operations into repeatable AI-assisted systems.
     </p>
     <div class="hero-links">
-      <a href="/articles/" class="hero-btn">Read the Articles</a>
-      <a href="/contact/" class="hero-btn hero-btn-outline">Work With Me</a>
+      <a href="/workshops/" class="hero-btn">View Services</a>
+      <a href="/contact/" class="hero-btn hero-btn-outline">Start a Project</a>
     </div>
   </section>
 
@@ -55,35 +54,35 @@ const websiteSchema = {
     <h2>What I Do</h2>
     <div class="story-grid">
       <a href="/jules/" class="story-card story-card-1">
-        <h3>Automation &amp; Operations</h3>
-        <p>I build systems that handle the work businesses shouldn't do manually. Content pipelines, scheduling, research, reporting. My own business runs on one of these systems. It's open source.</p>
+        <h3>AI Automation Systems</h3>
+        <p>I build operational systems that handle recurring research, reporting, content, and workflow coordination without adding headcount.</p>
       </a>
-      <a href="/projects/" class="story-card story-card-2">
-        <h3>Assessment Tools</h3>
-        <p>Interactive assessments that help people understand themselves better. Personality frameworks, self-discovery tools, educational content. 200+ daily users on the first one.</p>
+      <a href="/workshops/" class="story-card story-card-2">
+        <h3>Advisory &amp; Workshops</h3>
+        <p>Discovery sessions, implementation roadmaps, and hands-on workshops that help teams find the right AI use cases and ship them safely.</p>
       </a>
-      <a href="/articles/" class="story-card story-card-3">
-        <h3>Writing &amp; Advisory</h3>
-        <p>Practitioner articles on AI automation, solo founding, and building for underserved markets. Available for consulting on automation architecture and technical strategy.</p>
+      <a href="/projects/" class="story-card story-card-3">
+        <h3>Proof Through Shipping</h3>
+        <p>Open-source systems, internal tools, and operational case studies that show how I design AI-enabled products in production.</p>
       </a>
     </div>
   </section>
 
   <!-- Three Stories -->
   <section class="container" style="margin-bottom: 3rem;">
-    <h2>What I Write About</h2>
+    <h2>How I Help</h2>
     <div class="story-grid">
       <div class="story-card story-card-1">
-        <h3>AI Operations</h3>
-        <p>How I built an AI operational system that runs a solo business. Infrastructure, automation, the practical details.</p>
+        <h3>Workflow Discovery</h3>
+        <p>Map the work your team repeats, score what is worth automating, and turn vague AI ambition into a concrete plan.</p>
       </div>
       <div class="story-card story-card-2">
-        <h3>Taboo Markets</h3>
-        <p>Why underserved communities are the next frontier. The taboo-to-mainstream trajectory and what it means for builders.</p>
+        <h3>Implementation Design</h3>
+        <p>Design the tooling, prompts, handoffs, and safeguards needed to ship internal AI systems that people will actually use.</p>
       </div>
       <div class="story-card story-card-3">
-        <h3>Team of One</h3>
-        <p>One person doing what used to require a team. The practical reality, not the hype.</p>
+        <h3>Operational Enablement</h3>
+        <p>Turn successful experiments into repeatable operating practices with documentation, standing orders, and measurable outcomes.</p>
       </div>
     </div>
   </section>

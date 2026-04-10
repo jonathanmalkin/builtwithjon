@@ -60,7 +60,7 @@ These aren't just buzzwords in a prompt. They change the output.
 
 **Pre-mortem analysis** is a technique from Gary Klein: imagine it's 12 months from now, and the decision failed. What happened? Running this forward mentally before you commit reveals failure modes you'd otherwise rationalize away. The skill does this when the decision is high-stakes and hard to reverse. "Three months from now, this blew up. What went wrong?" That's a different question than "what are the risks?"
 
-**Second-order thinking** goes past the immediate consequences. First-order: "if I shut down the community, I'll have more time." Second-order: "if I have more time, I'll pour it into building. Third-order: will that building be in service of what I actually want, or just fill the void?" The skill asks these questions in sequence, not simultaneously, which matters.
+**Second-order thinking** goes past the immediate consequences. First-order: "if I narrow the business, I'll have more time." Second-order: "if I have more time, I'll pour it into building. Third-order: will that building be in service of what I actually want, or just fill the void?" The skill asks these questions in sequence, not simultaneously, which matters.
 
 **Reversibility assessment** is a filter, not a framework. One-way doors get slow, deliberate analysis. Two-way doors get a fast recommendation and a bias toward action. Most decisions that feel permanent aren't. Separating the two saves an enormous amount of decision energy.
 
@@ -68,17 +68,17 @@ These aren't just buzzwords in a prompt. They change the output.
 
 ## A real example: the 3-day business direction session
 
-Earlier this year I was sitting with a genuinely hard decision. I'd been running a kink education community for 18 months. It was working. But I kept feeling pulled toward something else, toward building apps for underserved communities at scale. The community required my time in ways the apps didn't. I couldn't do both well.
+Earlier this year I was sitting with a genuinely hard decision. I had one line of work that was producing revenue, but it was pulling attention away from the AI systems and advisory work I wanted to build long term. I couldn't do both well.
 
 I ran this through the advisory skill over three days. Not continuously. It was more like having a thinking partner I could return to.
 
-Day one, the skill surfaced the reversibility question fast: closing the community isn't a one-way door, but it feels like one. We unpacked that. What actually can't be undone? The answer was "less than you think." The community relationships, the learning, the domain knowledge. None of that disappears.
+Day one, the skill surfaced the reversibility question fast: narrowing a line of business isn't a one-way door, but it feels like one. We unpacked that. What actually can't be undone? The answer was "less than you think." The relationships, the learning, the domain knowledge. None of that disappears.
 
 Then it asked the question I'd been avoiding: "What's the version of this where you're rationalizing what you already want?" I wanted to say I was making a strategic decision. But I was also just... tired. The skill doesn't let you skip that part.
 
-Day two was second-order thinking. If I kept the community, what does that actually look like in a year? In three? I could see the trajectory clearly and it wasn't where I wanted to go. If I shut it down, what fills the space? That's where the apps came in not as a vague aspiration but as a concrete direction that had already been validated.
+Day two was second-order thinking. If I kept going exactly as I was, what does that actually look like in a year? In three? I could see the trajectory clearly and it wasn't where I wanted to go. If I narrowed the focus, what fills the space? That's where AI products and advisory work came in not as a vague aspiration but as a concrete direction that had already been validated.
 
-Day three was alignment check. My stated values include building where mainstream tech won't and doing work that visibly impacts real people. The community did that. But the apps could do it at orders of magnitude more scale, and with less of me in every interaction. The alignment check tilted toward apps, but it also flagged something: "your People pillar needs attention if you step back from the community." That was true, and I needed to hear it before I made the call.
+Day three was alignment check. My stated values include building useful systems, staying close to real operational problems, and doing work with visible impact. The existing work did that, but the AI systems path could do it at a larger scale and with less of me in every interaction. The alignment check tilted toward the AI path, but it also flagged something: "your People pillar needs attention if you narrow the business." That was true, and I needed to hear it before I made the call.
 
 That's what the advisory skill does. It doesn't make the decision for you. It structures the thinking so you can.
 

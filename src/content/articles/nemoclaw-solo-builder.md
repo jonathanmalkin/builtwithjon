@@ -87,4 +87,4 @@ Happy to share the full Docker setup or the Standing Orders pattern in the comme
 
 *Full setup source: [github.com/jonathanmalkin/jules](https://github.com/jonathanmalkin/jules)*
 
-*I build AI infrastructure for communities mainstream tech ignores.*
+*I build AI infrastructure for real operational work.*

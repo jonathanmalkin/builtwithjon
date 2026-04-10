@@ -1,30 +1,31 @@
 # Jonathan Malkin
 
-> AI builder and solo founder. I build AI systems for communities mainstream tech ignores.
+> AI automation consultant and builder. I design AI systems, workflow automation, and implementation plans for practical business operations.
 
 ## About
 
-Jonathan Malkin is a solo founder and AI builder based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he left to build AI-powered tools full-time under Open Door Learning LLC.
+Jonathan Malkin is an AI automation consultant and product builder based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps teams turn operational friction into AI-assisted systems and implementation plans.
 
-His primary work product is Jules, a deeply customized Claude Code system with 116+ configurations (skills, rules, hooks, memory, automated workflows) that runs his entire business. He writes about AI infrastructure, building in underserved markets, and the practical reality of being a solo founder with AI.
+His primary work product is Jules, a deeply customized Claude Code system with skills, rules, hooks, memory, and automated workflows that runs his own business. He writes about AI infrastructure, implementation strategy, automation workflows, and the practical reality of building with AI.
 
 ## Key Topics
 
 - Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
 - AI agents: autonomous workflows, model selection, team-based agent architectures
-- Solo founding: one person + AI replacing traditional teams
-- Building for underserved communities: taboo-to-mainstream thesis, kink education technology
+- AI operations: workflow design, automation patterns, and operational systems
+- Advisory and workshops: discovery sessions, implementation planning, and practical delivery
 
 ## Content
 
 - Articles: https://builtwithjon.com/articles/
 - RSS: https://builtwithjon.com/rss.xml
+- Services: https://builtwithjon.com/workshops/
 - Jules System: https://builtwithjon.com/jules/
 - Projects: https://builtwithjon.com/projects/
 
 ## Links
 
 - GitHub: https://github.com/jonathanmalkin
-- Reddit: https://www.reddit.com/user/jonathanmalkin/
 - X/Twitter: https://x.com/builtwithjon
+- LinkedIn: https://linkedin.com/in/jonathanmalkin
 - Jules Source: https://github.com/jonathanmalkin/jules

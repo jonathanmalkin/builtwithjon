@@ -55,7 +55,7 @@ const pageTitle = title === 'Jonathan Malkin'
     <main id="main">
       <slot />
     </main>
-    <EmailCapture />
+    {article && <EmailCapture />}
     <Footer />
   </body>
 </html>

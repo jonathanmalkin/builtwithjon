@@ -38,7 +38,7 @@ Here's a representative excerpt (dates and specifics genericized):
 
 ```
 ## Today's Focus
-1. Deploy survey fix — breaking for mobile users, blocking new completions
+1. Deploy client intake fix — breaking for mobile users, blocking new submissions
 2. Review memory synthesis proposals from last night (3 items flagged)
 3. Content queue: two articles ready to post, window opens Tuesday
 
@@ -49,16 +49,16 @@ Here's a representative excerpt (dates and specifics genericized):
   No deadline set
 
 ## Yesterday's Activity
-Commits: 4 (quiz app — survey flow, mobile viewport fixes, email template)
-Session report: Fixed mobile survey submission bug. Identified date math issue
-in partner comparison feature. Left a TODO in quiz.tsx:287.
+Commits: 4 (client portal — intake flow, mobile viewport fixes, email template)
+Session report: Fixed mobile form submission bug. Identified date math issue
+in the scheduling summary. Left a TODO in intake.tsx:287.
 
 ## Waiting On
 - Austin Simply Fit trainer follow-up (initiated Mar 12, no response)
 - CPA engagement letter (sent Mar 10)
 
 ## Bold Move
-You've been heads-down on quiz infrastructure for 8 days straight. The content
+You've been heads-down on intake infrastructure for 8 days straight. The content
 queue has two approved articles sitting idle. 90 minutes of posting + engagement
 today would be higher leverage than another infrastructure session.
 ```

@@ -25,7 +25,7 @@ Three pieces:
 
 ## Why a Single Index
 
-The original version generated one index per project in a `Code/` directory. That made sense for a workspace with multiple independent repos. But my workspace is a monorepo: code, documents, scripts, profiles, and Claude Code infrastructure all in one git repo. The Explore agent needs to answer questions that cross those boundaries. "Where are the quiz app tests?" is a code question. "What's in the Content Pipeline?" is a docs question. "How many skills are there?" is an infrastructure question. One index handles all of them.
+The original version generated one index per project in a `Code/` directory. That made sense for a workspace with multiple independent repos. But my workspace is a monorepo: code, documents, scripts, profiles, and Claude Code infrastructure all in one git repo. The Explore agent needs to answer questions that cross those boundaries. "Where are the client portal tests?" is a code question. "What's in the Content Pipeline?" is a docs question. "How many skills are there?" is an infrastructure question. One index handles all of them.
 
 The result is 150 lines of markdown. Compact enough for Haiku to reason over accurately, comprehensive enough to answer most questions without a single additional tool call.
 
@@ -67,7 +67,7 @@ This is the key insight. Instead of teaching the agent how to search, you give i
 | `Terrain.md` | state | Live operational state |
 ```
 
-The agent becomes a router, not a searcher. "Where are the quiz app tests?" hits the routing table, finds `Code/kink-archetypes/`, and reads the project detail section. One lookup, not a recursive glob.
+The agent becomes a router, not a searcher. "Where are the client portal tests?" hits the routing table, finds the right project, and reads the project detail section. One lookup, not a recursive glob.
 
 ## The Agent
 
@@ -105,7 +105,7 @@ Real numbers from my workspace (4 code projects, 33 skills, 16 rules, 12 hooks, 
 - **Index generation:** 0.96 seconds
 - **Freshness gate (index is current):** 25 milliseconds
 - **Index size:** 150 lines
-- **Typical question ("Where are the quiz app tests?"):** 4 tool calls (read index, check staleness, read test dirs, report)
+- **Typical question ("Where are the client portal tests?"):** 4 tool calls (read index, check staleness, read test dirs, report)
 - **Simple question ("How many skills?"):** 2 tool calls (read index, report)
 - **Built-in Explore agent for the same questions:** 8-15 tool calls
 

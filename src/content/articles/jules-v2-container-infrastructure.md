@@ -255,4 +255,4 @@ The v1 tag is preserved if you want to see what the system looked like before th
 
 ---
 
-*I build AI systems for communities mainstream tech ignores. The Jules repo is the infrastructure that makes it possible.*
+*I build AI systems for real operational work. The Jules repo is the infrastructure that makes it possible.*

@@ -9,12 +9,12 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
 
 <Base
   title="Articles"
-  description="Writing about Claude Code, AI agents, solo founding, and building where mainstream tech won't."
+  description="Articles on Claude Code, AI operations, implementation strategy, and building practical automation systems."
 >
   <div class="container">
     <h1>Articles</h1>
     <p style="color: var(--color-text-muted); margin-bottom: 2rem;">
-      Long-form writing about AI infrastructure, building as a solo founder, and serving underserved communities with technology.
+      Long-form writing about AI infrastructure, implementation strategy, and how to make automation useful in day-to-day operations.
     </p>
     {articles.map((article) => (
       <ArticleCard

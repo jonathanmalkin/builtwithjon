@@ -3,947 +3,137 @@ import Base from '../../layouts/Base.astro';
 ---
 
 <Base
-  title="AI & Automation Workshop Package"
-  description="A three-tier engagement framework for delivering AI and automation workshops. From half-day discovery to two-day build hackathons."
+  title="Services"
+  description="AI services, workshops, and implementation support for teams that want practical automation and clear next steps."
 >
   <div class="container">
-
-    <!-- Header -->
     <div class="ws-header">
-      <h1>AI &amp; Automation Workshop Package</h1>
-      <p class="ws-desc">A three-tier engagement framework for delivering AI and automation workshops. From half-day discovery to two-day build hackathons. Built from 20+ years running these at enterprise scale.</p>
-      <span class="ws-badge">INTERNAL &middot; v1.0 &middot; April 2026</span>
+      <h1>AI Services</h1>
+      <p class="ws-desc">
+        Strategy, workshops, and implementation support for businesses that want AI to improve real workflows, not just generate demos.
+      </p>
     </div>
 
-    <!-- Tier Tabs -->
-    <div class="ws-tabs" role="tablist" aria-label="Workshop tiers">
-      <button class="ws-tab active" role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1" data-tier="1">Tier 1 &mdash; Discovery</button>
-      <button class="ws-tab" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" data-tier="2">Tier 2 &mdash; Sprint</button>
-      <button class="ws-tab" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" data-tier="3">Tier 3 &mdash; Hackathon</button>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- TIER 1 — Discovery Session (9:00am – 12:30pm)                -->
-    <!-- ============================================================ -->
-    <div class="ws-panel active" id="panel-1" role="tabpanel" aria-labelledby="tab-1" data-panel="1">
-      <h2>Discovery Session</h2>
-
-      <div class="ws-meta">
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Duration</span>
-          <span class="ws-meta-value">Half Day (3.5 hours)</span>
-        </div>
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Ideal For</span>
-          <span class="ws-meta-value">Early-stage deals, SMB clients, or scoping larger engagements</span>
-        </div>
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Price Range</span>
-          <span class="ws-meta-value ws-price">$2,500 &ndash; $5,000</span>
-        </div>
-      </div>
-
-      <h3>Overview</h3>
-      <p>A focused, facilitated session that maps the client's current workflows, identifies automation opportunities, and delivers a prioritized shortlist with rough ROI estimates. The client walks away knowing exactly where to start.</p>
-
-      <h3>Agenda</h3>
-      <div class="ws-agenda">
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:00&ndash;9:15</span>
-            <span class="ws-agenda-title">Kickoff &amp; Objectives</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Align on goals, introduce the framework, set expectations for deliverables.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:15&ndash;10:00</span>
-            <span class="ws-agenda-title">Current State Mapping</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Walk through 3-5 core workflows. Document inputs, outputs, systems, handoffs, pain points. Use the Process Inventory Worksheet.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">10:00&ndash;10:45</span>
-            <span class="ws-agenda-title">Opportunity Identification</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Brainstorm automation and AI opportunities for each workflow. Capture on the Opportunity Canvas.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">10:45&ndash;11:00</span>
-          <span class="ws-agenda-title">Break</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">11:00&ndash;11:45</span>
-            <span class="ws-agenda-title">Impact vs. Effort Scoring</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Score each opportunity on business impact (revenue, cost, risk, time) and implementation effort. Plot on the Priority Matrix.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">11:45&ndash;12:15</span>
-            <span class="ws-agenda-title">Quick Wins &amp; Roadmap</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Identify top 3 quick wins and sequence them into a 30/60/90 day view.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">12:15&ndash;12:30</span>
-            <span class="ws-agenda-title">Wrap-Up &amp; Next Steps</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Summarize findings, confirm deliverables timeline, discuss engagement options.</p>
-          </div>
-        </div>
-      </div>
-
-      <h3>Deliverables</h3>
+    <section class="jules-section">
+      <h2>Who This Is For</h2>
       <div class="ws-worksheets-inline">
         <div class="ws-worksheet">
-          <strong>Process Inventory Worksheet</strong>
-          <p>Captures current-state workflows: inputs, outputs, systems involved, handoffs, pain points, volume, and frequency.</p>
+          <strong>Founders and owner-operators</strong>
+          <p>Teams that need leverage quickly and want help turning repeated work into dependable systems.</p>
         </div>
         <div class="ws-worksheet">
-          <strong>Opportunity Canvas</strong>
-          <p>One-page capture for each automation opportunity: problem statement, proposed solution, affected roles, estimated impact, and dependencies.</p>
+          <strong>Small teams with operational drag</strong>
+          <p>Organizations dealing with fragmented handoffs, manual reporting, research bottlenecks, or content/process sprawl.</p>
         </div>
         <div class="ws-worksheet">
-          <strong>Priority Matrix / Impact vs. Effort</strong>
-          <p>Weighted scoring framework. Configurable criteria: business value, feasibility, risk, speed to value, strategic alignment.</p>
+          <strong>Leaders evaluating AI seriously</strong>
+          <p>Teams that want an implementation path, constraints map, and a clear sense of what should be automated first.</p>
         </div>
       </div>
+    </section>
 
-      <h3>Closing Move</h3>
-      <div class="ws-closing">
-        <p>The Discovery Session is designed to naturally lead into a Tier 2 Sprint or a scoped implementation engagement. The deliverables create urgency by showing the client exactly how much they're leaving on the table.</p>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- TIER 2 — Automation Sprint (9:00am – 5:00pm)                 -->
-    <!-- ============================================================ -->
-    <div class="ws-panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" data-panel="2">
-      <h2>Automation Sprint</h2>
-
-      <div class="ws-meta">
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Duration</span>
-          <span class="ws-meta-value">Full Day (9am &ndash; 5pm)</span>
+    <section class="jules-section">
+      <h2>Core Offer Categories</h2>
+      <div class="story-grid">
+        <div class="story-card story-card-1">
+          <h3>Discovery Workshops</h3>
+          <p>Working sessions that map workflows, identify bottlenecks, score AI opportunities, and leave your team with a prioritized roadmap.</p>
         </div>
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Ideal For</span>
-          <span class="ws-meta-value">Mid-size deals, clients ready to commit, or teams needing cross-department alignment</span>
+        <div class="story-card story-card-2">
+          <h3>Implementation Advisory</h3>
+          <p>Architecture, tool selection, prompt/system design, and delivery guidance for internal AI systems and operational workflows.</p>
         </div>
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Price Range</span>
-          <span class="ws-meta-value ws-price">$7,500 &ndash; $15,000</span>
+        <div class="story-card story-card-3">
+          <h3>Build Support</h3>
+          <p>Hands-on help turning the plan into something your team can run, measure, and extend without starting over every month.</p>
         </div>
       </div>
+    </section>
 
-      <h3>Overview</h3>
-      <p>A deeper engagement that goes beyond discovery into solution design. The team maps workflows, scores opportunities, selects the top candidates, and designs the automation architecture for the first 1-2 use cases. Ends with a buildable spec.</p>
-
-      <h3>Agenda</h3>
-      <div class="ws-agenda">
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:00&ndash;9:30</span>
-            <span class="ws-agenda-title">Kickoff &amp; Alignment</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Review pre-work submissions. Align stakeholders on objectives, success criteria, and constraints.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:30&ndash;11:00</span>
-            <span class="ws-agenda-title">Deep Process Mapping</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Map 5-8 workflows in detail. Document systems, data flows, decision points, exceptions, and volumes.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">11:00&ndash;11:45</span>
-            <span class="ws-agenda-title">Opportunity Scoring</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Score all identified opportunities using the weighted Priority Matrix (business value, feasibility, risk, speed to value).</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">11:45&ndash;12:00</span>
-          <span class="ws-agenda-title">Break</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">12:00&ndash;1:00</span>
-            <span class="ws-agenda-title">Use Case Deep Dive</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Select top 2 use cases. Define scope, inputs/outputs, success metrics, integration requirements, and estimated effort.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">1:00&ndash;1:45</span>
-          <span class="ws-agenda-title">Lunch</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">1:45&ndash;2:45</span>
-            <span class="ws-agenda-title">Solution Architecture</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Design the automation/AI architecture for the top use case. Map the tooling (n8n, Make, custom, AI agents), data flow, and integration points.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">2:45&ndash;3:00</span>
-          <span class="ws-agenda-title">Break</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">3:00&ndash;3:45</span>
-            <span class="ws-agenda-title">ROI Modeling</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Build a simple ROI model for the top 2 use cases. Hours saved, error reduction, revenue impact, payback period.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">3:45&ndash;4:30</span>
-            <span class="ws-agenda-title">Roadmap &amp; Resourcing</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Sequence the implementation. Define phases, milestones, team requirements, and timeline.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">4:30&ndash;5:00</span>
-            <span class="ws-agenda-title">Executive Readout</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Present findings and recommendations to stakeholders. Confirm next steps.</p>
-          </div>
-        </div>
-      </div>
-
-      <h3>Deliverables</h3>
+    <section class="jules-section">
+      <h2>Workshops and Engagements</h2>
       <div class="ws-worksheets-inline">
         <div class="ws-worksheet">
-          <strong>Process Inventory Worksheet</strong>
-          <p>Captures current-state workflows: inputs, outputs, systems involved, handoffs, pain points, volume, and frequency.</p>
+          <strong>Discovery Session</strong>
+          <p>Best when you need clarity fast. We map current workflows, find the highest-leverage automation candidates, and define the next moves.</p>
         </div>
         <div class="ws-worksheet">
-          <strong>Opportunity Canvas</strong>
-          <p>One-page capture for each automation opportunity: problem statement, proposed solution, affected roles, estimated impact, and dependencies.</p>
+          <strong>Automation Sprint</strong>
+          <p>Best when the team already has momentum. We go deeper on process mapping, architecture, data flow, and what a buildable scope should include.</p>
         </div>
         <div class="ws-worksheet">
-          <strong>Priority Matrix / Impact vs. Effort</strong>
-          <p>Weighted scoring framework. Configurable criteria: business value, feasibility, risk, speed to value, strategic alignment.</p>
-        </div>
-        <div class="ws-worksheet">
-          <strong>ROI Model Template</strong>
-          <p>Simple spreadsheet model: hours saved &times; loaded cost, error reduction value, revenue uplift, implementation cost, payback period.</p>
-        </div>
-        <div class="ws-worksheet">
-          <strong>Solution Architecture Template</strong>
-          <p>Visual template for mapping automation/AI architecture: tools, integrations, data flows, decision points, and human-in-the-loop touchpoints.</p>
+          <strong>Implementation Engagement</strong>
+          <p>Best when you need the system to move forward, not just the idea. I help shape the design, standing orders, operational model, and delivery path.</p>
         </div>
       </div>
+    </section>
 
-      <h3>Closing Move</h3>
-      <div class="ws-closing">
-        <p>The Sprint deliverables are designed to be the Statement of Work for the implementation phase. The client has already bought in emotionally during the session &mdash; the readout deck makes the business case for their leadership.</p>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- TIER 3 — Build Hackathon (Two days, 9:00am – 5:00pm)         -->
-    <!-- ============================================================ -->
-    <div class="ws-panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" data-panel="3">
-      <h2>Build Hackathon</h2>
-
-      <div class="ws-meta">
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Duration</span>
-          <span class="ws-meta-value">Two Days (9am &ndash; 5pm)</span>
+    <section class="jules-section">
+      <h2>Typical Deliverables</h2>
+      <div class="utility-grid">
+        <div class="utility-item">
+          <strong>Workflow map</strong>
+          <p>Current-state workflows, bottlenecks, inputs/outputs, ownership, and the points where AI or automation can remove friction.</p>
         </div>
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Ideal For</span>
-          <span class="ws-meta-value">Committed clients, larger deals, or teams that want to see something working first</span>
+        <div class="utility-item">
+          <strong>Prioritized opportunity list</strong>
+          <p>A ranked view of what to automate first, what to defer, and what should stay human for now.</p>
         </div>
-        <div class="ws-meta-item">
-          <span class="ws-meta-label">Price Range</span>
-          <span class="ws-meta-value ws-price">$15,000 &ndash; $30,000+</span>
+        <div class="utility-item">
+          <strong>Implementation blueprint</strong>
+          <p>Recommended tooling, data flow, system boundaries, handoff design, review points, and rollout considerations.</p>
+        </div>
+        <div class="utility-item">
+          <strong>Working-session outputs</strong>
+          <p>Decision notes, next actions, risk flags, and the artifacts needed to keep momentum after the session ends.</p>
         </div>
       </div>
+    </section>
 
-      <h3>Overview</h3>
-      <p>A hands-on, intensive engagement where the team doesn't just plan &mdash; they build. Day 1 covers discovery and design. Day 2 is pure execution: the team prototypes a working automation or AI agent. The client walks away with something running, not just a document.</p>
-
-      <h3>Agenda</h3>
-      <div class="ws-agenda">
-
-        <div class="ws-agenda-day">Day 1 &mdash; Discovery &amp; Design</div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:00&ndash;9:30</span>
-            <span class="ws-agenda-title">Kickoff &amp; Team Formation</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Set objectives. Form cross-functional teams (client + consultants). Assign roles.</p>
+    <section class="jules-section">
+      <h2>How I Work</h2>
+      <div class="jules-workflow">
+        <div class="jules-workflow-item">
+          <div class="jules-workflow-label">1</div>
+          <div class="jules-workflow-content">
+            <strong>Understand the operation.</strong>
+            We start with the real workflow, not a generic AI use-case list.
           </div>
         </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:30&ndash;11:30</span>
-            <span class="ws-agenda-title">Accelerated Discovery</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Rapid process mapping. Focus on the 2-3 highest-impact workflows pre-identified in intake.</p>
+        <div class="jules-workflow-item">
+          <div class="jules-workflow-label">2</div>
+          <div class="jules-workflow-content">
+            <strong>Pick the right leverage point.</strong>
+            We identify what is worth automating, what is risky, and what should stay manual.
           </div>
         </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">11:30&ndash;12:30</span>
-            <span class="ws-agenda-title">Use Case Selection &amp; Scoping</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Score, select, and tightly scope the build target. Define what "done" looks like by end of Day 2.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">12:30&ndash;1:15</span>
-          <span class="ws-agenda-title">Lunch</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">1:15&ndash;3:30</span>
-            <span class="ws-agenda-title">Solution Design &amp; Architecture</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Design the full solution. Map integrations, data flows, AI components, and automation logic.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">3:30&ndash;3:45</span>
-          <span class="ws-agenda-title">Break</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">3:45&ndash;5:00</span>
-            <span class="ws-agenda-title">Day 1 Wrap &amp; Build Prep</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Confirm the build plan. Assign Day 2 tasks. Set up environments and access.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-day">Day 2 &mdash; Build &amp; Demo</div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:00&ndash;9:15</span>
-            <span class="ws-agenda-title">Day 2 Kickoff</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Review build plan. Confirm access and environments. Go.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">9:15&ndash;12:00</span>
-            <span class="ws-agenda-title">Build Sprint (Morning)</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Heads-down building. Checkpoint every 90 minutes. Consultants pair with client team members.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">12:00&ndash;12:45</span>
-          <span class="ws-agenda-title">Lunch</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">12:45&ndash;3:00</span>
-            <span class="ws-agenda-title">Build Sprint (Afternoon)</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Continue building. Integration testing. Polish the demo flow.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item ws-agenda-break">
-          <span class="ws-agenda-time">3:00&ndash;3:30</span>
-          <span class="ws-agenda-title">Break &amp; Demo Prep</span>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">3:30&ndash;4:15</span>
-            <span class="ws-agenda-title">Live Demo &amp; Review</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Demo the working prototype to stakeholders. Walk through what was built, what it does, and what it would take to productionize.</p>
-          </div>
-        </div>
-
-        <div class="ws-agenda-item" data-expandable>
-          <button class="ws-agenda-header" aria-expanded="false">
-            <span class="ws-agenda-time">4:15&ndash;5:00</span>
-            <span class="ws-agenda-title">Roadmap &amp; Engagement Planning</span>
-            <span class="ws-agenda-chevron" aria-hidden="true">&rsaquo;</span>
-          </button>
-          <div class="ws-agenda-detail">
-            <p>Define what production looks like. Scope the next phase. Close.</p>
+        <div class="jules-workflow-item">
+          <div class="jules-workflow-label">3</div>
+          <div class="jules-workflow-content">
+            <strong>Turn it into a buildable plan.</strong>
+            You leave with concrete next steps, not a slide deck full of AI slogans.
           </div>
         </div>
       </div>
+    </section>
 
-      <h3>Deliverables</h3>
-      <div class="ws-worksheets-inline">
-        <div class="ws-worksheet">
-          <strong>Process Inventory Worksheet</strong>
-          <p>Captures current-state workflows: inputs, outputs, systems involved, handoffs, pain points, volume, and frequency.</p>
-        </div>
-        <div class="ws-worksheet">
-          <strong>Opportunity Canvas</strong>
-          <p>One-page capture for each automation opportunity: problem statement, proposed solution, affected roles, estimated impact, and dependencies.</p>
-        </div>
-        <div class="ws-worksheet">
-          <strong>Priority Matrix / Impact vs. Effort</strong>
-          <p>Weighted scoring framework. Configurable criteria: business value, feasibility, risk, speed to value, strategic alignment.</p>
-        </div>
-        <div class="ws-worksheet">
-          <strong>ROI Model Template</strong>
-          <p>Simple spreadsheet model: hours saved &times; loaded cost, error reduction value, revenue uplift, implementation cost, payback period.</p>
-        </div>
-        <div class="ws-worksheet">
-          <strong>Solution Architecture Template</strong>
-          <p>Visual template for mapping automation/AI architecture: tools, integrations, data flows, decision points, and human-in-the-loop touchpoints.</p>
-        </div>
-      </div>
+    <section class="jules-section">
+      <h2>Outcomes</h2>
+      <ul>
+        <li>Clearer understanding of where AI will and will not help your team.</li>
+        <li>Better operational design for research, reporting, content, and internal workflow coordination.</li>
+        <li>A practical roadmap your team can execute without guessing at the implementation shape.</li>
+      </ul>
+    </section>
 
-      <h3>Closing Move</h3>
-      <div class="ws-closing">
-        <p>Nothing closes a deal like a working demo. The client's team built it alongside you &mdash; they have ownership. The conversation shifts from "should we do this" to "when do we go live." That's the whole point.</p>
-      </div>
-    </div>
-
-    <!-- Page Footer -->
-    <div class="ws-page-footer">
-      <span>builtwithjon.com</span>
-      <span class="ws-confidential">NOT FOR CLIENT DISTRIBUTION</span>
-    </div>
-
+    <section class="jules-section">
+      <h2>Start the Conversation</h2>
+      <p>
+        If you want help evaluating an AI workflow, shaping a delivery plan, or running a workshop with your team, reach out with the current problem and what you want to improve.
+      </p>
+      <p>
+        <a href="/contact/">Contact Jonathan &rarr;</a>
+      </p>
+    </section>
   </div>
 </Base>
-
-<style>
-  /* ── Mobile-first base ── */
-
-  .ws-header {
-    text-align: center;
-    padding: 0.75rem 0 1.25rem;
-  }
-
-  .ws-header h1 {
-    margin-top: 0;
-    margin-bottom: 0.4rem;
-    font-size: 1.5rem;
-  }
-
-  .ws-desc {
-    color: var(--color-text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-  }
-
-  .ws-badge {
-    display: inline-block;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    background: var(--color-code-bg);
-    padding: 0.25em 0.75em;
-    border-radius: 9999px;
-  }
-
-  /* ── Tabs ── */
-
-  .ws-tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 2px solid var(--color-border);
-    margin-bottom: 1.5rem;
-  }
-
-  .ws-tab {
-    flex: 1;
-    padding: 0.5rem 0.25rem;
-    border: none;
-    background: none;
-    font-family: var(--font-body);
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
-    text-align: center;
-  }
-
-  .ws-tab:hover {
-    color: var(--color-text);
-    background: var(--color-code-bg);
-  }
-
-  .ws-tab.active {
-    color: var(--color-accent);
-    border-bottom-color: var(--color-accent);
-  }
-
-  .ws-tab:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: -2px;
-    border-radius: 4px 4px 0 0;
-  }
-
-  /* ── Panels ── */
-
-  .ws-panel {
-    display: none;
-  }
-
-  .ws-panel.active {
-    display: block;
-  }
-
-  .ws-panel h2 {
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    font-size: 1.35rem;
-  }
-
-  .ws-panel h3 {
-    margin-top: 1.5rem;
-    margin-bottom: 0.4rem;
-    font-size: 1rem;
-  }
-
-  /* ── Meta cards ── */
-
-  .ws-meta {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .ws-meta-item {
-    padding: 0.65rem 0.75rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-accent);
-    border-radius: 6px;
-  }
-
-  .ws-meta-label {
-    display: block;
-    font-size: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
-    margin-bottom: 0.15rem;
-  }
-
-  .ws-meta-value {
-    font-size: 0.82rem;
-    line-height: 1.4;
-  }
-
-  .ws-price {
-    font-weight: 700;
-    font-family: var(--font-mono);
-    color: var(--color-accent);
-  }
-
-  /* ── Agenda ── */
-
-  .ws-agenda {
-    border-left: 3px solid var(--color-accent);
-  }
-
-  .ws-agenda-item {
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .ws-agenda-item:last-child {
-    border-bottom: none;
-  }
-
-  .ws-agenda-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-    border: none;
-    background: none;
-    font-family: var(--font-body);
-    font-size: inherit;
-    color: var(--color-text);
-    cursor: pointer;
-    text-align: left;
-    transition: background 0.15s;
-  }
-
-  .ws-agenda-header:hover {
-    background: var(--color-code-bg);
-  }
-
-  .ws-agenda-header:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: -2px;
-  }
-
-  .ws-agenda-time {
-    flex-shrink: 0;
-    width: 5.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--color-accent);
-  }
-
-  .ws-agenda-title {
-    flex: 1;
-    font-weight: 600;
-    font-size: 0.82rem;
-  }
-
-  .ws-agenda-chevron {
-    flex-shrink: 0;
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    transition: transform 0.2s;
-    display: inline-block;
-  }
-
-  .ws-agenda-item.expanded .ws-agenda-chevron {
-    transform: rotate(90deg);
-  }
-
-  .ws-agenda-detail {
-    display: none;
-    padding: 0 0.5rem 0.5rem;
-    padding-left: calc(0.75rem + 5.5rem + 0.5rem);
-  }
-
-  .ws-agenda-detail p {
-    color: var(--color-text-muted);
-    font-size: 0.8rem;
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
-
-  .ws-agenda-item.expanded .ws-agenda-detail {
-    display: block;
-  }
-
-  /* Break items */
-  .ws-agenda-break {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    padding: 0.35rem 0.5rem 0.35rem 0.75rem;
-    color: var(--color-text-muted);
-    font-style: italic;
-    font-size: 0.8rem;
-  }
-
-  .ws-agenda-break .ws-agenda-time {
-    color: var(--color-text-muted);
-    font-weight: 400;
-  }
-
-  .ws-agenda-break .ws-agenda-title {
-    font-weight: 400;
-    color: var(--color-text-muted);
-  }
-
-  /* Day headers */
-  .ws-agenda-day {
-    padding: 0.4rem 0.75rem;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-accent);
-    background: var(--color-code-bg);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  /* ── Worksheets (inline, always visible) ── */
-
-  .ws-worksheets-inline {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-
-  .ws-worksheet {
-    padding: 0.65rem 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background: var(--color-surface);
-  }
-
-  .ws-worksheet strong {
-    display: block;
-    font-size: 0.82rem;
-    margin-bottom: 0.15rem;
-  }
-
-  .ws-worksheet p {
-    color: var(--color-text-muted);
-    font-size: 0.78rem;
-    margin-bottom: 0;
-    line-height: 1.4;
-  }
-
-  /* ── Closing move ── */
-
-  .ws-closing {
-    border-left: 3px solid var(--color-accent);
-    padding: 0.75rem 1rem;
-    margin-top: 0.4rem;
-    background: var(--color-surface);
-    border-radius: 0 6px 6px 0;
-  }
-
-  .ws-closing p {
-    margin-bottom: 0;
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-
-  /* ── Page footer ── */
-
-  .ws-page-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2rem;
-    padding: 1rem 0;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  .ws-confidential {
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.6rem;
-    color: #dc2626;
-    background: #fef2f2;
-    padding: 0.25em 0.6em;
-    border-radius: 3px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .ws-confidential {
-      color: #fca5a5;
-      background: #450a0a;
-    }
-  }
-
-  /* ── Tablet+ (640px) ── */
-
-  @media (min-width: 640px) {
-    .ws-header h1 {
-      font-size: 2rem;
-    }
-
-    .ws-desc {
-      font-size: 0.9rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .ws-tab {
-      font-size: 0.88rem;
-      padding: 0.6rem 1rem;
-    }
-
-    .ws-meta {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-    }
-
-    .ws-meta-item {
-      padding: 0.85rem 1rem;
-    }
-
-    .ws-meta-value {
-      font-size: 0.85rem;
-    }
-
-    .ws-agenda-header {
-      padding: 0.55rem 0.75rem 0.55rem 1rem;
-      gap: 0.75rem;
-    }
-
-    .ws-agenda-time {
-      width: 6.5rem;
-      font-size: 0.78rem;
-    }
-
-    .ws-agenda-title {
-      font-size: 0.88rem;
-    }
-
-    .ws-agenda-detail {
-      padding-left: calc(1rem + 6.5rem + 0.75rem);
-    }
-
-    .ws-agenda-break {
-      padding-left: 1rem;
-      gap: 0.75rem;
-    }
-
-    .ws-agenda-day {
-      padding-left: 1rem;
-    }
-
-    .ws-worksheets-inline {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .ws-panel h2 {
-      font-size: 1.5rem;
-    }
-  }
-
-  /* ── Desktop (768px+) ── */
-
-  @media (min-width: 768px) {
-    .ws-header h1 {
-      font-size: 2.25rem;
-    }
-
-    .ws-tabs {
-      margin-bottom: 1.75rem;
-    }
-
-    .ws-worksheets-inline {
-      gap: 0.75rem;
-    }
-  }
-</style>
-
-<script>
-  // Tab switching
-  document.querySelectorAll('.ws-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const tier = tab.dataset.tier;
-
-      document.querySelectorAll('.ws-tab').forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected', 'true');
-
-      document.querySelectorAll('.ws-panel').forEach(p => {
-        p.classList.remove('active');
-      });
-      const panel = document.querySelector(`[data-panel="${tier}"]`);
-      if (panel) {
-        panel.classList.add('active');
-        panel.setAttribute('tabindex', '-1');
-        panel.focus({ preventScroll: true });
-      }
-    });
-  });
-
-  // Agenda item expand/collapse
-  document.querySelectorAll('.ws-agenda-item[data-expandable] .ws-agenda-header').forEach(header => {
-    header.addEventListener('click', () => {
-      const item = header.closest('.ws-agenda-item');
-      const expanded = item.classList.toggle('expanded');
-      header.setAttribute('aria-expanded', String(expanded));
-    });
-  });
-</script>
