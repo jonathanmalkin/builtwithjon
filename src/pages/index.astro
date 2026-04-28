@@ -1,11 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import ArticleCard from '../components/ArticleCard.astro';
-import { getCollection } from 'astro:content';
-
-const articles = (await getCollection('articles', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 6);
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -39,9 +33,9 @@ const websiteSchema = {
 
   <section class="hero container-wide">
     <p class="eyebrow">Discovery -> Advisory -> Build</p>
-    <h1>AI automation systems for operations with real complexity.</h1>
+    <h1>AI automation systems for messy operational handoffs.</h1>
     <p class="subtitle">
-      Messy workflows, scattered context, and manual handoffs turned into automation systems people can actually run.
+      Scattered context, review queues, repeated reporting, and manual handoffs turned into automation systems people can actually run.
     </p>
     <div class="hero-proof">
       <span class="pill blue">Finance</span>
@@ -52,8 +46,8 @@ const websiteSchema = {
       <span class="pill sage">Marketing</span>
     </div>
     <div class="hero-links">
-      <a href="/workshops/" class="hero-btn">Explore services</a>
-      <a href="/projects/" class="hero-btn hero-btn-outline">See project work</a>
+      <a href="/contact/" class="hero-btn">Request workflow triage</a>
+      <a href="/workshops/" class="hero-btn hero-btn-outline">See services</a>
     </div>
   </section>
 
@@ -79,41 +73,57 @@ const websiteSchema = {
   </section>
 
   <section class="container-wide">
-    <div class="panel knowledge-home-card">
-      <p class="eyebrow">Knowledge OS</p>
-      <h2>Knowledge OS is the brains behind the company.</h2>
-      <p class="lede">
-        It captures signals, keeps raw source material separate from trusted knowledge, routes agent work through review gates, and turns daily operations into artifacts that can be inspected.
-      </p>
-      <div class="pill-row">
-        <span class="pill blue">Signal intake</span>
-        <span class="pill sage">Promotion gates</span>
-        <span class="pill plum">Review cycles</span>
+    <div class="knowledge-panel-grid">
+      <div class="panel knowledge-home-card">
+        <p class="eyebrow">Knowledge OS</p>
+        <h2>Knowledge OS is the company memory layer.</h2>
+        <p class="lede">
+          It captures signals, separates raw source material from trusted knowledge, routes agent work through review gates, and turns operations into inspectable artifacts.
+        </p>
+        <div class="pill-row">
+          <span class="pill blue">Signal intake</span>
+          <span class="pill sage">Promotion gates</span>
+          <span class="pill plum">Review cycles</span>
+        </div>
+        <div class="diagram-dark">
+          <div class="diagram-node"><div class="eyebrow">Input</div><strong>Signals</strong></div>
+          <div class="diagram-arrow">-&gt;</div>
+          <div class="diagram-node"><div class="eyebrow">System</div><strong>Review + memory</strong></div>
+          <div class="diagram-arrow">-&gt;</div>
+          <div class="diagram-node"><div class="eyebrow">Output</div><strong>Useful artifacts</strong></div>
+        </div>
+        <p style="margin-top: 1rem;"><a href="/knowledge-os-proof/">See the system proof &rarr;</a></p>
       </div>
-      <div class="diagram-dark">
-        <div class="diagram-node"><div class="eyebrow">Input</div><strong>Signals</strong></div>
-        <div class="diagram-arrow">-&gt;</div>
-        <div class="diagram-node"><div class="eyebrow">System</div><strong>Review + memory</strong></div>
-        <div class="diagram-arrow">-&gt;</div>
-        <div class="diagram-node"><div class="eyebrow">Output</div><strong>Useful artifacts</strong></div>
+
+      <div class="panel knowledge-home-card jules-home-card">
+        <p class="eyebrow">Jules</p>
+        <h2>Jules is the execution layer for reviewed work.</h2>
+        <p class="lede">
+          It carries decisions into code changes, research passes, publishing prep, operational checks, and handoffs that stay visible enough to review.
+        </p>
+        <div class="pill-row">
+          <span class="pill orange">Agent work</span>
+          <span class="pill blue">Decision support</span>
+          <span class="pill sage">Shipping loops</span>
+        </div>
+        <div class="diagram-dark">
+          <div class="diagram-node"><div class="eyebrow">Ask</div><strong>Intent</strong></div>
+          <div class="diagram-arrow">-&gt;</div>
+          <div class="diagram-node"><div class="eyebrow">Run</div><strong>Execution</strong></div>
+          <div class="diagram-arrow">-&gt;</div>
+          <div class="diagram-node"><div class="eyebrow">Return</div><strong>Evidence</strong></div>
+        </div>
+        <p style="margin-top: 1rem;"><a href="/jules/">Meet Jules &rarr;</a></p>
       </div>
-      <p style="margin-top: 1rem;"><a href="/projects/">See project work &rarr;</a></p>
     </div>
   </section>
 
-  <section class="container" style="margin-bottom: 3rem;">
-    <div class="section-heading">
-      <h2>Latest Articles</h2>
-      <a href="/articles/">View all &rarr;</a>
-    </div>
-    {articles.map((article) => (
-      <ArticleCard
-        title={article.data.title}
-        slug={article.id}
-        date={article.data.date}
-        description={article.data.description}
-        story={article.data.story}
-      />
-    ))}
+  <section class="container home-final-cta">
+    <p class="eyebrow">Start with the workflow</p>
+    <h2>Have a handoff, queue, report, or approval loop that keeps dragging?</h2>
+    <p>
+      Send the process and what keeps breaking. I will help map the first useful automation opportunity.
+    </p>
+    <p><a href="/contact/" class="hero-btn">Request workflow triage</a></p>
   </section>
 </Base>

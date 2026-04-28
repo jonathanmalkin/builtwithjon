@@ -5,11 +5,11 @@ const pathname = Astro.url.pathname;
 <header class="site-header">
   <nav>
     <a href="/" class="site-name">Jonathan Malkin</a>
-    <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav-links">
       <svg class="menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <div class="nav-links">
+    <div class="nav-links" id="site-nav-links">
       <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Services</a>
       <a href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Projects</a>
       <a href="/jules/" aria-current={pathname === '/jules/' ? 'page' : undefined}>Jules AI</a>
@@ -37,7 +37,9 @@ const pathname = Astro.url.pathname;
 <script>
   document.querySelector('.menu-toggle')?.addEventListener('click', function () {
     const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', String(!expanded));
+    const nextExpanded = !expanded;
+    this.setAttribute('aria-expanded', String(nextExpanded));
+    this.setAttribute('aria-label', nextExpanded ? 'Close menu' : 'Open menu');
     document.querySelector('.nav-links')?.classList.toggle('open');
   });
 </script>

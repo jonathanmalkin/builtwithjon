@@ -57,10 +57,17 @@ import Base from '../layouts/Base.astro';
         <input type="email" id="email" name="email" required class="form-input" />
       </div>
       <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="6" required class="form-input"></textarea>
+        <label for="message">Workflow, bottleneck, and desired first outcome</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          required
+          class="form-input"
+          placeholder="What process is creating drag? Who owns it? What tools are involved? What would a useful first result look like?"
+        ></textarea>
       </div>
-      <button type="submit" class="form-submit">Send Message</button>
+      <button type="submit" class="form-submit">Send the Bottleneck</button>
     </form>
   </div>
 </Base>
