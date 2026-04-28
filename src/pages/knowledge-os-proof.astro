@@ -13,7 +13,8 @@ import Base from '../layouts/Base.astro';
         <p class="eyebrow">Knowledge OS proof page</p>
         <h1>A human-reviewed operating system for turning signals into useful artifacts.</h1>
         <p class="lede">
-          Knowledge OS is the internal operating layer behind my current work. It keeps source material, agent runs, review queues, and publishing artifacts visible enough to trust and improve.
+          Most teams do not need "more AI" first. They need a better operating loop: intake, triage, review, execution, feedback, and memory.
+          Knowledge OS is my proof that I build those loops for my own work before recommending them to anyone else.
         </p>
         <div class="pill-row">
           <span class="pill blue">Signal intake</span>
@@ -40,6 +41,9 @@ import Base from '../layouts/Base.astro';
 
     <section class="section-band">
       <h2>The Problem</h2>
+      <p class="section-intro">
+        Knowledge OS is the internal operating layer behind my current work. It keeps source material, agent runs, review queues, and publishing artifacts visible enough to trust and improve.
+      </p>
       <div class="feature-grid">
         <article class="feature-card">
           <span class="pill copper">Context sprawl</span>
@@ -61,28 +65,23 @@ import Base from '../layouts/Base.astro';
       </p>
       <figure class="image-frame">
         <img src="/knowledge-os/system-map.png" alt="Knowledge OS system map showing intake, knowledge core, artifacts, and feedback loop." loading="lazy" />
+        <figcaption>
+          System map summary: signals enter from public posts, newsletters, source documents, notes, and agent sessions; Knowledge OS separates raw source material from promoted memory; governed workflows produce briefs, queues, notes, drafts, and run records; feedback tunes the next intake cycle.
+        </figcaption>
       </figure>
     </section>
 
     <section class="section-band">
-      <h2>How It Proves the Services Method</h2>
-      <div class="process-roadmap">
-        <article class="panel process-step agent" data-step="01">
-          <div class="eyebrow">Discover</div>
-          <h3>Capture the real flow</h3>
-          <p>Knowledge OS starts from actual source material and work traces instead of theoretical use cases.</p>
-        </article>
-        <article class="panel process-step guardrail" data-step="02">
-          <div class="eyebrow">Advise</div>
-          <h3>Decide what deserves trust</h3>
-          <p>Promotion gates separate raw signals from reusable memory, reducing the risk of treating every fragment as equally valid.</p>
-        </article>
-        <article class="panel process-step review" data-step="03">
-          <div class="eyebrow">Build</div>
-          <h3>Ship reviewable artifacts</h3>
-          <p>The system produces briefs, queues, notes, drafts, and run records that can be inspected, improved, or discarded.</p>
-        </article>
-      </div>
+      <h2>Architecture</h2>
+      <p class="section-intro">
+        The system is layered so raw capture, governed knowledge, agent workflows, and publishing surfaces can evolve independently.
+      </p>
+      <figure class="image-frame">
+        <img src="/knowledge-os/layered-architecture.png" alt="Layered Knowledge OS architecture diagram." loading="lazy" />
+        <figcaption>
+          Architecture summary: raw capture, governed knowledge, agent workflows, review gates, and publishing surfaces are separate layers so each can change without flattening source material into trusted memory.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="section-band">
@@ -107,11 +106,27 @@ import Base from '../layouts/Base.astro';
     </section>
 
     <section class="section-band">
+      <h2>Long-Form System View</h2>
+      <p class="section-intro">
+        This view shows the named system, the operating zones, and how a concrete workflow such as Engagement Radar fits inside the wider Knowledge OS.
+      </p>
+      <figure class="image-frame">
+        <img src="/knowledge-os/longform-infographic.png" alt="Long-form Knowledge OS infographic showing source, memory, process, and artifact layers." loading="lazy" />
+        <figcaption>
+          Long-form view summary: the operating model starts with broad source capture, narrows through Knowledge OS as the memory and artifact layer, then shows Engagement Radar as one concrete workflow with scouting, review, feedback, templates, and approval gates.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="section-band">
       <div class="callout">
-        <p class="eyebrow">Why this matters commercially</p>
-        <h2>The same pattern applies to business operations.</h2>
+        <p class="eyebrow">How this maps to client work</p>
+        <h2>The same operating loop applies inside teams.</h2>
         <p>
-          Most teams do not need "more AI" first. They need a better operating loop: intake, triage, review, execution, feedback, and memory. Knowledge OS is my proof that I build those loops for my own work before recommending them to anyone else.
+          I do not start with generic AI use cases. I map the intake, triage, review, execution, feedback, and memory loop around the work itself, then design the review gates and artifacts that make the system usable after the demo.
+        </p>
+        <p>
+          The same pattern applies to research queues, intake triage, reporting workflows, approvals, handoffs, and repeated operational decisions.
         </p>
         <p><a href="/workshops/">See the services process &rarr;</a></p>
       </div>
