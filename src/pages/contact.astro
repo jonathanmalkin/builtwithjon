@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Contact"
-  description="Get in touch with Jonathan Malkin about AI systems, workflow automation, services, and advisory work."
+  description="Get in touch with Jonathan Malkin about AI Workflow Friction Map sessions, workflow automation, services, and advisory work."
 >
   <div class="container">
     <div class="contact-intro panel">
@@ -28,7 +28,7 @@ import Base from '../layouts/Base.astro';
 
       <p>
         I work with teams on AI automation, workflow design, implementation planning, and delivery.
-        If you want help identifying the right AI use cases or building the system behind them, reach out.
+        If you want help turning one messy recurring process into a safe AI pilot map, reach out.
       </p>
 
       <div class="contact-notes">
@@ -48,6 +48,9 @@ import Base from '../layouts/Base.astro';
       method="POST"
       class="contact-form"
     >
+      <input type="hidden" name="_subject" value="AI Workflow Friction Map inquiry" />
+      <input type="hidden" name="inquiry_type" value="ai-workflow-friction-map" />
+      <input type="hidden" name="offer" value="AI Workflow Friction Map" />
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required class="form-input" />

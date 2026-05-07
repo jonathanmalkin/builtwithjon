@@ -1,10 +1,10 @@
 # Jonathan Malkin
 
-> AI automation consultant and builder. I design AI systems, workflow automation, and implementation plans for practical business operations.
+> AI automation consultant and builder. I help teams map messy business workflows, design safe AI pilots, and build practical automation systems.
 
 ## About
 
-Jonathan Malkin is an AI automation consultant and product builder based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps teams turn operational friction into AI-assisted systems and implementation plans.
+Jonathan Malkin is an AI automation consultant and product builder based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps teams turn operational friction into AI-assisted systems, safe pilot maps, and implementation plans.
 
 His primary work product is Jules, a deeply customized Claude Code system with skills, rules, hooks, memory, and automated workflows that runs his own business. He writes about AI infrastructure, implementation strategy, automation workflows, and the practical reality of building with AI.
 
@@ -13,7 +13,7 @@ His primary work product is Jules, a deeply customized Claude Code system with s
 - Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
 - AI agents: autonomous workflows, model selection, team-based agent architectures
 - AI operations: workflow design, automation patterns, and operational systems
-- Advisory and workshops: discovery sessions, implementation planning, and practical delivery
+- Advisory and workshops: AI Workflow Friction Map sessions, implementation planning, and practical delivery
 
 ## Content
 

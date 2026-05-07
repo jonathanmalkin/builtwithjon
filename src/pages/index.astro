@@ -6,7 +6,7 @@ const personSchema = {
   '@type': 'Person',
   name: 'Jonathan Malkin',
   jobTitle: 'AI Automation Consultant',
-  description: 'AI automation consultant and product builder helping teams design workflows, internal tools, and operational systems with AI.',
+  description: 'AI automation consultant and product builder helping teams turn messy business processes into safe AI pilot maps and working automation systems.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
@@ -20,22 +20,22 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Jonathan Malkin builds AI systems, automation workflows, and implementation plans for teams with real operational complexity.',
+  description: 'Jonathan Malkin helps teams map messy business workflows, design safe AI pilots, and build practical automation systems.',
 };
 ---
 
 <Base
   title="Jonathan Malkin"
-  description="Jonathan Malkin builds AI systems, automation workflows, and implementation plans for teams with real operational complexity."
+  description="Jonathan Malkin helps teams map messy business workflows, design safe AI pilots, and build practical automation systems."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
   <section class="hero container-wide">
-    <p class="eyebrow">Discovery -> Advisory -> Build</p>
-    <h1>AI automation systems for messy operational handoffs.</h1>
+    <p class="eyebrow">AI Workflow Friction Map</p>
+    <h1>Turn one messy business process into a safe AI pilot.</h1>
     <p class="subtitle">
-      Scattered context, review queues, repeated reporting, and manual handoffs turned into automation systems people can actually run.
+      For teams experimenting with Claude, Codex, ChatGPT, internal docs, or AI agents but still stuck turning curiosity into repeatable operational change.
     </p>
     <div class="hero-proof">
       <span class="pill blue">Finance</span>
@@ -46,8 +46,8 @@ const websiteSchema = {
       <span class="pill sage">Marketing</span>
     </div>
     <div class="hero-links">
-      <a href="/contact/" class="hero-btn">Request workflow triage</a>
-      <a href="/workshops/" class="hero-btn hero-btn-outline">See services</a>
+      <a href="/contact/" class="hero-btn">Request a Friction Map</a>
+      <a href="/workshops/" class="hero-btn hero-btn-outline">See the workshop</a>
     </div>
   </section>
 
@@ -56,8 +56,8 @@ const websiteSchema = {
     <div class="story-grid">
       <a href="/workshops/" class="story-card story-card-1">
         <div class="eyebrow">Discover</div>
-        <h3>Find the work worth automating</h3>
-        <p>Process workshops, use-case discovery, and opportunity scoring grounded in how the operation actually runs.</p>
+        <h3>Map the workflow before the tool</h3>
+        <p>A 45-60 minute working session to capture the handoffs, bottlenecks, review points, and first safe AI pilot.</p>
       </a>
       <a href="/workshops/" class="story-card story-card-2">
         <div class="eyebrow">Advise</div>
@@ -122,8 +122,8 @@ const websiteSchema = {
     <p class="eyebrow">Start with the workflow</p>
     <h2>Have a handoff, queue, report, or approval loop that keeps dragging?</h2>
     <p>
-      Send the process and what keeps breaking. I will help map the first useful automation opportunity.
+      Send the process and what keeps breaking. I will help map where AI can safely help, where humans should approve, and what the first pilot should be.
     </p>
-    <p><a href="/contact/" class="hero-btn">Request workflow triage</a></p>
+    <p><a href="/contact/" class="hero-btn">Request a Friction Map</a></p>
   </section>
 </Base>
