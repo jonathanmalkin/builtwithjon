@@ -1,0 +1,192 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Ava Attendance Officer"
+  description="A multilingual school attendance agent that closes the loop between classroom attendance, school policy, and guardian communication. Built at a hackathon in 2025."
+>
+  <div class="container-wide">
+    <section class="workbench-hero">
+      <div class="panel workbench-hero-copy">
+        <p class="eyebrow">Hackathon project &mdash; Agents Track</p>
+        <h1>A school attendance agent that closes the loop with guardians.</h1>
+        <p class="lede">
+          School funding depends on accurate attendance. Tracking time outside class is often incomplete and follow-up is manual. Ava connects the teacher dashboard, hall-pass iPad, policy backend, and outbound voice agent into one working loop.
+        </p>
+        <div class="pill-row">
+          <span class="pill blue">Attendance</span>
+          <span class="pill sage">Hall passes</span>
+          <span class="pill plum">Policy engine</span>
+          <span class="pill copper">Voice agent</span>
+        </div>
+        <div class="card-links" style="margin-top: 1.25rem;">
+          <a href="https://github.com/jonathanmalkin/hallPassAttendanceOfficer" target="_blank" rel="noopener">GitHub &rarr;</a>
+          <a href="/projects/">Back to projects &rarr;</a>
+        </div>
+      </div>
+      <aside class="panel workbench-card">
+        <div class="sticky-note">
+          <span class="pill sage">Design principle</span>
+          <strong>One loop, not four disconnected tools.</strong>
+          <p>Classroom attendance, hall-pass behavior, policy evaluation, and guardian outreach share a single data model and event stream.</p>
+        </div>
+        <div class="diagram-dark">
+          <div class="diagram-node"><div class="eyebrow">Record</div><strong>Attendance</strong></div>
+          <div class="diagram-arrow">&rarr;</div>
+          <div class="diagram-node"><div class="eyebrow">Evaluate</div><strong>Policy</strong></div>
+          <div class="diagram-arrow">&rarr;</div>
+          <div class="diagram-node"><div class="eyebrow">Call</div><strong>Guardian</strong></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-band">
+      <h2>The Problem</h2>
+      <p class="section-intro">
+        Attendance and hall-pass tracking are often disconnected. Teachers record absences. Students disappear for restroom breaks. Guardians are never contacted unless someone manually follows up. Ava was built to close that gap.
+      </p>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="pill copper">Funding risk</span>
+          <h3>School funding is tied to attendance accuracy</h3>
+          <p>Incomplete records create funding gaps and compliance exposure. Most schools have no automated way to flag patterns before they become problems.</p>
+        </article>
+        <article class="feature-card">
+          <span class="pill plum">Manual follow-up</span>
+          <h3>Guardian outreach is inconsistent</h3>
+          <p>When a student misses class or spends 40 minutes on a restroom pass, no one calls the guardian automatically. Ava does — in English or Spanish.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-band">
+      <h2>System Architecture</h2>
+      <p class="section-intro">
+        Four components share a single FastAPI/Postgres backend. The teacher dashboard and hall-pass iPad both drive real database writes. The outbound voice agent closes the loop with guardians.
+      </p>
+      <div class="proof-strip">
+        <div class="proof-item">
+          <span class="pill blue">Teacher Dashboard</span>
+          <strong>Attendance recording</strong>
+          <p>React/TypeScript app. Teachers view rosters, record present/absent/excused/unexcused, and see live pass status via WebSocket.</p>
+        </div>
+        <div class="proof-item">
+          <span class="pill sage">Hall Pass iPad</span>
+          <strong>Time-out tracking</strong>
+          <p>Same frontend app at a student-facing route. Students check out and back in. Pass events flow into the shared event stream instantly.</p>
+        </div>
+        <div class="proof-item">
+          <span class="pill plum">Ava Core</span>
+          <strong>Policy + alerts</strong>
+          <p>FastAPI + Postgres + pgvector. Ingests attendance and pass events, evaluates policy thresholds, raises alerts, and queues guardian calls.</p>
+        </div>
+        <div class="proof-item">
+          <span class="pill copper">Voice Agent</span>
+          <strong>Guardian outreach</strong>
+          <p>Node.js + OpenAI Realtime API. Calls guardians bilingually, asks for a reason, confirms, and records the explanation back to the datastore.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band">
+      <h2>Key Flows</h2>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="pill blue">Teacher</span>
+          <h3>Records attendance</h3>
+          <p>Opens the dashboard, views today's class, and marks each student. Changes hit the backend in real time. Dashboards on other devices update via WebSocket without a reload.</p>
+        </article>
+        <article class="feature-card">
+          <span class="pill sage">Student</span>
+          <h3>Uses a hall pass</h3>
+          <p>Selects a destination on the iPad app. Ava saves the reason, start time, and student context. If the student isn't back in 15 minutes, an alert fires.</p>
+        </article>
+        <article class="feature-card">
+          <span class="pill plum">Ava</span>
+          <h3>Evaluates and alerts</h3>
+          <p>The dispatcher loop runs every N seconds. It detects overdue passes, raises alerts, and posts to the parent-comms endpoint. No manual trigger required.</p>
+        </article>
+        <article class="feature-card">
+          <span class="pill copper">Voice agent</span>
+          <h3>Calls the guardian</h3>
+          <p>Starts with a bilingual identity check. Guardian can answer in English or Spanish. Ava summarizes, confirms, and saves the explanation. Full transcript captured.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-band">
+      <h2>Tech Stack</h2>
+      <div class="proof-strip">
+        <div class="proof-item">
+          <span class="pill blue">Backend</span>
+          <strong>Python / FastAPI</strong>
+          <p>Python 3.12, FastAPI, SQLAlchemy 2 async, asyncpg, Alembic, PostgreSQL 16 + pgvector, Pydantic v2. Real-time events via Postgres LISTEN/NOTIFY and WebSocket fan-out.</p>
+        </div>
+        <div class="proof-item">
+          <span class="pill sage">Frontend</span>
+          <strong>React / Vite</strong>
+          <p>React 18, TypeScript, Vite 5, React Router, Tailwind CSS, lucide-react. Calls the Ava backend over <code>/api/*</code> and subscribes to live events over WebSocket.</p>
+        </div>
+        <div class="proof-item">
+          <span class="pill copper">Voice</span>
+          <strong>OpenAI Realtime</strong>
+          <p>Node.js 20 ESM server, browser WebRTC audio, <code>gpt-realtime-2</code>, <code>gpt-4o-transcribe</code>, semantic VAD turn detection, Realtime function calling for excuse submission.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band">
+      <h2>Policy Engine</h2>
+      <p class="section-intro">
+        Ava's policy layer uses pgvector for semantic search across policy documents and a rule expression evaluator for threshold-based alerts. The 15-minute restroom rule is the demo case, but the architecture supports arbitrary policy rules.
+      </p>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="pill plum">RAG</span>
+          <h3>Semantic policy search</h3>
+          <p>Policy documents are chunked, embedded with OpenAI, and stored in pgvector. Ava can find the relevant policy for any attendance or behavior pattern.</p>
+        </article>
+        <article class="feature-card">
+          <span class="pill blue">Rules</span>
+          <h3>Threshold evaluation</h3>
+          <p>Policy rules are stored as expressions. The evaluator runs against student timelines and raises typed alerts when thresholds are crossed.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-band">
+      <h2>Team</h2>
+      <p class="section-intro">Built at a hackathon in 2025 by a four-person team across product, engineering, and AI.</p>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <strong>Julianna Messineo</strong>
+          <p><a href="https://www.linkedin.com/in/julianna-messineo/" target="_blank" rel="noopener">LinkedIn &rarr;</a></p>
+        </article>
+        <article class="feature-card">
+          <strong>Chrissy McDannell</strong>
+          <p><a href="https://www.linkedin.com/in/christinemcdannell/" target="_blank" rel="noopener">LinkedIn &rarr;</a></p>
+        </article>
+        <article class="feature-card">
+          <strong>Jose Gonzalez</strong>
+          <p><a href="https://www.linkedin.com/in/josemgonzalez1/" target="_blank" rel="noopener">LinkedIn &rarr;</a></p>
+        </article>
+        <article class="feature-card">
+          <strong>Jonathan Malkin</strong>
+          <p><a href="https://www.linkedin.com/in/jonathanmalkin/" target="_blank" rel="noopener">LinkedIn &rarr;</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-band">
+      <div class="callout">
+        <p class="eyebrow">Source code</p>
+        <h2>The full implementation is on GitHub.</h2>
+        <p>
+          Includes the FastAPI backend, React/Vite frontend, outbound voice agent, Alembic migrations, pgvector policy search, alert dispatcher, and a <code>quickstart.sh</code> that brings up the full demo in one command.
+        </p>
+        <p><a href="https://github.com/jonathanmalkin/hallPassAttendanceOfficer" target="_blank" rel="noopener">View on GitHub &rarr;</a></p>
+      </div>
+    </section>
+  </div>
+</Base>
