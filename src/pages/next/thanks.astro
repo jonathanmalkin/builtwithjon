@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
+---
+
+<Base
+  title="Thank You"
+  description="Thanks for telling Jonathan what's next for your agent."
+>
+  <div class="container">
+    <div class="contact-intro panel">
+      <p class="eyebrow">What's Next</p>
+      <h1>Got it &mdash; thank you.</h1>
+      <p>
+        I'll use this to shape the next workshop, and I'll be in touch with you
+        personally.
+      </p>
+
+      <div class="contact-notes">
+        <div>
+          <strong>Want to talk sooner?</strong>
+          <p>
+            I'd rather grab coffee, but a quick call is easier to schedule and
+            faster. <a href={bookingUrl}>Book 15 minutes with me &rarr;</a>
+          </p>
+        </div>
+        <div>
+          <strong>Back to the site</strong>
+          <p><a href="/">Return to builtwithjon.com &rarr;</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+
+const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
+---
+
+<Base
+  title="What's Next for Your Agent?"
+  description="Tell Jonathan where you want to take your AI assistant next. It shapes the next workshop — and he'll follow up personally."
+>
+  <div class="container">
+    <div class="contact-intro panel">
+      <p class="eyebrow">What's Next</p>
+      <h1>What's next for your agent?</h1>
+      <p>
+        You built an assistant that knows you. The next step is getting your data
+        and workflows in line so it can actually run them. Tell me where you'd
+        want to go &mdash; it takes 30 seconds, it shapes the next workshop, and
+        I'll follow up with you personally.
+      </p>
+    </div>
+
+    <form
+      action="https://formspree.io/f/xdapgpae"
+      method="POST"
+      class="contact-form"
+    >
+      <input type="hidden" name="_subject" value="Workshop survey — What's Next" />
+      <input type="hidden" name="_next" value="https://builtwithjon.com/next/thanks" />
+      <input type="hidden" name="inquiry_type" value="workshop-next-survey" />
+
+      <div class="form-group">
+        <label for="email">Email <span class="form-hint">&mdash; so I can send you the right next step</span></label>
+        <input type="email" id="email" name="email" required class="form-input" />
+      </div>
+
+      <fieldset class="form-fieldset">
+        <legend>What would help your business next?</legend>
+        <p class="form-hint">Check all that apply.</p>
+        <label class="checkbox-row">
+          <input type="checkbox" name="help_with" value="Organizing my data" />
+          <span>Organizing my data so my agent can actually use it</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="help_with" value="Automating a workflow" />
+          <span>Automating a workflow <span class="form-hint">(pick which below)</span></span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="help_with" value="Workshop for my team or company" />
+          <span>A workshop for my whole team or company</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="help_with" value="Don't know where to start" />
+          <span>I don't know where to start &mdash; let's talk</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="form-fieldset">
+        <legend>Which workflows would you want to automate?</legend>
+        <p class="form-hint">Check all that apply.</p>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Email & follow-up" />
+          <span>Email &amp; follow-up</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Calendar & scheduling" />
+          <span>Calendar &amp; scheduling</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Sales outreach" />
+          <span>Sales outreach</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Marketing & content" />
+          <span>Marketing &amp; content</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Accounting & bookkeeping" />
+          <span>Accounting &amp; bookkeeping</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Client / customer communication" />
+          <span>Client / customer communication</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Project & task organization" />
+          <span>Project &amp; task organization</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" name="workflows" value="Daily accountability & reminders" />
+          <span>Daily accountability &amp; reminders</span>
+        </label>
+        <div class="form-group form-other">
+          <label for="workflow_other">Other</label>
+          <input type="text" id="workflow_other" name="workflow_other" class="form-input" placeholder="Something else you'd automate" />
+        </div>
+      </fieldset>
+
+      <button type="submit" class="form-submit">Send it &rarr;</button>
+    </form>
+
+    <p class="next-talk">
+      Prefer to just talk it through? <a href={bookingUrl}>Book 15 minutes with me &rarr;</a>
+    </p>
+  </div>
+</Base>

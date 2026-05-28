@@ -2129,6 +2129,61 @@ textarea.form-input {
   background: var(--color-accent-hover);
 }
 
+.form-hint {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.form-fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-fieldset legend {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0 0.4rem;
+}
+
+.form-fieldset .form-hint {
+  display: block;
+  font-size: 0.82rem;
+  margin: 0 0 0.75rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.checkbox-row input[type='checkbox'] {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.12rem;
+  accent-color: var(--color-accent);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.form-other {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+.next-talk {
+  margin-top: -1rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
 /* Jules page */
 .jules-identity {
   display: flex;
