@@ -1,12 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import { Icon } from 'astro-icon/components';
 
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Jonathan Malkin',
-  jobTitle: 'AI Automation Consultant',
-  description: 'AI automation consultant and product builder helping teams turn messy business processes into safe AI pilot maps and working automation systems.',
+  jobTitle: 'AI Workshop Leader & Implementation Consultant',
+  description: 'Jonathan Malkin runs hands-on AI workshops where teams build something real with AI against their own work, tailored to their industry and workflows.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
@@ -20,110 +21,96 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Jonathan Malkin helps teams map messy business workflows, design safe AI pilots, and build practical automation systems.',
+  description: 'Hands-on AI workshops where your team builds something real with AI, against your own work, in a single session.',
 };
 ---
 
 <Base
   title="Jonathan Malkin"
-  description="Jonathan Malkin helps teams map messy business workflows, design safe AI pilots, and build practical automation systems."
+  description="Hands-on AI workshops where your team builds something real with AI, against your own work, in a single session."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
-  <section class="hero container-wide">
-    <p class="eyebrow">AI Workflow Friction Map</p>
-    <h1>Turn one messy business process into a safe AI pilot.</h1>
-    <p class="subtitle">
-      For teams experimenting with Claude, Codex, ChatGPT, internal docs, or AI agents but still stuck turning curiosity into repeatable operational change.
-    </p>
-    <div class="hero-proof">
-      <span class="pill blue">Finance</span>
-      <span class="pill sage">HR</span>
-      <span class="pill plum">IT</span>
-      <span class="pill copper">Operations</span>
-      <span class="pill blue">Sales</span>
-      <span class="pill sage">Marketing</span>
+  <section class="hero-split container-wide">
+    <div class="hero-split-copy">
+      <p class="eyebrow">Hands-on AI workshops</p>
+      <h1>AI that actually does your work.</h1>
+      <p class="subtitle">
+        Build a real AI workflow with your own data, hands-on, the way your team actually works. Personal assistants, sales, marketing, and more, tailored to your industry.
+      </p>
+      <div class="hero-links">
+        <a href="/contact/" class="hero-btn">Start a conversation</a>
+      </div>
     </div>
-    <div class="hero-links">
-      <a href="/contact/" class="hero-btn">Request a Friction Map</a>
-      <a href="/workshops/" class="hero-btn hero-btn-outline">See the workshop</a>
-    </div>
+    <figure class="hero-split-media">
+      <img
+        src="/home/workshop-room.jpg"
+        width="1600"
+        height="900"
+        alt="A full room of people watching Jonathan present a live AI demo on screen at AI Tinkerers in Sao Paulo."
+        loading="eager"
+        decoding="async"
+      />
+      <figcaption>Live demo at AI Tinkerers, Sao Paulo</figcaption>
+    </figure>
   </section>
 
   <section class="container" id="what-i-do" style="margin-bottom: 3rem;">
-    <h2>Process</h2>
+    <h2>What the room feels like</h2>
+    <p class="section-intro">
+      Real tools, your own work on the screen. People who came in curious leave with something that works.
+    </p>
     <div class="story-grid">
-      <a href="/workshops/" class="story-card story-card-1">
-        <div class="eyebrow">Discover</div>
-        <h3>Map the workflow before the tool</h3>
-        <p>A 45-60 minute working session to capture the handoffs, bottlenecks, review points, and first safe AI pilot.</p>
-      </a>
-      <a href="/workshops/" class="story-card story-card-2">
-        <div class="eyebrow">Advise</div>
-        <h3>Turn ambition into a buildable path</h3>
-        <p>Architecture, governance, handoff design, tooling choices, and the operating model needed before automation scales.</p>
-      </a>
-      <a href="/projects/" class="story-card story-card-3">
-        <div class="eyebrow">Build</div>
-        <h3>Ship the first working use case</h3>
-        <p>Hands-on automation and AI system builds that produce reviewable artifacts, not just demos or decks.</p>
-      </a>
+      <div class="story-card story-card-1">
+        <span class="card-icon blue"><Icon name="lucide:hammer" /></span>
+        <div class="eyebrow">Hands-on</div>
+        <h3>Build, don't watch</h3>
+        <p>Your team builds the real thing during the session, with human approval gates so it never acts on its own.</p>
+      </div>
+      <div class="story-card story-card-2">
+        <span class="card-icon sage"><Icon name="lucide:workflow" /></span>
+        <div class="eyebrow">Your real work</div>
+        <h3>On your own data</h3>
+        <p>We use your actual processes, not generic demos. You see exactly where AI helps and where it should stay out.</p>
+      </div>
+      <div class="story-card story-card-3">
+        <span class="card-icon plum"><Icon name="lucide:sparkles" /></span>
+        <div class="eyebrow">Something remarkable</div>
+        <h3>Walk out with it</h3>
+        <p>Everyone leaves with a working AI workflow and a clear view of what to build next.</p>
+      </div>
     </div>
   </section>
 
-  <section class="container-wide">
-    <div class="knowledge-panel-grid">
-      <div class="panel knowledge-home-card">
-        <p class="eyebrow">Knowledge OS</p>
-        <h2>Knowledge OS is the company memory layer.</h2>
-        <p class="lede">
-          It captures signals, separates raw source material from trusted knowledge, routes agent work through review gates, and turns operations into inspectable artifacts.
-        </p>
-        <div class="pill-row">
-          <span class="pill blue">Signal intake</span>
-          <span class="pill sage">Promotion gates</span>
-          <span class="pill plum">Review cycles</span>
-        </div>
-        <div class="diagram-dark">
-          <div class="diagram-node"><div class="eyebrow">Input</div><strong>Signals</strong></div>
-          <div class="diagram-arrow">-&gt;</div>
-          <div class="diagram-node"><div class="eyebrow">System</div><strong>Review + memory</strong></div>
-          <div class="diagram-arrow">-&gt;</div>
-          <div class="diagram-node"><div class="eyebrow">Output</div><strong>Useful artifacts</strong></div>
-        </div>
-        <p style="margin-top: 1rem;"><a href="/knowledge-os-proof/">See the system proof &rarr;</a></p>
-      </div>
-
-      <div class="panel knowledge-home-card jules-home-card">
-        <p class="eyebrow">Jules</p>
-        <h2>Jules is the execution layer for reviewed work.</h2>
-        <p class="lede">
-          It carries decisions into code changes, research passes, publishing prep, operational checks, and handoffs that stay visible enough to review.
-        </p>
-        <div class="pill-row">
-          <span class="pill orange">Agent work</span>
-          <span class="pill blue">Decision support</span>
-          <span class="pill sage">Shipping loops</span>
-        </div>
-        <div class="diagram-dark">
-          <div class="diagram-node"><div class="eyebrow">Ask</div><strong>Intent</strong></div>
-          <div class="diagram-arrow">-&gt;</div>
-          <div class="diagram-node"><div class="eyebrow">Run</div><strong>Execution</strong></div>
-          <div class="diagram-arrow">-&gt;</div>
-          <div class="diagram-node"><div class="eyebrow">Return</div><strong>Evidence</strong></div>
-        </div>
-        <p style="margin-top: 1rem;"><a href="/jules/">Meet Jules &rarr;</a></p>
-      </div>
+  <section class="container why-me-grid" style="margin-bottom: 3rem;">
+    <div>
+      <h2>Why me</h2>
+      <p class="cred-line">
+        20+ years in enterprise tech, spent getting teams to actually adopt new systems, not just buy them. I run my own AI workflows every day, so the workshops teach what I already use.
+      </p>
+      <p><a href="/about/">More about how I work &rarr;</a></p>
     </div>
+    <figure class="why-me-media">
+      <img
+        src="/home/jules-demo.jpg"
+        width="1400"
+        height="787"
+        alt="Close view of a live AI assistant demo on screen, showing the presenter alongside a real-time AI avatar."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
   </section>
 
   <section class="container home-final-cta">
-    <p class="eyebrow">Start with the workflow</p>
-    <h2>Have a handoff, queue, report, or approval loop that keeps dragging?</h2>
+    <p class="eyebrow">Let's talk</p>
+    <h2>Want your team building with AI, not just talking about it?</h2>
     <p>
-      Send the process and what keeps breaking. I will help map where AI can safely help, where humans should approve, and what the first pilot should be.
+      Tell me about your team and what's slowing you down. I'll help shape the right session.
     </p>
-    <p><a href="/contact/" class="hero-btn">Request a Friction Map</a></p>
+    <div class="hero-links" style="justify-content: center;">
+      <a href="/contact/" class="hero-btn">Start a conversation</a>
+    </div>
   </section>
 </Base>

@@ -4,12 +4,12 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Contact"
-  description="Get in touch with Jonathan Malkin about AI Workflow Friction Map sessions, workflow automation, services, and advisory work."
+  description="Get in touch with Jonathan Malkin about hands-on AI workshops for your team and the implementation work that follows."
 >
-  <div class="container">
+  <div class="container contact-layout">
     <div class="contact-intro panel">
       <p class="eyebrow">Contact</p>
-      <h1>Get in Touch</h1>
+      <h1>Let's talk</h1>
 
       <div class="contact-social">
         <a href="https://github.com/jonathanmalkin" rel="me" aria-label="GitHub" title="GitHub">
@@ -27,18 +27,13 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <p>
-        I work with teams on AI automation, workflow design, implementation planning, and delivery.
-        If you want help turning one messy recurring process into a safe AI pilot map, reach out.
+        Want to bring a hands-on AI workshop to your team, or talk through where AI could help your business? Tell me a bit about your team and what is slowing you down, and I will reply personally.
       </p>
 
       <div class="contact-notes">
         <div>
-          <strong>Good context to include</strong>
-          <p>The workflow, team, current tools, bottleneck, and what a useful first outcome would look like.</p>
-        </div>
-        <div>
-          <strong>Prefer a structured overview?</strong>
-          <p><a href="/workshops/">Start on the services page &rarr;</a></p>
+          <strong>Helpful to include</strong>
+          <p>Your team and industry, the process that keeps creating drag, the tools you use today, and what a useful first result would look like.</p>
         </div>
       </div>
     </div>
@@ -48,9 +43,8 @@ import Base from '../layouts/Base.astro';
       method="POST"
       class="contact-form"
     >
-      <input type="hidden" name="_subject" value="AI Workflow Friction Map inquiry" />
-      <input type="hidden" name="inquiry_type" value="ai-workflow-friction-map" />
-      <input type="hidden" name="offer" value="AI Workflow Friction Map" />
+      <input type="hidden" name="_subject" value="Workshop / AI inquiry from builtwithjon.com" />
+      <input type="hidden" name="inquiry_type" value="workshop" />
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required class="form-input" />
@@ -60,17 +54,17 @@ import Base from '../layouts/Base.astro';
         <input type="email" id="email" name="email" required class="form-input" />
       </div>
       <div class="form-group">
-        <label for="message">Workflow, bottleneck, and desired first outcome</label>
+        <label for="message">Your team, what's slowing you down, and what you're hoping to do</label>
         <textarea
           id="message"
           name="message"
           rows="6"
           required
           class="form-input"
-          placeholder="What process is creating drag? Who owns it? What tools are involved? What would a useful first result look like?"
+          placeholder="Who's on the team and what industry? What process keeps creating drag? What tools do you use? What would a good first result look like?"
         ></textarea>
       </div>
-      <button type="submit" class="form-submit">Send the Bottleneck</button>
+      <button type="submit" class="form-submit">Send</button>
     </form>
   </div>
 </Base>
