@@ -2292,6 +2292,122 @@ textarea.form-input {
   margin: 0.4rem 0 1.25rem;
 }
 
+/* /next/thanks — booking hero */
+.book-hero {
+  padding: 2.5rem 2.5rem 2.25rem;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-accent) 7%, var(--color-surface)),
+    var(--color-surface)
+  );
+  border-color: color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
+  box-shadow: var(--shadow-card);
+}
+
+.book-kicker {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+.book-hero h2 {
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+}
+
+.book-sub {
+  max-width: 34rem;
+  margin: 0 auto 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.book-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2rem;
+  max-width: 30rem;
+  text-align: left;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.book-benefits li {
+  position: relative;
+  padding-left: 1.9rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.book-benefits li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.book-cta {
+  display: inline-block;
+  text-decoration: none;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.95rem 2.25rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-accent) 35%, transparent);
+  transition: background 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+.book-cta:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+
+.book-cta:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.book-reassure {
+  margin: 1.1rem auto 0;
+  max-width: 28rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 600px) {
+  .book-hero {
+    padding: 2rem 1.5rem;
+  }
+  .book-hero h2 {
+    font-size: 1.6rem;
+  }
+  .book-cta {
+    display: block;
+    width: 100%;
+  }
+}
+
 @media (max-width: 600px) {
   .option-grid-two {
     grid-template-columns: 1fr;

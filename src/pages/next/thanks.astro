@@ -5,26 +5,41 @@ const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
 ---
 
 <Base
-  title="Thank You"
-  description="Thanks for telling Jonathan what's next for your agent."
+  title="You're in — let's talk"
+  description="Thanks for telling Jonathan what's next for your agent. Book a free 15-minute call to map your next move."
 >
   <div class="container next-page">
     <div class="next-intro panel">
       <p class="eyebrow">What's Next</p>
-      <h1>Got it &mdash; thank you.</h1>
+      <h1>Got it. Now let's make it real.</h1>
       <p class="lede">
-        I'll use this to shape the next workshop, and I'll be in touch with you
-        personally.
+        You told me where you want to take your agent. The fastest way to get
+        there isn't another email thread &mdash; it's 15 minutes with me,
+        looking at your actual workflow.
       </p>
     </div>
 
-    <div class="next-talk-card panel">
-      <p class="eyebrow">Want to talk sooner?</p>
-      <p>
-        I'd rather grab coffee, but a quick call is easier to schedule and
-        faster.
+    <div class="book-hero panel">
+      <p class="book-kicker">Your next step</p>
+      <h2>Book a free 15-minute call</h2>
+      <p class="book-sub">
+        Bring the one workflow you'd most like off your plate. We'll figure out
+        whether it's a good fit to automate &mdash; and if it is, exactly how
+        you'd do it.
       </p>
-      <a href={bookingUrl} class="form-submit next-submit">Book 15 minutes with me &rarr;</a>
+
+      <ul class="book-benefits">
+        <li>A clear read on whether your workflow is worth automating</li>
+        <li>The specific next step to build it &mdash; or an honest &ldquo;not yet,&rdquo; and why</li>
+        <li>No pitch, no slides &mdash; just your work and a plan</li>
+      </ul>
+
+      <a href={bookingUrl} class="book-cta">Grab a time with me &rarr;</a>
+
+      <p class="book-reassure">
+        Free &middot; 15 minutes &middot; I only take a handful of these each week,
+        so grab a slot while one's open.
+      </p>
     </div>
   </div>
 </Base>
