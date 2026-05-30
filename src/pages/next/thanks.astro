@@ -5,30 +5,43 @@ const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
 ---
 
 <Base
-  title="You're in — let's talk"
+  title="You're in. Let's talk"
   description="Thanks for telling Jonathan what's next for your agent. Book a free 15-minute call to map your next move."
 >
   <div class="container next-page">
     <div class="book-hero panel">
-      <p class="book-kicker">What's Next</p>
-      <h1>Got it. Now let's make it real.</h1>
+      <p class="book-kicker">One Last Step &middot; Do This Now</p>
+      <h1>Book your free 15-min call.</h1>
+
+      <div class="book-cta-wrap">
+        <a href={bookingUrl} class="book-cta" target="_blank" rel="noopener">
+          <span class="book-cta-main">Pick a time &rarr;</span>
+          <span class="book-cta-sub">Free &middot; 15 min</span>
+        </a>
+        <p class="book-urgency">
+          <span class="book-dot" aria-hidden="true"></span>
+          Easiest while it's still fresh. Do it now
+        </p>
+      </div>
+
       <p class="book-sub">
-        You told me where you want to take your agent. The fastest way to get
-        there isn't another email thread &mdash; it's 15 minutes with me,
-        looking at your actual workflow. Bring the one task you'd most like off
-        your plate.
+        You just told me where you want to take your agent. The fastest way to
+        get there is 15 minutes with me, looking at your actual workflow. Bring
+        the one task you'd most like off your plate.
       </p>
 
       <ul class="book-benefits">
         <li>A clear read on whether your workflow is worth automating</li>
-        <li>The specific next step to build it &mdash; or an honest &ldquo;not yet,&rdquo; and why</li>
-        <li>No pitch, no slides &mdash; just your work and a plan</li>
+        <li>The specific next step to build it, or an honest &ldquo;not yet,&rdquo; and why</li>
+        <li>No pitch, no slides, just your work and a plan</li>
       </ul>
 
-      <a href={bookingUrl} class="book-cta">Book your free 15-minute call &rarr;</a>
+      <a href={bookingUrl} class="book-cta book-cta-secondary" target="_blank" rel="noopener">
+        <span class="book-cta-main">Book my free call &rarr;</span>
+      </a>
 
       <p class="book-reassure">
-        Free &middot; 15 minutes &middot; pick any open time that works for you.
+        100% free &middot; 15 minutes &middot; no obligation.
       </p>
     </div>
   </div>
