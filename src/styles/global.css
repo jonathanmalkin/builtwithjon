@@ -2225,6 +2225,18 @@ a.story-card:hover {
   color: var(--color-text);
 }
 
+/* On the /next survey, inputs sit on a porcelain panel and blend in.
+   Give them more contrast: deeper fill + stronger border. */
+.next-form .form-input {
+  background: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--color-accent) 22%, var(--color-border));
+  box-shadow: inset 0 1px 2px rgba(31, 23, 19, 0.04);
+}
+
+.next-form .form-input::placeholder {
+  color: color-mix(in srgb, var(--color-text-muted) 70%, transparent);
+}
+
 .form-input:focus {
   outline: 2px solid var(--color-accent);
   outline-offset: -1px;
@@ -2265,29 +2277,31 @@ textarea.form-input {
   padding-bottom: 3rem;
 }
 
+/* Merged intro + form into one card */
+.next-card {
+  overflow: hidden;
+}
+
 .next-intro {
-  padding: 2rem 2.25rem;
-  margin-bottom: 1.5rem;
+  padding: 2rem 2.25rem 1.5rem;
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-surface));
+  border-bottom: 1px solid var(--color-border);
 }
 
 .next-intro h1 {
-  margin: 0.25rem 0 0.75rem;
-}
-
-.next-intro .lede {
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.5rem;
 }
 
 .next-intro-meta {
   color: var(--color-accent);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   margin: 0;
 }
 
 .next-form {
   padding: 2rem 2.25rem 2.25rem;
-  margin-bottom: 1.25rem;
+  margin: 0;
 }
 
 .next-email {
@@ -2333,9 +2347,10 @@ textarea.form-input {
   align-items: flex-start;
   gap: 0.6rem;
   padding: 0.7rem 0.85rem;
-  border: 1px solid var(--color-border);
+  border: 1.5px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
   border-radius: 10px;
-  background: var(--color-surface);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(31, 23, 19, 0.05);
   font-size: 0.92rem;
   line-height: 1.35;
   cursor: pointer;
@@ -2344,6 +2359,7 @@ textarea.form-input {
 
 .option-chip:hover {
   border-color: var(--color-accent);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
 .option-chip em {
@@ -2363,7 +2379,7 @@ textarea.form-input {
 
 .option-chip:has(input:checked) {
   border-color: var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  background: color-mix(in srgb, var(--color-accent) 10%, #fff);
   box-shadow: inset 0 0 0 1px var(--color-accent);
 }
 

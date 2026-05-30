@@ -11,23 +11,19 @@ const thanksUrl = '/next/thanks';
   description="Tell Jonathan where you want to take your AI assistant next. It shapes the next workshop — and he'll follow up personally."
 >
   <div class="container next-page">
-    <div class="next-intro panel">
-      <p class="eyebrow">What's Next</p>
-      <h1>What's next for your agent?</h1>
-      <p class="lede">
-        You built an assistant that knows you. The next step is getting your
-        data and workflows in line so it can actually run them.
-      </p>
-      <p class="next-intro-meta">Three questions, 30 seconds &mdash; and I'll follow up with you personally.</p>
-    </div>
+    <div class="next-card panel">
+      <div class="next-intro">
+        <h1>What's next?</h1>
+        <p class="next-intro-meta">Three questions, 30 seconds, and I'll follow up personally.</p>
+      </div>
 
-    <form
-      id="next-survey"
-      action={formEndpoint}
-      method="POST"
-      class="next-form panel"
-      data-thanks={thanksUrl}
-    >
+      <form
+        id="next-survey"
+        action={formEndpoint}
+        method="POST"
+        class="next-form"
+        data-thanks={thanksUrl}
+      >
       <input type="hidden" name="_subject" value="Workshop survey — What's Next" />
       <input type="hidden" name="inquiry_type" value="workshop-next-survey" />
 
@@ -103,15 +99,12 @@ const thanksUrl = '/next/thanks';
         </div>
       </fieldset>
 
-      <div class="next-actions">
-        <button type="submit" class="form-submit next-submit">Send it &rarr;</button>
-        <p class="next-error" hidden role="alert">Something went wrong &mdash; please try again, or just <a href={bookingUrl}>book a quick call</a>.</p>
-      </div>
-    </form>
-
-    <p class="next-talk">
-      Prefer to just talk it through? <a href={bookingUrl}>Book 15 minutes with me &rarr;</a>
-    </p>
+        <div class="next-actions">
+          <button type="submit" class="form-submit next-submit">Send it &rarr;</button>
+          <p class="next-error" hidden role="alert">Something went wrong &mdash; please try again, or just <a href={bookingUrl}>book a quick call</a>.</p>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script is:inline define:vars={{ thanksUrl }}>
