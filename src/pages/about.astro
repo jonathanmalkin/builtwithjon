@@ -1,102 +1,170 @@
 ---
 import Base from '../layouts/Base.astro';
+import { Icon } from 'astro-icon/components';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Jonathan Malkin',
+  jobTitle: 'AI Workshop Leader & Implementation Consultant',
+  description:
+    'Jonathan Malkin spent 20+ years getting enterprise teams to actually adopt new technology, including eight years through the RPA wave at Automation Anywhere. He now runs hands-on AI workshops where teams build a real workflow against their own work.',
+  url: 'https://builtwithjon.com/about/',
+  sameAs: [
+    'https://github.com/jonathanmalkin',
+    'https://x.com/builtwithjon',
+    'https://linkedin.com/in/jonathanmalkin',
+  ],
+};
 ---
 
 <Base
   title="About"
-  description="Jonathan Malkin is an enterprise tech leader, AI automation consultant, and builder with 20+ years in enterprise technology."
+  description="Jonathan Malkin spent 20+ years getting enterprise teams to adopt new technology, including the RPA wave at Automation Anywhere. He now runs hands-on AI workshops where your team builds something real."
+  schema={personSchema}
 >
-  <div class="container">
-    <h1>About</h1>
-
-    <p>
-      Jonathan Malkin is an enterprise tech leader and founder of Built with Jon in Austin, Texas.
-      He builds AI-powered workflows, internal tools, and operating systems for teams that need practical leverage, not hype.
-    </p>
-
-    <div class="about-cred-grid">
-      <div>
-        <strong>20+ years</strong>
-        <span>enterprise technology</span>
-      </div>
-      <div>
-        <strong>Automation</strong>
-        <span>years inside RPA and automation adoption</span>
-      </div>
-      <div>
-        <strong>Core functions</strong>
-        <span>Finance, HR, IT, Operations, Sales, Marketing</span>
-      </div>
-      <div>
-        <strong>Global work</strong>
-        <span>United States, Germany, Brazil</span>
+  <section class="hero-split container-wide">
+    <div class="hero-split-copy">
+      <p class="eyebrow">Who runs the workshop</p>
+      <h1>Adoption is the hard part. That's the part I've done for 20 years.</h1>
+      <p class="subtitle">
+        Jonathan Malkin has spent two decades getting enterprise teams to actually use new technology, not just buy it.
+        The workshops teach the AI workflows he already runs every day.
+      </p>
+      <div class="hero-links">
+        <a href="/contact/" class="hero-btn">Bring a workshop to your team</a>
       </div>
     </div>
+    <figure class="hero-split-media">
+      <img
+        src="/home/workshop-room.jpg"
+        width="1600"
+        height="900"
+        alt="A full room watching Jonathan present a live AI demo on screen at AI Tinkerers in Sao Paulo."
+        loading="eager"
+        decoding="async"
+      />
+      <figcaption>Live demo at AI Tinkerers, Sao Paulo</figcaption>
+    </figure>
+  </section>
 
-    <p>
-      His background spans presales, solutions engineering, business analysis, project management, operations, and technical delivery.
-      The common thread has been translating between business and technical audiences, understanding what people actually need, and turning messy requirements into systems people can run.
+  <section class="container section-band">
+    <div class="proof-strip">
+      <div class="proof-item">
+        <strong>20+ years</strong>
+        in enterprise technology, focused on adoption across Finance, HR, IT, Operations, Sales, and Marketing.
+      </div>
+      <div class="proof-item">
+        <strong>6 to 250</strong>
+        scaled a global solutions engineering organization at Automation Anywhere.
+      </div>
+      <div class="proof-item">
+        <strong>Built and running</strong>
+        a daily AI operating system that ships code, drafts content, and runs real products.
+      </div>
+    </div>
+  </section>
+
+  <section class="container section-band">
+    <p class="eyebrow">Where the credibility comes from</p>
+    <h2>Eight years inside the last big automation wave</h2>
+    <p class="section-intro">
+      From 2017 to 2025, Jonathan watched RPA move from one-off departmental wins to governed, federated programs.
+      The tools are newer now. The hard questions, adoption, ownership, exceptions, and governance, are very familiar.
     </p>
-
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">2017 &ndash; 2018</div>
+        <div class="timeline-content">
+          <strong>Sales Engineer, Automation Anywhere.</strong>
+          On the front line of selling automation, translating messy operational pain into scoped, explainable builds.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">2019 &ndash; 2021</div>
+        <div class="timeline-content">
+          <strong>Director of Operations, Presales.</strong>
+          Scaled the global solutions engineering organization from 6 people to 250, the adoption engine behind the product.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">2021 &ndash; 2023</div>
+        <div class="timeline-content">
+          <strong>Automation Architect, Strategic Accounts.</strong>
+          Designing automation programs for the largest customers, where governance and operating models matter most.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">2023 &ndash; 2025</div>
+        <div class="timeline-content">
+          <strong>Automation &amp; AI Architect, Healthcare.</strong>
+          Bringing AI into highly regulated workflows, then going independent in 2025 to build full-time.
+        </div>
+      </div>
+    </div>
     <p>
-      Seven of those years were inside the automation wave at Automation Anywhere.
-      Jonathan watched RPA move from one-off departmental wins to broader programs with governance, queues, stakeholder alignment, operating models, and eventually federated delivery.
-      That experience is the backbone of how he thinks about AI agents now: the tools are newer, but the operational questions are very familiar.
+      That work crossed functions and borders: banking, airlines, and telecommunications; teams in the United States, Germany, and Brazil.
+      Jonathan lived in Sao Paulo for five months in 2012, so working across cultures and time zones is practical experience, not a slide-deck abstraction.
     </p>
+  </section>
 
-    <p>
-      The work has crossed functions and borders: finance, HR, IT, operations, sales, and marketing; industries including banking, airlines, and telecommunications; and teams in the United States, Germany, and Brazil.
-      Jonathan lived in Sao Paulo for five months in 2012, which gave him a practical feel for working across cultures, time zones, and operating norms instead of treating international work as a slide-deck abstraction.
+  <section class="container section-band">
+    <p class="eyebrow">What that means for your workshop</p>
+    <h2>The workshop teaches what already works in production</h2>
+    <p class="section-intro">
+      Jonathan runs his own AI operating system across research, content, coding, scheduling, review, and memory.
+      The consulting point of view comes from <a href="/projects/">systems he actually uses</a>, not slides.
     </p>
+    <div class="process-roadmap">
+      <div class="process-step agent" data-step="1">
+        <h3>Understand the real work</h3>
+        <p>Sit with operators and map the actual workflow before touching a tool. Most AI projects skip this and fail here.</p>
+      </div>
+      <div class="process-step guardrail" data-step="2">
+        <h3>Decide what AI should touch</h3>
+        <p>Automate, govern, delegate, or leave human. Make ownership explicit and keep a person in the review path.</p>
+      </div>
+      <div class="process-step review" data-step="3">
+        <h3>Build the smallest useful thing</h3>
+        <p>Ship a working build that proves the pattern and survives after the demo, not a throwaway proof of concept.</p>
+      </div>
+    </div>
+  </section>
 
-    <h2>What Jonathan Brings</h2>
-
-    <p>
-      Jonathan's useful edge is the mix.
-      He can sit with operators and map the real workflow, talk with leaders about risk, scope, ownership, and adoption, and work with technical teams on architecture, prompts, data flow, automation scripts, and the build path.
-      Most AI work fails somewhere between those worlds; his work tends to live in the translation layer.
+  <section class="container section-band">
+    <p class="eyebrow">Proof, not theory</p>
+    <h2>Built in public, demoed live</h2>
+    <p class="section-intro">
+      In April 2026, Jonathan gave an <a href="https://austin.aitinkerers.org/talks/rsvp_f0lg_KSKY8s">AI Tinkerers demo</a> of
+      <a href="/jules/">Jules</a>, his AI collaborator system. AI Tinkerers is a builder-first room: live systems and technical scrutiny over polished positioning.
     </p>
+    <figure class="image-frame">
+      <img
+        src="/home/jules-demo.jpg"
+        width="1400"
+        height="787"
+        alt="Close view of a live AI assistant demo on screen, showing Jonathan alongside a real-time AI avatar."
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>
+        Jules running live on stage. The same operating system behind <a href="/jules/">Jules</a> and Knowledge OS is what the workshops draw from.
+      </figcaption>
+    </figure>
+  </section>
 
-    <ul>
-      <li><strong>Enterprise automation pattern recognition.</strong> He has seen what happens when automation spreads across Finance, HR, IT, Operations, Sales, and Marketing without enough governance, and what happens when governance turns into a bottleneck.</li>
-      <li><strong>Business-to-technical translation.</strong> Years in presales, solutions engineering, analysis, and delivery shaped a practical way to turn vague operational pain into scoped, explainable implementation work.</li>
-      <li><strong>Hands-on builder judgment.</strong> He runs his own AI operating system across research, content, coding, scheduling, review, and memory. The consulting point of view comes from systems he actually uses.</li>
-      <li><strong>Calm implementation bias.</strong> The preference is clear maps, small useful builds, reviewable artifacts, and operating docs that survive after the exciting demo is over.</li>
-    </ul>
-
-    <h2>Public Builder Work</h2>
-
-    <p>
-      Built with Jon is the public edge of that work.
-      Jonathan writes and builds around AI agents, Claude Code, automation systems, and the difference between demos and systems people actually use.
-      The current focus is simple: AI agents and assistants that become operating leverage, not throwaway proofs of concept.
-    </p>
-
-    <p>
-      In April 2026, Jonathan gave an <a href="https://austin.aitinkerers.org/talks/rsvp_f0lg_KSKY8s">AI Tinkerers demo</a> about Jules, his AI collaborator system.
-      That setting matters because AI Tinkerers is a builder-first room: live systems, implementation details, and technical scrutiny over polished positioning.
-    </p>
-
-    <h2>Why Jonathan Works This Way</h2>
-
-    <p>
-      Jonathan has been around enough enterprise software to know that the demo is the easy part.
-      The harder parts are choosing the right use case, making ownership explicit, dealing with exceptions, keeping humans in the review path, and making sure the thing still works when the original builder is not in the room.
-    </p>
-
-    <p>
-      That is why the work follows a simple order: understand the real work first, then decide what should be automated, governed, delegated, or left human, then build the smallest useful system that proves the pattern.
-    </p>
-
-    <h2>Current Work</h2>
-
-    <p>
-      Today Jonathan works through Built with Jon running hands-on AI workshops for teams and building the operating systems behind them, like Jules and Knowledge OS.
-      The public writing is part of the same practice: make the work visible, explain the tradeoffs, and keep improving the system in public where useful.
-    </p>
-
-    <p>
-      <a href="/contact/">Bring a workshop to your team &rarr;</a>
-    </p>
-  </div>
+  <section class="container">
+    <div class="service-cta">
+      <div>
+        <p class="eyebrow">Let's talk</p>
+        <h2>Want your team building with AI, not just talking about it?</h2>
+        <p class="section-intro">
+          Tell me about your team and what's slowing you down. I'll help shape the right session, on your real work, in your industry.
+        </p>
+      </div>
+      <div class="service-cta-actions">
+        <a href="/contact/" class="hero-btn">Start a conversation</a>
+      </div>
+    </div>
+  </section>
 </Base>

@@ -12,7 +12,6 @@ const pathname = Astro.url.pathname;
     <div class="nav-links" id="site-nav-links">
       <a href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Projects</a>
       <a href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>
-      <a href="/about/" aria-current={pathname === '/about/' ? 'page' : undefined}>About</a>
       <a href="/contact/" aria-current={pathname === '/contact/' ? 'page' : undefined}>Contact</a>
     </div>
     <div class="header-social">
