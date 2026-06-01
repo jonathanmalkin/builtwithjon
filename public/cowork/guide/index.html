@@ -595,12 +595,10 @@ I can approve a draft or a change, but silence is never approval.</code></pre>
             <div class="step-head"><span class="step-num">5</span><h3>Install the assistant plugin</h3></div>
             <ol>
               <li>In Claude, open <strong>Customize</strong>.</li>
-              <li>Open <strong>Plugins</strong>.</li>
-              <li>Choose the <strong>upload</strong> option and select <code>personal-assistant-cowork-plugin.zip</code>.</li>
+              <li>Find the <strong>Personal Plugins</strong> section on the left, click the <strong>+</strong> icon, choose <strong>Create Plugin</strong>, then <strong>Upload Plugin</strong>, and select <code>personal-assistant-cowork-plugin.zip</code>.</li>
               <li>Open the plugin details and confirm the skills appear.</li>
               <li>In a task, type <code>/</code> or click <code>+</code> to see the installed skills.</li>
             </ol>
-            <p>Simple version: the Project is the assistant's room. The plugin is the toolbox Claude uses in that room. You install it once and it works in every Project.</p>
           </div>
         </article>
 
@@ -608,11 +606,12 @@ I can approve a draft or a change, but silence is never approval.</code></pre>
           <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
           <div>
             <div class="step-head"><span class="step-num">6</span><h3>Connect one Gmail and one Google Calendar</h3></div>
+            <p>Only needed if Gmail and Google Calendar are not already connected to Claude. If they are, skip to step 7.</p>
             <ol>
               <li>In Claude, open <strong>Customize</strong>.</li>
-              <li>Open <strong>Connectors</strong>.</li>
-              <li>Connect the <strong>Gmail</strong> account you want the assistant to read for triage and briefs.</li>
-              <li>Connect the <strong>Google Calendar</strong> on that same account, for meetings and availability.</li>
+              <li>Open the <strong>Connectors</strong> section, click the <strong>+</strong> sign, then choose <strong>Browse connectors</strong>.</li>
+              <li>Add <strong>Gmail</strong> and sign in to the account you want the assistant to read for triage and briefs.</li>
+              <li>Add <strong>Google Calendar</strong> on that same account, for meetings and availability.</li>
             </ol>
             <p>The assistant reads your inbox and calendars for context. It drafts email only, and it never sends mail or changes a calendar event without your approval.</p>
           </div>
@@ -665,7 +664,7 @@ I can approve a draft or a change, but silence is never approval.</code></pre>
         <article class="setup-step">
           <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
           <div>
-            <div class="step-head"><span class="step-num">10</span><h3>Turn it on for every morning</h3></div>
+            <div class="step-head"><span class="step-num">10</span><h3>Give Permissions to Morning Brief</h3></div>
             <p>One last step, so the brief can run on its own without stopping to ask you each day:</p>
             <ol>
               <li>Open the task you just made and click <strong>Run now</strong>.</li>
