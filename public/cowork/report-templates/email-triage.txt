@@ -1,0 +1,19 @@
+EMAIL TRIAGE - [Date]
+
+Gmail drafts created: [created]/[draftable]
+Voice source: [voice.md / defaults]
+Nothing was sent.
+
+REPLY NEEDED
+
+[Subject] - [Sender]
+Status: Gmail draft [created / not created / skipped]
+
+Draft:
+[Draft reply text]
+
+FYI
+- [Thread] - [one-line summary]
+
+ARCHIVE / IGNORE
+- [Thread] - [reason]

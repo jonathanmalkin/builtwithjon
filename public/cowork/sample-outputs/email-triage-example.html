@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Triage Example</title>
+  <style>
+    body { margin: 0; background: #fbf6ec; color: #1f1713; font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { width: min(820px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0; }
+    section { background: #fffdf8; border: 1px solid #e5d7c3; border-radius: 10px; padding: 18px; margin: 14px 0; }
+    h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1.02rem; }
+    p, li { color: #5e5047; }
+    ul { padding-left: 1.2rem; margin: 0; }
+    li { margin-bottom: 6px; }
+    strong { color: #1f1713; }
+    .status { color: #3b6e8f; font-weight: 700; }
+    .draft { border-left: 4px solid #3b6e8f; padding-left: 12px; margin-top: 8px; }
+    .meta { font-size: 0.9rem; color: #6e8b6f; font-weight: 700; }
+    .boundary { border-left: 7px solid #6e8b6f; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Email Triage - Monday, June 1</h1>
+    <p class="status">From Pam. Last 48 hours of Gmail. Gmail drafts created: 2/2. Voice source: voice.md - email setup. Nothing was sent.</p>
+
+    <section>
+      <h2>Reply Needed</h2>
+
+      <h3>Workshop follow-up link - Chrissy</h3>
+      <p class="meta">Status: Gmail draft created.</p>
+      <div class="draft">
+        <p>Thanks for the nudge. I am putting the Cowork-first package together now and will send the readable HTML version rather than making people open Markdown files.</p>
+        <p>I will also include the Dispatch path for your phone, plus a short note on Outlook and multiple calendars. You will have it today.</p>
+      </div>
+
+      <h3>Does this work without Gmail? - AI Club member</h3>
+      <p class="meta">Status: Gmail draft created.</p>
+      <div class="draft">
+        <p>Good question. The simplest path uses one Gmail and one Google Calendar. If you are on a Microsoft 365 work account, the assistant can read your Outlook mail and calendar for context, but it cannot send or change anything there, so Gmail is still the easiest starting point.</p>
+        <p>If you only have Outlook, forward the messages you care about into a Gmail account and the assistant can triage them from there.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>FYI</h2>
+      <ul>
+        <li>Claude mobile update notice - useful because Dispatch needs the latest mobile app.</li>
+        <li>AI Club newsletter draft from a member - no action needed; flagged in case you want to reply later.</li>
+        <li>Receipt for the workshop venue - filed; no reply needed.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Archive / Ignore</h2>
+      <ul>
+        <li>Calendar invite accepted by all attendees - nothing to do.</li>
+        <li>Two promotional emails - safe to archive.</li>
+      </ul>
+    </section>
+
+    <section class="boundary">
+      <h2>Nothing Was Sent</h2>
+      <p>Both replies are sitting in your Gmail drafts. Pam created them for your review; you send them when you are ready.</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Personal Assistant Workshop - Follow-Up Hub</title>
+  <meta name="description" content="Everything from the AI Personal Assistant workshop in one place: the Cowork setup guide, the original setup page, the slides, and the feedback survey.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg">
+  <meta property="og:title" content="AI Personal Assistant Workshop - Follow-Up Hub">
+  <meta property="og:description" content="The Cowork setup guide, the setup page, the slides, and the survey.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-default.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    :root {
+      --paper: #fbf6ec;
+      --porcelain: #fffdf8;
+      --ink: #1f1713;
+      --umber: #5e5047;
+      --line: #e5d7c3;
+      --blue: #3b6e8f;
+      --blue-strong: #1d4ed8;
+      --orange: #e8752b;
+      --copper: #8f4e24;
+      --sage: #6e8b6f;
+      --plum: #7a4e68;
+      --mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      --shadow: 0 16px 34px rgba(31, 23, 19, 0.08);
+    }
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      font: 18px/1.62 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0 1.5rem 5rem;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255, 253, 248, 0.78), transparent 34%),
+        linear-gradient(180deg, var(--porcelain) 0%, var(--paper) 30%, #f7efe2 100%);
+    }
+    .wrap { width: min(880px, 100%); margin: 0 auto; }
+    a { color: var(--blue-strong); text-underline-offset: 3px; }
+    header { padding: 64px 0 8px; }
+    .eyebrow {
+      font: 750 0.74rem/1.2 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: clamp(2.1rem, 6vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+      margin-bottom: 16px;
+    }
+    .lede { max-width: 640px; color: var(--umber); font-size: 1.1rem; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 40px 0 0;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--porcelain);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(31, 23, 19, 0.12);
+      border-color: #d3c3a8;
+      text-decoration: none;
+    }
+    .card:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    .card .ico {
+      width: 46px;
+      height: 46px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 11px;
+      background: #eef4f7;
+      border: 1px solid #d3e2ea;
+      color: var(--blue);
+    }
+    .card .ico svg { width: 25px; height: 25px; }
+    .card .num {
+      font: 750 0.72rem/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--copper);
+    }
+    .card h2 { font-size: 1.18rem; line-height: 1.2; margin: 2px 0; }
+    .card p { color: var(--umber); font-size: 0.96rem; margin: 0; }
+    .card .go {
+      margin-top: auto;
+      padding-top: 8px;
+      color: var(--blue-strong);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .card.start { border-left: 6px solid var(--sage); }
+    .card.survey { border-left: 6px solid var(--orange); }
+    .start-row { grid-column: 1 / -1; }
+    .note {
+      margin-top: 34px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--blue);
+      border-radius: 10px;
+      background: var(--porcelain);
+      color: var(--umber);
+      font-size: 0.96rem;
+    }
+    footer {
+      margin-top: 46px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--umber);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 640px) {
+      .cards { grid-template-columns: 1fr; }
+      header { padding-top: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">AI Personal Assistant Workshop</p>
+      <h1>Your workshop follow-up hub</h1>
+      <p class="lede">Everything from the workshop in one place. Start with the Cowork guide to build your assistant, revisit the original setup page or the slides, and let us know how it went.</p>
+    </header>
+
+    <div class="cards">
+      <a class="card start start-row" href="guide/">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h11l3 3V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <span class="num">Start here</span>
+        <h2>Build your assistant in Claude Cowork</h2>
+        <p>The full step-by-step guide: set up a Cowork Project, install the assistant plugin, connect Gmail and Calendar, and schedule a daily morning brief. Written for non-technical use, with copy-paste prompts.</p>
+        <span class="go">Open the guide &rarr;</span>
+      </a>
+
+      <a class="card" href="/workshop-setup/">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
+        <span class="num">From class</span>
+        <h2>Workshop setup page</h2>
+        <p>The original in-class setup: the Claude Code resource pack, provider connections, and environment steps we worked through together.</p>
+        <span class="go">Open setup page &rarr;</span>
+      </a>
+
+      <a class="card" href="Workshop-Slides.html">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+        <span class="num">Reference</span>
+        <h2>Workshop slides</h2>
+        <p>The full deck as one scrollable page, so you can review the material any time without opening PowerPoint.</p>
+        <span class="go">Open the slides &rarr;</span>
+      </a>
+
+      <a class="card survey start-row" href="https://builtwithjon.com/next/">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+        <span class="num">Two minutes</span>
+        <h2>Tell us how it went</h2>
+        <p>A short survey on what worked, what was confusing, and what you want next. Your feedback shapes the next workshop.</p>
+        <span class="go">Take the survey &rarr;</span>
+      </a>
+    </div>
+
+    <div class="note">
+      <p>New here? Start with <strong>Build your assistant in Claude Cowork</strong> above. It is the easiest path and you only set it up once.</p>
+    </div>
+
+    <footer>
+      <p>Built with Jon &middot; AI Personal Assistant Workshop follow-up</p>
+    </footer>
+  </div>
+</body>
+</html>
