@@ -112,9 +112,52 @@
       font-weight: 700;
       font-size: 0.92rem;
     }
-    .card.start { border-left: 6px solid var(--sage); }
     .card.survey { border-left: 6px solid var(--orange); }
     .start-row { grid-column: 1 / -1; }
+
+    /* Primary "do this first" card */
+    .hero-card {
+      padding: 32px 34px;
+      border: 2px solid var(--blue);
+      background:
+        linear-gradient(180deg, #eef4f7 0%, var(--porcelain) 70%);
+      box-shadow: 0 20px 44px rgba(59, 110, 143, 0.18);
+    }
+    .hero-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 28px 56px rgba(59, 110, 143, 0.24);
+      border-color: var(--blue-strong);
+    }
+    .hero-card .ico {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+    .hero-card .ico svg { width: 32px; height: 32px; }
+    .hero-card .num {
+      align-self: flex-start;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 0.74rem;
+      letter-spacing: 0.07em;
+    }
+    .hero-card h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 760; }
+    .hero-card p { font-size: 1.04rem; color: var(--ink); }
+    .hero-card .go {
+      align-self: flex-start;
+      margin-top: 6px;
+      padding: 12px 22px;
+      border-radius: 9px;
+      background: var(--blue-strong);
+      color: #fff;
+      font-size: 1rem;
+    }
+    .hero-card:hover .go { background: #1a3fc0; }
     .note {
       margin-top: 34px;
       padding: 18px 20px;
@@ -147,12 +190,20 @@
     </header>
 
     <div class="cards">
-      <a class="card start start-row" href="guide/">
+      <a class="card hero-card start-row" href="guide/">
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h11l3 3V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <span class="num">Start here</span>
+        <span class="num">Start here &middot; do this first</span>
         <h2>Build your assistant in Claude Cowork</h2>
         <p>The full step-by-step guide: set up a Cowork Project, install the assistant plugin, connect Gmail and Calendar, and schedule a daily morning brief. Written for non-technical use, with copy-paste prompts.</p>
         <span class="go">Open the guide &rarr;</span>
+      </a>
+
+      <a class="card start-row" href="Workshop-Slides.html">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+        <span class="num">Reference</span>
+        <h2>Workshop slides</h2>
+        <p>The full deck as one scrollable page, so you can review the material any time without opening PowerPoint.</p>
+        <span class="go">Open the slides &rarr;</span>
       </a>
 
       <a class="card" href="/workshop-setup/">
@@ -163,15 +214,7 @@
         <span class="go">Open setup page &rarr;</span>
       </a>
 
-      <a class="card" href="Workshop-Slides.html">
-        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
-        <span class="num">Reference</span>
-        <h2>Workshop slides</h2>
-        <p>The full deck as one scrollable page, so you can review the material any time without opening PowerPoint.</p>
-        <span class="go">Open the slides &rarr;</span>
-      </a>
-
-      <a class="card survey start-row" href="https://builtwithjon.com/next/">
+      <a class="card survey" href="https://builtwithjon.com/next/">
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
         <span class="num">Two minutes</span>
         <h2>Tell us how it went</h2>
