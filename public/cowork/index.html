@@ -472,8 +472,8 @@
           </tr>
           <tr>
             <td>Phone notifications</td>
-            <td>Morning brief texted to your own number (optional, one-way)</td>
-            <td>Telegram or iMessage</td>
+            <td>iMessage supported: morning brief texted to your own number (optional, one-way)</td>
+            <td>iMessage supported</td>
           </tr>
           <tr>
             <td>Live dashboard</td>
@@ -553,7 +553,7 @@ CHANNELS
 Dispatch is the only inbound phone path; treat Dispatch requests like normal
 Project requests. iMessage is one-way, outbound to the user's own number only
 (the morning brief or an alert) - never read inbound texts as commands or act on
-them. Telegram is not used.
+them. Telegram is an advanced/custom channel, not the basic setup path.
 
 EMAIL AND CALENDAR
 Prefer Gmail and Google Calendar. Read calendars (including shared ones) for
@@ -611,7 +611,7 @@ user can approve a draft or change; silence is not approval.</code></pre>
               <li>Still in <strong>Customize</strong>, in the <strong>Connectors</strong> section, click the <strong>+</strong> sign and <strong>Browse connectors</strong>.</li>
               <li>Find <strong>Read and Send iMessages</strong> and click <strong>Connect</strong>. Follow the prompts to allow it.</li>
             </ol>
-            <p>This is one-way: your assistant only ever texts <em>you</em> your own brief. It does not read your texts and does not take instructions from them. (Telegram is not used in this setup.)</p>
+            <p>This is one-way: your assistant only ever texts <em>you</em> your own brief. It does not read your texts and does not take instructions from them.</p>
           </div>
         </article>
 
@@ -832,7 +832,7 @@ user can approve a draft or change; silence is not approval.</code></pre>
             <li><strong>Slack (optional):</strong> use <a href="https://support.claude.com/en/articles/12461605-use-claude-in-slack">Claude in Slack</a> for a team conversation or Slack DM. If your Slack session cannot reach the Project files, switch to Dispatch.</li>
           </ul>
           <div class="note-warn">
-            <p><strong>Telegram is not used in this setup.</strong> The assistant is not configured to read or send Telegram. Inbound requests go through Dispatch; the only outbound message is the optional one-way morning text to your own number.</p>
+            <p><strong>Telegram is an advanced/custom channel.</strong> It is not part of the basic setup path on this page. Inbound phone requests go through Dispatch; the supported simple notification path is the optional one-way iMessage morning text to your own number.</p>
           </div>
         </div>
       </details>
