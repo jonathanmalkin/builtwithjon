@@ -100,6 +100,24 @@
       background: rgba(255, 253, 248, 0.72);
     }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .video-card { margin: 22px 0 26px; }
+    .video-shell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 100 / 64.63195691202873;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--porcelain);
+      box-shadow: var(--shadow);
+    }
+    .video-shell iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
     .setup-roadmap {
       display: grid;
       gap: 14px;
@@ -490,6 +508,12 @@
       <p>The shortest path: <strong>install the add-on, type "Run the setup skill," and answer a couple of questions.</strong> The setup skill does the rest for you, including writing your files, finding your Gmail and Calendar, building your live Daily Brief page, and scheduling your weekday morning routine.</p>
       <p style="font-weight:600;">Core path: steps 1, 2, 3, 5, 6, and 7. Steps 4 and 8 are optional extras you can skip or do later.</p>
 
+      <div class="video-card" aria-label="Setup walkthrough video">
+        <div class="video-shell">
+          <iframe src="https://www.loom.com/embed/88f4551d5f4d47519a63d40621ee3c12" title="Setup walkthrough video" allowfullscreen></iframe>
+        </div>
+      </div>
+
       <div class="callout" style="margin:20px 0 26px;">
         <h3 style="margin-top:0;">Before you start, have these ready</h3>
         <ul class="plain-list">
@@ -536,16 +560,17 @@ USE THE ASSISTANT SKILLS
 - setup - first-run setup and profile refresh.
 - morning-brief - daily briefs, agenda catch-up, "what am I forgetting?"
 - email-triage - inbox review and Gmail drafts. Draft only. Never send.
-- meeting-prep - meeting briefs and contact context.
+- meeting-prep - linked meeting, contact, and company/org briefs.
 - capture - when the user gives a decision, follow-up, meeting note, contact
   update, durable fact, or lasting preference to remember.
 - skill-builder - only when the user asks to create or change a skill.
 
 HUMAN-READABLE OUTPUTS
-Do not make the user open Markdown files for ordinary reports. For morning brief,
-email triage, and meeting prep, create both an HTML and a plain-text file under
-outputs/. Keep Markdown only for the behind-the-scenes files: CLAUDE.md, USER.md,
-now.md, decision-log.md, voice.md.
+Do not make the user open Markdown files for ordinary reports. For morning brief
+and email triage, create both an HTML and a plain-text file under outputs/. For
+meeting prep, create the meeting report in meetings/ as both Markdown and HTML.
+Keep Markdown for the behind-the-scenes files: CLAUDE.md, USER.md, now.md,
+decision-log.md, voice.md, meetings/, contacts/, and companies/.
 
 CHANNELS
 Dispatch is the only inbound phone path; treat Dispatch requests like normal
@@ -756,7 +781,7 @@ user can approve a draft or change; silence is not approval.</code></pre>
         </article>
         <article class="panel">
           <div class="skill-head"><span class="skill-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 14a4 4 0 1 0-8 0"/><circle cx="12" cy="7" r="3"/><path d="M3 20a6 6 0 0 1 6-6M21 20a6 6 0 0 0-6-6"/></svg></span><h3>meeting-prep</h3></div>
-          <p>Finds upcoming meetings, identifies attendees, searches available context, and writes meeting prep reports plus contact briefs.</p>
+          <p>Finds upcoming meetings, identifies attendees and org context, then writes linked meeting, contact, and company/org briefs.</p>
           <p><a href="sample-outputs/meeting-prep-example.html">See an example</a></p>
           <p class="prompt">Prep me for tomorrow's meetings.</p>
         </article>

@@ -80,7 +80,8 @@ email or change calendar events."
 "Run the email-triage skill on my last 48 hours of Gmail. Create Gmail drafts
 only. Print the drafts here. Do not send anything."
 
-"Prep me for tomorrow's meetings. Create HTML and plain text outputs."
+"Prep me for tomorrow's meetings. Create the meeting reports in meetings/ as
+Markdown and HTML."
 
 "Capture this update: [type your decision, follow-up, or note about a person]."
 
@@ -93,15 +94,15 @@ The assistant should create readable outputs:
 - outputs/YYYY-MM-DD-morning-brief.txt
 - outputs/YYYY-MM-DD-email-triage.html
 - outputs/YYYY-MM-DD-email-triage.txt
-- outputs/YYYY-MM-DD-meeting-prep-[short-title].html
-- outputs/YYYY-MM-DD-meeting-prep-[short-title].txt
+- meetings/YYYY-MM-DD - [Meeting Title].md
+- meetings/YYYY-MM-DD - [Meeting Title].html
 
 Example outputs are in:
 
 sample-outputs/
 
 Claude can still use Markdown internally for CLAUDE.md, USER.md, now.md,
-decision-log.md, and voice.md. You should not need to open those files during
+decision-log.md, voice.md, meetings/, contacts/, and companies/. You should not need to open those files during
 normal use.
 
 
