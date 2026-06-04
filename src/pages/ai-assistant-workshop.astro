@@ -1,0 +1,860 @@
+---
+import Base from '../layouts/Base.astro';
+import { Icon } from 'astro-icon/components';
+
+const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const thanksUrl = '/ai-assistant-workshop/thanks';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Build Your Practical AI Assistant Waitlist',
+  description:
+    'Join the waitlist for a small live cohort where business owners build a practical AI assistant in Claude CoWork for meeting prep, follow-ups, and daily priorities.',
+  url: 'https://builtwithjon.com/ai-assistant-workshop/',
+  provider: {
+    '@type': 'Person',
+    name: 'Jonathan Malkin',
+    url: 'https://builtwithjon.com',
+  },
+};
+---
+
+<Base
+  title="Build Your Practical AI Assistant Waitlist"
+  description="Join the waitlist for a small live cohort where business owners build a practical AI assistant in Claude CoWork for meeting prep, follow-ups, and daily priorities."
+  image="/home/workshop-room.jpg"
+  schema={schema}
+>
+  <section class="assistant-hero">
+    <div class="assistant-hero-inner">
+      <p class="eyebrow assistant-kicker">Small live cohort waitlist</p>
+      <h1 class="assistant-h1">An AI Personal Assistant<br />that works <em>for you</em></h1>
+      <div class="assistant-hero-actions">
+        <a href="#waitlist" class="hero-btn">Join the waitlist</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-outcome-band" aria-label="What you get">
+    <div class="assistant-outcome-head">
+      <p class="eyebrow">Why it is worth it</p>
+      <h2>Three things change in your week.</h2>
+    </div>
+    <div class="assistant-outcome-grid">
+      <article>
+        <h3>Prepared For Every Meeting</h3>
+        <p>Every meeting, you know the person, the company, the last conversation, and what is still open.</p>
+      </article>
+      <article>
+        <h3>Nothing Falls Through</h3>
+        <p>Follow-ups, open loops, and who is waiting on you, all in one brief that refreshes every morning.</p>
+      </article>
+      <article>
+        <h3>Memory Compounds</h3>
+        <p>Every meeting and decision is remembered, so your business stops living only in your head.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section" id="outcomes">
+    <div class="assistant-section-head">
+      <p class="eyebrow">What you build</p>
+      <h2>A personal assistant for the owner/operator workday.</h2>
+    </div>
+
+    <div class="assistant-outcomes">
+      <article>
+        <span class="assistant-icon blue"><Icon name="lucide:calendar-check" /></span>
+        <h3>Daily Brief</h3>
+        <p>Today&apos;s meetings, open loops, follow-ups, and priorities in one place.</p>
+      </article>
+      <article>
+        <span class="assistant-icon sage"><Icon name="lucide:users" /></span>
+        <h3>Meeting prep</h3>
+        <p>The people, the company, and the last conversation, ready before you walk in.</p>
+      </article>
+      <article>
+        <span class="assistant-icon plum"><Icon name="lucide:file-pen-line" /></span>
+        <h3>Meeting follow-up</h3>
+        <p>Notes captured, records updated, and next steps tracked after every meeting.</p>
+      </article>
+      <article>
+        <span class="assistant-icon copper"><Icon name="lucide:mail-check" /></span>
+        <h3>Email triage</h3>
+        <p>The replies that actually need you, surfaced and drafted for your review.</p>
+      </article>
+      <article>
+        <span class="assistant-icon orange"><Icon name="lucide:brain" /></span>
+        <h3>Business memory</h3>
+        <p>People, companies, decisions, and open loops, remembered in plain files.</p>
+      </article>
+      <article>
+        <span class="assistant-icon blue"><Icon name="lucide:wrench" /></span>
+        <h3>Teach it over time</h3>
+        <p>Correct it once and it remembers. It gets sharper the more you use it.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section assistant-daily">
+    <div class="assistant-section-head">
+      <p class="eyebrow">How your day works</p>
+      <h2>Set it up once. It runs with you every day.</h2>
+    </div>
+
+    <div class="assistant-daily-grid">
+      <article class="assistant-diagram-card">
+        <h3>It all runs through one brief</h3>
+        <svg class="assistant-diagram" viewBox="0 0 320 160" role="img" aria-label="Calendar, meetings, and notes flow into one Daily Brief that you review.">
+          <defs>
+            <marker id="arrowInk2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#1F1713" />
+            </marker>
+          </defs>
+          <rect x="8" y="18" width="80" height="30" rx="7" fill="#6E8B6F" />
+          <text x="48" y="38" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Calendar</text>
+          <rect x="8" y="65" width="80" height="30" rx="7" fill="#7A4E68" />
+          <text x="48" y="85" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Meetings</text>
+          <rect x="8" y="112" width="80" height="30" rx="7" fill="#8F4E24" />
+          <text x="48" y="132" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Your notes</text>
+          <rect x="128" y="55" width="86" height="50" rx="9" fill="#3B6E8F" />
+          <text x="171" y="76" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Daily</text>
+          <text x="171" y="91" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Brief</text>
+          <rect x="248" y="63" width="64" height="34" rx="8" fill="#1F1713" />
+          <text x="280" y="84" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">You</text>
+          <line x1="88" y1="33" x2="126" y2="66" stroke="#1F1713" stroke-width="1.5" marker-end="url(#arrowInk2)" />
+          <line x1="88" y1="80" x2="126" y2="80" stroke="#1F1713" stroke-width="1.5" marker-end="url(#arrowInk2)" />
+          <line x1="88" y1="127" x2="126" y2="94" stroke="#1F1713" stroke-width="1.5" marker-end="url(#arrowInk2)" />
+          <line x1="214" y1="80" x2="246" y2="80" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowInk2)" />
+        </svg>
+        <p>Everything lands in one place. You review and decide.</p>
+      </article>
+
+      <article class="assistant-diagram-card">
+        <h3>Every meeting, handled</h3>
+        <svg class="assistant-diagram" viewBox="0 0 220 200" role="img" aria-label="Meeting cycle: prep, then meeting, then capture, then follow up, looping back to prep.">
+          <defs>
+            <marker id="arrowCycle" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#1F1713" />
+            </marker>
+          </defs>
+          <circle cx="110" cy="100" r="62" fill="none" stroke="#E5D7C3" stroke-width="1.5" />
+          <path d="M97 41 A62 62 0 0 1 169 87" fill="none" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowCycle)" />
+          <path d="M169 113 A62 62 0 0 1 123 159" fill="none" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowCycle)" />
+          <path d="M97 159 A62 62 0 0 1 51 113" fill="none" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowCycle)" />
+          <path d="M51 87 A62 62 0 0 1 97 41" fill="none" stroke="#6E8B6F" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrowCycle)" />
+          <g>
+            <rect x="78" y="6" width="64" height="30" rx="7" fill="#7A4E68" />
+            <text x="110" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Meeting</text>
+          </g>
+          <g>
+            <rect x="158" y="85" width="58" height="30" rx="7" fill="#8F4E24" />
+            <text x="187" y="105" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Capture</text>
+          </g>
+          <g>
+            <rect x="76" y="164" width="68" height="30" rx="7" fill="#6E8B6F" />
+            <text x="110" y="184" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Follow up</text>
+          </g>
+          <g>
+            <rect x="6" y="85" width="58" height="30" rx="7" fill="#3B6E8F" />
+            <text x="35" y="105" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Prep</text>
+          </g>
+        </svg>
+        <p>Prep, meeting, capture, follow up. Every meeting feeds the next.</p>
+      </article>
+
+      <article class="assistant-diagram-card">
+        <h3>It gets sharper over time</h3>
+        <svg class="assistant-diagram" viewBox="0 0 320 150" role="img" aria-label="Teach it, the agent remembers, you get better outcomes, looping back.">
+          <defs>
+            <marker id="arrowSage" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#6E8B6F" />
+            </marker>
+          </defs>
+          <rect x="6" y="48" width="92" height="40" rx="8" fill="#3B6E8F" />
+          <text x="52" y="72" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Teach it</text>
+          <rect x="114" y="48" width="92" height="40" rx="8" fill="#7A4E68" />
+          <text x="160" y="66" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Agent</text>
+          <text x="160" y="79" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">remembers</text>
+          <rect x="222" y="48" width="92" height="40" rx="8" fill="#6E8B6F" />
+          <text x="268" y="66" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Better</text>
+          <text x="268" y="79" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">outcomes</text>
+          <line x1="98" y1="68" x2="112" y2="68" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowSage)" />
+          <line x1="206" y1="68" x2="220" y2="68" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowSage)" />
+          <path d="M268 88 L268 126 L52 126 L52 90" fill="none" stroke="#6E8B6F" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrowSage)" />
+        </svg>
+        <p>Teach it once and it sticks. Less steering each week.</p>
+      </article>
+    </div>
+
+    <ul class="assistant-magic">
+      <li>Stop chasing your day and start running it.</li>
+      <li>Walk into every meeting ready.</li>
+    </ul>
+  </section>
+
+  <section class="container-wide assistant-visual-section" aria-label="Daily Brief example">
+    <div class="assistant-visual-copy">
+      <p class="eyebrow">The daily surface</p>
+      <h2>Not a dashboard. A working brief.</h2>
+      <p>
+        Open it each morning to see what needs attention, what follow-ups are due,
+        and what is waiting on you. One glance, and you know your day.
+      </p>
+    </div>
+    <figure class="assistant-visual">
+      <img
+        src="/cowork/sample-outputs/daily-brief-sample.png"
+        width="1600"
+        height="900"
+        alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </section>
+
+  <section class="container-wide assistant-section">
+    <div class="assistant-section-head">
+      <p class="eyebrow">Format</p>
+      <h2>Two live sessions. Help in the room.</h2>
+      <p>
+        Two 90-minute online sessions, kept small so you can share your screen and
+        leave with a working assistant. Joining the waitlist is free.
+      </p>
+    </div>
+
+    <div class="assistant-schedule">
+      <article>
+        <p class="assistant-session-label">Session 1</p>
+        <h3>Get it running</h3>
+        <ul>
+          <li>Set up your Claude CoWork project</li>
+          <li>Install the Built with Jon plugin</li>
+          <li>Connect Gmail and Calendar</li>
+          <li>Name your assistant</li>
+          <li>See your Daily Brief go live</li>
+        </ul>
+      </article>
+      <article>
+        <p class="assistant-session-label">Session 2</p>
+        <h3>Put it to work</h3>
+        <ul>
+          <li>Prep for a real upcoming meeting</li>
+          <li>Turn messy notes into follow-ups</li>
+          <li>Capture a decision and watch it stick</li>
+          <li>Teach it your preferences</li>
+          <li>Make it sharper over time</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section assistant-fit-section">
+    <div>
+      <p class="eyebrow">Best fit</p>
+      <h2>This is for business owners who want the assistant running, not just explained.</h2>
+    </div>
+    <div class="assistant-fit-grid">
+      <div>
+        <h3>Good fit</h3>
+        <ul>
+          <li>You have meetings, follow-ups, and client context to manage.</li>
+          <li>You can make two live sessions when a cohort opens.</li>
+          <li>You will connect Gmail and Calendar inside Claude.</li>
+          <li>You want guided setup, not a self-paced course.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Not the right fit</h3>
+        <ul>
+          <li>You want it to act on its own, without your approval.</li>
+          <li>You want a recording instead of live setup help.</li>
+          <li>You need regulated financial, legal, or medical advice.</li>
+          <li>You want custom automation built from scratch in class.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-apply-section" id="waitlist">
+    <div class="assistant-apply-copy">
+      <p class="eyebrow">Join the waitlist</p>
+      <h2>No charge to join. Waitlisters go first.</h2>
+      <p>
+        Add your name. When the next cohort opens, Jonathan confirms timing and
+        sends details before your seat is held.
+      </p>
+      <div class="assistant-apply-points">
+        <span>No payment today</span>
+        <span>12 seats per cohort</span>
+      </div>
+      <p class="assistant-founder-note">
+        Built and led by Jonathan Malkin, who runs his own AI assistant every day.
+        The cohort teaches you to build your own.
+      </p>
+      <p class="assistant-guarantee">
+        <strong>The guarantee:</strong> you walk out with a working assistant.
+        Jonathan does not stop until you do.
+      </p>
+    </div>
+
+    <form
+      id="assistant-workshop-form"
+      action={formEndpoint}
+      method="POST"
+      class="assistant-form"
+      data-thanks={thanksUrl}
+    >
+      <input type="hidden" name="_subject" value="AI assistant workshop waitlist" />
+      <input type="hidden" name="inquiry_type" value="ai-assistant-workshop-waitlist" />
+      <input type="hidden" name="partner_context" value="austin-acquire-invest-club" />
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required class="form-input" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="form-input"
+          autocomplete="email"
+          inputmode="email"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="company">Company or practice (or &ldquo;solo&rdquo;)</label>
+        <input type="text" id="company" name="company" required class="form-input" autocomplete="organization" />
+      </div>
+
+      <div class="form-group">
+        <label for="top_outcome">Which outcome matters most?</label>
+        <select id="top_outcome" name="top_outcome" required class="form-input">
+          <option value="">Choose one</option>
+          <option value="Daily Brief">Daily Brief</option>
+          <option value="Meeting management">Meeting management</option>
+          <option value="Email">Email</option>
+          <option value="I am not sure yet">I am not sure yet</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="claude_experience">Claude / CoWork experience</label>
+        <select id="claude_experience" name="claude_experience" class="form-input">
+          <option value="">Choose one</option>
+          <option value="I already use Claude">I already use Claude</option>
+          <option value="I have Claude but have not used CoWork">I have Claude but have not used CoWork</option>
+          <option value="I need help getting set up">I need help getting set up</option>
+          <option value="Not sure">Not sure</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="preferred_days">Which days work best?</label>
+        <select id="preferred_days" name="preferred_days" required class="form-input">
+          <option value="">Choose one</option>
+          <option value="Weekdays">Weekdays</option>
+          <option value="Weekends">Weekends</option>
+          <option value="Either works">Either works</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="preferred_time">Preferred time of day</label>
+        <select id="preferred_time" name="preferred_time" required class="form-input">
+          <option value="">Choose one</option>
+          <option value="Morning">Morning</option>
+          <option value="Afternoon">Afternoon</option>
+          <option value="Evening">Evening</option>
+          <option value="Flexible">Flexible</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="workflow">What would you most want your assistant to handle first? (optional)</label>
+        <textarea
+          id="workflow"
+          name="workflow"
+          rows="4"
+          class="form-input"
+          placeholder="Example: prep for meetings, keep track of follow-ups, remember client context&hellip;"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="form-submit assistant-submit">Join the waitlist</button>
+      <p class="assistant-form-error" hidden role="alert" aria-live="polite">
+        Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will help.
+      </p>
+    </form>
+  </section>
+
+  <script is:inline define:vars={{ thanksUrl }}>
+    const form = document.getElementById('assistant-workshop-form');
+    if (form) {
+      const submitBtn = form.querySelector('.assistant-submit');
+      const errorEl = form.querySelector('.assistant-form-error');
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (errorEl) errorEl.hidden = true;
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Joining waitlist…';
+        }
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+          if (response.ok) {
+            window.location.assign(thanksUrl);
+            return;
+          }
+          throw new Error('Submission failed');
+        } catch (err) {
+          if (errorEl) errorEl.hidden = false;
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Join the waitlist';
+          }
+        }
+      });
+    }
+  </script>
+</Base>
+
+<style>
+  .assistant-hero {
+    position: relative;
+    width: 100%;
+    min-height: clamp(560px, 74vh, 780px);
+    margin: -2rem auto 2rem;
+    padding: 5.5rem 1.5rem 3.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, rgba(31, 23, 19, 0.82) 0%, rgba(31, 23, 19, 0.58) 45%, rgba(31, 23, 19, 0.25) 100%),
+      url('/home/workshop-room.jpg') center 44% / cover no-repeat;
+    color: #fffdf8;
+  }
+
+  .assistant-hero-inner {
+    width: min(960px, 100%);
+    margin: 0 auto;
+  }
+
+  .assistant-kicker {
+    color: #f9cf9b;
+  }
+
+  .assistant-hero h1 {
+    max-width: 760px;
+    margin-top: 0.4rem;
+    font-size: clamp(2.25rem, 4.6vw, 3.9rem);
+    line-height: 1.06;
+    letter-spacing: 0;
+  }
+
+  .assistant-h1 {
+    white-space: nowrap;
+  }
+
+  .assistant-subtitle {
+    max-width: 680px;
+    color: #fff7ec;
+    font-size: 1.18rem;
+    line-height: 1.55;
+  }
+
+  .assistant-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.35rem 0;
+  }
+
+  .assistant-hero-actions .hero-btn {
+    margin: 0;
+  }
+
+  .assistant-hero-actions .hero-btn-outline {
+    border-color: #fffdf8;
+    color: #fffdf8;
+  }
+
+  .assistant-apply-points span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    border: 1px solid rgba(255, 253, 248, 0.42);
+    border-radius: 6px;
+    padding: 0.38rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-outcome-band,
+  .assistant-section,
+  .assistant-visual-section,
+  .assistant-apply-section {
+    margin-bottom: 3rem;
+  }
+
+  .assistant-outcome-head {
+    max-width: 720px;
+    margin-bottom: 1rem;
+  }
+
+  .assistant-outcome-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .assistant-outcome-grid article {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-outcome-grid h3 {
+    margin-top: 0;
+    letter-spacing: 0;
+  }
+
+  .assistant-outcome-grid p {
+    margin-bottom: 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-daily-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .assistant-diagram-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.1rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-diagram-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 1.02rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-diagram {
+    width: 100%;
+    height: auto;
+    margin-bottom: 0.75rem;
+  }
+
+  .assistant-diagram-card p {
+    margin-bottom: 0;
+    margin-top: auto;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .assistant-magic {
+    list-style: none;
+    margin: 1.5rem auto 0;
+    padding: 0;
+    max-width: 760px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .assistant-magic li {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 1.18rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-ink);
+  }
+
+  .assistant-magic li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.16em;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 50%;
+    background: var(--color-sage);
+    box-shadow: inset 0 0 0 2px var(--color-surface), inset 0 0 0 3px var(--color-sage);
+  }
+
+  .assistant-section h2,
+  .assistant-visual-section h2,
+  .assistant-apply-section h2 {
+    margin-top: 0.35rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-outcome-head h2 {
+    margin-top: 0.35rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-section-head p,
+  .assistant-visual-copy p,
+  .assistant-apply-copy p {
+    color: var(--color-text-muted);
+  }
+
+  .assistant-section-head {
+    max-width: 720px;
+    margin-bottom: 1rem;
+  }
+
+  .assistant-outcomes,
+  .assistant-schedule,
+  .assistant-fit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .assistant-outcomes article,
+  .assistant-schedule article,
+  .assistant-fit-grid > div,
+  .assistant-form {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-outcomes h3,
+  .assistant-schedule h3,
+  .assistant-fit-grid h3 {
+    margin-top: 0.5rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-outcomes p {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    color: #fff;
+  }
+
+  .assistant-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .assistant-icon.blue { background: var(--color-blue-mug); }
+  .assistant-icon.sage { background: var(--color-sage); color: var(--color-ink); }
+  .assistant-icon.plum { background: var(--color-plum); }
+  .assistant-icon.copper { background: var(--color-copper); }
+  .assistant-icon.orange { background: var(--color-jules-orange); color: var(--color-ink); }
+
+  .assistant-visual-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .assistant-visual {
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-visual img {
+    display: block;
+    border-radius: 0;
+  }
+
+  .assistant-session-label {
+    margin-bottom: 0.5rem;
+    color: var(--color-copper);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-schedule ul,
+  .assistant-fit-grid ul {
+    margin-bottom: 0;
+  }
+
+  .assistant-fit-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .assistant-apply-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .assistant-apply-copy {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .assistant-apply-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .assistant-apply-points span {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .assistant-form .form-input {
+    background: #fff;
+    border: 1.5px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+  }
+
+  .assistant-founder-note {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-guarantee {
+    margin-top: 0.85rem;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--color-sage);
+    border-radius: 0 6px 6px 0;
+    background: color-mix(in srgb, var(--color-sage) 8%, var(--color-surface));
+    color: var(--color-text);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-guarantee strong {
+    color: var(--color-ink);
+  }
+
+  .assistant-submit {
+    touch-action: manipulation;
+  }
+
+  .assistant-form-error {
+    margin: 0.75rem 0 0;
+    color: var(--color-copper);
+    font-size: 0.88rem;
+  }
+
+  /* 16px inputs on touch viewports prevent iOS Safari zoom-on-focus
+     right at the conversion point. */
+  @media (max-width: 820px) {
+    .assistant-form .form-input {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .assistant-hero {
+      min-height: min(72vh, 620px);
+      margin-bottom: 1.25rem;
+      padding: 3rem 1rem 2rem;
+      background:
+        linear-gradient(90deg, rgba(31, 23, 19, 0.9) 0%, rgba(31, 23, 19, 0.7) 62%, rgba(31, 23, 19, 0.34) 100%),
+        url('/home/workshop-room.jpg') 45% center / cover no-repeat;
+    }
+
+    .assistant-hero h1 {
+      font-size: clamp(1.95rem, 9.5vw, 2.65rem);
+    }
+
+    .assistant-h1 {
+      white-space: normal;
+    }
+
+    .assistant-subtitle {
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .assistant-hero-actions {
+      gap: 0.55rem;
+      margin: 1rem 0;
+    }
+
+    .assistant-daily-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .assistant-outcome-grid,
+    .assistant-outcomes,
+    .assistant-schedule,
+    .assistant-fit-grid,
+    .assistant-visual-section,
+    .assistant-fit-section,
+    .assistant-apply-section {
+      grid-template-columns: 1fr;
+    }
+
+    .assistant-apply-copy {
+      position: static;
+    }
+  }
+
+  @media (min-width: 821px) and (max-width: 1120px) {
+    .assistant-hero {
+      min-height: clamp(560px, 68vh, 700px);
+      background-position: 56% center;
+    }
+  }
+</style>
