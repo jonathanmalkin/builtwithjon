@@ -403,18 +403,20 @@ const schema = {
       const errorEl = form.querySelector('.assistant-form-error');
 
       // Tag the signup source from the ?from= (or ?ref=) link parameter.
-      // Each distribution partner gets a distinct link, e.g. ?from=yvette.
+      // Each distribution group gets a distinct link, e.g. ?from=Austin-AIC.
+      // Keys are matched case-insensitively; the value is the label recorded.
       const SOURCES = {
-        yvette: 'yvette-austin-acquire-invest-club',
-        gilmara: 'gilmara-ai-tinkerers-sao-paulo',
+        'austin-aic': 'Austin-AIC',
+        'ai-tinkerers-sp': 'AI-Tinkerers-SP',
       };
       const params = new URLSearchParams(window.location.search);
       const key = (params.get('from') || params.get('ref') || '').toLowerCase().trim();
       if (Object.prototype.hasOwnProperty.call(SOURCES, key)) {
+        const label = SOURCES[key];
         const ctx = form.querySelector('#partner_context');
         const subj = form.querySelector('input[name="_subject"]');
-        if (ctx) ctx.value = SOURCES[key];
-        if (subj) subj.value = 'AI assistant workshop waitlist (' + key + ')';
+        if (ctx) ctx.value = label;
+        if (subj) subj.value = 'AI assistant workshop waitlist (' + label + ')';
       }
 
       form.addEventListener('submit', async (event) => {
