@@ -309,7 +309,7 @@ const schema = {
     >
       <input type="hidden" name="_subject" value="AI assistant workshop waitlist" />
       <input type="hidden" name="inquiry_type" value="ai-assistant-workshop-waitlist" />
-      <input type="hidden" name="partner_context" value="austin-acquire-invest-club" />
+      <input type="hidden" id="partner_context" name="partner_context" value="direct" />
 
       <div class="form-group">
         <label for="name">Name</label>
@@ -401,6 +401,22 @@ const schema = {
     if (form) {
       const submitBtn = form.querySelector('.assistant-submit');
       const errorEl = form.querySelector('.assistant-form-error');
+
+      // Tag the signup source from the ?from= (or ?ref=) link parameter.
+      // Each distribution partner gets a distinct link, e.g. ?from=yvette.
+      const SOURCES = {
+        yvette: 'yvette-austin-acquire-invest-club',
+        gilmara: 'gilmara-ai-tinkerers-sao-paulo',
+      };
+      const params = new URLSearchParams(window.location.search);
+      const key = (params.get('from') || params.get('ref') || '').toLowerCase().trim();
+      if (Object.prototype.hasOwnProperty.call(SOURCES, key)) {
+        const ctx = form.querySelector('#partner_context');
+        const subj = form.querySelector('input[name="_subject"]');
+        if (ctx) ctx.value = SOURCES[key];
+        if (subj) subj.value = 'AI assistant workshop waitlist (' + key + ')';
+      }
+
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (errorEl) errorEl.hidden = true;
