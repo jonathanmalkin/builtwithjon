@@ -1,313 +1,879 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIY Claude Code Personal Assistant Setup | Built with Jon</title>
-  <meta name="description" content="A technical DIY setup checklist for building a file-based AI personal assistant with Claude Code, a local resource pack, Google context, and safe approval boundaries.">
+---
+import Base from '../../../layouts/Base.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Set up the Claude Code personal assistant starter kit',
+  description:
+    'A technical DIY setup checklist for building a file-based AI personal assistant with Claude Code, a local resource pack, Google context, and safe approval boundaries.',
+  url: 'https://builtwithjon.com/ai-assistant/claude-code/',
+  totalTime: 'PT60M',
+  step: [
+    { '@type': 'HowToStep', name: 'Claude Pro or Max subscription', position: 1 },
+    { '@type': 'HowToStep', name: 'Install Claude Desktop on your laptop', position: 2 },
+    { '@type': 'HowToStep', name: 'Install Claude Mobile on your phone', position: 3 },
+    { '@type': 'HowToStep', name: 'Set up the Google account your assistant can use', position: 4 },
+    { '@type': 'HowToStep', name: 'Install Git', position: 5 },
+    { '@type': 'HowToStep', name: 'Download and unzip the resource pack', position: 6 },
+    { '@type': 'HowToStep', name: 'Open the folder as a Claude Code project', position: 7 },
+    { '@type': 'HowToStep', name: 'Connect Gmail and Google Calendar', position: 8 },
+    { '@type': 'HowToStep', name: 'Run /setup', position: 9 },
+    { '@type': 'HowToStep', name: 'Run the scheduled task once and approve permissions', position: 10 },
+    { '@type': 'HowToStep', name: 'Open your Daily Brief and test the skills', position: 11 },
+  ],
+};
+---
+
+<Base
+  title="DIY Claude Code Personal Assistant Setup"
+  description="A technical DIY setup checklist for building a file-based AI personal assistant with Claude Code, a local resource pack, Google context, and safe approval boundaries."
+  schema={schema}
+>
+  <nav class="path-switch" aria-label="AI assistant paths">
+    <a href="/ai-assistant/">All paths</a>
+    <a href="/ai-assistant/cowork/">Cowork DIY</a>
+    <span aria-current="page">Claude Code DIY</span>
+    <a href="/ai-assistant-workshop/">Guided class</a>
+  </nav>
+
+  <section class="cc-hero">
+    <p class="eyebrow">Technical DIY path</p>
+    <h1>Set up the Claude Code personal assistant starter kit</h1>
+    <p class="lede">Use this checklist if you want the file-based Claude Code version of the assistant. It is the more technical path: you install local tools, unzip a resource pack, and keep the assistant's memory in plain files you can inspect.</p>
+    <div class="cc-hero-actions" aria-label="Related AI assistant paths">
+      <a class="hero-btn" href="#setup-steps">Start the setup checklist</a>
+      <a class="hero-btn hero-btn-outline" href="/ai-assistant/cowork/">Prefer no terminal? Use Cowork</a>
+      <a class="hero-btn hero-btn-outline" href="/ai-assistant-workshop/">Get guided help</a>
+    </div>
+    <p class="cc-hero-time">About 30 to 60 minutes from a clean machine. One <code>/setup</code> command writes your profile and schedules the morning run. The optional phone channels at the end are extras you can add later.</p>
+  </section>
+
+  <section class="panel cc-bring-panel" aria-labelledby="what-to-bring">
+    <h2 id="what-to-bring">What this path requires</h2>
+    <ul class="cc-bring-list">
+      <li><span class="check">1</span><span><strong>Claude Pro or Max subscription</strong></span></li>
+      <li><span class="check">2</span><span><strong>Google account</strong> with Gmail and Calendar</span></li>
+      <li><span class="check">3</span><span><strong>Laptop</strong> with the Claude Desktop app installed and signed in</span></li>
+      <li><span class="check">4</span><span><strong>Mobile phone</strong> with the Claude mobile app installed and signed in</span></li>
+      <li><span class="check">5</span><span><strong>Git installed</strong> so Claude Code can work with local files and project history</span></li>
+      <li><span class="check">6</span><span><strong>Comfort opening a folder and running a command or two.</strong> If that sounds like friction, the <a href="/ai-assistant/cowork/">Cowork path</a> needs no terminal.</span></li>
+    </ul>
+  </section>
+
+  <section class="cc-section" id="what-you-build">
+    <p class="eyebrow">What you are building</p>
+    <h2>A local assistant workbench</h2>
+    <p class="cc-muted">The Claude Code version lives in a folder on your computer. That folder holds the assistant's operating instructions, your profile, local agenda files, saved skills, and the reports it writes. You can open every file and see what changed.</p>
+    <div class="cc-outcome-grid">
+      <article class="cc-outcome-card">
+        <h3>Profile and memory files</h3>
+        <p><code>CLAUDE.md</code> tells the assistant how to operate. <code>USER.md</code> tells it who you are, your goals, and the people who matter. <code>/setup</code> writes both to the project root.</p>
+      </article>
+      <article class="cc-outcome-card">
+        <h3>Flat local state</h3>
+        <p><code>now.md</code> is the running cockpit and <code>decision-log.md</code> the durable record, both in the project root (no nested folders). <code>/setup</code> creates them on first run.</p>
+      </article>
+      <article class="cc-outcome-card">
+        <h3>Six reusable skills</h3>
+        <p>Setup, morning brief, meeting prep, email triage, capture, and skill-builder ship under <code>.claude/skills/</code> and load automatically.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="cc-section" aria-labelledby="cowork-vs-code">
+    <p class="eyebrow">Overlap and difference</p>
+    <h2 id="cowork-vs-code">Same assistant idea, different home</h2>
+    <p class="cc-muted">Cowork and Claude Code share the assistant pattern: profile, memory, connectors, repeatable skills, and a strict read/draft/approve boundary. The difference is where it lives and how much you touch the files.</p>
+    <div class="cc-table-wrap">
+      <table class="cc-table">
+        <thead>
+          <tr>
+            <th scope="col">What matters</th>
+            <th scope="col">Cowork DIY</th>
+            <th scope="col">Claude Code (this guide)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Setup</th>
+            <td>Install a plugin, run the <code>setup</code> skill, let Cowork create the live Daily Brief artifact.</td>
+            <td>Unzip the pack, open it as a project, run <code>/setup</code> (the same skill, adapted), then start a fresh chat so the profile loads.</td>
+          </tr>
+          <tr>
+            <th scope="row">Memory</th>
+            <td>Project files plus a live artifact for the day-to-day view.</td>
+            <td>Plain local files in the project root: <code>CLAUDE.md</code>, <code>USER.md</code>, <code>now.md</code>, and <code>decision-log.md</code>.</td>
+          </tr>
+          <tr>
+            <th scope="row">Daily Brief</th>
+            <td>A live Cowork artifact that refreshes on open.</td>
+            <td>An HTML + text file in <code>outputs/</code> the scheduled task rewrites each weekday. You can open, diff, and back it up.</td>
+          </tr>
+          <tr>
+            <th scope="row">Daily run</th>
+            <td>A scheduled task runs inside Cowork.</td>
+            <td><code>/setup</code> creates a weekday scheduled task (Routine) for you. It runs while Claude Desktop is open and your computer is awake.</td>
+          </tr>
+          <tr>
+            <th scope="row">Best fit</th>
+            <td>The easier daily driver for non-technical DIY users.</td>
+            <td>People who want file-level control, a terminal, and optional phone channels Cowork does not offer.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="cc-stack-section" id="setup-steps" aria-label="Claude Code setup steps">
+    <p class="eyebrow">Setup steps</p>
+    <h2>The setup checklist</h2>
+    <p class="cc-muted">Steps 1 through 11 get you a working assistant with an automatic weekday brief. The optional phone channels below are extras. Each step expands.</p>
+
+    <div class="cc-setup-stack">
+      <details class="panel" open>
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 1</span>
+            <h3>Claude Pro or Max subscription</h3>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>Create or sign in to your Claude account.</strong> Go to <a href="https://claude.ai">claude.ai</a>.</li>
+            <li><strong>Upgrade to Claude Pro or Max.</strong> Go to <a href="https://claude.ai/upgrade">claude.ai/upgrade</a>, choose Pro or Max, and complete checkout. Pro is enough to start.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 2</span>
+            <h3>Install Claude Desktop on your laptop and sign in</h3>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>Download Claude Desktop.</strong> Go to <a href="https://claude.com/download">claude.com/download</a> and choose macOS or Windows.</li>
+            <li><strong>Install and open it.</strong> On Mac, open Claude from Applications. On Windows, open Claude from the Start menu.</li>
+            <li><strong>Sign in with the same Claude account.</strong> Send a quick hello message to confirm the app works.</li>
+          </ol>
+          <p class="cc-note">Claude Desktop supports macOS 11 or newer and Windows 10 or newer. If you are on a locked-down work laptop, install early in case your IT policy blocks new apps.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 3</span>
+            <h3>Install Claude Mobile on your phone and sign in</h3>
+            <p class="cc-summary-desc">Use the same Claude account on mobile so your assistant is reachable from your phone.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>Install Claude Mobile.</strong> Use the iOS App Store or Google Play links from <a href="https://claude.com/download">claude.com/download</a>.</li>
+            <li><strong>Sign in with the same Claude account.</strong> Send a quick hello message from your phone.</li>
+          </ol>
+          <p class="cc-note">Claude Mobile is optional for the technical build, but useful when you want to check in from your phone.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 4</span>
+            <h3>Set up the Google account your assistant can use</h3>
+            <p class="cc-summary-desc">Have a Google account ready, but do not connect sensitive mail or calendar data until you understand the permissions.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <p><strong>If your primary email and calendar are Google, then you are done.</strong> Keep that login available for the assistant setup.</p>
+          <p>If you use iCloud, Outlook, Yahoo, or another provider, create a free Google account at <a href="https://accounts.google.com/signup">accounts.google.com/signup</a>. Use it for starter exercises or for safe forwarding tests. You do not need to migrate your life into Google.</p>
+          <p class="cc-note">If your email or calendar lives in iCloud, Outlook, or Yahoo, keep the <a href="/ai-assistant/claude-code/provider-setup.html">provider setup reference</a> handy for provider-specific forwarding or calendar steps.</p>
+
+          <div class="cc-privacy-callout" aria-labelledby="privacy-safety">
+            <div class="cc-privacy-heading">
+              <span class="cc-caution-icon" aria-hidden="true"><span>!</span></span>
+              <h3 id="privacy-safety">Privacy &amp; safety before you connect anything</h3>
+            </div>
+            <ul class="cc-safety-list">
+              <li><strong>Do not connect Google, Gmail, or Calendar directly to Claude until you understand the permission scope</strong> unless you already did and are comfortable keeping it connected.</li>
+              <li><strong>Read access can expose private content:</strong> emails, attachments, meeting details, file names, and documents.</li>
+              <li><strong>Write access can change real things:</strong> agents may send mail, edit or delete files, create invites, reschedule meetings, or cancel events.</li>
+              <li><strong>Use the smallest permission that works</strong> and revoke access after testing if you only needed it temporarily.</li>
+            </ul>
+          </div>
+
+          <p class="cc-warning"><strong>Safety note:</strong> Do not forward a sensitive inbox or publish a sensitive calendar just to test. Use sample events or a dedicated Google account if you are unsure.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 5</span>
+            <h3>Install Git</h3>
+            <p class="cc-summary-desc">A small tool Claude Code uses to work with local files and project history. Quick on both Mac and Windows.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <h3>Mac</h3>
+          <ol class="cc-step-list">
+            <li><strong>Open Terminal</strong> (press <code>Cmd</code>+<code>Space</code>, type <strong>Terminal</strong>, hit Enter).</li>
+            <li><strong>Run:</strong> <code>xcode-select --install</code></li>
+            <li><strong>A pop-up will appear.</strong> Click <strong>Install</strong> and follow the directions. When it finishes, Git is ready.</li>
+          </ol>
+          <h3>Windows</h3>
+          <ol class="cc-step-list">
+            <li><strong>Download the installer</strong> from <a href="https://git-scm.com/install">git-scm.com/install</a>.</li>
+            <li><strong>Run the installer</strong> and accept the defaults through to the end.</li>
+          </ol>
+          <p class="cc-note">Not sure if you already have Git? That is fine. Running the step again does no harm.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 6</span>
+            <h3>Download the starter materials</h3>
+            <p class="cc-summary-desc">Grab the resource pack and unzip it into the folder where you want your assistant to live.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>Download the resource pack.</strong> Get it here: <a href="/ai-assistant/claude-code/claude-code-assistant-pack.zip" download>claude-code-assistant-pack.zip</a>.</li>
+            <li><strong>Unzip it.</strong> On Mac, double-click the <code>.zip</code> file. On Windows, right-click it and choose <strong>Extract All</strong>.</li>
+            <li><strong>Move the unzipped folder somewhere you will keep it.</strong> Your Documents folder is fine. This is your assistant's home, so do not treat it like a disposable download.</li>
+          </ol>
+          <p class="cc-note">The unzipped folder is named <code>Claude-Code-Assistant-Pack</code>. It ships with the six skills under <code>.claude/skills/</code> (including <code>setup</code>), optional Telegram helpers under <code>.claude/telegram/</code>, a sample brief, and a README. Your profile and <code>now.md</code> start empty: <code>/setup</code> creates them in the project root on first run.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 7</span>
+            <h3>Open the folder as a Claude Code Project</h3>
+            <p class="cc-summary-desc">Claude Code needs to work inside the folder so the packaged skills and local files stay together.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>Open Claude Desktop.</strong> Click the <strong>Code</strong> tab.</li>
+            <li><strong>Open the unzipped <code>Claude-Code-Assistant-Pack</code> folder.</strong> If Claude asks whether you trust this folder, approve it. You downloaded it from this page and it needs local file access to work.</li>
+            <li><strong>Confirm the skills loaded.</strong> Type <code>/</code> in the prompt box; you should see <code>setup</code> and the other skills listed. They load automatically from <code>.claude/skills/</code> because you opened this folder.</li>
+            <li><strong>Start a new chat inside that project.</strong> You should be working in the pack folder before you run setup.</li>
+          </ol>
+          <p class="cc-warning"><strong>Folder boundary:</strong> keep the assistant's work inside this project. The pack is designed so <code>.claude/skills/</code> and your profile files in the project root stay together.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 8</span>
+            <h3>Connect Gmail and Google Calendar</h3>
+            <p class="cc-summary-desc">These connectors let meeting prep and morning brief work on your real calendar and inbox.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>In Claude Code, open connectors or integrations.</strong> Add Gmail and Google Calendar for the account you want the assistant to read.</li>
+            <li><strong>Approve the minimum permissions you are comfortable with.</strong> Calendar and Gmail read access are enough for the core setup; draft creation is useful for email triage.</li>
+            <li><strong>Stay inside the Project and run a quick connection check.</strong> Ask Claude: <span class="prompt">Check whether Gmail and Google Calendar are connected. Do not send email and do not change any calendar event.</span></li>
+          </ol>
+          <p class="cc-note">If your main mail or calendar is iCloud, Outlook, Yahoo, or another provider, use the <a href="/ai-assistant/claude-code/provider-setup.html">provider setup reference</a> to forward mail or share calendar context into Google where needed.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 9</span>
+            <h3>Run <code>/setup</code></h3>
+            <p class="cc-summary-desc">One command writes your profile, confirms your connectors, and creates the weekday morning scheduled task.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>In a chat inside the project, run:</strong> <span class="prompt">/setup</span> (or just say "set up my assistant").</li>
+            <li><strong>Answer the two questions.</strong> It asks your assistant's name and your top 2 to 3 goals for the quarter, then does the rest. It detects your timezone and defaults the morning run to 8:00 AM weekdays.</li>
+            <li><strong>Let it write your files.</strong> Setup creates <code>CLAUDE.md</code>, <code>USER.md</code>, <code>now.md</code>, and <code>decision-log.md</code> in the project root.</li>
+            <li><strong>Let it create the scheduled task.</strong> Setup creates a weekday task named <code>daily-brief-refresh</code> that runs meeting prep, email triage (drafts only), and your morning brief, and writes the brief to <code>outputs/</code>.</li>
+          </ol>
+          <p class="cc-note">If your Claude Code version cannot create the task automatically, setup prints the exact <strong>Routines</strong> steps and a ready-to-paste task prompt instead, so you are never stuck.</p>
+          <p class="cc-warning"><strong>Start a fresh chat after setup.</strong> Your new <code>CLAUDE.md</code> loads at the start of the next chat in this folder, not halfway through the current one.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 10</span>
+            <h3>Run the scheduled task once and approve permissions</h3>
+            <p class="cc-summary-desc">This is the one click that keeps the morning brief automatic.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <ol class="cc-step-list">
+            <li><strong>Open <strong>Routines</strong> in the Claude Code sidebar.</strong></li>
+            <li><strong>Select <code>daily-brief-refresh</code> and click <strong>Run now</strong>.</strong></li>
+            <li><strong>Open the session that starts</strong> and approve every permission with <strong>"always allow"</strong> so future runs do not stall while you are away.</li>
+          </ol>
+          <div class="cc-privacy-callout">
+            <div class="cc-privacy-heading">
+              <span class="cc-caution-icon" aria-hidden="true"><span>!</span></span>
+              <h3>Pick "always allow," not "allow once"</h3>
+            </div>
+            <p style="margin:0;">If you pick "allow once," the morning run will quietly stall the next day waiting for you. The pack ships a <code>.claude/settings.json</code> that pre-authorizes the brief-delivery tools, so only the connector reads need this one-time approval.</p>
+          </div>
+          <p class="cc-warning"><strong>Constraint:</strong> a local scheduled task only runs while Claude Code Desktop is open and your computer is awake. Enable <strong>Keep computer awake</strong> in Settings if you want it to fire reliably at 8:00 AM.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>
+          <div>
+            <span class="cc-step-label">Step 11</span>
+            <h3>Open your Daily Brief and test the skills</h3>
+            <p class="cc-summary-desc">Read the file the task just wrote, then exercise each skill once.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <p>The run from step 10 wrote your first brief to <code>outputs/YYYY-MM-DD-daily-brief.html</code> and <code>.txt</code>. Open the HTML file to read your day. From here on, the task refreshes it every weekday morning, and you can run any skill by hand whenever you want:</p>
+          <ol class="cc-step-list">
+            <li><strong>Morning brief:</strong> <span class="prompt">Give me my morning brief for today.</span></li>
+            <li><strong>Meeting prep:</strong> <span class="prompt">Prep me for tomorrow's meetings.</span></li>
+            <li><strong>Capture:</strong> <span class="prompt">Capture this update: [a real decision, follow-up, or note about a person].</span></li>
+            <li><strong>Email triage:</strong> <span class="prompt">Triage my last 48 hours of Gmail and draft replies for me to review. Do not send anything.</span></li>
+          </ol>
+          <p class="cc-note">These workflows write local files and draft outputs inside the project. The Daily Brief is the file in <code>outputs/</code>, not a live artifact. <strong>At this point you have a working assistant.</strong></p>
+        </div>
+      </details>
+
+      <details class="panel cc-optional">
+        <summary>
+          <div>
+            <span class="cc-step-label cc-step-optional">Optional</span>
+            <h3>Get the brief on your phone</h3>
+            <p class="cc-summary-desc">Two one-way channels you set up from a terminal, a Claude Code capability Cowork does not have.</p>
+          </div>
+          <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </summary>
+        <div class="cc-detail-body">
+          <h3>iMessage (Mac + iPhone)</h3>
+          <ol class="cc-step-list">
+            <li><strong>Add the Read and Send iMessages connector</strong> in Customize, then Connectors.</li>
+            <li><strong>Re-run <code>/setup</code></strong> (or tell setup you want texts). It asks for your own number or Apple ID email and wires the morning task to text you the brief.</li>
+          </ol>
+          <h3>Telegram (any phone, including Android)</h3>
+          <ol class="cc-step-list">
+            <li><strong>Open the integrated terminal</strong> in Claude Code and run <code>.claude/telegram/setup-telegram.sh</code> once. It stores your bot token and finds your chat id. See <code>.claude/telegram/telegram-setup.md</code> for the two-minute walkthrough.</li>
+            <li><strong>The morning task then sends your brief</strong> via <code>.claude/telegram/send-telegram.sh</code>.</li>
+          </ol>
+          <p class="cc-warning"><strong>Keep the boundary:</strong> both channels are one-way and outbound to you only. They send your own brief to you. They do not read inbound texts, take commands, or let the assistant message anyone else.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="cc-section" id="daily-loop">
+    <p class="eyebrow">Daily loop</p>
+    <h2>How the Claude Code assistant compounds</h2>
+    <p class="cc-muted">The workshop deck's core loop still applies here: morning brief opens the day, capture keeps the state current, meeting prep adds context before important conversations, and email triage drafts replies for your review.</p>
+    <div class="cc-outcome-grid">
+      <article class="cc-outcome-card">
+        <h3>Start the day</h3>
+        <p>The weekday scheduled task runs <code>morning-brief</code> for you and writes the brief to <code>outputs/</code>. Run it by hand anytime too. It reads your profile, agenda, calendar, and inbox, then updates <code>now.md</code>.</p>
+      </article>
+      <article class="cc-outcome-card">
+        <h3>Keep state current</h3>
+        <p>Use <code>capture</code> whenever something changes: a decision, a follow-up, a person update, or a lasting preference.</p>
+      </article>
+      <article class="cc-outcome-card">
+        <h3>Prepare and draft</h3>
+        <p>Use <code>meeting-prep</code> before meetings and <code>email-triage</code> when you want Gmail drafts. You still approve the final send.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="cc-section" id="skills">
+    <p class="eyebrow">Saved skills</p>
+    <h2>What the resource pack includes</h2>
+    <p class="cc-muted">These are the same skills as the Cowork version, adapted for Claude Code. They live in <code>.claude/skills/</code> inside the folder you open as a project and load automatically.</p>
+    <div class="cc-skill-grid">
+      <article class="cc-skill-card">
+        <h3>setup</h3>
+        <p>The single setup path: interviews you, writes your profile to the project root, confirms connectors, and creates the weekday scheduled task. Re-run it to refresh your profile.</p>
+        <p class="prompt">/setup</p>
+      </article>
+      <article class="cc-skill-card">
+        <h3>morning-brief</h3>
+        <p>Builds a mobile-readable brief covering meetings, threads needing attention, first move, goal progress, waiting items, and watch-outs.</p>
+        <p class="prompt">Give me my morning brief for today.</p>
+      </article>
+      <article class="cc-skill-card">
+        <h3>meeting-prep</h3>
+        <p>Finds upcoming meetings, researches attendees, and writes linked meeting, contact, and company/org briefs for the people and orgs in the room.</p>
+        <p class="prompt">Prep me for tomorrow's meetings.</p>
+      </article>
+      <article class="cc-skill-card">
+        <h3>capture</h3>
+        <p>Records decisions, follow-ups, reminders, meeting notes, contact changes, durable facts, and lasting assistant preferences.</p>
+        <p class="prompt">Capture this update: [what changed].</p>
+      </article>
+      <article class="cc-skill-card">
+        <h3>email-triage</h3>
+        <p>Reviews recent Gmail, classifies threads, creates Gmail drafts when available, and prints the draft text in chat. Nothing is sent.</p>
+        <p class="prompt">Triage my last 48 hours of Gmail.</p>
+      </article>
+      <article class="cc-skill-card">
+        <h3>skill-builder</h3>
+        <p>Turns a repeatable workflow into a new skill, or edits an existing skill, while keeping external actions approval-gated.</p>
+        <p class="prompt">Make this a reusable skill.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="cc-section" id="boundary">
+    <p class="eyebrow">Safety boundary</p>
+    <h2>Read, draft, approve</h2>
+    <p class="cc-muted">The Claude Code resource pack keeps the workshop rule: the assistant can read connected sources and draft local files, reports, and Gmail replies, but anything that leaves your control waits for you.</p>
+    <div class="cc-table-wrap">
+      <table class="cc-table">
+        <tbody>
+          <tr>
+            <th scope="row">Read</th>
+            <td>Inbox, calendar, profile files, agenda files, meeting notes, contact notes, and connected context you approve.</td>
+          </tr>
+          <tr>
+            <th scope="row">Draft</th>
+            <td>Morning briefs, meeting prep docs, contact briefs, local agenda updates, and Gmail drafts for you to review.</td>
+          </tr>
+          <tr>
+            <th scope="row">Approve</th>
+            <td>You send emails, confirm calendar changes, approve external messages, and decide before anything irreversible happens.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cc-footer-note"><strong>Claude Code distinction:</strong> this path is more transparent and more manual than Cowork. That is the point. You trade the live Cowork artifact for a local folder you can inspect, edit, back up, and extend.</p>
+  </section>
+
+  <section class="cc-final-cta">
+    <h2>Got it running, or hit a wall?</h2>
+    <p class="cc-muted">If the local setup is more than you want to manage, the no-terminal Cowork path covers the same ground. If you would rather build it live with help in the room, join the guided class waitlist.</p>
+    <div class="cc-final-actions">
+      <a class="hero-btn" href="/ai-assistant/cowork/">Use the Cowork path instead</a>
+      <a class="hero-btn hero-btn-outline" href="/ai-assistant-workshop/">Join the guided class</a>
+      <a class="hero-btn hero-btn-outline" href="/ai-assistant/">Compare all paths</a>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var COPY = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy';
+      var DONE = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied';
+      function attach(el) {
+        var text = (el.innerText || el.textContent || '').trim();
+        if (!text) return;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'copy-btn';
+        btn.innerHTML = COPY;
+        btn.setAttribute('aria-label', 'Copy this text');
+        btn.addEventListener('click', function () {
+          function flash() {
+            btn.innerHTML = DONE;
+            btn.classList.add('copied');
+            setTimeout(function () { btn.innerHTML = COPY; btn.classList.remove('copied'); }, 1600);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(flash).catch(fallback);
+          } else { fallback(); }
+          function fallback() {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); flash(); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+        });
+        el.appendChild(btn);
+      }
+      var nodes = document.querySelectorAll('.prompt');
+      for (var i = 0; i < nodes.length; i++) attach(nodes[i]);
+    })();
+  </script>
+
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
+    .path-switch {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.85rem;
+      align-items: center;
+      margin: 0.5rem 0 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
-    :root {
-      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
-      --color-bg: #fbf6ec;
-      --color-text: #1f1713;
-      --color-text-muted: #5e5047;
-      --color-accent: #3b6e8f;
-      --color-accent-hover: #1d4ed8;
-      --color-border: #e5d7c3;
-      --color-surface: #fffdf8;
-      --color-code-bg: #f2e7d6;
-      --color-jules-orange: #e8752b;
-      --color-copper: #8f4e24;
-      --color-sage: #6e8b6f;
-      --color-plum: #7a4e68;
-      --shadow-soft: 0 8px 22px rgba(31, 23, 19, 0.08);
-      --shadow-card: 0 16px 42px rgba(31, 23, 19, 0.1);
-      --max-width: 920px;
+    .path-switch a {
+      color: var(--color-text-muted);
     }
 
-    html {
-      font-size: 18px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      background: var(--color-bg);
-    }
-
-    body {
-      min-height: 100vh;
-      padding: 0 1.5rem 4rem;
-      color: var(--color-text);
-      font-family: var(--font-body);
-      background:
-        radial-gradient(circle at 18% 8%, rgba(255, 253, 248, 0.78), transparent 34%),
-        linear-gradient(180deg, var(--color-bg) 0%, #f7efe2 100%);
-    }
-
-    a {
+    .path-switch a:hover {
       color: var(--color-accent);
       text-decoration: none;
     }
 
-    a:hover {
-      color: var(--color-accent-hover);
-      text-decoration: underline;
-    }
-
-    a:focus-visible {
-      outline: 3px solid var(--color-jules-orange);
-      outline-offset: 4px;
-      border-radius: 6px;
-    }
-
-    summary:focus-visible {
-      outline: 3px solid var(--color-jules-orange);
-      outline-offset: -6px;
-      border-radius: 10px;
-    }
-
-    .page {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .site-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 2.5rem;
-      background: rgba(251, 246, 236, 0.8);
-    }
-
-    .site-name {
-      font-size: 1.1rem;
-      font-weight: 700;
+    .path-switch span[aria-current] {
       color: var(--color-text);
-    }
-
-    .top-link {
-      color: var(--color-text-muted);
-      font-size: 0.92rem;
-      font-weight: 650;
-    }
-
-    .top-link:first-of-type {
-      margin-left: auto;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 1.2rem;
-    }
-
-    .hero-action {
-      display: inline-flex;
-      min-height: 44px;
-      align-items: center;
-      justify-content: center;
-      padding: 0.65rem 0.9rem;
+      padding: 0.2rem 0.5rem;
       border: 1px solid var(--color-border);
-      border-radius: 8px;
+      border-radius: 999px;
       background: var(--color-surface);
-      color: var(--color-text);
-      font-weight: 720;
-      text-decoration: none;
     }
 
-    .hero-action.primary {
-      border-color: var(--color-accent);
-      background: var(--color-accent);
-      color: #fff;
-    }
-
-    .hero-action:hover {
-      text-decoration: none;
-    }
-
-    .hero {
+    .cc-hero {
       max-width: 760px;
       margin-bottom: 2.5rem;
     }
 
-    .eyebrow,
-    .section-label,
-    .step-label,
-    .pill {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 750;
-      letter-spacing: 0.08em;
-      line-height: 1.2;
-      text-transform: uppercase;
-    }
-
-    .eyebrow {
-      color: var(--color-copper);
-      margin-bottom: 0.75rem;
-    }
-
-    h1,
-    h2,
-    h3 {
-      line-height: 1.3;
-      letter-spacing: -0.03em;
-    }
-
-    h1 {
-      max-width: 700px;
-      margin-bottom: 0.85rem;
+    .cc-hero h1 {
+      margin-top: 0.4rem;
       font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.05;
     }
 
-    h2 {
-      font-size: 1.35rem;
+    .cc-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.35rem;
     }
 
-    h3 {
-      font-size: 1.05rem;
+    .cc-hero-actions .hero-btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
     }
 
-    p {
-      margin-bottom: 1rem;
-    }
-
-    .lede {
-      max-width: 650px;
+    .cc-hero-time {
+      margin-top: 1rem;
+      margin-bottom: 0;
       color: var(--color-text-muted);
-      font-size: 1.1rem;
-      line-height: 1.55;
+      font-size: 0.92rem;
     }
 
-    .panel {
-      background: rgba(255, 253, 248, 0.94);
-      border: 1px solid var(--color-border);
-      border-radius: 10px;
-      box-shadow: var(--shadow-soft);
+    .cc-muted {
+      color: var(--color-text-muted);
     }
 
-    .bring-panel {
-      margin-bottom: 2.5rem;
-      padding: 1.35rem;
+    .cc-bring-panel {
+      margin-bottom: 3rem;
+      padding: 1.5rem;
       border-left: 7px solid var(--color-jules-orange);
     }
 
-    .bring-panel h2 {
+    .cc-bring-panel h2 {
+      margin-top: 0;
       margin-bottom: 0.9rem;
     }
 
-    .bring-list {
+    .cc-bring-list {
       display: grid;
       gap: 0.75rem;
       padding: 0;
+      margin: 0;
       list-style: none;
     }
 
-    .bring-list li {
+    .cc-bring-list li {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       gap: 0.65rem;
-      color: var(--color-text-muted);
-    }
-
-    .safety-list {
-      display: grid;
-      gap: 0.65rem;
-      padding-left: 1.15rem;
+      align-items: start;
+      margin: 0;
       color: var(--color-text-muted);
     }
 
     .check {
       display: inline-grid;
-      width: 1.35rem;
-      height: 1.35rem;
+      width: 1.5rem;
+      height: 1.5rem;
       place-items: center;
       border-radius: 999px;
-      background: var(--color-accent);
+      background: var(--color-blue-mug);
       color: #fff;
       font-size: 0.78rem;
       font-weight: 800;
       line-height: 1;
     }
 
-    .section-label {
-      margin-bottom: 0.9rem;
+    .cc-bring-list strong,
+    .cc-step-list strong,
+    .cc-safety-list strong {
+      color: var(--color-text);
+    }
+
+    .cc-section {
+      margin-bottom: 3rem;
+    }
+
+    .cc-section > .eyebrow {
+      margin-bottom: 0.4rem;
+    }
+
+    .cc-section > h2 {
+      margin-top: 0;
+      margin-bottom: 0.7rem;
+    }
+
+    .cc-outcome-grid,
+    .cc-skill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.1rem;
+    }
+
+    .cc-outcome-card,
+    .cc-skill-card {
+      padding: 1.1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cc-outcome-card h3,
+    .cc-skill-card h3 {
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+      font-size: 1.05rem;
+    }
+
+    .cc-outcome-card p,
+    .cc-skill-card p {
+      margin-bottom: 0;
+      color: var(--color-text-muted);
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+
+    .cc-skill-card .prompt {
+      margin-top: 0.75rem;
+    }
+
+    .cc-table-wrap {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cc-table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      margin: 0;
+      display: table;
+      font-size: 0.92rem;
+    }
+
+    .cc-table th,
+    .cc-table td {
+      padding: 0.8rem 0.9rem;
+      border-bottom: 1px solid var(--color-border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .cc-table thead th {
+      color: var(--color-text);
+      font-weight: 750;
+      background: #f5ead8;
+    }
+
+    .cc-table tbody th {
+      color: var(--color-text);
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .cc-table td {
       color: var(--color-text-muted);
     }
 
-    .setup-stack {
+    .cc-table tr:last-child th,
+    .cc-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .cc-stack-section {
+      margin-bottom: 3rem;
+    }
+
+    .cc-stack-section > .eyebrow {
+      margin-bottom: 0.4rem;
+    }
+
+    .cc-stack-section > h2 {
+      margin-top: 0;
+      margin-bottom: 0.7rem;
+    }
+
+    .cc-setup-stack {
       display: grid;
       gap: 0.8rem;
+      margin-top: 1.25rem;
     }
 
-    details {
+    .cc-setup-stack details {
       overflow: hidden;
+      padding: 0;
     }
 
-    summary {
+    .cc-setup-stack summary {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 1rem;
       align-items: center;
-      padding: 1.2rem 1.3rem;
+      padding: 1.15rem 1.3rem;
       cursor: pointer;
       list-style: none;
     }
 
-    summary::-webkit-details-marker {
+    .cc-setup-stack summary::-webkit-details-marker {
       display: none;
     }
 
-    .step-label {
+    .cc-setup-stack summary:focus-visible {
+      outline: 3px solid var(--color-jules-orange);
+      outline-offset: -4px;
+      border-radius: 10px;
+    }
+
+    .cc-setup-stack summary h3 {
+      margin: 0.2rem 0 0;
+      font-size: 1.12rem;
+    }
+
+    .cc-step-label {
       display: inline-block;
-      margin-bottom: 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--color-accent);
     }
 
-    .summary-desc {
-      margin-top: 0.3rem;
-      margin-bottom: 0;
+    .cc-step-optional {
+      color: var(--color-copper);
+    }
+
+    .cc-summary-desc {
+      margin: 0.35rem 0 0;
       color: var(--color-text-muted);
       font-size: 0.92rem;
       line-height: 1.45;
     }
 
-    .chevron {
+    .cc-chevron {
       color: var(--color-text-muted);
       transition: transform 0.18s ease;
+      align-self: start;
+      margin-top: 0.35rem;
     }
 
-    details[open] > summary .chevron {
+    .cc-setup-stack details[open] > summary .cc-chevron {
       transform: rotate(90deg);
     }
 
-    .detail-body {
+    .cc-detail-body {
       padding: 0 1.3rem 1.35rem;
       border-top: 1px solid var(--color-border);
     }
 
-    .detail-body > *:first-child {
+    .cc-detail-body > *:first-child {
       margin-top: 1.1rem;
     }
 
-    .detail-body h3 {
+    .cc-detail-body h3 {
       margin: 1.2rem 0 0.55rem;
+      font-size: 1rem;
     }
 
-    .detail-body h3:first-child {
-      margin-top: 1rem;
+    .cc-detail-body p {
+      color: var(--color-text-muted);
     }
 
-    .privacy-callout {
+    .cc-step-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .cc-step-list li {
+      padding-left: 0.15rem;
+      margin: 0;
+      color: var(--color-text-muted);
+    }
+
+    .cc-note {
+      margin: 1rem 0 0;
+      padding: 0.95rem 1rem;
+      border-left: 5px solid var(--color-blue-mug);
+      border-radius: 8px;
+      background: rgba(59, 110, 143, 0.08);
+      color: var(--color-text-muted);
+      font-size: 0.92rem;
+    }
+
+    .cc-note:last-child,
+    .cc-warning:last-child {
+      margin-bottom: 0;
+    }
+
+    .cc-warning {
+      margin: 1rem 0 0;
+      padding: 0.95rem 1rem;
+      border-left: 5px solid var(--color-copper);
+      border-radius: 8px;
+      background: rgba(143, 78, 36, 0.08);
+      color: var(--color-text-muted);
+      font-size: 0.92rem;
+    }
+
+    .cc-optional summary {
+      background: rgba(251, 246, 236, 0.55);
+    }
+
+    .cc-privacy-callout {
       margin: 1rem 0;
       padding: 1rem;
       border: 1px solid rgba(143, 78, 36, 0.24);
@@ -316,18 +882,19 @@
       background: rgba(245, 197, 66, 0.16);
     }
 
-    .privacy-heading {
+    .cc-privacy-heading {
       display: flex;
       gap: 0.65rem;
       align-items: center;
       margin-bottom: 0.65rem;
     }
 
-    .privacy-heading h3 {
+    .cc-privacy-heading h3 {
       margin: 0;
+      font-size: 1rem;
     }
 
-    .caution-icon {
+    .cc-caution-icon {
       position: relative;
       display: inline-block;
       flex: 0 0 auto;
@@ -335,7 +902,7 @@
       height: 1.35rem;
     }
 
-    .caution-icon::before {
+    .cc-caution-icon::before {
       position: absolute;
       top: 0.05rem;
       left: 0;
@@ -345,7 +912,7 @@
       border-left: 0.775rem solid transparent;
     }
 
-    .caution-icon span {
+    .cc-caution-icon span {
       position: absolute;
       top: 0.42rem;
       left: 0;
@@ -357,333 +924,128 @@
       text-align: center;
     }
 
-    .step-list {
+    .cc-safety-list {
       display: grid;
-      gap: 0.85rem;
+      gap: 0.65rem;
       margin: 0;
-      padding-left: 1.25rem;
-    }
-
-    .step-list li {
-      padding-left: 0.15rem;
+      padding-left: 1.15rem;
       color: var(--color-text-muted);
     }
 
-    .step-list strong,
-    .bring-list strong,
-    .safety-list strong {
-      color: var(--color-text);
+    .cc-safety-list li {
+      margin: 0;
     }
 
-    code {
-      padding: 0.08rem 0.3rem;
-      border-radius: 4px;
-      background: var(--color-code-bg);
+    .cc-footer-note {
+      margin: 1.25rem 0 0;
+      padding: 1.1rem 1.2rem;
+      border: 1px solid rgba(110, 139, 111, 0.35);
+      border-left: 7px solid var(--color-sage);
+      border-radius: 10px;
+      background: rgba(110, 139, 111, 0.1);
+      color: var(--color-text-muted);
+    }
+
+    .prompt {
+      position: relative;
+      display: block;
+      margin-top: 0.6rem;
+      padding: 0.75rem 5.5rem 0.75rem 0.85rem;
+      border: 1px solid rgba(59, 110, 143, 0.22);
+      border-left: 4px solid var(--color-blue-mug);
+      border-radius: 8px;
+      background: rgba(59, 110, 143, 0.07);
       color: var(--color-text);
       font-family: var(--font-mono);
-      font-size: 0.84em;
+      font-size: 0.84rem;
       line-height: 1.5;
+      overflow-wrap: anywhere;
     }
 
-    .note {
-      margin: 1rem 0 0;
-      padding: 0.95rem 1rem;
-      border-left: 5px solid var(--color-accent);
-      border-radius: 8px;
-      background: rgba(59, 110, 143, 0.08);
-      color: var(--color-text-muted);
-      font-size: 0.92rem;
-    }
-
-    .provider-options {
-      display: grid;
-      gap: 0.7rem;
-      margin-top: 1.1rem;
-    }
-
-    .provider-card {
+    /* Copy buttons are injected at runtime, so they carry no scoped
+       data attribute. Style them globally or the rules will not match. */
+    :global(.cc-section .copy-btn),
+    :global(.cc-stack-section .copy-btn) {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
       border: 1px solid var(--color-border);
-      border-radius: 8px;
-      background: rgba(251, 246, 236, 0.52);
-      box-shadow: none;
-    }
-
-    .provider-card summary {
-      padding: 0.95rem 1rem;
-    }
-
-    .provider-card .step-label {
-      color: var(--color-copper);
-    }
-
-    .provider-card .detail-body {
-      padding: 0 1rem 1rem;
-    }
-
-    .provider-card h3 {
-      margin: 1.15rem 0 0.45rem;
-    }
-
-    .provider-card h3:first-child {
-      margin-top: 1rem;
-    }
-
-    .provider-card .step-list {
-      gap: 0.6rem;
-    }
-
-    .warning {
-      margin: 1rem 0 0;
-      padding: 0.95rem 1rem;
-      border-left: 5px solid var(--color-copper);
-      border-radius: 8px;
-      background: rgba(143, 78, 36, 0.08);
-      color: var(--color-text-muted);
-      font-size: 0.92rem;
-    }
-
-    .provider-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.75rem;
-      margin: 1rem 0 0;
-    }
-
-    .provider-tile {
-      padding: 0.9rem;
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
+      border-radius: 7px;
       background: var(--color-surface);
+      color: var(--color-accent-hover);
+      font: 700 0.78rem/1 var(--font-body);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
 
-    .provider-tile strong {
-      display: block;
-      margin-bottom: 0.2rem;
+    :global(.cc-section .copy-btn:hover),
+    :global(.cc-stack-section .copy-btn:hover) {
+      background: #f5ead8;
     }
 
-    .provider-tile span {
-      color: var(--color-text-muted);
-      font-size: 0.86rem;
-      line-height: 1.4;
+    :global(.cc-section .copy-btn:focus-visible),
+    :global(.cc-stack-section .copy-btn:focus-visible) {
+      outline: 3px solid var(--color-jules-orange);
+      outline-offset: 2px;
     }
 
-    @media (max-width: 720px) {
-      body {
-        padding: 0 0.9rem 3rem;
-      }
+    :global(.cc-section .copy-btn.copied),
+    :global(.cc-stack-section .copy-btn.copied) {
+      background: var(--color-sage);
+      color: #fff;
+      border-color: var(--color-sage);
+    }
 
-      .site-header {
-        margin-bottom: 1.75rem;
-      }
+    .cc-final-cta {
+      margin: 0 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+    }
 
-      .provider-grid {
+    .cc-final-cta h2 {
+      margin-top: 0;
+    }
+
+    .cc-final-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.25rem;
+    }
+
+    .cc-final-actions .hero-btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    @media (max-width: 760px) {
+      .cc-outcome-grid,
+      .cc-skill-grid {
         grid-template-columns: 1fr;
       }
 
-      summary {
+      .cc-setup-stack summary {
         grid-template-columns: minmax(0, 1fr);
       }
 
-      .chevron {
+      .cc-chevron {
         display: none;
+      }
+
+      .prompt {
+        padding-right: 0.85rem;
+        padding-top: 2.6rem;
+      }
+
+      .copy-btn {
+        top: 8px;
+        right: 8px;
       }
     }
   </style>
-</head>
-<body>
-  <div class="page">
-    <header class="site-header">
-      <a class="site-name" href="/">Built with Jon</a>
-      <a class="top-link" href="/ai-assistant/">AI Assistant hub</a>
-      <a class="top-link" href="/ai-assistant/cowork/">Cowork DIY</a>
-      <a class="top-link" href="/ai-assistant-workshop/">Guided class</a>
-    </header>
-
-    <main>
-      <section class="hero">
-        <p class="eyebrow">Technical DIY path</p>
-        <h1>Set up the Claude Code personal assistant starter kit</h1>
-        <p class="lede">Use this checklist if you want the file-based Claude Code version of the assistant. It is the more technical path: you install local tools, unzip a resource pack, and keep the assistant's memory in plain files you can inspect.</p>
-        <div class="hero-actions" aria-label="Related AI assistant paths">
-          <a class="hero-action primary" href="#setup-steps">Start the setup checklist</a>
-          <a class="hero-action" href="/ai-assistant/">Compare all paths</a>
-          <a class="hero-action" href="/ai-assistant-workshop/">Get guided help</a>
-        </div>
-      </section>
-
-      <section class="panel bring-panel" aria-labelledby="what-to-bring">
-        <h2 id="what-to-bring">What this path requires</h2>
-        <ul class="bring-list">
-          <li><span class="check">1</span><span><strong>Claude Pro or Max subscription</strong></span></li>
-          <li><span class="check">2</span><span><strong>Google account</strong></span></li>
-          <li><span class="check">3</span><span><strong>Laptop</strong> with the Claude Desktop app installed and signed in</span></li>
-          <li><span class="check">4</span><span><strong>Mobile phone</strong> with the Claude mobile app installed and signed in</span></li>
-          <li><span class="check">5</span><span><strong>Git installed</strong> so Claude Code can work with local files and project history</span></li>
-        </ul>
-      </section>
-
-      <p class="section-label">Setup steps</p>
-
-      <section class="setup-stack" id="setup-steps" aria-label="Claude Code setup steps">
-        <details class="panel" open>
-          <summary>
-            <div>
-              <span class="step-label">Step 1</span>
-              <h2>Claude Pro or Max subscription</h2>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <ol class="step-list">
-              <li><strong>Create or sign in to your Claude account.</strong> Go to <a href="https://claude.ai">claude.ai</a>.</li>
-              <li><strong>Upgrade to Claude Pro or Max.</strong> Go to <a href="https://claude.ai/upgrade">claude.ai/upgrade</a>, choose Pro or Max, and complete checkout. Pro is enough to start.</li>
-            </ol>
-          </div>
-        </details>
-
-        <details class="panel">
-          <summary>
-            <div>
-              <span class="step-label">Step 2</span>
-              <h2>Install Claude Desktop on your laptop and sign in</h2>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <ol class="step-list">
-              <li><strong>Download Claude Desktop.</strong> Go to <a href="https://claude.com/download">claude.com/download</a> and choose macOS or Windows.</li>
-              <li><strong>Install and open it.</strong> On Mac, open Claude from Applications. On Windows, open Claude from the Start menu.</li>
-              <li><strong>Sign in with the same Claude account.</strong> Send a quick hello message to confirm the app works.</li>
-            </ol>
-            <p class="note">Claude Desktop supports macOS 11 or newer and Windows 10 or newer. If you are on a locked-down work laptop, install early in case your IT policy blocks new apps.</p>
-          </div>
-        </details>
-
-        <details class="panel">
-          <summary>
-            <div>
-              <span class="step-label">Step 3</span>
-              <h2>Install Claude Mobile on your phone and sign in</h2>
-              <p class="summary-desc">Use the same Claude account on mobile so your assistant is reachable from your phone.</p>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <ol class="step-list">
-              <li><strong>Install Claude Mobile.</strong> Use the iOS App Store or Google Play links from <a href="https://claude.com/download">claude.com/download</a>.</li>
-              <li><strong>Sign in with the same Claude account.</strong> Send a quick hello message from your phone.</li>
-            </ol>
-            <p class="note">Claude Mobile is optional for the technical build, but useful when you want to check in from your phone.</p>
-          </div>
-        </details>
-
-        <details class="panel">
-          <summary>
-            <div>
-              <span class="step-label">Step 4</span>
-              <h2>Set up the Google account your assistant can use</h2>
-              <p class="summary-desc">Have a Google account ready, but do not connect sensitive mail or calendar data until you understand the permissions.</p>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <p><strong>If your primary email and calendar are Google, then you are done.</strong> Keep that login available for the assistant setup.</p>
-            <p>If you use iCloud, Outlook, Yahoo, or another provider, create a free Google account at <a href="https://accounts.google.com/signup">accounts.google.com/signup</a>. Use it for starter exercises or for safe forwarding tests. You do not need to migrate your life into Google.</p>
-            <p class="note">If your email or calendar lives in iCloud, Outlook, or Yahoo, keep the <a href="provider-setup.html">provider setup reference</a> handy for provider-specific forwarding or calendar steps.</p>
-
-            <div class="privacy-callout" aria-labelledby="privacy-safety">
-              <div class="privacy-heading">
-                <span class="caution-icon" aria-hidden="true"><span>!</span></span>
-                <h3 id="privacy-safety">Privacy &amp; safety before you connect anything</h3>
-              </div>
-              <ul class="safety-list">
-                <li><strong>Do not connect Google, Gmail, or Calendar directly to Claude until you understand the permission scope</strong> unless you already did and are comfortable keeping it connected.</li>
-                <li><strong>Read access can expose private content:</strong> emails, attachments, meeting details, file names, and documents.</li>
-                <li><strong>Write access can change real things:</strong> agents may send mail, edit or delete files, create invites, reschedule meetings, or cancel events.</li>
-                <li><strong>Use the smallest permission that works</strong> and revoke access after testing if you only needed it temporarily.</li>
-              </ul>
-            </div>
-
-            <p class="warning"><strong>Safety note:</strong> Do not forward a sensitive inbox or publish a sensitive calendar just to test. Use sample events or a dedicated Google account if you are unsure.</p>
-          </div>
-        </details>
-
-        <details class="panel">
-          <summary>
-            <div>
-              <span class="step-label">Step 5</span>
-              <h2>Optional: prepare phone messaging</h2>
-              <p class="summary-desc">Use this only if you want a phone path later. You can skip it for the first local setup.</p>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <ol class="step-list">
-              <li><strong>iPhone users can use iMessage paths later.</strong> No additional messaging app is required for the first local setup.</li>
-              <li><strong>Android users can use Telegram later.</strong> Install it from <a href="https://telegram.org/dl/android">telegram.org/dl/android</a>, then create or sign in to a Telegram account with your mobile phone number.</li>
-            </ol>
-            <p class="note">Telegram accounts are tied to mobile phone numbers. Skip this unless you specifically want to experiment with a Telegram phone channel.</p>
-          </div>
-        </details>
-
-        <details class="panel">
-          <summary>
-            <div>
-              <span class="step-label">Step 6</span>
-              <h2>Download the starter materials</h2>
-              <p class="summary-desc">Grab the resource pack and unzip it to your Downloads folder.</p>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <ol class="step-list">
-              <li><strong>Download the starter materials.</strong> Get the resource pack here: <a href="workshop-resource-pack.zip">workshop-resource-pack.zip</a>.</li>
-              <li><strong>Unzip it to your Downloads folder.</strong> On Mac, double-click the <code>.zip</code> file. On Windows, right-click it and choose <strong>Extract All</strong>. Keeping the unzipped folder in <code>Downloads</code> makes the starter instructions easier to follow.</li>
-            </ol>
-            <p class="note">The unzipped folder is still named <code>Workshop-Resource-Pack</code> because it came from the original live workshop materials.</p>
-          </div>
-        </details>
-
-        <details class="panel">
-          <summary>
-            <div>
-              <span class="step-label">Step 7</span>
-              <h2>Install Git</h2>
-              <p class="summary-desc">A small tool Claude Code uses to work with local project files. Quick on both Mac and Windows.</p>
-            </div>
-            <svg class="chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </summary>
-          <div class="detail-body">
-            <h3>Mac</h3>
-            <ol class="step-list">
-              <li><strong>Open Terminal</strong> (press <code>Cmd</code>+<code>Space</code>, type <strong>Terminal</strong>, hit Enter).</li>
-              <li><strong>Run:</strong> <code>xcode-select --install</code></li>
-              <li><strong>A pop-up will appear.</strong> Click <strong>Install</strong> and follow the directions. When it finishes, Git is ready.</li>
-            </ol>
-            <h3>Windows</h3>
-            <ol class="step-list">
-              <li><strong>Download the installer</strong> from <a href="https://git-scm.com/install">git-scm.com/install</a>.</li>
-              <li><strong>Run the installer</strong> and accept the defaults through to the end.</li>
-            </ol>
-            <p class="note">Not sure if you already have Git? That is fine. Running the step again does no harm.</p>
-          </div>
-        </details>
-      </section>
-    </main>
-  </div>
-</body>
-</html>
+</Base>

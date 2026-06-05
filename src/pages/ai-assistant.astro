@@ -28,16 +28,16 @@ const hubSchema = {
       <p class="subtitle">
         Three paths to the same practical outcome: meeting prep, follow-ups,
         daily priorities, business memory, and email drafts that stay under
-        your review.
+        your review. Pick the one that matches how you work.
       </p>
       <div class="hero-links">
-        <a href="/ai-assistant/cowork/" class="hero-btn">Use the Cowork DIY guide</a>
+        <a href="#choose-path" class="hero-btn">Choose your path</a>
         <a href="/ai-assistant-workshop/" class="hero-btn hero-btn-outline">Join the guided class</a>
       </div>
     </div>
     <figure class="assistant-hub-media">
       <img
-        src="/cowork/sample-outputs/daily-brief-sample.png"
+        src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png"
         width="1600"
         height="900"
         alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
@@ -52,19 +52,22 @@ const hubSchema = {
     <div class="assistant-hub-head">
       <h2 id="choose-path">Choose the path that matches how you work.</h2>
       <p>
-        Start with Cowork if you want the shortest route. Use Claude Code if you
-        are comfortable with files and local setup. Join the live class if you
-        want help getting it running.
+        Same assistant, three ways to get there. Most people should start with
+        Cowork. Pick Claude Code if you are a builder who wants file-level
+        control. Join the live class if you want help in the room while you set
+        it up.
       </p>
     </div>
 
     <div class="assistant-path-grid">
       <article class="assistant-path-card featured">
+        <span class="assistant-path-badge">Most people start here</span>
         <span class="assistant-path-icon"><Icon name="lucide:mouse-pointer-click" /></span>
-        <h3>Non-technical DIY</h3>
+        <h3>Cowork DIY</h3>
         <p>
           Build your assistant in Claude Cowork with a downloadable plugin, a
-          setup skill, Dispatch for phone use, and a live Daily Brief.
+          setup skill, Dispatch for phone use, and a live Daily Brief. No
+          terminal, about 30 minutes.
         </p>
         <ul>
           <li>Best first choice for most people</li>
@@ -76,11 +79,11 @@ const hubSchema = {
 
       <article class="assistant-path-card">
         <span class="assistant-path-icon sage"><Icon name="lucide:terminal-square" /></span>
-        <h3>Technical DIY</h3>
+        <h3>Claude Code DIY</h3>
         <p>
-          Set up the Claude Code version if you want the file-based assistant
-          pattern from the original workshop and are comfortable installing
-          local tools.
+          Set up the file-based version if you want the assistant in plain local
+          files you can inspect and are comfortable installing local tools and
+          running a command or two.
         </p>
         <ul>
           <li>Best for builders and technical operators</li>
@@ -128,11 +131,13 @@ const hubSchema = {
   <section class="container home-final-cta assistant-hub-final">
     <h2>Not sure where to start?</h2>
     <p>
-      Use Cowork first. It is the clearest public DIY path, and the guided class
-      is there when you want live help.
+      Use Cowork first. It is the clearest public DIY path. Claude Code is there
+      if you want file-level control, and the guided class is there when you
+      want live help.
     </p>
     <div class="hero-links" style="justify-content: center;">
       <a href="/ai-assistant/cowork/" class="hero-btn">Start with Cowork</a>
+      <a href="/ai-assistant/claude-code/" class="hero-btn hero-btn-outline">Claude Code path</a>
       <a href="/ai-assistant-workshop/" class="hero-btn hero-btn-outline">See the guided class</a>
     </div>
   </section>
@@ -215,6 +220,20 @@ const hubSchema = {
 
     .assistant-path-card.featured {
       border-top: 6px solid var(--color-jules-orange);
+    }
+
+    .assistant-path-badge {
+      align-self: flex-start;
+      margin-bottom: 0.65rem;
+      padding: 0.3rem 0.55rem;
+      border-radius: 999px;
+      background: var(--color-jules-orange);
+      color: var(--color-ink);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
     .assistant-path-card h3 {
