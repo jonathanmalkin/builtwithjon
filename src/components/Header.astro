@@ -10,6 +10,7 @@ const pathname = Astro.url.pathname;
       <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <div class="nav-links" id="site-nav-links">
+      <a href="/ai-assistant/" aria-current={pathname.startsWith('/ai-assistant') ? 'page' : undefined}>AI Assistant</a>
       <a href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Projects</a>
       <a href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>
       <a href="/contact/" aria-current={pathname === '/contact/' ? 'page' : undefined}>Contact</a>

@@ -1,0 +1,118 @@
+YOUR PERSONAL ASSISTANT IN CLAUDE COWORK
+
+The main guide is Start-Here.html. It includes the full setup walkthrough, your
+live Daily Brief, daily use, all skills, channels, report examples on the skill
+cards, and advanced technical details.
+
+Slides stay separate at:
+
+Workshop-Slides.html
+
+
+Pick a name first
+
+Pick a name for your assistant, anything you like, such as Margaret or Pam. You
+will give your Cowork Project that same name, and your assistant will answer to
+it. Wherever the guide says [Name], use the name you picked.
+
+
+Setup in one path: install, run setup, answer a few questions, done
+
+Before you start, have ready: Claude Desktop installed (claude.com/download), a
+Gmail account and Google Calendar, the file personal-assistant-cowork-plugin.zip
+(in your Downloads), and a name for your assistant.
+
+The short version:
+
+1. Create a Cowork Project. Open Claude, click the Cowork tab, click Projects >
+   New Project, select "Use an existing folder," create or choose any folder on
+   your computer, and name the folder and Project with your assistant's name.
+2. Install the add-on. In Customize > Personal Plugins, click +, Create Plugin,
+   Upload Plugin, and pick personal-assistant-cowork-plugin.zip.
+3. Connect Gmail and Google Calendar in Customize > Connectors (skip if already
+   connected).
+4. Optional: to get your brief texted to you, add the "Read and Send iMessages"
+   connector in Customize > Connectors.
+5. Open your Project, type "Run the setup skill," and answer its few questions.
+   When Claude prompts you to create the Daily Brief artifact and scheduled task,
+   click Create.
+6. Open Scheduled, select Daily Brief Refresh, click Run Now, select the session
+   that starts, and approve all permissions so it can run daily.
+7. Open Live Artifacts and click Daily Brief.
+8. Optional: set up Dispatch on your phone afterward.
+
+The setup skill does the rest: it interviews you and writes your assistant's
+memory (CLAUDE.md, USER.md, now.md, decision-log.md), finds your Gmail and
+Calendar tool names, builds your live Daily Brief page, and creates your weekday
+morning routine (8:00 AM by default, on your default Claude model). You do not
+make any files by hand.
+
+One small thing you do by hand before setup: paste the assistant instructions
+block from Start-Here.html into the Project Instructions field, so your assistant
+always loads its instructions.
+
+The questions setup asks: your assistant's name (it suggests the Project name)
+and, only if you added the iMessage connector, the phone number or email
+associated with iMessage. It detects your time zone and uses 8 AM on weekdays
+unless you say otherwise.
+
+The add-on is installed once from Customize > Personal Plugins and then used
+inside the Project.
+
+
+Your Daily Brief
+
+After setup you have a live Daily Brief page. Your schedule and any email drafts
+awaiting approval refresh every time you open it. Your goals, meeting prep,
+to-dos, and waiting items refresh each weekday morning. It is read-only: to clear
+a to-do, tell your assistant what you finished and it updates now.md. Email
+replies are only ever drafts for you to review and send; nothing is sent for you.
+
+
+Copy-ready daily prompts
+
+Inside your [Name] project on the computer, you can use short prompts. From
+Dispatch on your phone, start with "Use my [Name] project and..." first.
+
+"Run my morning brief for today. Create HTML and plain text outputs. Do not send
+email or change calendar events."
+
+"Run the email-triage skill on my last 48 hours of Gmail. Create Gmail drafts
+only. Print the drafts here. Do not send anything."
+
+"Prep me for tomorrow's meetings. Create the meeting reports in meetings/ as
+Markdown and HTML."
+
+"Capture this update: [type your decision, follow-up, or note about a person]."
+
+
+Reports
+
+The assistant should create readable outputs:
+
+- outputs/YYYY-MM-DD-morning-brief.html
+- outputs/YYYY-MM-DD-morning-brief.txt
+- outputs/YYYY-MM-DD-email-triage.html
+- outputs/YYYY-MM-DD-email-triage.txt
+- meetings/YYYY-MM-DD - [Meeting Title].md
+- meetings/YYYY-MM-DD - [Meeting Title].html
+
+Example outputs are in:
+
+sample-outputs/
+
+Claude can still use Markdown internally for CLAUDE.md, USER.md, now.md,
+decision-log.md, voice.md, meetings/, contacts/, and companies/. You should not need to open those files during
+normal use.
+
+
+Safety boundary
+
+The assistant can read connected sources, create local notes, draft replies, and
+write reports. It does not send email to other people, post publicly, delete
+files, purchase anything, or change calendar events without your explicit
+approval. The only outbound messages it sends on its own are Gmail drafts (never
+sent for you) and, if you turn it on, the morning brief texted to your configured
+iMessage phone number or email. iMessage is one-way: the assistant does not read
+your texts or take commands from them. Inbound phone requests go through
+Dispatch. Telegram is an advanced/custom channel, not the basic setup path.
