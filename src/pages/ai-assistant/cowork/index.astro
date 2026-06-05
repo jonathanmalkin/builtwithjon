@@ -1,36 +1,45 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import PathSwitch from '../../../components/PathSwitch.astro';
+
+const metaDescription =
+  'A self-serve guide to build a practical AI personal assistant in Claude Cowork: downloadable plugin, setup skill, live Daily Brief, and safe review boundaries.';
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'Build your personal assistant in Claude Cowork',
-  description:
-    'A self-serve guide for building a practical AI personal assistant in Claude Cowork with a downloadable plugin, setup skill, Daily Brief, and safe review boundaries.',
-  url: 'https://builtwithjon.com/ai-assistant/cowork/',
-  totalTime: 'PT30M',
-  step: [
-    { '@type': 'HowToStep', name: 'Create your Cowork Project', position: 1 },
-    { '@type': 'HowToStep', name: 'Install the assistant add-on', position: 2 },
-    { '@type': 'HowToStep', name: 'Connect your Gmail and Google Calendar', position: 3 },
-    { '@type': 'HowToStep', name: 'Run the setup skill', position: 4 },
-    { '@type': 'HowToStep', name: 'Run your first brief', position: 5 },
-    { '@type': 'HowToStep', name: 'Open your Daily Brief', position: 6 },
+  '@graph': [
+    {
+      '@type': 'HowTo',
+      name: 'Build your personal assistant in Claude Cowork',
+      description: metaDescription,
+      url: 'https://builtwithjon.com/ai-assistant/cowork/',
+      totalTime: 'PT30M',
+      step: [
+        { '@type': 'HowToStep', name: 'Create your Cowork Project', position: 1 },
+        { '@type': 'HowToStep', name: 'Install the assistant add-on', position: 2 },
+        { '@type': 'HowToStep', name: 'Connect your Gmail and Google Calendar', position: 3 },
+        { '@type': 'HowToStep', name: 'Run the setup skill', position: 4 },
+        { '@type': 'HowToStep', name: 'Run your first brief', position: 5 },
+        { '@type': 'HowToStep', name: 'Open your Daily Brief', position: 6 },
+      ],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'AI Assistant', item: 'https://builtwithjon.com/ai-assistant/' },
+        { '@type': 'ListItem', position: 2, name: 'Cowork DIY', item: 'https://builtwithjon.com/ai-assistant/cowork/' },
+      ],
+    },
   ],
 };
 ---
 
 <Base
   title="DIY Claude Cowork Personal Assistant"
-  description="A self-serve guide for building a practical AI personal assistant in Claude Cowork with a downloadable plugin, setup skill, Daily Brief, and safe review boundaries."
+  description={metaDescription}
   schema={schema}
 >
-  <nav class="path-switch" aria-label="AI assistant paths">
-    <a href="/ai-assistant/">All paths</a>
-    <span aria-current="page">Cowork DIY</span>
-    <a href="/ai-assistant/claude-code/">Claude Code DIY</a>
-    <a href="/ai-assistant-workshop/">Guided class</a>
-  </nav>
+  <PathSwitch current="cowork" />
 
   <section class="cw-hero">
     <div>
@@ -587,36 +596,6 @@ user can approve a draft or change; silence is not approval.</code></pre>
   </script>
 
   <style>
-    .path-switch {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 0.85rem;
-      align-items: center;
-      margin: 0.5rem 0 1.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .path-switch a {
-      color: var(--color-text-muted);
-    }
-
-    .path-switch a:hover {
-      color: var(--color-accent);
-      text-decoration: none;
-    }
-
-    .path-switch span[aria-current] {
-      color: var(--color-text);
-      padding: 0.2rem 0.5rem;
-      border: 1px solid var(--color-border);
-      border-radius: 999px;
-      background: var(--color-surface);
-    }
-
     .cw-muted {
       color: var(--color-text-muted);
     }

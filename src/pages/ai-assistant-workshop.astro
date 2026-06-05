@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PathSwitch from '../components/PathSwitch.astro';
 import { Icon } from 'astro-icon/components';
 
 const formEndpoint = 'https://formspree.io/f/xdapgpae';
@@ -10,7 +11,7 @@ const schema = {
   '@type': 'WebPage',
   name: 'Build Your Practical AI Assistant Waitlist',
   description:
-    'Join the waitlist for a small live cohort where business owners build a practical AI assistant in Claude CoWork for meeting prep, follow-ups, and daily priorities.',
+    'Join the waitlist for a small live cohort where owners build a practical AI assistant in Claude Cowork for meeting prep, follow-ups, and a daily brief.',
   url: 'https://builtwithjon.com/ai-assistant-workshop/',
   provider: {
     '@type': 'Person',
@@ -22,14 +23,17 @@ const schema = {
 
 <Base
   title="Build Your Practical AI Assistant Waitlist"
-  description="Join the waitlist for a small live cohort where business owners build a practical AI assistant in Claude CoWork for meeting prep, follow-ups, and daily priorities."
+  description="Join the waitlist for a small live cohort where owners build a practical AI assistant in Claude Cowork for meeting prep, follow-ups, and a daily brief."
   image="/home/workshop-room.jpg"
   schema={schema}
 >
+  <PathSwitch current="workshop" />
+
   <section class="assistant-hero">
     <div class="assistant-hero-inner">
       <p class="eyebrow assistant-kicker">Small live cohort waitlist</p>
-      <h1 class="assistant-h1">An AI Personal Assistant<br />that works <em>for you</em></h1>
+      <h1 class="assistant-h1"><span>An AI Personal Assistant</span> <span>that works <em>for you</em></span></h1>
+      <p class="assistant-subtitle">A small live cohort where you build a working assistant for meeting prep, follow-ups, and your daily brief. Two sessions. Free to join the waitlist.</p>
       <div class="assistant-hero-actions">
         <a href="#waitlist" class="hero-btn">Join the waitlist</a>
       </div>
@@ -206,8 +210,8 @@ const schema = {
     <figure class="assistant-visual">
       <img
         src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png"
-        width="1600"
-        height="900"
+        width="2080"
+        height="2176"
         alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
         loading="lazy"
         decoding="async"
@@ -230,7 +234,7 @@ const schema = {
         <p class="assistant-session-label">Session 1</p>
         <h3>Get it running</h3>
         <ul>
-          <li>Set up your Claude CoWork project</li>
+          <li>Set up your Claude Cowork project</li>
           <li>Install the Built with Jon plugin</li>
           <li>Connect Gmail and Calendar</li>
           <li>Name your assistant</li>
@@ -330,14 +334,16 @@ const schema = {
         />
       </div>
 
+      <p class="assistant-form-optional-head">Optional, and it helps me tailor the cohort. Skip any of these.</p>
+
       <div class="form-group">
         <label for="company">Company or practice (or &ldquo;solo&rdquo;)</label>
-        <input type="text" id="company" name="company" required class="form-input" autocomplete="organization" />
+        <input type="text" id="company" name="company" class="form-input" autocomplete="organization" />
       </div>
 
       <div class="form-group">
         <label for="top_outcome">Which outcome matters most?</label>
-        <select id="top_outcome" name="top_outcome" required class="form-input">
+        <select id="top_outcome" name="top_outcome" class="form-input">
           <option value="">Choose one</option>
           <option value="Daily Brief">Daily Brief</option>
           <option value="Meeting management">Meeting management</option>
@@ -347,11 +353,11 @@ const schema = {
       </div>
 
       <div class="form-group">
-        <label for="claude_experience">Claude / CoWork experience</label>
+        <label for="claude_experience">Claude / Cowork experience</label>
         <select id="claude_experience" name="claude_experience" class="form-input">
           <option value="">Choose one</option>
           <option value="I already use Claude">I already use Claude</option>
-          <option value="I have Claude but have not used CoWork">I have Claude but have not used CoWork</option>
+          <option value="I have Claude but have not used Cowork">I have Claude but have not used Cowork</option>
           <option value="I need help getting set up">I need help getting set up</option>
           <option value="Not sure">Not sure</option>
         </select>
@@ -359,7 +365,7 @@ const schema = {
 
       <div class="form-group">
         <label for="preferred_days">Which days work best?</label>
-        <select id="preferred_days" name="preferred_days" required class="form-input">
+        <select id="preferred_days" name="preferred_days" class="form-input">
           <option value="">Choose one</option>
           <option value="Weekdays">Weekdays</option>
           <option value="Weekends">Weekends</option>
@@ -369,7 +375,7 @@ const schema = {
 
       <div class="form-group">
         <label for="preferred_time">Preferred time of day</label>
-        <select id="preferred_time" name="preferred_time" required class="form-input">
+        <select id="preferred_time" name="preferred_time" class="form-input">
           <option value="">Choose one</option>
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -379,7 +385,7 @@ const schema = {
       </div>
 
       <div class="form-group">
-        <label for="workflow">What would you most want your assistant to handle first? (optional)</label>
+        <label for="workflow">What would you most want your assistant to handle first?</label>
         <textarea
           id="workflow"
           name="workflow"
@@ -390,6 +396,7 @@ const schema = {
       </div>
 
       <button type="submit" class="form-submit assistant-submit">Join the waitlist</button>
+      <p class="assistant-form-note">Takes under a minute. I email you when the next cohort opens, no payment to hold your spot on the list.</p>
       <p class="assistant-form-error" hidden role="alert" aria-live="polite">
         Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will help.
       </p>
@@ -454,7 +461,7 @@ const schema = {
     position: relative;
     width: 100%;
     min-height: clamp(560px, 74vh, 780px);
-    margin: -2rem auto 2rem;
+    margin: 0 auto 2rem;
     padding: 5.5rem 1.5rem 3.5rem;
     box-sizing: border-box;
     display: flex;
@@ -483,7 +490,8 @@ const schema = {
     letter-spacing: 0;
   }
 
-  .assistant-h1 {
+  .assistant-h1 span {
+    display: block;
     white-space: nowrap;
   }
 
@@ -808,6 +816,22 @@ const schema = {
     touch-action: manipulation;
   }
 
+  .assistant-form-optional-head {
+    margin: 1.25rem 0 0.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .assistant-form-note {
+    margin: 0.75rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
   .assistant-form-error {
     margin: 0.75rem 0 0;
     color: var(--color-copper);
@@ -836,7 +860,8 @@ const schema = {
       font-size: clamp(1.95rem, 9.5vw, 2.65rem);
     }
 
-    .assistant-h1 {
+    .assistant-h1 span {
+      display: inline;
       white-space: normal;
     }
 

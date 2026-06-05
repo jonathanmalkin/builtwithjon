@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PathSwitch from '../components/PathSwitch.astro';
 import { Icon } from 'astro-icon/components';
 
 const hubSchema = {
@@ -22,13 +23,14 @@ const hubSchema = {
   description="Choose the right path to build a practical AI personal assistant: non-technical Claude Cowork setup, technical Claude Code setup, or a guided live cohort."
   schema={hubSchema}
 >
+  <PathSwitch current="hub" />
+
   <section class="assistant-hub-hero container-wide">
     <div class="assistant-hub-copy">
       <h1>Build the AI assistant you will actually use.</h1>
       <p class="subtitle">
-        Three paths to the same practical outcome: meeting prep, follow-ups,
-        daily priorities, business memory, and email drafts that stay under
-        your review. Pick the one that matches how you work.
+        Three paths to the same assistant: your meetings, follow-ups, and daily
+        brief, always under your review. Pick the one that fits how you work.
       </p>
       <div class="hero-links">
         <a href="#choose-path" class="hero-btn">Choose your path</a>
@@ -38,8 +40,8 @@ const hubSchema = {
     <figure class="assistant-hub-media">
       <img
         src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png"
-        width="1600"
-        height="900"
+        width="2080"
+        height="2176"
         alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
         loading="eager"
         decoding="async"
@@ -103,8 +105,8 @@ const hubSchema = {
         </p>
         <ul>
           <li>Best if you want help in the room</li>
-          <li>Two live sessions</li>
-          <li>Waitlisters get first access</li>
+          <li>Two live sessions, 12 seats per cohort</li>
+          <li>Free to join the waitlist, and you walk out with it working</li>
         </ul>
         <a href="/ai-assistant-workshop/" class="hero-btn hero-btn-outline">Join the waitlist</a>
       </article>
