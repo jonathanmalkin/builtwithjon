@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
+---
+
+<Base
+  title="Workflow received"
+  description="Thanks for sending your AI Workflow Audit context."
+>
+  <div class="container next-page">
+    <div class="book-hero panel">
+      <p class="book-kicker">Workflow Received</p>
+      <h1>I have your audit context.</h1>
+      <p class="book-sub">
+        I will look for the workflow, the business consequence, and whether
+        there is a safe first AI assist worth mapping.
+      </p>
+
+      <div class="book-cta-wrap">
+        <a href={bookingUrl} class="book-cta" target="_blank" rel="noopener">
+          <span class="book-cta-main">Book a quick call &rarr;</span>
+          <span class="book-cta-sub">Free &middot; 15 min</span>
+        </a>
+      </div>
+
+      <ul class="book-benefits">
+        <li>Bring one real workflow, not a whole-company wish list</li>
+        <li>We will decide if AI, cleanup, or no action is the honest next step</li>
+        <li>No obligation and no tool pitch</li>
+      </ul>
+    </div>
+  </div>
+</Base>
