@@ -35,8 +35,9 @@ const schema = {
       <h1 class="assistant-h1"><span>An AI Personal Assistant</span> <span>that works <em>for you</em></span></h1>
       <p class="assistant-subtitle">A small live cohort where you build a working assistant for meeting prep, follow-ups, and your daily brief. Two sessions. Free to join the waitlist.</p>
       <div class="assistant-hero-actions">
-        <a href="#waitlist" class="hero-btn">Join the waitlist</a>
+        <a href="#waitlist" class="hero-btn">Save my spot</a>
       </div>
+      <p class="assistant-hero-trust">Free to join the list &middot; 12 seats per cohort &middot; You leave with it working</p>
     </div>
   </section>
 
@@ -219,6 +220,11 @@ const schema = {
     </figure>
   </section>
 
+  <div class="container-wide assistant-inline-cta">
+    <a href="#waitlist" class="hero-btn">Save my spot</a>
+    <p>Free to join. Waitlisters hear first when a cohort opens.</p>
+  </div>
+
   <section class="container-wide assistant-section">
     <div class="assistant-section-head">
       <p class="eyebrow">Format</p>
@@ -282,6 +288,20 @@ const schema = {
     </div>
   </section>
 
+  <section class="container-wide assistant-section assistant-proof-section" aria-label="What attendees say">
+    <div class="assistant-section-head">
+      <p class="eyebrow">From the last cohort</p>
+      <h2>People leave with it running.</h2>
+    </div>
+    <div class="assistant-proof-grid">
+      <blockquote class="assistant-proof-card">
+        <p>&ldquo;You are an incredible teacher!!!&rdquo;</p>
+        <footer>Workshop attendee, May 2026</footer>
+      </blockquote>
+      <!-- QUOTE PLACEHOLDER: swap in additional approved attendee quotes -->
+    </div>
+  </section>
+
   <section class="container-wide assistant-apply-section" id="waitlist">
     <div class="assistant-apply-copy">
       <p class="eyebrow">Join the waitlist</p>
@@ -334,76 +354,39 @@ const schema = {
         />
       </div>
 
-      <p class="assistant-form-optional-head">Optional, and it helps me tailor the cohort. Skip any of these.</p>
-
-      <div class="form-group">
-        <label for="company">Company or practice (or &ldquo;solo&rdquo;)</label>
-        <input type="text" id="company" name="company" class="form-input" autocomplete="organization" />
-      </div>
-
-      <div class="form-group">
-        <label for="top_outcome">Which outcome matters most?</label>
-        <select id="top_outcome" name="top_outcome" class="form-input">
-          <option value="">Choose one</option>
-          <option value="Daily Brief">Daily Brief</option>
-          <option value="Meeting management">Meeting management</option>
-          <option value="Email">Email</option>
-          <option value="I am not sure yet">I am not sure yet</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="claude_experience">Claude / Cowork experience</label>
-        <select id="claude_experience" name="claude_experience" class="form-input">
-          <option value="">Choose one</option>
-          <option value="I already use Claude">I already use Claude</option>
-          <option value="I have Claude but have not used Cowork">I have Claude but have not used Cowork</option>
-          <option value="I need help getting set up">I need help getting set up</option>
-          <option value="Not sure">Not sure</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="preferred_days">Which days work best?</label>
-        <select id="preferred_days" name="preferred_days" class="form-input">
-          <option value="">Choose one</option>
-          <option value="Weekdays">Weekdays</option>
-          <option value="Weekends">Weekends</option>
-          <option value="Either works">Either works</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="preferred_time">Preferred time of day</label>
-        <select id="preferred_time" name="preferred_time" class="form-input">
-          <option value="">Choose one</option>
-          <option value="Morning">Morning</option>
-          <option value="Afternoon">Afternoon</option>
-          <option value="Evening">Evening</option>
-          <option value="Flexible">Flexible</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="workflow">What would you most want your assistant to handle first?</label>
-        <textarea
-          id="workflow"
-          name="workflow"
-          rows="4"
-          class="form-input"
-          placeholder="Example: prep for meetings, keep track of follow-ups, remember client context&hellip;"
-        ></textarea>
-      </div>
-
-      <button type="submit" class="form-submit assistant-submit">Join the waitlist</button>
-      <p class="assistant-form-note">Takes under a minute. I email you when the next cohort opens, no payment to hold your spot on the list.</p>
+      <button type="submit" class="form-submit assistant-submit">Save my spot</button>
+      <p class="assistant-form-note">Takes 20 seconds. I email you when the next cohort opens, no payment to hold your spot on the list.</p>
       <p class="assistant-form-error" hidden role="alert" aria-live="polite">
         Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will help.
       </p>
     </form>
   </section>
 
+  <div class="assistant-sticky-cta" id="assistant-sticky-cta" hidden>
+    <a href="#waitlist" class="hero-btn">Save my spot</a>
+  </div>
+
   <script is:inline define:vars={{ thanksUrl }}>
+    // Sticky mobile CTA: show after the hero scrolls away, hide once the form is in view.
+    const stickyCta = document.getElementById('assistant-sticky-cta');
+    const heroEl = document.querySelector('.assistant-hero');
+    const waitlistEl = document.getElementById('waitlist');
+    if (stickyCta && heroEl && waitlistEl && 'IntersectionObserver' in window) {
+      let heroGone = false;
+      let formVisible = false;
+      const sync = () => {
+        stickyCta.hidden = !(heroGone && !formVisible);
+      };
+      new IntersectionObserver((entries) => {
+        heroGone = !entries[0].isIntersecting;
+        sync();
+      }).observe(heroEl);
+      new IntersectionObserver((entries) => {
+        formVisible = entries[0].isIntersecting;
+        sync();
+      }, { rootMargin: '0px 0px -20% 0px' }).observe(waitlistEl);
+    }
+
     const form = document.getElementById('assistant-workshop-form');
     if (form) {
       const submitBtn = form.querySelector('.assistant-submit');
@@ -415,6 +398,9 @@ const schema = {
       const SOURCES = {
         'austin-aic': 'Austin-AIC',
         'ai-tinkerers-sp': 'AI-Tinkerers-SP',
+        'linkedin': 'LinkedIn',
+        'x': 'X',
+        'threads': 'Threads',
       };
       const params = new URLSearchParams(window.location.search);
       const key = (params.get('from') || params.get('ref') || '').toLowerCase().trim();
@@ -431,7 +417,7 @@ const schema = {
         if (errorEl) errorEl.hidden = true;
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Joining waitlist…';
+          submitBtn.textContent = 'Saving your spot…';
         }
         try {
           const response = await fetch(form.action, {
@@ -440,6 +426,13 @@ const schema = {
             headers: { Accept: 'application/json' },
           });
           if (response.ok) {
+            try {
+              sessionStorage.setItem('waitlist_email', form.querySelector('#email').value);
+              sessionStorage.setItem('waitlist_name', form.querySelector('#name').value);
+              sessionStorage.setItem('waitlist_context', form.querySelector('#partner_context').value);
+            } catch (storageErr) {
+              // Private-mode storage failures should never block the redirect.
+            }
             window.location.assign(thanksUrl);
             return;
           }
@@ -448,7 +441,7 @@ const schema = {
           if (errorEl) errorEl.hidden = false;
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Join the waitlist';
+            submitBtn.textContent = 'Save my spot';
           }
         }
       });
@@ -511,6 +504,83 @@ const schema = {
 
   .assistant-hero-actions .hero-btn {
     margin: 0;
+  }
+
+  .assistant-hero-trust {
+    margin: 0 0 0.5rem;
+    color: #fff7ec;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-inline-cta {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .assistant-inline-cta .hero-btn {
+    margin: 0 auto;
+  }
+
+  .assistant-inline-cta p {
+    margin: 0.6rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .assistant-proof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.9rem;
+    max-width: 980px;
+  }
+
+  .assistant-proof-card {
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-copper);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.1rem 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-proof-card p {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+
+  .assistant-proof-card footer {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: none;
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .assistant-sticky-cta .hero-btn {
+    margin: 0 auto;
+    width: min(420px, 100%);
   }
 
   .assistant-hero-actions .hero-btn-outline {
@@ -891,6 +961,14 @@ const schema = {
 
     .assistant-apply-copy {
       position: static;
+    }
+
+    .assistant-sticky-cta {
+      display: block;
+    }
+
+    .assistant-sticky-cta[hidden] {
+      display: none;
     }
   }
 
