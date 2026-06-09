@@ -1,34 +1,192 @@
 ---
 import Base from '../../layouts/Base.astro';
+
+const formEndpoint = 'https://formspree.io/f/xdapgpae';
 ---
 
 <Base
-  title="Waitlist Request Received"
+  title="You're on the waitlist"
   description="Your Build Your Practical AI Assistant waitlist request was received."
 >
   <section class="container assistant-thanks panel">
-    <p class="eyebrow">Waitlist request received</p>
-    <h1>I got it.</h1>
+    <p class="eyebrow">You're on the list</p>
+    <h1>Saved. You're on the waitlist.</h1>
     <p>
-      I will review what you sent and follow up personally when the next small
-      cohort is forming. If it looks like a fit, I will confirm timing and send
-      payment details before your seat is held.
+      When the next small cohort is forming, I follow up personally, confirm
+      timing, and send details before your seat is held. No payment is due from
+      joining the waitlist.
     </p>
-    <p>
-      There is no payment due from joining the waitlist. Cohorts are kept small
-      so setup help and screen-share verification stay practical.
-    </p>
-    <p><a href="/ai-assistant-workshop/">Back to the workshop page</a></p>
+  </section>
+
+  <section class="container assistant-thanks-extra panel">
+    <p class="eyebrow">Optional, 30 more seconds</p>
+    <h2>Help me tailor the cohort to you.</h2>
+    <p>Answer any of these and I shape the sessions around what you need. Skip any of them.</p>
+
+    <form id="assistant-tailor-form" action={formEndpoint} method="POST" class="assistant-tailor-form">
+      <input type="hidden" name="_subject" value="AI assistant workshop waitlist details" />
+      <input type="hidden" name="inquiry_type" value="ai-assistant-workshop-waitlist-details" />
+      <input type="hidden" id="partner_context" name="partner_context" value="direct" />
+      <input type="hidden" id="email" name="email" value="" />
+      <input type="hidden" id="name" name="name" value="" />
+
+      <div class="form-group">
+        <label for="company">Company or practice (or &ldquo;solo&rdquo;)</label>
+        <input type="text" id="company" name="company" class="form-input" autocomplete="organization" />
+      </div>
+
+      <div class="form-group">
+        <label for="top_outcome">Which outcome matters most?</label>
+        <select id="top_outcome" name="top_outcome" class="form-input">
+          <option value="">Choose one</option>
+          <option value="Daily Brief">Daily Brief</option>
+          <option value="Meeting management">Meeting management</option>
+          <option value="Email">Email</option>
+          <option value="I am not sure yet">I am not sure yet</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="claude_experience">Claude / Cowork experience</label>
+        <select id="claude_experience" name="claude_experience" class="form-input">
+          <option value="">Choose one</option>
+          <option value="I already use Claude">I already use Claude</option>
+          <option value="I have Claude but have not used Cowork">I have Claude but have not used Cowork</option>
+          <option value="I need help getting set up">I need help getting set up</option>
+          <option value="Not sure">Not sure</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="preferred_days">Which days work best?</label>
+        <select id="preferred_days" name="preferred_days" class="form-input">
+          <option value="">Choose one</option>
+          <option value="Weekdays">Weekdays</option>
+          <option value="Weekends">Weekends</option>
+          <option value="Either works">Either works</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="preferred_time">Preferred time of day</label>
+        <select id="preferred_time" name="preferred_time" class="form-input">
+          <option value="">Choose one</option>
+          <option value="Morning">Morning</option>
+          <option value="Afternoon">Afternoon</option>
+          <option value="Evening">Evening</option>
+          <option value="Flexible">Flexible</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="workflow">What would you most want your assistant to handle first?</label>
+        <textarea
+          id="workflow"
+          name="workflow"
+          rows="4"
+          class="form-input"
+          placeholder="Example: prep for meetings, keep track of follow-ups, remember client context&hellip;"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">Send details</button>
+      <p class="assistant-tailor-done" hidden role="status" aria-live="polite">
+        Got it, thank you. See you when the next cohort opens.
+      </p>
+      <p class="assistant-tailor-error" hidden role="alert" aria-live="polite">
+        Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will note it myself.
+      </p>
+    </form>
+
+    <p class="assistant-thanks-back"><a href="/ai-assistant-workshop/">Back to the workshop page</a></p>
   </section>
 </Base>
 
+<script is:inline>
+  const form = document.getElementById('assistant-tailor-form');
+  if (form) {
+    // Carry identity from the signup so the two submissions match up.
+    try {
+      const email = sessionStorage.getItem('waitlist_email');
+      const name = sessionStorage.getItem('waitlist_name');
+      const ctx = sessionStorage.getItem('waitlist_context');
+      if (email) form.querySelector('#email').value = email;
+      if (name) form.querySelector('#name').value = name;
+      if (ctx) form.querySelector('#partner_context').value = ctx;
+    } catch (storageErr) {
+      // Storage unavailable; submissions still arrive, just without the join key.
+    }
+
+    const submitBtn = form.querySelector('.form-submit');
+    const doneEl = form.querySelector('.assistant-tailor-done');
+    const errorEl = form.querySelector('.assistant-tailor-error');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (errorEl) errorEl.hidden = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+      }
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error('Submission failed');
+        if (doneEl) doneEl.hidden = false;
+        if (submitBtn) submitBtn.textContent = 'Sent';
+      } catch (err) {
+        if (errorEl) errorEl.hidden = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send details';
+        }
+      }
+    });
+  }
+</script>
+
 <style>
-  .assistant-thanks {
+  .assistant-thanks,
+  .assistant-thanks-extra {
     padding: 1.5rem;
   }
 
-  .assistant-thanks h1 {
+  .assistant-thanks h1,
+  .assistant-thanks-extra h2 {
     margin-top: 0.35rem;
     letter-spacing: 0;
+  }
+
+  .assistant-thanks-extra {
+    margin-top: 1.5rem;
+  }
+
+  .assistant-tailor-form {
+    max-width: 560px;
+  }
+
+  .assistant-tailor-done {
+    margin: 0.75rem 0 0;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .assistant-tailor-error {
+    margin: 0.75rem 0 0;
+    color: var(--color-copper);
+    font-size: 0.88rem;
+  }
+
+  .assistant-thanks-back {
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 820px) {
+    .assistant-tailor-form .form-input {
+      font-size: 1rem;
+    }
   }
 </style>
