@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Use Case Library</title>
+<meta name="description" content="A practical library of small-business AI and automation use cases, organized by workflow, frequency, and automation potential." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;family=Archivo:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+<style is:global>
+html,body{margin:0;padding:0;background:#F6F2E9;}
+.ucl-site-nav{max-width:1140px;margin:0 auto;padding:18px 20px 16px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;border-bottom:1px solid #E2DBCC;font-family:Archivo,system-ui,-apple-system,sans-serif}
+.ucl-site-nav a{color:#5A5347;text-decoration:none;font-size:15px;line-height:1.2}
+.ucl-site-nav a:hover{color:#1B1813;text-decoration:underline;text-underline-offset:3px}
+.ucl-site-nav .site-name{color:#1B1813;font-weight:700;font-size:18px;margin-right:auto}
+.ucl-site-nav [aria-current="page"]{color:#1B1813;font-weight:700}
+@media (max-width:700px){.ucl-site-nav{gap:14px}.ucl-site-nav .site-name{flex-basis:100%}}
+/* ucl.css, Use Case Library, scoped design language.
+   Everything lives under .ucl-root and is namespaced --ucl- so it never
+   touches the host site's color and font tokens, reset, or globals.
+   "Field manual": warm paper, hard ink, Newsreader / Archivo / IBM Plex Mono. */
+
+.ucl-root {
+  /* paper + ink */
+  --ucl-paper: #F6F2E9;
+  --ucl-paper-card: #FFFDF8;
+  --ucl-ink: #1B1813;
+  --ucl-ink-2: #5A5347;
+  --ucl-ink-3: #8B8475;
+  --ucl-line: #E2DBCC;
+  --ucl-line-2: #D2C9B5;
+
+  /* the five dispositions (the brand) */
+  --ucl-eliminate: #BB3A2B; --ucl-eliminate-bg: #F6E3DE; --ucl-eliminate-ln: #E7C0B8;
+  --ucl-simplify:  #A96A11; --ucl-simplify-bg:  #F6E9D2; --ucl-simplify-ln:  #E7CF9F;
+  --ucl-automate:  #2D5AA6; --ucl-automate-bg:  #E1E8F5; --ucl-automate-ln:  #C0CFEA;
+  --ucl-optimize:  #6A45A0; --ucl-optimize-bg:  #EBE4F4; --ucl-optimize-ln:  #D2C3E8;
+  --ucl-report:    #297150; --ucl-report-bg:    #DEEBE0; --ucl-report-ln:    #BBD7C0;
+
+  --ucl-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --ucl-sans: "Archivo", system-ui, -apple-system, sans-serif;
+  --ucl-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --ucl-maxw: 1140px;
+
+  background: var(--ucl-paper);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ucl-root *,
+.ucl-root *::before,
+.ucl-root *::after { box-sizing: border-box; }
+
+.ucl-root img { max-width: 100%; }
+
+/* ---------- shared primitives ---------- */
+.ucl-wrap { max-width: var(--ucl-maxw); margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+
+.ucl-eyebrow {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ucl-ink-3); font-weight: 500;
+}
+.ucl-meta {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ucl-ink-2);
+}
+
+.ucl-cta {
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--ucl-mono); font-weight: 500; font-size: 14px; letter-spacing: .01em;
+  background: var(--ucl-ink); color: var(--ucl-paper);
+  border: none; padding: 14px 20px; border-radius: 3px; cursor: pointer;
+  text-decoration: none; line-height: 1; white-space: nowrap;
+  transition: background .15s ease;
+}
+.ucl-cta:hover { background: #000; }
+.ucl-cta svg { transition: transform .15s ease; }
+.ucl-cta:hover svg { transform: translateX(3px); }
+.ucl-cta--sm { padding: 10px 14px; font-size: 12.5px; }
+.ucl-cta--ghost { background: var(--ucl-paper); color: var(--ucl-ink); box-shadow: inset 0 0 0 1px var(--ucl-ink); }
+.ucl-cta--ghost:hover { background: var(--ucl-ink); color: var(--ucl-paper); }
+
+/* disposition tag (legend, steps, filters) */
+.ucl-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ucl-mono); font-size: 11px; font-weight: 500; letter-spacing: .05em;
+  padding: 5px 9px 5px 7px; border-radius: 3px; border: 1px solid; line-height: 1;
+  text-transform: uppercase; white-space: nowrap;
+}
+.ucl-tag--eliminate { color: var(--ucl-eliminate); background: var(--ucl-eliminate-bg); border-color: var(--ucl-eliminate-ln); }
+.ucl-tag--simplify  { color: var(--ucl-simplify);  background: var(--ucl-simplify-bg);  border-color: var(--ucl-simplify-ln); }
+.ucl-tag--automate  { color: var(--ucl-automate);  background: var(--ucl-automate-bg);  border-color: var(--ucl-automate-ln); }
+.ucl-tag--optimize  { color: var(--ucl-optimize);  background: var(--ucl-optimize-bg);  border-color: var(--ucl-optimize-ln); }
+.ucl-tag--report    { color: var(--ucl-report);    background: var(--ucl-report-bg);    border-color: var(--ucl-report-ln); }
+.ucl-tag--human     { color: var(--ucl-ink-2);     background: transparent;             border-color: var(--ucl-line-2); }
+
+/* filter toggle: same look, dimmed when off */
+.ucl-tag.is-toggle { cursor: pointer; opacity: .42; transition: opacity .14s ease; }
+.ucl-tag.is-toggle:hover { opacity: .72; }
+.ucl-tag.is-toggle.is-on { opacity: 1; }
+
+/* ---------- header ---------- */
+.ucl-header {
+  position: sticky; top: 0; z-index: 30;
+  background: var(--ucl-paper); border-bottom: 1px solid var(--ucl-ink);
+}
+.ucl-header-in {
+  max-width: var(--ucl-maxw); margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.ucl-wordmark { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .12em; line-height: 1.35; cursor: pointer; white-space: nowrap; }
+.ucl-wordmark b { display: block; font-weight: 600; color: var(--ucl-ink); }
+.ucl-wordmark span { color: var(--ucl-ink-3); }
+
+/* ---------- hero ---------- */
+.ucl-hero { padding: 42px 0 38px; }
+.ucl-hero .ucl-eyebrow { margin-bottom: 20px; display: block; }
+.ucl-hero-grid { display: flex; flex-direction: column; }
+.ucl-hero-stat {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.03em;
+  line-height: .84; font-size: clamp(86px, 17vw, 164px); flex: none;
+}
+.ucl-hero-stat .u { display: block; font-size: .27em; letter-spacing: -.01em; color: var(--ucl-ink-2); margin-top: .14em; white-space: nowrap; }
+.ucl-hero-lead {
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(22px, 4.4vw, 31px);
+  line-height: 1.3; letter-spacing: -.01em; margin: 24px 0 0; max-width: 24ch;
+}
+.ucl-hero-attr { margin-top: 16px; font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+.ucl-hero-cta { margin-top: 24px; }
+
+/* disposition-colored emphasis: ties the hero promise to the framework */
+.ucl-hl { font-style: normal; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: .13em; }
+.ucl-hl--eliminate { text-decoration-color: var(--ucl-eliminate); }
+.ucl-hl--automate  { text-decoration-color: var(--ucl-automate); }
+.ucl-hl--optimize  { text-decoration-color: var(--ucl-optimize); }
+.ucl-word { font-style: normal; font-weight: 600; }
+.ucl-word--eliminate { color: var(--ucl-eliminate); }
+.ucl-word--simplify  { color: var(--ucl-simplify); }
+.ucl-word--automate  { color: var(--ucl-automate); }
+.ucl-word--report    { color: var(--ucl-report); }
+
+@media (min-width: 880px) {
+  .ucl-hero { padding: 54px 0 46px; }
+  .ucl-hero-grid { flex-direction: row; align-items: flex-end; gap: 64px; }
+  .ucl-hero-lead { margin-top: 0; max-width: 21ch; }
+  .ucl-hero-right { padding-bottom: 6px; }
+}
+
+/* ---------- framework intro ---------- */
+.ucl-framework { padding: 38px 0 42px; border-top: 1px solid var(--ucl-ink); }
+.ucl-framework h2 {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em;
+  font-size: clamp(26px, 4.4vw, 38px); line-height: 1.06; margin: 12px 0 0; max-width: 24ch;
+}
+.ucl-framework p { color: var(--ucl-ink-2); max-width: 64ch; margin: 16px 0 0; line-height: 1.55; }
+.ucl-fw-grid { margin-top: 26px; display: flex; flex-direction: column; gap: 24px; }
+.ucl-legend { display: flex; flex-direction: column; border-top: 1px solid var(--ucl-ink); }
+.ucl-legend-row { display: flex; gap: 16px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--ucl-line); }
+.ucl-legend-row .lq { min-width: 124px; flex: none; padding-top: 1px; }
+.ucl-legend-row .lx { color: var(--ucl-ink-2); font-size: 14.5px; line-height: 1.5; }
+.ucl-legend-row .lx b { color: var(--ucl-ink); font-weight: 600; }
+.ucl-fw-side p { margin-top: 0; font-size: 15px; }
+.ucl-ai-note { margin-top: 16px; padding: 16px 17px; border-left: 3px solid var(--ucl-ink); background: var(--ucl-paper-card); }
+.ucl-ai-note b { font-weight: 600; }
+.ucl-ai-note p { font-size: 14.5px; max-width: 70ch; margin: 0; color: var(--ucl-ink); }
+
+@media (min-width: 920px) {
+  .ucl-fw-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: start; }
+}
+
+/* ---------- toolbar / filters ---------- */
+.ucl-toolbar { position: sticky; top: 49px; z-index: 20; background: var(--ucl-paper); border-top: 1px solid var(--ucl-ink); border-bottom: 1px solid var(--ucl-line); }
+.ucl-toolbar-in { max-width: var(--ucl-maxw); margin: 0 auto; padding: 10px 20px 11px; display: flex; flex-direction: column; gap: 8px; }
+.ucl-bar { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.ucl-bar .ucl-count { margin-left: auto; }
+.ucl-sep { width: 1px; align-self: stretch; background: var(--ucl-line-2); margin: 2px 6px; }
+.ucl-search { position: relative; flex: 1 1 230px; min-width: 180px; }
+.ucl-search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--ucl-ink-3); }
+.ucl-search input {
+  width: 100%; font-family: var(--ucl-sans); font-size: 14px; color: var(--ucl-ink);
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 4px;
+  padding: 8px 12px 8px 34px; outline: none;
+}
+.ucl-search input:focus { border-color: var(--ucl-ink); }
+.ucl-search input::placeholder { color: var(--ucl-ink-3); }
+.ucl-chip {
+  font-family: var(--ucl-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--ucl-paper-card); color: var(--ucl-ink-2); border: 1px solid var(--ucl-line-2);
+  border-radius: 3px; padding: 6px 11px; cursor: pointer; line-height: 1; transition: all .14s ease; white-space: nowrap;
+}
+.ucl-chip:hover { border-color: var(--ucl-ink-3); }
+.ucl-chip.is-on { background: var(--ucl-ink); color: var(--ucl-paper); border-color: var(--ucl-ink); }
+
+.ucl-select {
+  font-family: var(--ucl-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--ucl-paper-card); color: var(--ucl-ink-2); border: 1px solid var(--ucl-line-2);
+  border-radius: 3px; padding: 6px 26px 6px 11px; cursor: pointer; line-height: 1.4; outline: none;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B8475' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 9px center;
+}
+.ucl-select:focus { border-color: var(--ucl-ink); }
+.ucl-clear { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 6px 4px; }
+.ucl-clear:hover { color: var(--ucl-ink); }
+
+.ucl-count { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .06em; color: var(--ucl-ink-3); text-transform: uppercase; white-space: nowrap; }
+
+/* ---------- "your week" teaser ---------- */
+.ucl-teaser {
+  margin: 22px 0 0; border: 1px solid var(--ucl-ink); border-radius: 5px; background: var(--ucl-paper-card);
+  padding: 16px 18px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: space-between;
+}
+.ucl-teaser .tt { font-family: var(--ucl-serif); font-size: 18px; line-height: 1.35; max-width: 52ch; }
+.ucl-teaser .tt b { font-style: italic; font-weight: 500; }
+
+/* ---------- category section ---------- */
+.ucl-cat { padding: 42px 0 8px; }
+.ucl-cat-top { display: flex; flex-direction: column; }
+@media (min-width: 920px) {
+  .ucl-cat-top.has-stat { display: grid; grid-template-columns: 1.15fr .85fr; gap: 44px; align-items: end; }
+  .ucl-cat-top.has-stat .ucl-statcard { margin-top: 0; display: block; }
+  .ucl-cat-top.has-stat .ucl-statcard .big { margin-bottom: 10px; }
+}
+.ucl-cat-head { display: flex; align-items: baseline; gap: 11px; }
+.ucl-cat-num { font-family: var(--ucl-mono); font-size: 12px; color: var(--ucl-ink-3); letter-spacing: .1em; }
+.ucl-cat-name { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(28px, 5vw, 40px); letter-spacing: -.02em; line-height: 1; margin: 0; }
+.ucl-cat-intro { margin: 16px 0 0; color: var(--ucl-ink-2); font-size: 15px; line-height: 1.55; max-width: 66ch; }
+
+.ucl-statcard {
+  margin-top: 22px; border: 1px solid var(--ucl-ink); background: var(--ucl-paper-card);
+  border-radius: 5px; padding: 20px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+}
+.ucl-statcard .big { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(44px, 8vw, 62px); line-height: .88; letter-spacing: -.02em; flex: none; }
+.ucl-statcard .txt { font-size: 15px; line-height: 1.5; max-width: 56ch; }
+.ucl-statcard .txt b { font-weight: 600; }
+.ucl-statcard .src { display: block; margin-top: 9px; font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+.ucl-statcard.is-qual .txt { font-family: var(--ucl-serif); font-size: 19px; line-height: 1.4; }
+
+/* ---------- grid + cards ---------- */
+.ucl-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 22px; }
+@media (min-width: 640px) { .ucl-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .ucl-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+.ucl-card {
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 6px;
+  padding: 17px 17px 15px; cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
+  display: flex; flex-direction: column; gap: 13px;
+  transition: border-color .14s ease, transform .14s ease, box-shadow .14s ease;
+}
+.ucl-card:hover { border-color: var(--ucl-ink); transform: translateY(-2px); box-shadow: 0 16px 30px -22px rgba(40,33,20,.55); }
+.ucl-card:focus-visible { outline: 2px solid var(--ucl-ink); outline-offset: 2px; }
+.ucl-card-top { display: flex; align-items: center; justify-content: space-between; }
+.ucl-card-id { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .1em; color: var(--ucl-ink-3); }
+.ucl-card-name { font-family: var(--ucl-serif); font-weight: 500; font-size: 22px; line-height: 1.12; letter-spacing: -.01em; }
+.ucl-card-pain { font-family: var(--ucl-serif); font-style: italic; font-weight: 400; font-size: 15.5px; line-height: 1.42; color: var(--ucl-ink-2); margin-top: 6px; }
+.ucl-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 4px; }
+
+.ucl-pot { display: flex; align-items: center; gap: 7px; }
+.ucl-pot .dots { display: flex; gap: 3px; }
+.ucl-pot .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ucl-line-2); display: block; }
+.ucl-pot .dots i.on { background: var(--ucl-ink); }
+
+.ucl-strip { display: flex; gap: 3px; align-items: center; }
+.ucl-strip i { height: 6px; border-radius: 1px; display: block; }
+.ucl-strip i.eliminate { background: var(--ucl-eliminate); }
+.ucl-strip i.simplify  { background: var(--ucl-simplify); }
+.ucl-strip i.automate  { background: var(--ucl-automate); }
+.ucl-strip i.optimize  { background: var(--ucl-optimize); }
+.ucl-strip i.report    { background: var(--ucl-report); }
+
+/* category-level CTA card embedded in the grid */
+.ucl-cta-card {
+  background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 6px;
+  padding: 20px 18px; display: flex; flex-direction: column; gap: 12px; justify-content: center;
+}
+.ucl-cta-card .ce { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; }
+.ucl-cta-card .ch { font-family: var(--ucl-serif); font-weight: 500; font-size: 22px; line-height: 1.14; }
+.ucl-cta-card .cb { font-size: 13.5px; line-height: 1.5; color: #D8CFBC; }
+.ucl-cta-card .ucl-cta { background: var(--ucl-paper); color: var(--ucl-ink); align-self: flex-start; margin-top: 2px; }
+.ucl-cta-card .ucl-cta:hover { background: #fff; }
+
+.ucl-empty { padding: 50px 0; text-align: center; color: var(--ucl-ink-3); font-family: var(--ucl-mono); font-size: 13px; letter-spacing: .04em; }
+
+/* ---------- footer ---------- */
+.ucl-foot { border-top: 1px solid var(--ucl-ink); margin-top: 48px; padding: 36px 0 56px; }
+.ucl-foot-cta {
+  background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 8px; padding: 32px 26px; text-align: center;
+}
+.ucl-foot-cta .ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; }
+.ucl-foot-cta h3 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(26px, 4.6vw, 36px); line-height: 1.1; letter-spacing: -.01em; margin: 12px 0 0; }
+.ucl-foot-cta p { font-size: 15px; line-height: 1.55; color: #D8CFBC; margin: 14px auto 0; max-width: 60ch; }
+.ucl-foot-cta .ucl-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 22px; }
+.ucl-foot-cta .ucl-cta:hover { background: #fff; }
+.ucl-foot-cta .sub { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: #9C927D; margin-top: 16px; }
+.ucl-colophon { font-family: var(--ucl-mono); font-size: 11px; color: var(--ucl-ink-3); letter-spacing: .04em; margin-top: 26px; text-align: center; }
+
+/* ======================================================================
+   DETAIL VIEW  (full-screen overlay, mobile-reading optimized)
+   ====================================================================== */
+.ucl-detail-scrim { position: fixed; inset: 0; z-index: 50; background: rgba(20,16,10,.34); }
+.ucl-detail {
+  position: fixed; z-index: 51; inset: 0; background: var(--ucl-paper);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+@media (min-width: 760px) {
+  .ucl-detail { inset: 0 0 0 auto; width: min(680px, 100%); border-left: 1px solid var(--ucl-ink); box-shadow: -30px 0 60px -30px rgba(20,16,10,.4); }
+}
+.ucl-detail-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 18px; border-bottom: 1px solid var(--ucl-line); background: var(--ucl-paper); flex: none;
+}
+.ucl-detail-back { font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .04em; color: var(--ucl-ink-2); background: none; border: none; cursor: pointer; display: flex; gap: 6px; align-items: center; padding: 4px; }
+.ucl-detail-back:hover { color: var(--ucl-ink); }
+.ucl-detail-scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.ucl-detail-body { padding: 26px 22px 36px; max-width: 640px; margin: 0 auto; }
+
+.ucl-detail-id { display: block; margin-bottom: 10px; }
+.ucl-detail-name { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(30px, 6vw, 40px); line-height: 1.04; letter-spacing: -.02em; margin: 0; }
+.ucl-detail-subject { font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ucl-ink-3); margin-top: 10px; }
+.ucl-detail-pain { font-family: var(--ucl-serif); font-style: italic; font-size: clamp(18px, 4.2vw, 22px); line-height: 1.36; color: var(--ucl-ink-2); margin: 16px 0 0; }
+.ucl-detail-tags { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; align-items: center; }
+
+.ucl-callout { margin: 26px 0; border-left: 3px solid var(--ucl-ink); padding: 4px 0 4px 18px; }
+.ucl-callout .lbl { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.ucl-callout .big { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(24px, 5vw, 30px); line-height: 1.12; letter-spacing: -.01em; margin: 8px 0; }
+.ucl-callout .big .num { display: block; }
+.ucl-callout .qual { font-family: var(--ucl-serif); font-weight: 500; font-size: 20px; line-height: 1.32; letter-spacing: -.005em; margin: 6px 0 8px; }
+.ucl-callout .src { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+
+.ucl-sec-h {
+  font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ucl-ink); font-weight: 600; margin: 34px 0 16px; padding-bottom: 9px; border-bottom: 1px solid var(--ucl-ink);
+}
+
+/* workflow list */
+.ucl-flow { display: flex; flex-direction: column; }
+.ucl-flow-step { display: flex; gap: 13px; padding: 11px 0; border-bottom: 1px solid var(--ucl-line); }
+.ucl-flow-step:last-child { border-bottom: none; }
+.ucl-flow-n { font-family: var(--ucl-mono); font-size: 12px; color: var(--ucl-ink-3); flex: none; width: 22px; padding-top: 2px; }
+.ucl-flow-t { flex: 1; font-size: 15px; line-height: 1.45; }
+.ucl-flow-ties { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; }
+.ucl-flow-ties i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.ucl-flow-ties i.eliminate { background: var(--ucl-eliminate); }
+.ucl-flow-ties i.simplify  { background: var(--ucl-simplify); }
+.ucl-flow-ties i.automate  { background: var(--ucl-automate); }
+.ucl-flow-ties i.optimize  { background: var(--ucl-optimize); }
+.ucl-flow-ties i.report    { background: var(--ucl-report); }
+
+/* breakdown items */
+.ucl-break { display: flex; flex-direction: column; gap: 12px; }
+.ucl-break-item { border: 1px solid var(--ucl-line); border-radius: 5px; background: var(--ucl-paper-card); padding: 14px 15px; }
+.ucl-break-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 9px; }
+.ucl-break-step { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); margin-right: 2px; }
+.ucl-break-rat { font-size: 14.5px; line-height: 1.5; color: var(--ucl-ink); }
+
+.ucl-aifit { margin-top: 4px; padding: 16px 17px; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 5px; font-size: 14.5px; line-height: 1.55; }
+.ucl-aifit b { font-weight: 600; }
+.ucl-after { font-family: var(--ucl-serif); font-size: clamp(17px, 3.6vw, 19px); line-height: 1.46; color: var(--ucl-ink); }
+
+/* detail CTA block (the bridge) */
+.ucl-bridge { margin-top: 34px; background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 7px; padding: 26px 22px; }
+.ucl-bridge .ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; }
+.ucl-bridge h4 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(24px, 5vw, 28px); line-height: 1.12; letter-spacing: -.01em; margin: 12px 0 0; }
+.ucl-bridge p { font-size: 14.5px; line-height: 1.55; color: #D8CFBC; margin: 13px 0 0; }
+.ucl-bridge .ucl-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 20px; }
+.ucl-bridge .ucl-cta:hover { background: #fff; }
+.ucl-bridge .sub { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: #9C927D; margin-top: 15px; }
+
+/* prev / next pager */
+.ucl-pager { display: flex; gap: 10px; margin-top: 24px; }
+.ucl-pager button { flex: 1; text-align: left; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 5px; padding: 13px 14px; cursor: pointer; font: inherit; color: inherit; transition: border-color .14s ease; }
+.ucl-pager button:hover { border-color: var(--ucl-ink); }
+.ucl-pager button:disabled { opacity: .4; cursor: default; }
+.ucl-pager button.nx { text-align: right; }
+.ucl-pager .d { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.ucl-pager .n { font-family: var(--ucl-serif); font-size: 15.5px; line-height: 1.18; margin-top: 4px; display: block; }
+
+/* entrance + reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .ucl-detail { animation: ucl-slide .26s cubic-bezier(.2,.7,.2,1); }
+  .ucl-detail-scrim { animation: ucl-fade .26s ease; }
+}
+@keyframes ucl-slide { from { transform: translateX(18px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes ucl-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.ucl-noscroll { overflow: hidden; }
+
+</style>
+</head>
+<body>
+<nav class="ucl-site-nav" aria-label="Primary">
+  <a href="/" class="site-name">Jonathan Malkin</a>
+  <a href="/ai-assistant/">AI Assistant</a>
+  <a href="/use-cases/" aria-current="page">Use Cases</a>
+  <a href="/projects/">Projects</a>
+  <a href="/articles/">Articles</a>
+  <a href="/contact/">Contact</a>
+</nav>
+<div id="ucl-mount"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const { useState, useEffect, useMemo, useRef, useCallback } = React;
+  const dispositions = [
+    { id: "eliminate", label: "Eliminate", question: "Should this step exist at all?", meaning: "Stop doing it. Nobody misses it." },
+    { id: "simplify", label: "Simplify", question: "Can this be fewer steps, fewer tools, fewer people?", meaning: "Make the default smarter." },
+    { id: "automate", label: "Automate", question: "Can software do this without a human?", meaning: "A trigger fires, the work happens." },
+    { id: "optimize", label: "Optimize", question: "A human still does it, can they do it in a tenth of the time?", meaning: "AI drafts, you approve." },
+    { id: "report", label: "Report", question: "Can the exhaust of this work give you visibility you've never had?", meaning: "Finally see what's actually happening." }
+  ];
+  const dispositionOrder = ["eliminate", "simplify", "automate", "optimize", "report"];
+  const framework = {
+    heading: "Every workflow gets the same five-question treatment.",
+    intro: "Before you automate anything, you should ask harder questions first. For every step in a workflow, there are five possible verdicts:",
+    afterTable: 'Most "automation" advice skips straight to the blue. The biggest wins usually come from the red and orange, work that never needed doing, and the green: numbers you\u2019ve been running your business without.',
+    aiHeading: "Where AI actually fits (and where it doesn\u2019t):",
+    aiBody: 'A lot of what gets sold as "AI" is plain automation, a form submission triggers an email, a calendar invite syncs to a spreadsheet. That\u2019s been possible for a decade and it\u2019s great. AI earns its keep on the messy parts: reading an email and figuring out what the person wants, drafting a reply in your voice, pulling totals out of a PDF invoice, summarizing a week of job-site photos into a client update. Throughout this library, we mark which is which. If someone tells you everything needs AI, they\u2019re selling you AI.'
+  };
+  const hero = {
+    eyebrow: "The week you keep losing",
+    value: "16",
+    unit: "hours a week",
+    lead: "Small business owners lose two full workdays to admin. Most of those hours can be eliminated, automated, or done in a tenth of the time.",
+    source: "ServiceNow, State of Work"
+  };
+  const cta = {
+    headline: "This is the generic version. Yours is different.",
+    body: "Every business runs these workflows a little differently, and the right first automation depends on yours. An AI audit walks through how your version actually works, applies the same five-question framework, and hands you a prioritized plan: what to eliminate, what to simplify, what to automate, and what it\u2019s worth.",
+    button: "Get your AI audit \u2192",
+    subline: "No jargon. No obligation. You keep the plan either way."
+  };
+  const categories = [
+    {
+      id: "admin",
+      num: "01",
+      name: "Admin & Ops",
+      intro: 'Small business owners spend roughly 16 hours a week, two full workdays, on administrative work. Studies of knowledge workers put "work about work", status chasing, app switching, hunting for files, at around 58\u201360% of the workday. This is the category where elimination and simplification beat fancy tools.',
+      stat: { value: "58\u201360%", text: 'of the workday goes to "work about work", status chasing, app switching, hunting for files.', source: "Asana, Anatomy of Work Index" }
+    },
+    {
+      id: "sales",
+      num: "02",
+      name: "Sales",
+      intro: "The brutal math of small business sales: leads contacted within five minutes are dramatically more likely to convert, by some studies 21x versus a 30-minute wait, yet typical business response times run one to two days, and a large share of inquiries never get a response at all. Meanwhile nearly half of leads arrive outside business hours. Sales automation isn\u2019t about replacing selling. It\u2019s about making sure selling actually happens.",
+      stat: { value: "21\xD7", text: "more likely to convert when a lead is contacted within 5 minutes vs. 30, yet the average business takes ~42 hours.", source: "InsideSales / Drift, lead-response research" }
+    },
+    {
+      id: "marketing",
+      num: "03",
+      name: "Marketing",
+      intro: "Small business marketing fails for one dominant reason: inconsistency. The newsletter that went out three times, the social account last updated in March, the reviews nobody asked for. Automation\u2019s job here isn\u2019t creativity, it\u2019s making the machine run every week whether you\u2019re busy or not.",
+      stat: null
+    },
+    {
+      id: "gc",
+      num: "04",
+      name: "General Contractors",
+      intro: "Construction has the worst paperwork-to-profit ratio of any industry we cover. Industry research found construction professionals spend about 35% of their time, over 14 hours a week, on non-optimal work: searching for project information, resolving conflicts, and dealing with rework. Nearly half of rework traces to poor communication and bad data. None of that pours concrete. All of it is exactly what automation eats.",
+      stat: { value: "35%", text: "of construction time, over 14 hours a week, goes to non-optimal work: searching for information, resolving conflicts, and rework.", source: "PlanGrid / FMI, Construction Disconnected" }
+    }
+  ];
+  const useCases = [
+    /* ===== ADMIN & OPS ===== */
+    {
+      id: "A1",
+      categoryId: "admin",
+      name: '"Where are we on that?"',
+      subject: "Status updates and check-ins",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "Half my day is asking people what they\u2019re doing and telling other people what those people said.",
+      workflow: [
+        "Owner remembers a project exists and wonders about its status",
+        "Sends a text/Slack/email asking for an update",
+        "Waits; sends a follow-up nudge",
+        "Employee stops real work to write up where things stand",
+        "Owner relays a summary to the client or another team member",
+        "Weekly status meeting re-covers everything already discussed",
+        "Someone writes meeting notes nobody reads",
+        "Repeat next week"
+      ],
+      breakdown: [
+        { steps: [1, 2, 3], dispositions: ["eliminate"], rationale: "If task state lived in one visible place, the question never gets asked. The ask-and-wait loop is pure waste." },
+        { steps: [4], dispositions: ["automate"], rationale: "Status derives from activity, tasks moved, files updated, hours logged, instead of being hand-written." },
+        { steps: [5], dispositions: ["optimize"], rationale: "AI drafts the client-facing summary from the raw activity; the owner skims and sends." },
+        { steps: [6], dispositions: ["simplify"], rationale: 'Status meetings shrink to decision meetings; the "what happened" portion is a pre-read.' },
+        { steps: [7], dispositions: ["automate"], rationale: "AI meeting notes with action items, auto-assigned." },
+        { steps: [], dispositions: ["report"], rationale: "A live dashboard of every project\u2019s state, the first time many owners have ever had one." }
+      ],
+      aiFit: "Turning raw activity (task changes, messages, commits, photos) into readable human summaries is genuinely AI work. The underlying tracking is plain software.",
+      afterState: "You glance at one screen each morning instead of running an interrogation. Status meetings get 30 minutes back. Clients get a polished weekly update you spent 90 seconds approving."
+    },
+    {
+      id: "A2",
+      categoryId: "admin",
+      name: "The inbox that runs your day",
+      subject: "Email triage",
+      frequency: "Daily",
+      automation: "Partially automatable",
+      painLine: "I open email to send one thing and lose an hour.",
+      workflow: [
+        "Open inbox to 60+ unread messages",
+        "Skim everything to find the urgent ones",
+        'Answer the same five questions you answered last week (hours, pricing, "did you get my\u2026")',
+        "Forward things to the right person with a one-line note",
+        "Flag things to deal with later; later never comes",
+        "Dig through old threads for an attachment someone needs",
+        "Repeat after lunch, and again at 9pm"
+      ],
+      breakdown: [
+        { steps: [1, 2], dispositions: ["automate"], rationale: "AI triage sorts by what actually needs you: client, money, fire, FYI." },
+        { steps: [3], dispositions: ["eliminate", "automate"], rationale: "A real FAQ page and auto-replies kill the repeats; AI drafts answers to the rest from your past replies." },
+        { steps: [4], dispositions: ["automate"], rationale: 'Routing rules ("anything with \u2018invoice\u2019 goes to bookkeeping") plus AI for the ambiguous ones.' },
+        { steps: [5], dispositions: ["simplify"], rationale: "Flagged emails become tasks with owners and dates, not a guilt pile." },
+        { steps: [6], dispositions: ["automate"], rationale: "Attachments auto-file to the right project folder on arrival." },
+        { steps: [], dispositions: ["report"], rationale: "Response-time and volume trends, find out which client generates 40% of your email." }
+      ],
+      aiFit: "Reading intent, drafting replies in your voice, deciding what\u2019s urgent. Folder rules and auto-filing are plain automation.",
+      afterState: "You process the inbox twice a day in 20 minutes. Drafts are waiting for the messages that matter. The 9pm session disappears."
+    },
+    {
+      id: "A3",
+      categoryId: "admin",
+      name: "Calendar Tetris",
+      subject: "Scheduling meetings and appointments",
+      frequency: "Daily",
+      automation: "Fully automatable",
+      painLine: "It took eleven emails to book a thirty-minute call.",
+      workflow: [
+        "Someone asks to meet",
+        "You propose three times by email",
+        "None work; they counter-propose",
+        "Two more rounds of back-and-forth",
+        "You manually create the calendar invite and video link",
+        "Day-of, someone forgets; you reschedule and start over",
+        "After the meeting, you type up what was agreed (or don\u2019t)"
+      ],
+      breakdown: [
+        { steps: [2, 3, 4, 5], dispositions: ["eliminate"], rationale: "A booking link with your live availability replaces the entire negotiation. This is the single most solved problem in small business operations." },
+        { steps: [6], dispositions: ["automate"], rationale: "Confirmation plus reminder texts/emails at 24h and 1h. No-show rates drop measurably." },
+        { steps: [7], dispositions: ["optimize"], rationale: "AI transcription and summary; you edit the action items instead of reconstructing the meeting from memory." },
+        { steps: [], dispositions: ["report"], rationale: "See how much of your week meetings actually consume, by type and by client." }
+      ],
+      aiFit: "Meeting notes and action-item extraction. The booking itself is plain (and cheap) automation.",
+      afterState: '"Here\u2019s my link" replaces eleven emails. Reminders cut no-shows. Every meeting ends with notes you didn\u2019t write.'
+    },
+    {
+      id: "A4",
+      categoryId: "admin",
+      name: "The request black hole",
+      subject: "Task intake and assignment",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "Requests come in by text, email, phone, and hallway. Some of them get done.",
+      workflow: [
+        "A request arrives in one of six channels",
+        "The receiver mentally notes it (or screenshots it, or stars it)",
+        "It gets verbally relayed, losing detail",
+        "Someone decides who should do it, usually whoever\u2019s nearest",
+        "The requester follows up days later asking what happened",
+        "The team scrambles; nobody can find the original details",
+        "It gets done late, or twice, or never"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["simplify"], rationale: "One intake path (a form, a shared inbox, a dedicated channel). Requests can arrive anywhere, but they live in one place." },
+        { steps: [2, 3], dispositions: ["automate"], rationale: "Every request becomes a tracked task automatically, AI extracts the who/what/when from a forwarded email or voicemail transcript." },
+        { steps: [4], dispositions: ["automate"], rationale: "Routing rules by request type; AI handles the ambiguous ones with a suggested owner." },
+        { steps: [5], dispositions: ["automate"], rationale: 'The requester gets automatic status updates ("received," "scheduled," "done").' },
+        { steps: [6, 7], dispositions: ["eliminate"], rationale: "These steps are symptoms. Fix intake and they vanish." },
+        { steps: [], dispositions: ["report"], rationale: "Volume by request type, time-to-done, who\u2019s overloaded, visible for the first time." }
+      ],
+      aiFit: "Reading unstructured requests (emails, voicemails, texts) and turning them into structured tasks. The tracking and routing is plain automation.",
+      afterState: 'Nothing falls through. The phrase "I never saw that" leaves your vocabulary. You can see Tuesday\u2019s workload on Monday.'
+    },
+    {
+      id: "A5",
+      categoryId: "admin",
+      name: "Groundhog Day work",
+      subject: "Recurring tasks and checklists",
+      frequency: "Weekly / Monthly",
+      automation: "Mostly automatable",
+      painLine: "Every month we reinvent a process we\u2019ve done fifty times.",
+      workflow: [
+        "A recurring obligation comes due (monthly invoicing, payroll prep, license renewal, equipment maintenance, quarterly filings)",
+        "Someone remembers, or doesn\u2019t, usually triggered by a near-miss",
+        "They reconstruct the steps from memory or an old email",
+        "They chase the inputs (numbers, approvals, documents) from other people",
+        "They do the work",
+        "They forget to note anything for next time",
+        "Next month, repeat from scratch, with a different person doing it differently"
+      ],
+      breakdown: [
+        { steps: [2], dispositions: ["automate"], rationale: "Recurring tasks generate themselves on schedule, assigned, with deadlines." },
+        { steps: [3], dispositions: ["simplify"], rationale: "A written checklist/SOP, attached to the task. AI can draft the first version by interviewing whoever does it today." },
+        { steps: [4], dispositions: ["automate"], rationale: "Input requests go out automatically days before; reminders escalate." },
+        { steps: [5], dispositions: ["optimize"], rationale: "For document-heavy steps (assembling a report, reconciling a list), AI does the first pass." },
+        { steps: [6], dispositions: ["report"], rationale: "Completion history builds itself; misses and bottlenecks become visible." }
+      ],
+      aiFit: "Drafting SOPs from a recorded walkthrough, doing first-pass document assembly. The scheduling and reminders are plain automation.",
+      afterState: "The recurring stuff runs like a train schedule. Anyone can cover for anyone, because the process lives in the checklist, not in someone\u2019s head."
+    },
+    {
+      id: "A6",
+      categoryId: "admin",
+      name: '"It\u2019s in the email\u2026 somewhere"',
+      subject: "Documents and files",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "We have the contract. On three devices. In four versions. Which one is signed?",
+      workflow: [
+        "A document is created, or arrives by email, text, or paper",
+        "It gets saved wherever the recipient happened to be (desktop, downloads, phone, a drawer)",
+        "Someone else needs it and asks around",
+        "Twenty minutes of searching across email, drives, and group chats",
+        "The wrong version gets used; rework follows",
+        "For signatures: print, sign, scan, email, repeat for each signer",
+        "Renewal and expiration dates pass unnoticed"
+      ],
+      breakdown: [
+        { steps: [2], dispositions: ["simplify"], rationale: "One filing structure, named conventions, single source of truth. Boring. Transformational." },
+        { steps: [3, 4], dispositions: ["automate", "optimize"], rationale: 'Auto-filing of inbound attachments by client/project; AI-powered search that finds "the signed Henderson contract" by meaning, not filename.' },
+        { steps: [5], dispositions: ["simplify"], rationale: "Live shared docs instead of attachment ping-pong." },
+        { steps: [6], dispositions: ["automate"], rationale: "E-signature with automatic routing, reminders, and filing of the executed copy." },
+        { steps: [7], dispositions: ["automate"], rationale: "AI extracts key dates (expirations, renewals, deadlines) from contracts on arrival and creates calendar reminders." },
+        { steps: [], dispositions: ["report"], rationale: "A register of every active contract, value, and renewal date." }
+      ],
+      aiFit: "Reading documents, extracting dates, amounts, parties, obligations, and semantic search. Filing rules and e-sign flows are plain automation.",
+      afterState: "Any document, found in ten seconds, latest version guaranteed. Renewals never ambush you again."
+    },
+    {
+      id: "A7",
+      categoryId: "admin",
+      name: "Typing the same thing twice",
+      subject: "Data entry between systems",
+      frequency: "Daily / Weekly",
+      automation: "Fully automatable",
+      painLine: "We enter every job into the calendar, the spreadsheet, the invoice tool, and QuickBooks. Four times. With typos.",
+      workflow: [
+        "Information is born somewhere (a form, a phone call, a sale)",
+        "Someone types it into System A",
+        "Later, someone re-types it into System B (and C, and the spreadsheet)",
+        "The copies drift apart, a changed phone number updates in one place",
+        "An error surfaces downstream (wrong address on an invoice)",
+        "Someone burns an afternoon reconciling which version is right",
+        "Monthly: manual export-import gymnastics for the accountant"
+      ],
+      breakdown: [
+        { steps: [3, 4], dispositions: ["automate"], rationale: "This is the textbook case. Connect the systems; data entered once flows everywhere. No-code connectors handle most common tool pairs." },
+        { steps: [5, 6], dispositions: ["eliminate"], rationale: "Reconciliation exists because of double entry. Kill the cause." },
+        { steps: [7], dispositions: ["automate"], rationale: "Scheduled syncs replace export-import rituals." },
+        { steps: [2], dispositions: ["optimize"], rationale: "For unstructured inputs (a photographed business card, a voicemail, a PDF), AI does the extraction and a human confirms." },
+        { steps: [], dispositions: ["report"], rationale: "With one source of truth, cross-system reporting becomes possible at all." }
+      ],
+      aiFit: "Extracting structured data from messy inputs, PDFs, photos, voicemails, free-text emails. System-to-system syncing is plain automation and has been for years.",
+      afterState: "Enter it once. It\u2019s everywhere, correct, instantly. The reconciliation afternoon becomes a coffee break."
+    },
+    {
+      id: "A8",
+      categoryId: "admin",
+      name: "Chasing your own money",
+      subject: "Overdue invoices",
+      frequency: "Weekly",
+      automation: "Mostly automatable",
+      painLine: "I did the work. Now I have a second unpaid job: collections.",
+      contextStat: { value: "56%", text: "of U.S. small businesses report being owed money on unpaid invoices, averaging about $17,500 per business. Roughly half of businesses spend over four hours a week on receivables tasks.", source: "QuickBooks, 2025; Chaser" },
+      workflow: [
+        'Finish the work; mean to invoice "this week"',
+        "Build the invoice manually days later",
+        "Send it; hear nothing",
+        "Notice it\u2019s overdue while doing something else",
+        "Agonize over the wording of a polite nudge",
+        "Send reminder #1; then #2, slightly less polite",
+        "Make the awkward phone call",
+        "Payment arrives by check; manually record and reconcile it"
+      ],
+      breakdown: [
+        { steps: [1, 2], dispositions: ["automate"], rationale: "Invoice generates from the completed job/timesheet data the day the work closes. The single biggest lever on getting paid faster is invoicing faster." },
+        { steps: [4], dispositions: ["automate"], rationale: "Aging is tracked by software, not by anxiety." },
+        { steps: [5, 6], dispositions: ["automate", "optimize"], rationale: "A scheduled reminder sequence (day 1, 7, 14, 30) with escalating firmness; AI personalizes tone for the relationship. Businesses using AR automation get paid significantly faster (Chaser)." },
+        { steps: [7], dispositions: ["optimize"], rationale: "The call still happens for the stubborn 5%, but with the full history in front of you." },
+        { steps: [8], dispositions: ["simplify", "automate"], rationale: "Online payment links on every invoice; auto-reconciliation on payment." },
+        { steps: [], dispositions: ["report"], rationale: "A live aging report and average-days-to-paid by client. Fire your worst payers with data." }
+      ],
+      aiFit: "Tone-matched reminder drafting and flagging which accounts need a human call. The sequences, payment links, and reconciliation are plain automation.",
+      afterState: "Invoices go out same-day. Reminders send themselves while you sleep. Your average collection time drops by weeks, and cash flow stops being a monthly mystery."
+    },
+    /* ===== SALES ===== */
+    {
+      id: "S1",
+      categoryId: "sales",
+      name: "The lead that got away",
+      subject: "Responding to new inquiries",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "They filled out our form Tuesday night. We called Thursday. They\u2019d already hired someone.",
+      contextStat: { value: "~44%", text: "of leads are generated outside business hours, nearly half arrive when no one is watching the inbox.", source: "Lead-response industry research" },
+      workflow: [
+        "A lead submits a form / calls / DMs, often after hours",
+        "The inquiry lands in an inbox nobody\u2019s watching",
+        "Someone notices it the next morning (or after the weekend)",
+        "They try to figure out if it\u2019s a real prospect or spam",
+        'They reply with a generic "thanks, we\u2019ll be in touch"',
+        "Phone tag begins",
+        "By the time contact happens, the lead has called three competitors"
+      ],
+      breakdown: [
+        { steps: [2], dispositions: ["eliminate"], rationale: "Leads should never land in a personal inbox. They land in a pipeline, with an alert." },
+        { steps: [3, 5], dispositions: ["automate"], rationale: "Instant acknowledgment by text and email, within one minute, 24/7, with a real next step: a booking link or 2\u20133 qualifying questions." },
+        { steps: [4], dispositions: ["automate"], rationale: "AI scores and tags the inquiry (real/spam, service type, urgency) from the message content." },
+        { steps: [6], dispositions: ["simplify"], rationale: "The booking link kills phone tag for most leads." },
+        { steps: [7], dispositions: ["report"], rationale: "Track speed-to-first-touch. Most owners are shocked by their real number." }
+      ],
+      aiFit: "Reading the inquiry, qualifying it, and drafting a personal-sounding first response. The instant alerting and booking links are plain automation.",
+      afterState: "Every lead gets a real response in under a minute, including the 10pm Saturday ones. You walk into Monday with calls already booked instead of a pile of cold inquiries."
+    },
+    {
+      id: "S2",
+      categoryId: "sales",
+      name: "Sorting suspects from prospects",
+      subject: "Lead qualification",
+      frequency: "Daily",
+      automation: "Partially automatable",
+      painLine: "I spent 40 minutes on the phone with someone whose budget was a tenth of our minimum.",
+      workflow: [
+        "A new lead appears with one line of context",
+        "You google them; check their website and socials",
+        "You email back-and-forth gathering basics (budget, timeline, scope)",
+        "You book a call to learn what an intake form could have told you",
+        "Half the calls are bad fits; you politely run out the clock",
+        "The good fits get inconsistent next steps depending on who handled them",
+        "Nobody records why the bad fits were bad"
+      ],
+      breakdown: [
+        { steps: [2], dispositions: ["automate"], rationale: "Enrichment, AI pulls and summarizes public info about the lead before you ever look." },
+        { steps: [3], dispositions: ["simplify", "automate"], rationale: "A short intake form or an AI chat that asks your qualifying questions conversationally, at point of inquiry." },
+        { steps: [4, 5], dispositions: ["eliminate"], rationale: "The 40-minute discovery call with a non-fit shouldn\u2019t happen. Disqualify before the calendar, not on it." },
+        { steps: [6], dispositions: ["simplify"], rationale: "Qualified leads enter one defined path: same questions, same follow-up, same materials." },
+        { steps: [7], dispositions: ["report"], rationale: "Disqualification reasons accumulate into real market intelligence, and better marketing targeting." }
+      ],
+      aiFit: "Conversational intake, lead research summaries, and scoring against your historical wins. The forms and routing are plain automation.",
+      afterState: 'You only get on calls with people who fit. Your close rate "improves", really, your calendar just stopped lying to you.'
+    },
+    {
+      id: "S3",
+      categoryId: "sales",
+      name: "The follow-up you meant to send",
+      subject: "Nurture and persistence",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "We lose more deals to silence than to competitors.",
+      workflow: [
+        'A promising conversation happens; they say "let me think about it"',
+        "You make a mental note to follow up",
+        "A week of fires later, the note is gone",
+        "You remember at an awkward time (their invoice is in front of you, or you see them on LinkedIn)",
+        'You send a "just checking in!" with nothing new to say',
+        "Silence; you feel weird sending another",
+        "Months later they buy, from whoever happened to follow up that week"
+      ],
+      breakdown: [
+        { steps: [2, 3], dispositions: ["automate"], rationale: "Every open conversation gets a next-touch date the moment it goes quiet. The system remembers so you don\u2019t have to." },
+        { steps: [5], dispositions: ["optimize"], rationale: 'AI drafts follow-ups with actual substance, referencing their stated problem, sharing a relevant example, instead of "checking in."' },
+        { steps: [6], dispositions: ["simplify"], rationale: "A defined cadence (e.g., day 3, 10, 25, then quarterly) removes the social guesswork. Most sales require five-plus touches; most owners stop at one or two." },
+        { steps: [7], dispositions: ["report"], rationale: "See exactly where deals stall and how many touches your real wins took." }
+      ],
+      aiFit: "Drafting personalized, context-aware follow-ups at scale and suggesting when to reach out based on signals. The scheduling and sequencing are plain automation.",
+      afterState: 'Nobody goes quiet by accident. The "let me think about it" pile becomes a managed pipeline, and deals close that would have evaporated.'
+    },
+    {
+      id: "S4",
+      categoryId: "sales",
+      name: "The quote that took a week",
+      subject: "Proposals and estimates",
+      frequency: "Weekly",
+      automation: "Partially automatable",
+      painLine: "Every proposal starts with \u2018find the last one like it and change the names.\u2019 Sometimes we miss a name.",
+      workflow: [
+        "A prospect asks for a quote",
+        "You hunt for a similar past proposal to copy",
+        "You manually swap names, numbers, scope (and occasionally miss one, mortifying)",
+        "You rebuild pricing in a spreadsheet from memory and supplier emails",
+        "Internal review by whoever\u2019s available",
+        "Export to PDF, attach, send, hope",
+        "No idea if they even opened it",
+        "Follow-up happens if someone remembers (see S3)"
+      ],
+      breakdown: [
+        { steps: [2, 3], dispositions: ["simplify", "optimize"], rationale: "Templated proposals with locked structure; AI drafts the custom sections (situation summary, recommended approach) from your call notes." },
+        { steps: [4], dispositions: ["simplify"], rationale: "A maintained price book replaces archaeology. Update it once, every quote inherits it." },
+        { steps: [6], dispositions: ["automate"], rationale: "Web-based proposals with e-acceptance and payment/deposit built in." },
+        { steps: [7], dispositions: ["report", "automate"], rationale: "Open and view tracking; an alert when they\u2019re reading it is the perfect moment to call." },
+        { steps: [8], dispositions: ["automate"], rationale: "Unviewed and unsigned proposals trigger their own reminder sequence." }
+      ],
+      aiFit: "Drafting the narrative sections from discovery notes and flagging inconsistencies (wrong client name, math that doesn\u2019t add up). Templates, e-sign, and tracking are plain automation.",
+      afterState: "Quotes go out in hours, not days, and speed wins deals by itself. You know who\u2019s reading what, and follow-up runs without willpower."
+    },
+    {
+      id: "S5",
+      categoryId: "sales",
+      name: "Feeding the CRM",
+      subject: "Data entry and pipeline hygiene",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "We bought a CRM. It\u2019s a very expensive list of people we met in 2024.",
+      workflow: [
+        "Calls, emails, and meetings happen all day",
+        "Logging them is a manual chore, so it mostly doesn\u2019t happen",
+        "Deal stages go stale; the pipeline shows deals that died months ago",
+        "Contact info rots, people change jobs, numbers change",
+        'Before any review, someone spends hours "cleaning up the CRM"',
+        "Forecasts get built on this fiction",
+        "Eventually everyone quietly goes back to spreadsheets"
+      ],
+      breakdown: [
+        { steps: [1, 2], dispositions: ["automate"], rationale: "Email and calendar sync logs touchpoints automatically; call recordings transcribe and attach themselves; AI writes the call summary into the record." },
+        { steps: [3], dispositions: ["optimize"], rationale: 'AI flags stale deals ("no activity in 30 days, close it or touch it?") instead of waiting for the quarterly purge.' },
+        { steps: [4], dispositions: ["automate"], rationale: "Enrichment services keep contact data current." },
+        { steps: [5], dispositions: ["eliminate"], rationale: "Cleanup parties exist because logging is manual. Fix the input, the cleanup disappears." },
+        { steps: [6, 7], dispositions: ["report"], rationale: "With honest data, the pipeline report becomes the most useful page in the business." }
+      ],
+      aiFit: "Call summarization, activity-to-record matching, stale-deal detection, next-step suggestions. The syncing is plain automation.",
+      afterState: "The CRM fills itself in. For the first time, the pipeline you look at and the pipeline that exists are the same pipeline."
+    },
+    {
+      id: "S6",
+      categoryId: "sales",
+      name: "The empty chair",
+      subject: "Appointments, reminders, and no-shows",
+      frequency: "Daily",
+      automation: "Fully automatable",
+      painLine: "A no-show doesn\u2019t just waste the slot. It wastes the prep, the drive, and the lead.",
+      workflow: [
+        "Appointment gets booked (often via the email tennis in A3)",
+        "Confirmation maybe goes out, maybe doesn\u2019t",
+        "No reminder, the customer\u2019s life moves on",
+        'Day-of: no-show, or a "wait, that was today?"',
+        "You text them manually; reschedule from scratch",
+        "The slot dies empty; revenue with it",
+        "Repeat offenders face no consequence and keep booking"
+      ],
+      breakdown: [
+        { steps: [2, 3], dispositions: ["automate"], rationale: "Confirmation at booking; reminders at 24h and 1\u20132h by text (texts get read; emails get archived). Include reschedule link." },
+        { steps: [4, 5], dispositions: ["automate"], rationale: 'A no-show triggers an immediate "want to rebook?" message while the intent is still warm.' },
+        { steps: [6], dispositions: ["automate"], rationale: "Cancellations open the slot to a waitlist automatically." },
+        { steps: [7], dispositions: ["simplify"], rationale: "Deposits or card-on-file for repeat offenders, policy, not technology." },
+        { steps: [], dispositions: ["report"], rationale: "No-show rate by day, type, and source. You\u2019ll find patterns you can act on." }
+      ],
+      aiFit: "Honestly, barely, this is nearly all plain automation, and that\u2019s the point. It\u2019s cheap, proven, and pays for itself in the first week.",
+      afterState: "No-shows drop hard (text reminders routinely cut them by a third or more in service businesses). Your calendar fills with people who actually arrive."
+    },
+    {
+      id: "S7",
+      categoryId: "sales",
+      name: '"How\u2019s the pipeline?"',
+      subject: "Sales reporting and forecasting",
+      frequency: "Weekly / Monthly",
+      automation: "Mostly automatable",
+      painLine: "Our forecast is a feeling I have on Sunday nights.",
+      workflow: [
+        "Owner wants to know how the month looks",
+        "Someone exports data from the CRM (or assembles it from memory and sticky notes)",
+        "Hours in a spreadsheet making numbers agree",
+        "The result is stale by the time it\u2019s read",
+        "Decisions get made on gut anyway",
+        "Marketing spend continues with no idea which source produces actual revenue",
+        "Next month, rebuild the whole thing"
+      ],
+      breakdown: [
+        { steps: [2, 3, 4, 7], dispositions: ["automate"], rationale: "A live dashboard fed directly from the pipeline: deals by stage, weighted value, win rate, average deal size, speed-to-lead." },
+        { steps: [5], dispositions: ["optimize"], rationale: 'AI narrates the numbers in plain English, "you\u2019re behind pace because lead volume dropped, not close rate", and flags anomalies.' },
+        { steps: [6], dispositions: ["report"], rationale: 'Source-to-revenue tracking finally answers "is the ad spend working?"' },
+        { steps: [1], dispositions: ["simplify"], rationale: "A weekly digest lands in your inbox; you ask follow-up questions instead of commissioning a report." }
+      ],
+      aiFit: 'Turning charts into explanations, spotting anomalies, answering "why" questions about the data. The dashboarding is plain automation.',
+      afterState: "You know your numbers Monday morning without anyone touching a spreadsheet. Forecasts become arithmetic instead of vibes."
+    },
+    /* ===== MARKETING ===== */
+    {
+      id: "M1",
+      categoryId: "marketing",
+      name: "The content treadmill",
+      subject: "Creating and repurposing content",
+      frequency: "Weekly",
+      automation: "Partially automatable",
+      painLine: "I know we should be posting. I also know how to do forty other jobs that pay today.",
+      workflow: [
+        "Stare at a blank page wondering what to post",
+        "Write something from scratch, slowly, doubting it",
+        "Publish it in one place and consider the job done",
+        "The insight you explained brilliantly to a customer on Tuesday is never captured",
+        "Each platform would need its own version, too much work, skip it",
+        "Posting stops the moment business gets busy (i.e., when it works)",
+        "The blog\u2019s last entry is dated two years ago, in public"
+      ],
+      breakdown: [
+        { steps: [1, 4], dispositions: ["simplify"], rationale: "Your content already exists, customer questions, job photos, voice memos from the truck. Capture beats creation. A running idea inbox kills the blank page." },
+        { steps: [2], dispositions: ["optimize"], rationale: "AI drafts from your raw material, a voice memo becomes a post in your voice. You edit for truth and tone; you don\u2019t compose from zero." },
+        { steps: [5], dispositions: ["optimize"], rationale: "One core piece becomes a post, an email blurb, three social captions, and a short script, AI handles the reformatting, you approve." },
+        { steps: [3, 6], dispositions: ["automate"], rationale: "A scheduled queue publishes consistently regardless of how your week went." },
+        { steps: [], dispositions: ["report"], rationale: "What actually drove inquiries, not just likes." }
+      ],
+      aiFit: "Drafting, rewriting for each platform, turning transcripts into posts. The scheduling and cross-posting are plain automation. Honest caveat: unedited AI content reads generic and can hurt trust. The win is AI-drafted, human-finished.",
+      afterState: "One hour of raw input per week becomes a full content calendar. Your business looks alive online even during your busiest month, especially during your busiest month."
+    },
+    {
+      id: "M2",
+      categoryId: "marketing",
+      name: "Posting into the void",
+      subject: "Social media scheduling",
+      frequency: "Daily / Weekly",
+      automation: "Mostly automatable",
+      painLine: "Marketing is the job I do at 11pm, badly, on my phone.",
+      workflow: [
+        "Remember social media exists, feel guilty",
+        "Take a photo or hunt for an old one",
+        "Write a caption on your phone in the moment",
+        "Post to one platform; the others stay stale",
+        "Forget hashtags, tagging, posting time, whatever",
+        "Comments and DMs arrive; some get answered days later",
+        "No idea if any of this leads to actual customers"
+      ],
+      breakdown: [
+        { steps: [1, 2, 3, 4, 5], dispositions: ["automate", "simplify"], rationale: "A batching ritual, 30 minutes weekly, plus a scheduler that posts at good times to every platform. AI drafts caption variants per platform from your photos." },
+        { steps: [6], dispositions: ["optimize"], rationale: 'Comment/DM inbox unified in one place; AI drafts replies and flags purchase-intent messages ("do you do X? how much?") as leads, because that\u2019s what they are.' },
+        { steps: [7], dispositions: ["report"], rationale: "Followers are vanity; track profile-to-inquiry actions." },
+        { steps: [], dispositions: ["eliminate"], rationale: "Posting frequency itself: most small businesses should post less, better, on fewer platforms. Two platforms done weekly beats five done never." }
+      ],
+      aiFit: "Caption drafting, reply drafting, intent detection in DMs. Scheduling is plain automation, mature and cheap.",
+      afterState: "Sunday\u2019s 30 minutes covers the week. DMs become a managed lead channel instead of a guilt channel."
+    },
+    {
+      id: "M3",
+      categoryId: "marketing",
+      name: "The newsletter that never launched",
+      subject: "Email marketing",
+      frequency: "Weekly / Monthly",
+      automation: "Mostly automatable",
+      painLine: "We have 1,200 customer emails and we\u2019ve used them to send\u2026 nothing.",
+      workflow: [
+        "Customer emails accumulate in the invoice tool, unused",
+        "Someone proposes a newsletter; everyone agrees enthusiastically",
+        "Issue #1 takes six hours and goes out late",
+        "Issue #2 never happens",
+        "New subscribers (if any) get silence after signup",
+        "Past customers never hear from you until they need you, if they remember you",
+        "Competitors\u2019 emails sit in your customers\u2019 inboxes instead"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["automate"], rationale: "Customers flow into the email list automatically at point of sale/job completion (with consent)." },
+        { steps: [3, 4], dispositions: ["optimize", "simplify"], rationale: "A fixed, simple format (one tip, one update, one offer). AI drafts each issue from your month\u2019s activity; you edit in 20 minutes." },
+        { steps: [5], dispositions: ["automate"], rationale: "A welcome sequence, written once, runs forever, does more than a year of newsletters." },
+        { steps: [6], dispositions: ["automate"], rationale: 'Lifecycle triggers: seasonal reminders, service anniversaries ("it\u2019s been a year since your last\u2026"), win-back messages for lapsed customers.' },
+        { steps: [], dispositions: ["report"], rationale: "Revenue per email, not just opens." }
+      ],
+      aiFit: "Drafting issues and lifecycle messages, segmenting by behavior. The sequences and triggers are plain automation, the most proven ROI machine in small business marketing.",
+      afterState: "Your list finally works. Past customers come back on schedule, and the newsletter ships monthly because the heavy lifting isn\u2019t yours anymore."
+    },
+    {
+      id: "M4",
+      categoryId: "marketing",
+      name: '"Could you leave us a review?"',
+      subject: "Review generation",
+      frequency: "Daily (per job/sale)",
+      automation: "Fully automatable",
+      painLine: "Our happiest customers say nothing online. Our angriest one wrote a novel.",
+      workflow: [
+        "Job ends; customer is delighted, says so in person",
+        "You mean to ask for a review; it feels awkward; you don\u2019t",
+        "Occasionally you remember to ask, days later, when the glow has faded",
+        "The customer agrees, then can\u2019t find where to leave it",
+        "Meanwhile one bad experience produces an instant 1-star",
+        "Your rating drifts down on a trickle of angry outliers",
+        "Prospects judge you on a sample of your worst days"
+      ],
+      breakdown: [
+        { steps: [2, 3, 4], dispositions: ["automate"], rationale: "A review request, by text, with the direct link, fires automatically a few hours after job completion, when satisfaction peaks. One automatic follow-up if no action." },
+        { steps: [1], dispositions: ["report"], rationale: "Job-completion status in your system is the trigger; another reason intake/job tracking matters." },
+        { steps: [5], dispositions: ["simplify"], rationale: 'A quick "how did we do?" pulse before the public ask routes unhappy customers to a private conversation first, fixing the problem instead of broadcasting it.' },
+        { steps: [6, 7], dispositions: ["report"], rationale: "Rating trend, volume vs. local competitors, common praise themes (which become marketing copy)." }
+      ],
+      aiFit: "Mostly plain automation, and devastatingly effective. AI helps summarize review themes and draft responses (see M5).",
+      afterState: "Review volume goes up several-fold because every happy customer gets asked at the right moment. Your online rating starts reflecting your actual work."
+    },
+    {
+      id: "M5",
+      categoryId: "marketing",
+      name: "The public conversation",
+      subject: "Responding to reviews and mentions",
+      frequency: "Weekly",
+      automation: "Partially automatable",
+      painLine: "The bad review sat unanswered for three weeks. Every prospect since has read both.",
+      workflow: [
+        "Reviews land on Google, Yelp, Facebook, nobody\u2019s watching",
+        "A bad one sits publicly unanswered for weeks",
+        "When you find it, you\u2019re angry; you draft something you shouldn\u2019t send",
+        "You cool off, soften it, eventually post something adequate",
+        "Good reviews get no acknowledgment at all",
+        "The same complaint appears three times before anyone notices it\u2019s a pattern",
+        "The fixable operational issue behind it stays unfixed"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["automate"], rationale: "All review platforms monitored in one feed, with instant alerts for anything under 4 stars." },
+        { steps: [3, 4], dispositions: ["optimize"], rationale: "AI drafts a calm, specific, non-defensive response within minutes; you approve. (Never auto-post responses to negative reviews, a human must own those.)" },
+        { steps: [5], dispositions: ["automate", "optimize"], rationale: "Brief, varied thank-you responses to positive reviews can be AI-drafted and lightly reviewed." },
+        { steps: [6, 7], dispositions: ["report"], rationale: "AI clusters complaints and praise into themes, your most honest operational report, written by your customers for free." }
+      ],
+      aiFit: "Response drafting (tone is everything and AI is good at calm), theme extraction, sentiment trends. Monitoring and alerting are plain automation.",
+      afterState: "Nothing sits unanswered past a day. Negative reviews become public proof of how you handle problems, which, prospects consistently say, matters more than perfection."
+    },
+    {
+      id: "M6",
+      categoryId: "marketing",
+      name: '"Is the ad money working?"',
+      subject: "Marketing measurement",
+      frequency: "Monthly",
+      automation: "Mostly automatable",
+      painLine: "We spend $1,500 a month on ads because stopping feels scarier than continuing.",
+      workflow: [
+        "Money goes out to ads, sponsorships, directories",
+        "Leads come in from somewhere",
+        'Nobody reliably asks or records "how did you hear about us?"',
+        "Platform dashboards each claim credit for everything",
+        'Monthly review = scrolling four dashboards, concluding "seems okay?"',
+        "Budgets renew on inertia",
+        "The channel quietly producing your best customers gets no extra investment"
+      ],
+      breakdown: [
+        { steps: [3], dispositions: ["simplify", "automate"], rationale: "Source capture built into intake, tracking numbers, form fields, unique links, recorded on the lead automatically, not asked from memory." },
+        { steps: [4, 5], dispositions: ["automate"], rationale: "One blended dashboard: spend per channel next to closed revenue per channel, not clicks." },
+        { steps: [6, 7], dispositions: ["optimize"], rationale: 'AI reviews the month and recommends in plain English: "Referrals close at 4x the rate of paid clicks; the directory produced nothing in 90 days."' },
+        { steps: [], dispositions: ["eliminate"], rationale: "Whatever the data shows isn\u2019t working. Measurement\u2019s best output is a shorter spend list." }
+      ],
+      aiFit: "Plain-language analysis and recommendations. Source tracking and dashboards are plain automation.",
+      afterState: 'Every marketing dollar has a receipt. You cut the dead spend, double the live spend, and "seems okay?" leaves the vocabulary.'
+    },
+    {
+      id: "M7",
+      categoryId: "marketing",
+      name: "The customers you already won",
+      subject: "Repeat and referral",
+      frequency: "Monthly",
+      automation: "Mostly automatable",
+      painLine: "We spend everything chasing strangers and nothing on the people who already trust us.",
+      workflow: [
+        "Job ends; relationship ends with it, by accident",
+        "No follow-up at the natural repurchase moment (the season, the year mark, the service interval)",
+        "Referrals happen only when a customer spontaneously thinks of you",
+        "There\u2019s no easy way for them to refer even if they want to",
+        "Past customer data sits unsegmented, best customers treated identically to one-timers",
+        "A competitor with a postcard or a reminder email gets the repeat job",
+        "You meet the customer again in their review of someone else"
+      ],
+      breakdown: [
+        { steps: [2], dispositions: ["automate"], rationale: 'Time- and season-triggered outreach by service type, the gentle "it\u2019s been 12 months" message, sent reliably forever.' },
+        { steps: [3, 4], dispositions: ["simplify", "automate"], rationale: "A real referral ask in the post-job sequence with a shareable link and a thank-you (gift, discount, donation) that triggers automatically when a referral converts." },
+        { steps: [5], dispositions: ["optimize"], rationale: "AI segments the customer base, high-value, lapsed, seasonal, and suggests who to contact with what." },
+        { steps: [], dispositions: ["report"], rationale: "Repeat rate and referral rate, finally measured. These two numbers predict your year better than ad metrics ever will." }
+      ],
+      aiFit: "Segmentation, message personalization, timing suggestions. The triggers and referral mechanics are plain automation.",
+      afterState: "Your existing customer base becomes a system instead of a coincidence. Repeat and referral work, the cheapest revenue you\u2019ll ever earn, runs in the background year-round."
+    },
+    /* ===== GENERAL CONTRACTORS ===== */
+    {
+      id: "G1",
+      categoryId: "gc",
+      name: "Bid week",
+      subject: "Takeoffs and estimating",
+      frequency: "Weekly",
+      automation: "Partially automatable",
+      painLine: "The ITB came Tuesday. The bid\u2019s due Friday. The plans are 50 pages. There are three other bids due Friday.",
+      workflow: [
+        "Invitation to bid arrives with a plan set and a tight deadline",
+        "Estimator (often the owner, at night) reads every sheet",
+        "Manual takeoff: measuring, counting, calculating quantities for hours or days",
+        "Pricing hunted from supplier emails, old quotes, and memory",
+        'Labor estimated from gut feel and a past job that was "kind of like this one"',
+        "Assemble the bid in a spreadsheet; check the math at midnight",
+        "Submit and immediately start the next one",
+        "Lose track of which bids are outstanding and never hear back on half"
+      ],
+      breakdown: [
+        { steps: [3], dispositions: ["optimize"], rationale: "AI takeoff tools now read plan sets and produce quantity counts in minutes; the estimator reviews flagged uncertainties instead of counting outlets by hand. This is the most mature AI application in construction." },
+        { steps: [4], dispositions: ["simplify"], rationale: "A maintained cost database (your real costs from past jobs) replaces supplier-email archaeology." },
+        { steps: [5], dispositions: ["optimize"], rationale: "Estimates referenced against your actual historical job costs, what this work really took last time." },
+        { steps: [6], dispositions: ["automate"], rationale: "Templated bid assembly from the takeoff and price data; math checks itself." },
+        { steps: [8], dispositions: ["automate", "report"], rationale: "A bid log with automatic follow-ups on outstanding bids; hit rate by job type, GC, and size, so you stop bidding work you never win." },
+        { steps: [2], dispositions: [], human: true, rationale: "Stays human. Judgment about site conditions, risk, and whether you want the job is the job." }
+      ],
+      aiFit: "Plan reading and quantity takeoff (genuinely transformative, vendors report order-of-magnitude time reductions, which you should verify on your own plans), scope-gap flagging, historical cost comparison. Bid logs and follow-ups are plain automation.",
+      afterState: "You bid more work with the same people, your numbers come from your own history instead of midnight guesses, and you know your hit rate, so you bid smarter, not just more."
+    },
+    {
+      id: "G2",
+      categoryId: "gc",
+      name: '"Any update on our bid?"',
+      subject: "Proposal follow-up and pre-construction",
+      frequency: "Weekly",
+      automation: "Mostly automatable",
+      painLine: "We spent 30 hours on that estimate and then forgot to call them back.",
+      workflow: [
+        "Bid submitted; mental note to follow up",
+        "New fires erupt; the note evaporates",
+        "The client had questions but didn\u2019t want to bother you; they asked the other bidder instead",
+        "Weeks later you learn you lost, no idea why, or to what number",
+        "Won jobs: contract back-and-forth drags by email",
+        'Deposit invoicing and scheduling start late because "signed" surprised everyone',
+        "The handoff from estimating to the field loses half the assumptions in the estimate"
+      ],
+      breakdown: [
+        { steps: [1, 2], dispositions: ["automate"], rationale: "Submitted bids enter a pipeline with scheduled follow-ups (day 2, 7, 14), same machinery as any sales pipeline, almost never used in construction." },
+        { steps: [3], dispositions: ["optimize"], rationale: "A follow-up that invites questions, AI-drafted to reference specifics of their project, keeps you in the conversation." },
+        { steps: [4], dispositions: ["report"], rationale: "Win/loss tracking with reasons. Even partial data changes how you price." },
+        { steps: [5], dispositions: ["automate"], rationale: "E-signature with reminders; the signed contract auto-triggers step 6." },
+        { steps: [6], dispositions: ["automate"], rationale: "Signature triggers deposit invoice, schedule slot, and a welcome packet to the client." },
+        { steps: [7], dispositions: ["simplify"], rationale: "A structured estimate-to-field handoff sheet, assumptions, exclusions, allowances, generated from the bid itself." }
+      ],
+      aiFit: "Drafting context-aware follow-ups and turning estimate data into a field-ready brief. The pipeline, e-sign, and trigger chain are plain automation.",
+      afterState: "No bid dies of silence. Signed contracts kick off the job machinery the same hour, and the crew starts with the estimator\u2019s actual assumptions in hand."
+    },
+    {
+      id: "G3",
+      categoryId: "gc",
+      name: "The handshake that cost $12,000",
+      subject: "Change orders",
+      frequency: "Weekly (active jobs)",
+      automation: "Partially automatable",
+      painLine: "We did the extra work. We just never got it in writing. You know how this ends.",
+      contextStat: { value: null, text: "Change order management consistently ranks among GCs\u2019 top administrative pain points, manual logs, scattered email approvals, and surprise costs from subs\u2019 unsubmitted change order requests.", source: "Clearstory, industry reporting" },
+      workflow: [
+        'Client asks for "one small change" verbally, on-site',
+        "Crew says sure and does it, schedule pressure beats paperwork",
+        "The cost impact is never priced or communicated",
+        "Sub change-order requests pile up in email, unlogged",
+        "At billing time, the extras appear; the client is shocked",
+        "You negotiate from memory against their memory",
+        "You eat some or all of it to save the relationship",
+        "Multiply by every job, forever"
+      ],
+      breakdown: [
+        { steps: [1, 2, 3], dispositions: ["simplify", "optimize"], rationale: "A field-first capture habit: photo + voice note on the spot. AI turns the voice note into a written change order with scope and price from your rate sheet, ready to send before you leave the driveway." },
+        { steps: [4], dispositions: ["automate"], rationale: "One intake channel for sub CORs feeding a live log; nothing lives in email threads." },
+        { steps: [5], dispositions: ["automate"], rationale: "No work proceeds without e-signed approval, the system makes the right way the easy way (approval link by text, signed in 60 seconds)." },
+        { steps: [6, 7], dispositions: ["eliminate"], rationale: "The negotiation-from-memory step shouldn\u2019t exist. Signed scope + timestamped photos ends the argument before it starts." },
+        { steps: [], dispositions: ["report"], rationale: "Change order volume and margin by job and client, often the difference between a profitable year and a confusing one." }
+      ],
+      aiFit: "Voice-to-change-order drafting, pricing from your historical data, extracting CORs from sub emails into the log. E-signature and the approval gate are plain automation.",
+      afterState: "Every change is priced, signed, and billed, captured in two minutes at the truck instead of disputed in an hour at billing. Most contractors find this single workflow pays for their entire automation effort."
+    },
+    {
+      id: "G4",
+      categoryId: "gc",
+      name: "Herding subs",
+      subject: "Subcontractor scheduling and coordination",
+      frequency: "Daily",
+      automation: "Partially automatable",
+      painLine: "The drywaller showed up. The electrician hadn\u2019t finished. Now I owe two apologies and a day.",
+      workflow: [
+        "Build the schedule in your head, a whiteboard, or a spreadsheet",
+        "Call/text each sub individually with their dates",
+        "A delay hits (weather, inspection, materials)",
+        "Manually re-call/re-text every downstream sub, in dependency order, from memory",
+        "Someone gets missed; they show up to an unready site",
+        "Sub availability conflicts surface day-of instead of week-before",
+        "Docs (insurance certs, W-9s, signed subcontracts) chased separately, repeatedly",
+        "Nobody can say what\u2019s happening on which job without calling around"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["simplify"], rationale: "One shared schedule with dependencies, visible to everyone who needs it." },
+        { steps: [2, 4], dispositions: ["automate"], rationale: "A date change cascades: every affected sub gets notified automatically with their new window, and confirms with one tap." },
+        { steps: [5], dispositions: ["eliminate"], rationale: "A symptom of manual fan-out. Dies with it." },
+        { steps: [6], dispositions: ["automate"], rationale: "Subs confirm or flag conflicts when notified, days early, not at the curb." },
+        { steps: [7], dispositions: ["automate"], rationale: "Document tracking with expiration alerts; subs can\u2019t be scheduled with lapsed insurance." },
+        { steps: [8], dispositions: ["report"], rationale: "A live board of every job\u2019s state, who\u2019s on site, what\u2019s next, what\u2019s blocked." }
+      ],
+      aiFit: 'Suggesting re-sequencing when delays hit and summarizing schedule state ("what changed this week across all jobs"). The notification cascades and doc tracking are plain automation.',
+      afterState: "A delay means one schedule edit, not an afternoon of phone calls. Subs trust your dates because your dates are real, and that reputation gets you better subs."
+    },
+    {
+      id: "G5",
+      categoryId: "gc",
+      name: "The permit purgatory",
+      subject: "Permits and inspections",
+      frequency: "Weekly (active jobs)",
+      automation: "Partially automatable",
+      painLine: "The job didn\u2019t stall because of the work. It stalled because nobody re-checked the portal on Thursday.",
+      workflow: [
+        "Figure out which permits this job needs (memory + the city\u2019s confusing website)",
+        "Assemble applications, drawings, and forms; submit",
+        "Wait, with no visibility; check the portal when you happen to remember",
+        "Corrections come back; sit unnoticed in an inbox for days",
+        "Schedule inspections by phone within narrow windows",
+        "Inspector finds an issue; the fix and re-inspection add an unplanned week",
+        "The client asks why nothing\u2019s happening; you don\u2019t have a crisp answer",
+        "Final/closeout permits slip, delaying occupancy and final payment"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["simplify", "optimize"], rationale: "A permit checklist per job type for your jurisdictions; AI helps build and update it from municipal requirements." },
+        { steps: [2], dispositions: ["optimize"], rationale: "AI pre-fills repetitive application data from the job record; a human verifies." },
+        { steps: [3, 4], dispositions: ["automate"], rationale: "Status checks on a schedule with alerts on any change, corrections get same-day attention instead of week-late discovery." },
+        { steps: [5], dispositions: ["automate"], rationale: "Inspection requests tied to schedule milestones; reminders to have the site inspection-ready." },
+        { steps: [7], dispositions: ["report"], rationale: 'Permit status visible on the client\u2019s update feed (see G6), "waiting on the city" lands better when they can see it.' },
+        { steps: [8], dispositions: ["automate"], rationale: "Closeout checklist triggered automatically as the job nears completion." }
+      ],
+      aiFit: "Form pre-fill, requirement research, deadline extraction from correction letters. Status monitoring and reminders are plain automation. Honest caveat: municipal portals vary wildly; some allow clean automation, some require a human clicking. Audit your actual jurisdictions.",
+      afterState: 'Permits stop being the invisible schedule-killer. Corrections get answered in hours, inspections book themselves against the schedule, and "waiting on the city" comes with a date.'
+    },
+    {
+      id: "G6",
+      categoryId: "gc",
+      name: '"Just checking in on the project\u2026"',
+      subject: "Client updates and photo documentation",
+      frequency: "Daily",
+      automation: "Mostly automatable",
+      painLine: "Every client call that starts with \u2018just checking in\u2019 means my update system already failed.",
+      workflow: [
+        "Crew takes photos all day, they live and die on personal phones",
+        "The client texts/calls for updates whenever anxiety strikes",
+        "You answer the same questions per-client, per-week, from memory",
+        "The weekly update you intend to send goes out sporadically",
+        'A dispute arises ("that wall was supposed to be\u2026") and the photographic proof is on a phone that left the company in March',
+        "Daily logs, weather, crew, work done, are skipped or scribbled",
+        "At closeout, assembling the documentation story takes days"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["simplify", "automate"], rationale: "Photos go to a shared, job-tagged stream (one habit change), auto-organized by date and job." },
+        { steps: [2, 3, 4], dispositions: ["automate", "optimize"], rationale: 'A scheduled weekly client update, AI-drafted from the week\u2019s photos, schedule changes, and logs, you approve in two minutes. Proactive updates kill 80% of inbound "checking in" calls.' },
+        { steps: [5], dispositions: ["report"], rationale: "The photo stream is the evidence locker: timestamped, job-tagged, owned by the company." },
+        { steps: [6], dispositions: ["optimize"], rationale: "Voice-note daily logs, AI-transcribed and structured (weather, crew, work, issues), 60 seconds at the truck." },
+        { steps: [7], dispositions: ["automate"], rationale: "Closeout documentation assembles itself from the stream." }
+      ],
+      aiFit: "Drafting client updates from raw site data, transcribing and structuring voice logs, even captioning photos. Photo organization and scheduled sends are plain automation.",
+      afterState: "Clients feel informed instead of ignored, your referral engine, quietly. And when a dispute comes, you\u2019re the one with timestamps."
+    },
+    {
+      id: "G7",
+      categoryId: "gc",
+      name: "The last 2%",
+      subject: "Punch lists and closeout",
+      frequency: "Per job",
+      automation: "Mostly automatable",
+      painLine: "98% done in March. 100% done in June. Final payment in August.",
+      workflow: [
+        "Walkthrough produces a punch list on a legal pad or a long text thread",
+        "Items get verbally assigned to subs who have mentally moved on",
+        "No one tracks which items are actually done",
+        "The client adds items in dribbles by text, restarting the loop",
+        "Final inspection waits on stragglers nobody\u2019s chasing",
+        "Closeout docs, warranties, manuals, as-builts, final lien waivers, get assembled in a panicked scavenger hunt",
+        "Final payment (often 10%+ of contract, most of your margin) waits on all of the above"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["simplify", "optimize"], rationale: "Punch items captured as photos + voice notes during the walk; AI turns the walk into a structured, itemized list before you reach the car." },
+        { steps: [2, 3], dispositions: ["automate"], rationale: "Items auto-assigned to the responsible sub with photos and deadlines; reminders escalate; completion requires a photo back." },
+        { steps: [4], dispositions: ["simplify"], rationale: "Client additions go through one channel into the same list, visible, bounded, done." },
+        { steps: [6], dispositions: ["automate"], rationale: "The closeout package builds throughout the job (every warranty and manual filed on arrival), not at the end." },
+        { steps: [7], dispositions: ["report"], rationale: 'A live "what\u2019s between us and final payment" view, for you and the client. Shared visibility creates shared urgency.' }
+      ],
+      aiFit: "Walkthrough-to-list structuring, doc gathering and gap-flagging. Assignment, reminders, and photo-verification loops are plain automation.",
+      afterState: "The 98%-to-100% gap shrinks from months to days. Final payments, your margin, arrive while the job is still warm."
+    },
+    {
+      id: "G8",
+      categoryId: "gc",
+      name: "Getting paid for built work",
+      subject: "Invoicing, pay apps, and lien waivers",
+      frequency: "Monthly",
+      automation: "Mostly automatable",
+      painLine: "We financed our client\u2019s project for 60 days and called it normal.",
+      contextStat: { value: "30\u201345+ days", text: "Construction has among the longest payment delays of any U.S. industry, receivables routinely stretch past terms. For a GC, slow paper directly equals slow cash.", source: "Industry AR research" },
+      workflow: [
+        "Month-end: assemble the pay app / invoice from memory, spreadsheets, and the schedule of values",
+        "Collect sub pay apps in inconsistent formats; check their math by hand",
+        "Chase missing lien waivers from subs and suppliers, calls, emails, re-sends",
+        "Compile the billing package; one missing waiver stalls the whole submission",
+        "Submit; wait; no visibility into approval status",
+        "Payment arrives short or late; reconciling what was paid against what was billed takes hours",
+        "Your subs call asking where their money is; you relay uncertainty downward",
+        "Repeat monthly, on every job, simultaneously"
+      ],
+      breakdown: [
+        { steps: [1], dispositions: ["automate"], rationale: "The pay app builds from live job data, percent complete, approved change orders, stored materials, against a locked schedule of values." },
+        { steps: [2], dispositions: ["simplify", "automate"], rationale: "Subs submit through one standardized channel; math validates automatically." },
+        { steps: [3], dispositions: ["automate", "optimize"], rationale: "Waiver requests generate with each billing cycle, tracked with automatic reminders; AI flags wrong amounts, dates, or unsigned waivers on receipt." },
+        { steps: [4], dispositions: ["report"], rationale: "A live checklist shows exactly what\u2019s blocking submission, days early." },
+        { steps: [5, 6], dispositions: ["automate"], rationale: "Status tracking and payment-to-billing matching; discrepancies flagged, not discovered." },
+        { steps: [7], dispositions: ["automate"], rationale: "Subs see their own payment status, the calls stop." }
+      ],
+      aiFit: "Document checking (waivers, sub pay apps), discrepancy detection, extracting data from whatever PDF format a sub invents. The assembly, reminders, and status tracking are plain automation.",
+      afterState: "Billing day becomes an approval, not an assembly. Packages go out complete and on time, which is the single most controllable lever on when you get paid, and your subs stop calling because they can see for themselves."
+    }
+  ];
+  const ctaCopy = cta;
+  function automationLevel(automation) {
+    const a = automation.toLowerCase();
+    if (a.includes("fully")) return 4;
+    if (a.includes("mostly")) return 3;
+    if (a.includes("partially")) return 2;
+    return 2;
+  }
+  function frequencyTokens(frequency) {
+    const base = frequency.toLowerCase();
+    const tokens = [];
+    if (base.includes("daily")) tokens.push("Daily");
+    if (base.includes("weekly")) tokens.push("Weekly");
+    if (base.includes("monthly")) tokens.push("Monthly");
+    if (base.includes("per job")) tokens.push("Per job");
+    return tokens.length ? tokens : [frequency];
+  }
+  const FREQUENCY_FILTERS = ["Daily", "Weekly", "Monthly", "Per job"];
+  function caseDispositions(useCase) {
+    const counts = {};
+    for (const item of useCase.breakdown) {
+      for (const d of item.dispositions) counts[d] = (counts[d] || 0) + 1;
+    }
+    return dispositionOrder.filter((id) => counts[id]).map((id) => ({ id, count: counts[id] }));
+  }
+  function caseDispositionSet(useCase) {
+    const set = /* @__PURE__ */ new Set();
+    for (const item of useCase.breakdown) for (const d of item.dispositions) set.add(d);
+    return set;
+  }
+  function stepTies(useCase, stepNumber) {
+    const ids = [];
+    for (const item of useCase.breakdown) {
+      if (item.steps.includes(stepNumber)) {
+        for (const d of item.dispositions) if (!ids.includes(d)) ids.push(d);
+      }
+    }
+    return ids;
+  }
+  function stepLabel(item) {
+    if (item.human) return "Stays human";
+    const s = item.steps;
+    if (!s.length) return "Across the workflow";
+    if (s.length === 1) return `Step ${s[0]}`;
+    const sorted = [...s].sort((a, b) => a - b);
+    const contiguous = sorted.every((n, i) => i === 0 || n === sorted[i - 1] + 1);
+    if (contiguous) return `Steps ${sorted[0]}\u2013${sorted[sorted.length - 1]}`;
+    return `Steps ${sorted.join(", ")}`;
+  }
+  function DispositionIcon({ id, size = 14 }) {
+    const common = {
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: 1.9,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": true
+    };
+    switch (id) {
+      case "eliminate":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M6 6l12 12M18 6L6 18" }));
+      case "simplify":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M5 5l7 7M19 5l-7 7M12 12v7" }));
+      case "automate":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M13 3L5 13h6l-1 8 8-11h-6z" }));
+      case "optimize":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M5 18a7 7 0 0 1 14 0" }), /* @__PURE__ */ React.createElement("path", { d: "M12 18l4-5" }));
+      case "report":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M6 20V13M12 20V7M18 20v-9" }));
+      case "human":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "8", r: "3.2" }), /* @__PURE__ */ React.createElement("path", { d: "M5.5 19a6.5 6.5 0 0 1 13 0" }));
+      default:
+        return null;
+    }
+  }
+  function ArrowRight({ size = 16 }) {
+    return /* @__PURE__ */ React.createElement(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.9,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        "aria-hidden": "true"
+      },
+      /* @__PURE__ */ React.createElement("path", { d: "M5 12h14M13 6l6 6-6 6" })
+    );
+  }
+  function SearchIcon({ size = 16 }) {
+    return /* @__PURE__ */ React.createElement(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.8,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        "aria-hidden": "true"
+      },
+      /* @__PURE__ */ React.createElement("circle", { cx: "11", cy: "11", r: "7" }),
+      /* @__PURE__ */ React.createElement("path", { d: "M21 21l-4.3-4.3" })
+    );
+  }
+  function ChevronLeft({ size = 16 }) {
+    return /* @__PURE__ */ React.createElement(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.8,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        "aria-hidden": "true"
+      },
+      /* @__PURE__ */ React.createElement("path", { d: "M15 6l-6 6 6 6" })
+    );
+  }
+  const dispoLabel = Object.fromEntries(dispositions.map((d) => [d.id, d.label]));
+  function Tag({ id, human }) {
+    if (human) {
+      return /* @__PURE__ */ React.createElement("span", { className: "ucl-tag ucl-tag--human" }, /* @__PURE__ */ React.createElement(DispositionIcon, { id: "human" }), "Human judgment");
+    }
+    return /* @__PURE__ */ React.createElement("span", { className: `ucl-tag ucl-tag--${id}` }, /* @__PURE__ */ React.createElement(DispositionIcon, { id }), dispoLabel[id]);
+  }
+  function DetailView({ useCase, category, onClose, onAudit, onPrev, onNext, prevCase, nextCase }) {
+    const scrollRef = useRef(null);
+    const level = automationLevel(useCase.automation);
+    useEffect(() => {
+      function onKey(e) {
+        if (e.key === "Escape") onClose();
+        else if (e.key === "ArrowLeft" && prevCase) onPrev();
+        else if (e.key === "ArrowRight" && nextCase) onNext();
+      }
+      document.addEventListener("keydown", onKey);
+      return () => document.removeEventListener("keydown", onKey);
+    }, [onClose, onPrev, onNext, prevCase, nextCase]);
+    useEffect(() => {
+      if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    }, [useCase.id]);
+    const cs = useCase.contextStat;
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-scrim", onClick: onClose }), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail", role: "dialog", "aria-modal": "true", "aria-label": useCase.name }, /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-nav" }, /* @__PURE__ */ React.createElement("button", { className: "ucl-detail-back", onClick: onClose }, /* @__PURE__ */ React.createElement(ChevronLeft, null), " All use cases"), /* @__PURE__ */ React.createElement("button", { className: "ucl-cta ucl-cta--sm", onClick: onAudit }, "Get your AI audit ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-scroll", ref: scrollRef }, /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-body" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow ucl-detail-id" }, category.name, " \xB7 ", useCase.id), /* @__PURE__ */ React.createElement("h2", { className: "ucl-detail-name" }, useCase.name), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-subject" }, useCase.subject), /* @__PURE__ */ React.createElement("p", { className: "ucl-detail-pain" }, "\u201C", useCase.painLine, "\u201D"), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-tags" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, useCase.frequency), /* @__PURE__ */ React.createElement("span", { className: "ucl-pot" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, useCase.automation), /* @__PURE__ */ React.createElement("span", { className: "dots" }, [0, 1, 2, 3].map((i) => /* @__PURE__ */ React.createElement("i", { key: i, className: i < level ? "on" : "" }))))), cs && /* @__PURE__ */ React.createElement("div", { className: "ucl-callout" }, /* @__PURE__ */ React.createElement("div", { className: "lbl" }, "This is measured"), cs.value ? /* @__PURE__ */ React.createElement("div", { className: "big" }, /* @__PURE__ */ React.createElement("span", { className: "num" }, cs.value), " ", cs.text) : /* @__PURE__ */ React.createElement("div", { className: "qual" }, cs.text), /* @__PURE__ */ React.createElement("div", { className: "src" }, cs.source)), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The workflow today"), /* @__PURE__ */ React.createElement("ol", { className: "ucl-flow" }, useCase.workflow.map((text, i) => {
+      const ties = stepTies(useCase, i + 1);
+      return /* @__PURE__ */ React.createElement("li", { className: "ucl-flow-step", key: i }, /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-n" }, String(i + 1).padStart(2, "0")), /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-t" }, text, ties.length > 0 && /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-ties", "aria-hidden": "true" }, ties.map((d) => /* @__PURE__ */ React.createElement("i", { key: d, className: d })))));
+    })), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The breakdown"), /* @__PURE__ */ React.createElement("div", { className: "ucl-break" }, useCase.breakdown.map((item, i) => /* @__PURE__ */ React.createElement("div", { className: "ucl-break-item", key: i }, /* @__PURE__ */ React.createElement("div", { className: "ucl-break-top" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-break-step" }, stepLabel(item)), item.human ? /* @__PURE__ */ React.createElement(Tag, { human: true }) : item.dispositions.map((d) => /* @__PURE__ */ React.createElement(Tag, { id: d, key: d }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-break-rat" }, item.rationale)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "Where AI actually fits"), /* @__PURE__ */ React.createElement("p", { className: "ucl-aifit" }, useCase.aiFit), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The after state"), /* @__PURE__ */ React.createElement("p", { className: "ucl-after" }, useCase.afterState), /* @__PURE__ */ React.createElement("div", { className: "ucl-bridge" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("h4", null, ctaCopy.headline), /* @__PURE__ */ React.createElement("p", null, ctaCopy.body), /* @__PURE__ */ React.createElement("button", { className: "ucl-cta", onClick: onAudit }, ctaCopy.button.replace(" \u2192", ""), " ", /* @__PURE__ */ React.createElement(ArrowRight, null)), /* @__PURE__ */ React.createElement("div", { className: "sub" }, ctaCopy.subline)), /* @__PURE__ */ React.createElement("div", { className: "ucl-pager" }, /* @__PURE__ */ React.createElement("button", { onClick: onPrev, disabled: !prevCase }, /* @__PURE__ */ React.createElement("span", { className: "d" }, /* @__PURE__ */ React.createElement(ChevronLeft, { size: 12 }), " Prev"), /* @__PURE__ */ React.createElement("span", { className: "n" }, prevCase ? prevCase.name : "None")), /* @__PURE__ */ React.createElement("button", { className: "nx", onClick: onNext, disabled: !nextCase }, /* @__PURE__ */ React.createElement("span", { className: "d" }, "Next \u2192"), /* @__PURE__ */ React.createElement("span", { className: "n" }, nextCase ? nextCase.name : "None")))))));
+  }
+  const AUTOMATION_FILTERS = ["Fully automatable", "Mostly automatable", "Partially automatable"];
+  const categoryById = Object.fromEntries(categories.map((c) => [c.id, c]));
+  function Marked({ text, marks, cls }) {
+    const parts = [];
+    let rest = text;
+    marks.forEach(([phrase, id], k) => {
+      const i = rest.indexOf(phrase);
+      if (i === -1) return;
+      parts.push(rest.slice(0, i));
+      parts.push(/* @__PURE__ */ React.createElement("em", { key: k, className: `${cls} ${cls}--${id}` }, phrase));
+      rest = rest.slice(i + phrase.length);
+    });
+    parts.push(rest);
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, parts);
+  }
+  function UseCaseCard({ useCase, onOpen }) {
+    const level = automationLevel(useCase.automation);
+    const strip = caseDispositions(useCase);
+    const automationShort = useCase.automation.replace(" automatable", "").replace("Partially", "Partly");
+    return /* @__PURE__ */ React.createElement("button", { className: "ucl-card", onClick: () => onOpen(useCase.id) }, /* @__PURE__ */ React.createElement("div", { className: "ucl-card-top" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-card-id" }, useCase.id), /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, useCase.frequency)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ucl-card-name" }, useCase.name), /* @__PURE__ */ React.createElement("p", { className: "ucl-card-pain" }, "\u201C", useCase.painLine, "\u201D")), /* @__PURE__ */ React.createElement("div", { className: "ucl-card-foot" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-pot" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, automationShort), /* @__PURE__ */ React.createElement("span", { className: "dots" }, [0, 1, 2, 3].map((i) => /* @__PURE__ */ React.createElement("i", { key: i, className: i < level ? "on" : "" })))), /* @__PURE__ */ React.createElement("span", { className: "ucl-strip", "aria-hidden": "true" }, strip.map(({ id, count }) => /* @__PURE__ */ React.createElement("i", { key: id, className: id, style: { width: 10 + count * 5 } })))));
+  }
+  function Toolbar({
+    query,
+    setQuery,
+    catFilter,
+    toggleCat,
+    dispFilter,
+    toggleDisp,
+    freq,
+    setFreq,
+    auto,
+    setAuto,
+    anyActive,
+    clearAll,
+    count
+  }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar-in" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-bar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-search" }, /* @__PURE__ */ React.createElement(SearchIcon, null), /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "text",
+        value: query,
+        onChange: (e) => setQuery(e.target.value),
+        placeholder: "Search the week you keep losing\u2026",
+        "aria-label": "Search use cases"
+      }
+    )), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: freq, onChange: (e) => setFreq(e.target.value), "aria-label": "Filter by frequency" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "All frequencies"), FREQUENCY_FILTERS.map((f) => /* @__PURE__ */ React.createElement("option", { key: f, value: f }, f))), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: auto, onChange: (e) => setAuto(e.target.value), "aria-label": "Filter by automation potential" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "Any automation potential"), AUTOMATION_FILTERS.map((a) => /* @__PURE__ */ React.createElement("option", { key: a, value: a }, a))), /* @__PURE__ */ React.createElement("span", { className: "ucl-count" }, count, " of ", useCases.length), anyActive && /* @__PURE__ */ React.createElement("button", { className: "ucl-clear", onClick: clearAll }, "Clear")), /* @__PURE__ */ React.createElement("div", { className: "ucl-bar" }, categories.map((c) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: c.id,
+        className: `ucl-chip${catFilter.has(c.id) ? " is-on" : ""}`,
+        onClick: () => toggleCat(c.id)
+      },
+      c.name
+    )), /* @__PURE__ */ React.createElement("span", { className: "ucl-sep", "aria-hidden": "true" }), dispositions.map((d) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: d.id,
+        className: `ucl-tag ucl-tag--${d.id} is-toggle${dispFilter.has(d.id) ? " is-on" : ""}`,
+        onClick: () => toggleDisp(d.id)
+      },
+      /* @__PURE__ */ React.createElement(DispositionIcon, { id: d.id }),
+      d.label
+    )))));
+  }
+  function UseCaseLibrary({ auditHref = "#audit" }) {
+    const [query, setQuery] = useState("");
+    const [catFilter, setCatFilter] = useState(() => /* @__PURE__ */ new Set());
+    const [dispFilter, setDispFilter] = useState(() => /* @__PURE__ */ new Set());
+    const [freq, setFreq] = useState("all");
+    const [auto, setAuto] = useState("all");
+    const [openId, setOpenId] = useState(null);
+    const [opened, setOpened] = useState(() => /* @__PURE__ */ new Set());
+    const hashId = () => {
+      const m = window.location.hash.match(/^#case-(.+)$/);
+      return m ? m[1] : null;
+    };
+    useEffect(() => {
+      const id = hashId();
+      if (id && useCases.some((u) => u.id === id)) {
+        setOpenId(id);
+        setOpened((p) => new Set(p).add(id));
+      }
+      const onPop = () => {
+        const next = hashId();
+        setOpenId(next && useCases.some((u) => u.id === next) ? next : null);
+      };
+      window.addEventListener("popstate", onPop);
+      return () => window.removeEventListener("popstate", onPop);
+    }, []);
+    useEffect(() => {
+      document.body.classList.toggle("ucl-noscroll", !!openId);
+      return () => document.body.classList.remove("ucl-noscroll");
+    }, [openId]);
+    const markOpened = useCallback((id) => setOpened((p) => new Set(p).add(id)), []);
+    const openCase = useCallback((id) => {
+      if (hashId() !== id) window.history.pushState(null, "", `#case-${id}`);
+      setOpenId(id);
+      markOpened(id);
+    }, [markOpened]);
+    const navigateCase = useCallback((id) => {
+      window.history.replaceState(null, "", `#case-${id}`);
+      setOpenId(id);
+      markOpened(id);
+    }, [markOpened]);
+    const closeCase = useCallback(() => {
+      if (hashId()) window.history.back();
+      else setOpenId(null);
+    }, []);
+    const filtered = useMemo(() => {
+      const q = query.trim().toLowerCase();
+      return useCases.filter((u) => {
+        if (catFilter.size && !catFilter.has(u.categoryId)) return false;
+        if (freq !== "all" && !frequencyTokens(u.frequency).includes(freq)) return false;
+        if (auto !== "all" && u.automation !== auto) return false;
+        if (dispFilter.size) {
+          const set = caseDispositionSet(u);
+          let hit = false;
+          for (const d of dispFilter) if (set.has(d)) {
+            hit = true;
+            break;
+          }
+          if (!hit) return false;
+        }
+        if (q) {
+          const hay = `${u.id} ${u.name} ${u.subject} ${u.painLine}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }, [query, catFilter, dispFilter, freq, auto]);
+    const anyActive = catFilter.size > 0 || dispFilter.size > 0 || freq !== "all" || auto !== "all" || query.trim() !== "";
+    const clearAll = () => {
+      setQuery("");
+      setCatFilter(/* @__PURE__ */ new Set());
+      setDispFilter(/* @__PURE__ */ new Set());
+      setFreq("all");
+      setAuto("all");
+    };
+    const toggleSet = (setter) => (val) => setter((prev) => {
+      const next = new Set(prev);
+      next.has(val) ? next.delete(val) : next.add(val);
+      return next;
+    });
+    const grouped = categories.map((c) => ({ category: c, items: filtered.filter((u) => u.categoryId === c.id) })).filter((g) => g.items.length > 0);
+    const order = filtered.length ? filtered : useCases;
+    const openCaseObj = openId ? useCases.find((u) => u.id === openId) : null;
+    const openIdx = openCaseObj ? order.findIndex((u) => u.id === openId) : -1;
+    const prevCase = openIdx > 0 ? order[openIdx - 1] : null;
+    const nextCase = openIdx >= 0 && openIdx < order.length - 1 ? order[openIdx + 1] : null;
+    const openedList = useCases.filter((u) => opened.has(u.id)).slice(0, 3);
+    const showTeaser = opened.size >= 2;
+    return /* @__PURE__ */ React.createElement("div", { className: "ucl-root" }, /* @__PURE__ */ React.createElement("header", { className: "ucl-header" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-header-in" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-wordmark", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, /* @__PURE__ */ React.createElement("b", null, "BUILTWITHJON"), /* @__PURE__ */ React.createElement("span", null, "Use Case Library")), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta ucl-cta--sm", href: auditHref }, "Get your AI audit ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 })))), /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-hero" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow" }, hero.eyebrow), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-grid" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-stat" }, hero.value, /* @__PURE__ */ React.createElement("span", { className: "u" }, hero.unit)), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-right" }, /* @__PURE__ */ React.createElement("p", { className: "ucl-hero-lead" }, /* @__PURE__ */ React.createElement(
+      Marked,
+      {
+        text: hero.lead,
+        cls: "ucl-hl",
+        marks: [["eliminated", "eliminate"], ["automated", "automate"], ["done in a tenth of the time", "optimize"]]
+      }
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-attr" }, "Source, ", hero.source), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-cta" }, /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, "Get your AI audit ", /* @__PURE__ */ React.createElement(ArrowRight, null)))))), /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-framework" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow" }, "The framework"), /* @__PURE__ */ React.createElement("h2", null, framework.heading), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-intro" }, framework.intro), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-grid" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-legend" }, dispositions.map((d) => /* @__PURE__ */ React.createElement("div", { className: "ucl-legend-row", key: d.id }, /* @__PURE__ */ React.createElement("span", { className: "lq" }, /* @__PURE__ */ React.createElement("span", { className: `ucl-tag ucl-tag--${d.id}` }, /* @__PURE__ */ React.createElement(DispositionIcon, { id: d.id }), d.label)), /* @__PURE__ */ React.createElement("span", { className: "lx" }, /* @__PURE__ */ React.createElement("b", null, d.question), " ", d.meaning)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-side" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement(
+      Marked,
+      {
+        text: framework.afterTable,
+        cls: "ucl-word",
+        marks: [["blue", "automate"], ["red", "eliminate"], ["orange", "simplify"], ["green", "report"]]
+      }
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-ai-note" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, framework.aiHeading), " ", framework.aiBody))))), /* @__PURE__ */ React.createElement(
+      Toolbar,
+      {
+        query,
+        setQuery,
+        catFilter,
+        toggleCat: toggleSet(setCatFilter),
+        dispFilter,
+        toggleDisp: toggleSet(setDispFilter),
+        freq,
+        setFreq,
+        auto,
+        setAuto,
+        anyActive,
+        clearAll,
+        count: filtered.length
+      }
+    ), showTeaser && /* @__PURE__ */ React.createElement("div", { className: "ucl-wrap" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-teaser" }, /* @__PURE__ */ React.createElement("div", { className: "tt" }, "You\u2019ve looked at ", /* @__PURE__ */ React.createElement("b", null, openedList.map((u) => u.name).join(", ")), ", want a prioritized plan for your version of these? That\u2019s the audit."), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta ucl-cta--sm", href: auditHref }, "Get your AI audit ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 })))), grouped.length === 0 ? /* @__PURE__ */ React.createElement("div", { className: "ucl-wrap" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-empty" }, "No use cases match those filters. ", /* @__PURE__ */ React.createElement("button", { className: "ucl-clear", onClick: clearAll }, "Clear filters"))) : grouped.map(({ category, items }) => /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-cat", key: category.id }, /* @__PURE__ */ React.createElement("div", { className: `ucl-cat-top${category.stat ? " has-stat" : ""}` }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ucl-cat-head" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-cat-num" }, category.num), /* @__PURE__ */ React.createElement("h2", { className: "ucl-cat-name" }, category.name)), /* @__PURE__ */ React.createElement("p", { className: "ucl-cat-intro" }, category.intro)), category.stat && /* @__PURE__ */ React.createElement("div", { className: `ucl-statcard${category.stat.value ? "" : " is-qual"}` }, category.stat.value && /* @__PURE__ */ React.createElement("div", { className: "big" }, category.stat.value), /* @__PURE__ */ React.createElement("div", { className: "txt" }, category.stat.text, /* @__PURE__ */ React.createElement("span", { className: "src" }, category.stat.source)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-grid" }, items.map((u) => /* @__PURE__ */ React.createElement(UseCaseCard, { key: u.id, useCase: u, onOpen: openCase })), /* @__PURE__ */ React.createElement("div", { className: "ucl-cta-card" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("div", { className: "ch" }, ctaCopy.headline), /* @__PURE__ */ React.createElement("div", { className: "cb" }, "The library shows the generic ", category.name, " workflows. The audit maps yours, and tells you which to fix first."), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, "Get your AI audit ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 })))))), /* @__PURE__ */ React.createElement("footer", { className: "ucl-wrap ucl-foot", id: "audit" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-foot-cta" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("h3", null, ctaCopy.headline), /* @__PURE__ */ React.createElement("p", null, ctaCopy.body), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, ctaCopy.button.replace(" \u2192", ""), " ", /* @__PURE__ */ React.createElement(ArrowRight, null)), /* @__PURE__ */ React.createElement("div", { className: "sub" }, ctaCopy.subline)), /* @__PURE__ */ React.createElement("div", { className: "ucl-colophon" }, "Five verdicts, Eliminate \xB7 Simplify \xB7 Automate \xB7 Optimize \xB7 Report. Numbers describe the problem, never a promise.")), openCaseObj && /* @__PURE__ */ React.createElement(
+      DetailView,
+      {
+        useCase: openCaseObj,
+        category: categoryById[openCaseObj.categoryId],
+        onClose: closeCase,
+        onAudit: () => {
+          window.location.href = auditHref;
+        },
+        onPrev: () => prevCase && navigateCase(prevCase.id),
+        onNext: () => nextCase && navigateCase(nextCase.id),
+        prevCase,
+        nextCase
+      }
+    ));
+  }
+  ReactDOM.createRoot(document.getElementById("ucl-mount")).render(React.createElement(UseCaseLibrary, { auditHref: "/ai-workflow-audit/" }));
+})();
+
+</script>
+</body>
+</html>
