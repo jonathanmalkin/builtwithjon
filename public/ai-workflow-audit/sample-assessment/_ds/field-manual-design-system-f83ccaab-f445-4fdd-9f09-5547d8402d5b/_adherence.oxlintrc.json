@@ -1,0 +1,229 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/core/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Newsreader|Archivo|IBM Plex Mono))/i]",
+        "message": "Font not provided by the design system. Available: Newsreader, Archivo, IBM Plex Mono."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Bridge'] > JSXAttribute > JSXIdentifier[name!=/^(?:eyebrow|headline|body|ctaLabel|subline|onCtaClick|key|ref|className|style|children)$/]",
+        "message": "<Bridge> doesn't accept that prop. Declared props: eyebrow, headline, body, ctaLabel, subline, onCtaClick."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|variant|size|onClick|disabled|showArrow|className|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: children, variant, size, onClick, disabled, showArrow, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|ghost|paper)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'ghost' | 'paper'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Callout'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|stat|attribution|className|key|ref|className|style|children)$/]",
+        "message": "<Callout> doesn't accept that prop. Declared props: label, stat, attribution, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Card'] > JSXAttribute > JSXIdentifier[name!=/^(?:id|name|painLine|dispositions|frequency|automationLevel|onClick|children|key|ref|className|style|children)$/]",
+        "message": "<Card> doesn't accept that prop. Declared props: id, name, painLine, dispositions, frequency, automationLevel, onClick, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ColorStripDisposition'] > JSXAttribute > JSXIdentifier[name!=/^(?:disposition|weight|key|ref|className|style|children)$/]",
+        "message": "<ColorStripDisposition> doesn't accept that prop. Declared props: disposition, weight."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ColorStripDisposition'] > JSXAttribute[name.name='disposition'] > Literal[value!=/^(?:eliminate|simplify|automate|optimize|report)$/]",
+        "message": "<ColorStripDisposition> disposition must be one of 'eliminate' | 'simplify' | 'automate' | 'optimize' | 'report'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DispositionTag'] > JSXAttribute > JSXIdentifier[name!=/^(?:disposition|size|className|key|ref|className|style|children)$/]",
+        "message": "<DispositionTag> doesn't accept that prop. Declared props: disposition, size, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DispositionTag'] > JSXAttribute[name.name='disposition'] > Literal[value!=/^(?:eliminate|simplify|automate|optimize|report)$/]",
+        "message": "<DispositionTag> disposition must be one of 'eliminate' | 'simplify' | 'automate' | 'optimize' | 'report'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DispositionTag'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:full|small)$/]",
+        "message": "<DispositionTag> size must be one of 'full' | 'small'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionHeader'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|className|key|ref|className|style|children)$/]",
+        "message": "<SectionHeader> doesn't accept that prop. Declared props: children, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:stat|unit|description|attribution|qualitative|key|ref|className|style|children)$/]",
+        "message": "<StatCard> doesn't accept that prop. Declared props: stat, unit, description, attribution, qualitative."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Bridge": {
+        "replaces": []
+      },
+      "Button": {
+        "replaces": []
+      },
+      "Callout": {
+        "replaces": []
+      },
+      "Card": {
+        "replaces": []
+      },
+      "ColorStripDisposition": {
+        "replaces": []
+      },
+      "DispositionTag": {
+        "replaces": []
+      },
+      "SectionHeader": {
+        "replaces": []
+      },
+      "StatCard": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--ucl-automate",
+      "--ucl-automate-bg",
+      "--ucl-automate-ln",
+      "--ucl-eliminate",
+      "--ucl-eliminate-bg",
+      "--ucl-eliminate-ln",
+      "--ucl-grid-gap",
+      "--ucl-gutter",
+      "--ucl-header-h",
+      "--ucl-ink",
+      "--ucl-ink-2",
+      "--ucl-ink-3",
+      "--ucl-line",
+      "--ucl-line-2",
+      "--ucl-max-width",
+      "--ucl-mono",
+      "--ucl-optimize",
+      "--ucl-optimize-bg",
+      "--ucl-optimize-ln",
+      "--ucl-paper",
+      "--ucl-paper-card",
+      "--ucl-r-lg",
+      "--ucl-r-md",
+      "--ucl-r-sm",
+      "--ucl-r-xl",
+      "--ucl-r-xs",
+      "--ucl-report",
+      "--ucl-report-bg",
+      "--ucl-report-ln",
+      "--ucl-sans",
+      "--ucl-serif",
+      "--ucl-simplify",
+      "--ucl-simplify-bg",
+      "--ucl-simplify-ln",
+      "--ucl-sp-1",
+      "--ucl-sp-10",
+      "--ucl-sp-12",
+      "--ucl-sp-16",
+      "--ucl-sp-2",
+      "--ucl-sp-3",
+      "--ucl-sp-4",
+      "--ucl-sp-5",
+      "--ucl-sp-6",
+      "--ucl-sp-8"
+    ],
+    "tokenKinds": {
+      "--ucl-paper": "color",
+      "--ucl-paper-card": "color",
+      "--ucl-ink": "color",
+      "--ucl-ink-2": "color",
+      "--ucl-ink-3": "color",
+      "--ucl-line": "color",
+      "--ucl-line-2": "color",
+      "--ucl-eliminate": "color",
+      "--ucl-eliminate-bg": "color",
+      "--ucl-eliminate-ln": "color",
+      "--ucl-simplify": "color",
+      "--ucl-simplify-bg": "color",
+      "--ucl-simplify-ln": "color",
+      "--ucl-automate": "color",
+      "--ucl-automate-bg": "color",
+      "--ucl-automate-ln": "color",
+      "--ucl-optimize": "color",
+      "--ucl-optimize-bg": "color",
+      "--ucl-optimize-ln": "color",
+      "--ucl-report": "color",
+      "--ucl-report-bg": "color",
+      "--ucl-report-ln": "color",
+      "--ucl-serif": "font",
+      "--ucl-sans": "font",
+      "--ucl-mono": "font",
+      "--ucl-r-xs": "spacing",
+      "--ucl-r-sm": "spacing",
+      "--ucl-r-md": "spacing",
+      "--ucl-r-lg": "spacing",
+      "--ucl-r-xl": "spacing",
+      "--ucl-max-width": "spacing",
+      "--ucl-gutter": "spacing",
+      "--ucl-grid-gap": "spacing",
+      "--ucl-header-h": "spacing",
+      "--ucl-sp-1": "spacing",
+      "--ucl-sp-2": "spacing",
+      "--ucl-sp-3": "spacing",
+      "--ucl-sp-4": "spacing",
+      "--ucl-sp-5": "spacing",
+      "--ucl-sp-6": "spacing",
+      "--ucl-sp-8": "spacing",
+      "--ucl-sp-10": "spacing",
+      "--ucl-sp-12": "spacing",
+      "--ucl-sp-16": "spacing"
+    },
+    "fontFamilies": [
+      "Archivo",
+      "IBM Plex Mono",
+      "Newsreader"
+    ]
+  }
+}

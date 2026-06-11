@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profit Leak Assessment: Field Manual</title>
+
+  <!-- Field Manual Design System: tokens + injected component CSS -->
+  <link rel="stylesheet" href="_ds/field-manual-design-system-f83ccaab-f445-4fdd-9f09-5547d8402d5b/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/field-manual-design-system-f83ccaab-f445-4fdd-9f09-5547d8402d5b/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/field-manual-design-system-f83ccaab-f445-4fdd-9f09-5547d8402d5b/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/field-manual-design-system-f83ccaab-f445-4fdd-9f09-5547d8402d5b/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/field-manual-design-system-f83ccaab-f445-4fdd-9f09-5547d8402d5b/styles.css">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="_ds/field-manual-design-system-f83ccaab-f445-4fdd-9f09-5547d8402d5b/_ds_bundle.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--ucl-paper);
+      color: var(--ucl-ink);
+      font-family: var(--ucl-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { width: min(var(--ucl-max-width), calc(100% - 40px)); margin: 0 auto; }
+
+    /* ---- brand color ribbon ---- */
+    .topstrip { display: flex; height: 5px; width: 100%; }
+    .topstrip i { flex: 1; display: block; }
+    .topstrip i:nth-child(1) { background: var(--ucl-eliminate); }
+    .topstrip i:nth-child(2) { background: var(--ucl-simplify); }
+    .topstrip i:nth-child(3) { background: var(--ucl-automate); }
+    .topstrip i:nth-child(4) { background: var(--ucl-optimize); }
+    .topstrip i:nth-child(5) { background: var(--ucl-report); }
+    .mixsw { display: inline-flex; height: 11px; width: 20px; border-radius: 2px; overflow: hidden; }
+    .mixsw i { flex: 1; display: block; }
+
+    /* ---- type primitives ---- */
+    .eyebrow {
+      font-family: var(--ucl-mono); font-size: 11px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--ucl-ink-3);
+    }
+    .serif { font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em; }
+    .mono  { font-family: var(--ucl-mono); }
+    h1, h2, h3 { margin: 0; }
+    p { margin: 0; }
+    a { color: var(--ucl-automate); text-decoration: none; border-bottom: 1px solid var(--ucl-automate-ln); }
+    a:hover { border-bottom-color: var(--ucl-automate); }
+    .lede { color: var(--ucl-ink-2); }
+
+    /* ---- masthead ---- */
+    header.masthead {
+      background: var(--ucl-paper-card);
+      border-bottom: 1.5px solid var(--ucl-ink);
+    }
+    .masthead-inner {
+      display: grid; grid-template-columns: 1.5fr 1.05fr; gap: 44px;
+      align-items: end; padding: 40px 0 26px;
+    }
+    .masthead h1 {
+      font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.025em;
+      font-size: clamp(40px, 6vw, 66px); line-height: .96; margin: 14px 0 16px;
+    }
+    .masthead .lede { max-width: 38ch; font-size: 16px; line-height: 1.5; }
+    .meta-table {
+      border-top: 1px solid var(--ucl-line-2);
+      font-family: var(--ucl-mono); font-size: 11.5px;
+    }
+    .meta-table .row {
+      display: flex; justify-content: space-between; gap: 16px;
+      padding: 7px 0; border-bottom: 1px solid var(--ucl-line);
+    }
+    .meta-table .k { color: var(--ucl-ink-3); letter-spacing: .04em; text-transform: uppercase; font-size: 10.5px; white-space: nowrap; }
+    .meta-table .v { color: var(--ucl-ink); font-weight: 500; text-align: right; white-space: nowrap; }
+
+    /* ---- sections ---- */
+    section { padding: 26px 0; border-top: 1px solid var(--ucl-line); }
+    section:first-of-type { border-top: 0; }
+    .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; }
+    .sec-num {
+      font-family: var(--ucl-mono); font-size: 12px; font-weight: 600;
+      letter-spacing: .14em; color: var(--ucl-ink-3);
+    }
+    .sec-title {
+      font-family: var(--ucl-mono); font-size: 12px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--ucl-ink);
+    }
+    .sec-rule { flex: 1; height: 0; border-bottom: 1px solid var(--ucl-ink); align-self: center; }
+    .sec-sub { font-size: 14px; color: var(--ucl-ink-2); margin: -8px 0 20px; max-width: 70ch; }
+
+    /* ---- business case ---- */
+    .biz-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 22px; align-items: stretch; }
+    .stat-stack { display: grid; grid-template-rows: auto auto; gap: 14px; }
+    .stat-feature {
+      border: 1.5px solid var(--ucl-ink); border-top: 4px solid var(--ucl-report); background: var(--ucl-paper-card);
+      border-radius: var(--ucl-r-md); padding: 22px 22px 20px;
+    }
+    .stat-feature .num {
+      font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.03em;
+      font-size: clamp(54px, 9vw, 78px); line-height: .85; color: var(--ucl-ink);
+    }
+    .stat-feature .unit { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ucl-ink-3); margin-top: 12px; }
+    .stat-feature .desc { font-size: 14px; color: var(--ucl-ink-2); line-height: 1.45; margin-top: 4px; }
+    .stat-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); background: var(--ucl-paper-card); overflow: hidden; }
+    .stat-cell { padding: 16px 16px 14px; border-left: 1px solid var(--ucl-line); }
+    .stat-cell:first-child { border-left: 0; }
+    .stat-cell .num { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(28px, 4.5vw, 38px); line-height: 1; letter-spacing: -.02em; }
+    .stat-cell .num.good { color: var(--ucl-report); }
+    .stat-cell .num.bad { color: var(--ucl-eliminate); }
+    .stat-cell .lbl { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); margin-top: 9px; }
+
+    /* ---- chart card shell ---- */
+    .chart {
+      border: 1px solid var(--ucl-line-2); background: var(--ucl-paper-card);
+      border-radius: var(--ucl-r-lg); padding: 18px 18px 16px; display: flex; flex-direction: column;
+    }
+    .chart-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 6px; }
+    .chart-title { font-family: var(--ucl-mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink); flex-shrink: 0; white-space: nowrap; }
+    .chart-note { font-family: var(--ucl-mono); font-size: 10.5px; color: var(--ucl-ink-3); }
+    .chart-sub { font-size: 13px; color: var(--ucl-ink-2); margin-bottom: 14px; }
+    .legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px 14px; font-family: var(--ucl-mono); font-size: 10.5px; color: var(--ucl-ink-2); letter-spacing: .03em; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .swatch { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+    .swatch.ink { background: var(--ucl-ink); }
+    .swatch.ghost { background: var(--ucl-paper); border: 1px solid var(--ucl-line-2); background-image: repeating-linear-gradient(45deg, var(--ucl-line) 0 2px, transparent 2px 4px); }
+    .swatch.benefit { background: var(--ucl-report); }
+
+    /* ---- grouped column chart (cost vs benefit) ---- */
+    .cols {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; align-items: end;
+      height: 230px; padding: 22px 4px 0; border-bottom: 1.5px solid var(--ucl-ink);
+      position: relative;
+    }
+    .col-grid { position: absolute; left: 0; right: 0; top: 22px; bottom: 0; pointer-events: none; }
+    .col-grid i { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--ucl-line); }
+    .col-group { display: flex; align-items: end; justify-content: center; gap: 6px; height: 100%; position: relative; z-index: 1; }
+    .col { width: 30px; max-width: 42%; position: relative; border-radius: 2px 2px 0 0; }
+    .col.benefit { background: var(--ucl-report); }
+    .col.cost { background: var(--ucl-paper); border: 1px solid var(--ucl-line-2); background-image: repeating-linear-gradient(45deg, var(--ucl-line-2) 0 2px, transparent 2px 5px); }
+    .col .val { position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-family: var(--ucl-mono); font-size: 10px; font-weight: 500; color: var(--ucl-ink); white-space: nowrap; }
+    .col.cost .val { color: var(--ucl-ink-3); }
+    .col-x { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; padding: 8px 4px 0; }
+    .col-x div { text-align: center; font-family: var(--ucl-mono); font-size: 11px; color: var(--ucl-ink-2); letter-spacing: .04em; }
+
+    /* ---- ROI table ---- */
+    .tbl-wrap { border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-lg); overflow: hidden; background: var(--ucl-paper-card); }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ucl-ink-3); font-weight: 600; text-align: left; padding: 11px 14px;
+      border-bottom: 1.5px solid var(--ucl-ink); background: var(--ucl-paper);
+    }
+    thead th.num, tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tbody td { padding: 12px 14px; border-bottom: 1px solid var(--ucl-line); font-size: 14px; vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr.total td { background: var(--ucl-paper); border-top: 1.5px solid var(--ucl-ink); font-weight: 500; }
+    td .rowname { font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .03em; text-transform: uppercase; color: var(--ucl-ink); }
+    td.money { font-family: var(--ucl-serif); font-size: 19px; font-weight: 500; letter-spacing: -.01em; color: var(--ucl-report); }
+    td.roi { font-family: var(--ucl-mono); font-weight: 500; }
+    .cell-sub { display: block; font-size: 12px; color: var(--ucl-ink-3); margin-top: 2px; font-family: var(--ucl-sans); }
+
+    /* ---- scorecard gap chart ---- */
+    .gap-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 4px; font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ucl-ink-3); }
+    .gap-legend span { display: inline-flex; align-items: center; gap: 8px; }
+    .gl-cur { width: 13px; height: 13px; border-radius: 50%; background: var(--ucl-ink); box-shadow: 0 0 0 2px var(--ucl-paper) , 0 0 0 3px var(--ucl-ink); }
+    .gl-ben { width: 13px; height: 13px; border-radius: 50%; background: var(--ucl-paper-card); border: 2.5px solid var(--ucl-ink); box-sizing: border-box; }
+    .gaps { display: grid; }
+    .gap-row {
+      display: grid; grid-template-columns: minmax(150px, 1.05fr) 1.5fr minmax(168px, auto); gap: 26px; align-items: center;
+      padding: 15px 0; border-top: 1px solid var(--ucl-line);
+    }
+    .gap-row:first-child { border-top: 0; }
+    .gap-label h3 { font-family: var(--ucl-serif); font-size: 18px; font-weight: 500; letter-spacing: -.01em; line-height: 1.15; }
+    .gap-label p { font-size: 12.5px; color: var(--ucl-ink-2); margin-top: 3px; line-height: 1.4; }
+    .gap-track { position: relative; height: 22px; }
+    .gap-axis { position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--ucl-line); border-radius: 2px; transform: translateY(-50%); }
+    .gap-span { position: absolute; top: 50%; height: 4px; background: var(--c, var(--ucl-ink)); opacity: .32; border-radius: 3px; transform: translateY(-50%); }
+    .gap-mark { position: absolute; top: 50%; width: 15px; height: 15px; border-radius: 50%; transform: translate(-50%, -50%); z-index: 2; box-sizing: border-box; }
+    .gap-mark.cur { background: var(--c, var(--ucl-ink)); box-shadow: 0 0 0 2.5px var(--ucl-paper-card), 0 0 0 4px var(--c, var(--ucl-ink)); }
+    .gap-mark.ben { background: var(--ucl-paper-card); border: 2.5px solid var(--ucl-ink); }
+    .gap-read { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+    .gap-read .rv { font-family: var(--ucl-serif); font-size: 20px; font-weight: 500; letter-spacing: -.01em; line-height: 1; }
+    .gap-read .rv.cur { color: var(--c, var(--ucl-ink)); }
+    .gap-read .rv.ben { color: var(--ucl-ink); }
+    .gap-read .rarrow { font-family: var(--ucl-mono); font-size: 13px; color: var(--ucl-ink-3); }
+    .gap-read .rclose { flex-basis: 100%; font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--ucl-ink-3); margin-top: 2px; }
+    .gap-read .rclose b { color: var(--c, var(--ucl-ink)); font-weight: 600; }
+
+    /* ---- improvement plan ---- */
+    .plan-strip-wrap { margin-bottom: 18px; }
+    .plan-strip-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 10px; }
+    .plan-strip-legend .item { display: inline-flex; align-items: center; gap: 7px; font-family: var(--ucl-mono); font-size: 10.5px; color: var(--ucl-ink-2); letter-spacing: .03em; }
+    .plan-strip-legend .chip { width: 10px; height: 10px; border-radius: 2px; }
+
+    /* ---- waterfall ---- */
+    .wf { position: relative; height: 280px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; align-items: end; padding-top: 26px; border-bottom: 1.5px solid var(--ucl-ink); }
+    .wf-col { position: relative; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+    .wf-bar { width: 100%; max-width: 56px; position: relative; border-radius: 2px; }
+    .wf-bar .v { position: absolute; top: -18px; left: 0; right: 0; text-align: center; font-family: var(--ucl-mono); font-size: 10.5px; font-weight: 600; color: var(--ucl-ink); }
+    .wf-connect { position: absolute; height: 1px; border-top: 1px dashed var(--ucl-line-2); right: -12px; width: 12px; }
+    .wf-x { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; padding-top: 9px; }
+    .wf-x div { text-align: center; font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--ucl-ink-2); line-height: 1.3; }
+
+    /* ---- funnel ---- */
+    .funnel { display: grid; gap: 5px; }
+    .fn-bar { position: relative; height: 40px; display: flex; align-items: center; justify-content: center; }
+    .fn-track { position: absolute; left: 0; right: 0; top: 0; bottom: 0; border: 1px dashed var(--ucl-line-2); border-radius: 3px; }
+    .fn-fill { position: relative; z-index: 2; height: 100%; min-width: 128px; background: var(--ucl-report); border-radius: 3px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 14px; }
+    .fn-fill .nm { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--ucl-paper); }
+    .fn-fill .pc { font-family: var(--ucl-mono); font-size: 11px; font-weight: 600; color: var(--ucl-paper); }
+
+    /* ---- cash bars ---- */
+    .cash { display: grid; gap: 11px; }
+    .cash-row { display: grid; grid-template-columns: 150px 1fr auto; gap: 12px; align-items: center; }
+    .cash-row .nm { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--ucl-ink-2); }
+    .cash-track { height: 22px; background: var(--ucl-paper); border: 1px solid var(--ucl-line); border-radius: 3px; overflow: hidden; }
+    .cash-fill { height: 100%; background: var(--ucl-automate); border-radius: 2px 0 0 2px; }
+    .cash-row .amt { font-family: var(--ucl-serif); font-size: 18px; font-weight: 500; letter-spacing: -.01em; text-align: right; min-width: 56px; }
+
+    /* ---- 90 day ---- */
+    .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .control {
+      border: 1px solid var(--ucl-line-2); border-top: 3px solid var(--c, var(--ucl-line-2)); background: var(--ucl-paper-card);
+      border-radius: var(--ucl-r-lg); padding: 16px 16px 14px;
+    }
+    .control .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--ucl-line); }
+    .control h3 { font-family: var(--ucl-serif); font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
+    .control ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+    .control li { font-size: 13.5px; color: var(--ucl-ink-2); padding-left: 16px; position: relative; line-height: 1.4; }
+    .control li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 1.5px; background: var(--ucl-ink-3); }
+
+    /* ---- phased timeline w/ arrow rail ---- */
+    .phase-timeline { margin-top: 22px; }
+    .pt-rail { position: relative; height: 30px; }
+    .pt-line { position: absolute; left: 12.5%; right: 7%; top: 50%; height: 2px; background: var(--ucl-ink); transform: translateY(-50%); }
+    .pt-head { position: absolute; right: 7%; top: 50%; transform: translate(11px, -50%); width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 11px solid var(--ucl-ink); }
+    .pt-node { position: absolute; top: 50%; width: 15px; height: 15px; border-radius: 50%; background: var(--c, var(--ucl-ink)); border: 3px solid var(--ucl-paper); box-shadow: 0 0 0 1.5px var(--c, var(--ucl-ink)); transform: translate(-50%, -50%); z-index: 2; }
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 0; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-lg); overflow: hidden; }
+    .tl-step { padding: 14px 16px 16px; border-left: 1px solid var(--ucl-line); border-top: 3px solid var(--c, transparent); position: relative; }
+    .tl-step:first-child { border-left: 0; }
+    .tl-step .ph { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--c, var(--ucl-ink-3)); font-weight: 600; }
+    .tl-step .dr { font-family: var(--ucl-serif); font-size: 19px; font-weight: 500; letter-spacing: -.01em; margin: 4px 0 8px; }
+    .tl-step p { font-size: 13px; color: var(--ucl-ink-2); line-height: 1.42; }
+    .tl-dots { display: flex; gap: 4px; margin-top: 12px; }
+    .tl-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ucl-line-2); }
+    .tl-step .tl-dots i.on { background: var(--c, var(--ucl-ink)); }
+
+    /* ---- callout / note ---- */
+    .note {
+      border-left: 3px solid var(--ucl-eliminate); padding: 2px 0 2px 18px; margin-top: 20px;
+    }
+    .note .nl { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ucl-eliminate); margin-bottom: 6px; }
+    .note .nt em { font-style: normal; color: var(--ucl-eliminate); }
+    .note .nt { font-family: var(--ucl-serif); font-size: clamp(20px, 3vw, 26px); font-weight: 500; line-height: 1.18; letter-spacing: -.01em; }
+    .note .na { font-family: var(--ucl-mono); font-size: 10.5px; color: var(--ucl-ink-3); margin-top: 6px; }
+
+    /* ---- bridge ---- */
+    .bridge {
+      background: var(--ucl-ink); color: var(--ucl-paper); border-radius: var(--ucl-r-xl);
+      padding: 34px 32px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: center;
+    }
+    .bridge .be { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; margin-bottom: 10px; }
+    .bridge h3 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.1; letter-spacing: -.015em; }
+    .bridge p { font-size: 14.5px; line-height: 1.55; color: #D8CFBC; margin-top: 12px; max-width: 46ch; }
+    .bridge-side { display: grid; gap: 14px; justify-items: start; }
+    .bridge-cta { font-family: var(--ucl-mono); font-size: 13px; font-weight: 500; letter-spacing: .02em; background: var(--ucl-paper); color: var(--ucl-ink); border: none; padding: 12px 22px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background .14s ease; }
+    .bridge-cta:hover { background: #fff; }
+    .bridge-cta .ar { transition: transform .14s ease; }
+    .bridge-cta:hover .ar { transform: translateX(3px); }
+    .bridge-sub { font-family: var(--ucl-mono); font-size: 11px; color: #9C927D; line-height: 1.5; }
+
+    /* ---- sources ---- */
+    .sources { columns: 2; column-gap: 36px; }
+    .src { break-inside: avoid; margin-bottom: 12px; padding-left: 0; }
+    .src .sn { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .03em; color: var(--ucl-ink); font-weight: 500; }
+    .src .sd { font-size: 13px; color: var(--ucl-ink-2); line-height: 1.4; margin-top: 2px; }
+    .footnote { font-family: var(--ucl-mono); font-size: 10.5px; color: var(--ucl-ink-3); line-height: 1.6; margin-top: 16px; }
+    .footnote a { color: var(--ucl-ink-2); border-bottom-color: var(--ucl-line-2); }
+
+    footer.colophon { border-top: 1.5px solid var(--ucl-ink); margin-top: 10px; padding: 22px 0 48px; }
+    .colophon .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ucl-ink-3); text-transform: uppercase; }
+
+    /* ---- two-col diagnosis ---- */
+    .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .diag-grid .span2 { grid-column: 1 / -1; }
+
+    /* ---- responsive ---- */
+    @media (max-width: 920px) {
+      .masthead-inner, .biz-grid, .stat-trio, .controls, .bridge { grid-template-columns: 1fr; }
+      .gap-row { grid-template-columns: minmax(0,1fr) minmax(150px,auto); column-gap: 22px; row-gap: 10px; align-items: center; }
+      .gap-label { grid-column: 1 / -1; }
+      .gap-track { height: 24px; }
+      .pt-rail { display: none; }
+      .timeline { grid-template-columns: 1fr; }
+      .tl-step { border-left: 3px solid var(--c, transparent); border-top: 1px solid var(--ucl-line); }
+      .tl-step:first-child { border-top: 0; }
+      .sources { columns: 1; }
+      .cols { gap: 8px; }
+      .bridge { padding: 26px 22px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: calc(100% - 28px); }
+      .masthead-inner { gap: 20px; padding: 26px 0 20px; }
+      .masthead h1 { font-size: clamp(34px, 13vw, 46px); }
+      .meta-table .v { white-space: normal; }
+      .gap-row { grid-template-columns: 1fr; row-gap: 8px; }
+      .gap-read { gap: 7px; }
+      .stat-trio { grid-template-columns: 1fr; }
+      .stat-cell { border-left: 0; border-top: 1px solid var(--ucl-line); }
+      .stat-cell:first-child { border-top: 0; }
+      .cols { height: 178px; }
+      .tbl-wrap { overflow-x: auto; }
+      thead th, tbody td { padding: 9px 10px; font-size: 13px; }
+      td.money { font-size: 17px; }
+      .col-cb { display: none; }
+      section { padding: 22px 0; }
+      .sec-head { margin-bottom: 16px; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 12px; }
+      header.masthead, .chart, .control, .timeline, .tbl-wrap, .stat-trio, .stat-feature, .control, section, .bridge { break-inside: avoid; }
+      a { color: var(--ucl-ink); border-bottom: 0; }
+      .wrap { width: 100%; padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topstrip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead" data-screen-label="Masthead">
+    <div class="wrap masthead-inner">
+      <div>
+        <div class="eyebrow">Field Assessment · Confidential · Sample Data</div>
+        <h1>Profit Leak<br>Assessment</h1>
+        <p class="lede">Where a $24M general contractor's margin, cash, and capacity quietly leak, and the recoverable EBITDA behind each gap.</p>
+      </div>
+      <div class="meta-table">
+        <div class="row"><span class="k">Subject</span><span class="v">$24M general contractor</span></div>
+        <div class="row"><span class="k">Lens</span><span class="v">Financial + process audit</span></div>
+        <div class="row"><span class="k">Prepared</span><span class="v">Jun 2026</span></div>
+        <div class="row"><span class="k">Horizon</span><span class="v">90-day proof · 5-yr model</span></div>
+        <div class="row"><span class="k">Report</span><span class="v">PLA-2026-01</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ============ BUSINESS CASE ============ -->
+    <section data-screen-label="Business case">
+      <div class="sec-head">
+        <span class="sec-num">00</span>
+        <span class="sec-title">Business case</span>
+        <span class="sec-rule"></span>
+      </div>
+
+      <div class="biz-grid">
+        <div class="stat-stack">
+          <div class="stat-feature">
+            <div class="num">$10.3M</div>
+            <div class="unit">Five-year net</div>
+            <div class="desc">Modeled cumulative EBITDA gain after implementation cost, held against a flat baseline.</div>
+          </div>
+          <div class="stat-trio">
+            <div class="stat-cell">
+              <div class="num good">$2.1M</div>
+              <div class="lbl">Year-1 benefit</div>
+            </div>
+            <div class="stat-cell">
+              <div class="num good">9.2&times;</div>
+              <div class="lbl">Year-1 ROI</div>
+            </div>
+            <div class="stat-cell">
+              <div class="num bad">$0.6M</div>
+              <div class="lbl">90-day delay cost</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart">
+          <div class="chart-top">
+            <span class="chart-title">Cost vs. benefit</span>
+            <div class="legend">
+              <span><span class="swatch benefit"></span>Benefit</span>
+              <span><span class="swatch ghost"></span>Cost</span>
+            </div>
+          </div>
+          <p class="chart-sub">Annual modeled EBITDA gain against implementation cost. Cost starts at $0.2M and grows 10%/yr.</p>
+          <div class="cols" aria-label="Five year cost and benefit column chart">
+            <div class="col-grid"><i style="top:0%"></i><i style="top:25%"></i><i style="top:50%"></i><i style="top:75%"></i></div>
+            <div class="col-group">
+              <div class="col benefit" style="height:81%"><span class="val">$2.1M</span></div>
+              <div class="col cost" style="height:8%"><span class="val">$0.2M</span></div>
+            </div>
+            <div class="col-group">
+              <div class="col benefit" style="height:85%"><span class="val">$2.2M</span></div>
+              <div class="col cost" style="height:12%"><span class="val">$0.3M</span></div>
+            </div>
+            <div class="col-group">
+              <div class="col benefit" style="height:88%"><span class="val">$2.3M</span></div>
+              <div class="col cost" style="height:12%"><span class="val">$0.3M</span></div>
+            </div>
+            <div class="col-group">
+              <div class="col benefit" style="height:96%"><span class="val">$2.5M</span></div>
+              <div class="col cost" style="height:12%"><span class="val">$0.3M</span></div>
+            </div>
+            <div class="col-group">
+              <div class="col benefit" style="height:100%"><span class="val">$2.6M</span></div>
+              <div class="col cost" style="height:12%"><span class="val">$0.3M</span></div>
+            </div>
+          </div>
+          <div class="col-x"><div>Yr 1</div><div>Yr 2</div><div>Yr 3</div><div>Yr 4</div><div>Yr 5</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 1. ROI SUMMARY ============ -->
+    <section data-screen-label="ROI summary">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <span class="sec-title">ROI summary</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Cumulative value</th>
+              <th class="num">Cost</th>
+              <th class="num">Net</th>
+              <th class="num">ROI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rowname">Year 1</span></td>
+              <td class="num">$2.1M</td>
+              <td class="num">$0.2M</td>
+              <td class="num money">$1.9M</td>
+              <td class="num roi">9.2&times;</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Year 2</span></td>
+              <td class="num">$4.2M</td>
+              <td class="num">$0.5M</td>
+              <td class="num money">$3.8M</td>
+              <td class="num roi">9.0&times;</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Year 3</span></td>
+              <td class="num">$6.5M</td>
+              <td class="num">$0.7M</td>
+              <td class="num money">$5.9M</td>
+              <td class="num roi">8.8&times;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <div class="nl">Decision point</div>
+        <div class="nt">Waiting 90 days costs about <em>$0.6M</em> in missed EBITDA.</div>
+        <div class="na">Modeled as one quarter of forgone year-1 benefit.</div>
+      </div>
+    </section>
+
+    <!-- ============ 2. SCORECARD ============ -->
+    <section data-screen-label="Scorecard">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <span class="sec-title">Process audit scorecard</span>
+        <span class="sec-rule"></span>
+      </div>
+      <p class="sec-sub">Current result and benchmark target on a single track. The shaded span is the gap left to close, in each metric's own units.</p>
+      <div class="gap-legend"><span><span class="gl-cur"></span>Current</span><span><span class="gl-ben"></span>Benchmark / target</span></div>
+
+      <div class="gaps">
+        <!-- Gross margin: scale 10–17% ; current 13.8 -> 54.3% ; bench 15.5 -> 78.6% -->
+        <div class="gap-row" style="--c:var(--ucl-optimize)">
+          <div class="gap-label">
+            <h3>Gross margin</h3>
+            <p>$24M revenue. Margin trails the sector anchor.</p>
+          </div>
+          <div class="gap-track" aria-label="Gross margin: current 13.8% vs benchmark 15.5%">
+            <div class="gap-axis"></div>
+            <div class="gap-span" style="left:54.3%; right:21.4%"></div>
+            <div class="gap-mark cur" style="left:54.3%"></div>
+            <div class="gap-mark ben" style="left:78.6%"></div>
+          </div>
+          <div class="gap-read"><span class="rv cur">13.8%</span><span class="rarrow">→</span><span class="rv ben">15.5%</span><span class="rclose">Current → benchmark · <b>+1.7 pts</b> to close</span></div>
+        </div>
+
+        <!-- Rework: lower better. scale 0–2% ; bench 0.76 -> 38% ; current 1.60 -> 80% -->
+        <div class="gap-row" style="--c:var(--ucl-eliminate)">
+          <div class="gap-label">
+            <h3>Rework cost</h3>
+            <p>Share of contract value. Lower is better (field and correction work).</p>
+          </div>
+          <div class="gap-track" aria-label="Rework: current 1.60% vs benchmark 0.76%">
+            <div class="gap-axis"></div>
+            <div class="gap-span" style="left:38%; right:20%"></div>
+            <div class="gap-mark ben" style="left:38%"></div>
+            <div class="gap-mark cur" style="left:80%"></div>
+          </div>
+          <div class="gap-read"><span class="rv cur">1.60%</span><span class="rarrow">→</span><span class="rv ben">0.76%</span><span class="rclose">Current → benchmark · <b>&minus;0.84 pt</b> to close</span></div>
+        </div>
+
+        <!-- Payment admin: lower better. scale 0–140h ; bench 65 -> 46.4% ; current 110 -> 78.6% -->
+        <div class="gap-row" style="--c:var(--ucl-automate)">
+          <div class="gap-label">
+            <h3>Payment administration</h3>
+            <p>Hours per month. Lower is better (pay-apps, waivers, invoices, follow-up).</p>
+          </div>
+          <div class="gap-track" aria-label="Payment admin: current 110h vs benchmark 65h">
+            <div class="gap-axis"></div>
+            <div class="gap-span" style="left:46.4%; right:21.4%"></div>
+            <div class="gap-mark ben" style="left:46.4%"></div>
+            <div class="gap-mark cur" style="left:78.6%"></div>
+          </div>
+          <div class="gap-read"><span class="rv cur">110h</span><span class="rarrow">→</span><span class="rv ben">65h</span><span class="rclose">Current → benchmark · <b>&minus;45 h</b> to close</span></div>
+        </div>
+
+        <!-- Backlog: higher better. scale 6–9mo ; current 7.5 -> 50% ; bench 8.0 -> 66.7% -->
+        <div class="gap-row" style="--c:var(--ucl-optimize)">
+          <div class="gap-label">
+            <h3>Backlog</h3>
+            <p>Months of start-ready work. Near the industry level, a thin gap.</p>
+          </div>
+          <div class="gap-track" aria-label="Backlog: current 7.5 months vs benchmark 8.0 months">
+            <div class="gap-axis"></div>
+            <div class="gap-span" style="left:50%; right:33.3%"></div>
+            <div class="gap-mark cur" style="left:50%"></div>
+            <div class="gap-mark ben" style="left:66.7%"></div>
+          </div>
+          <div class="gap-read"><span class="rv cur">7.5 mo</span><span class="rarrow">→</span><span class="rv ben">8.0 mo</span><span class="rclose">Current → benchmark · <b>+0.5 mo</b> to close</span></div>
+        </div>
+
+        <!-- Proposal cycle: lower better. scale 0–12d ; bench 5 -> 41.7% ; current 9 -> 75% -->
+        <div class="gap-row" style="--c:var(--ucl-simplify)">
+          <div class="gap-label">
+            <h3>Proposal cycle time</h3>
+            <p>Days to a qualified proposal. Lower is better (internal operating standard).</p>
+          </div>
+          <div class="gap-track" aria-label="Proposal cycle: current 9 days vs standard 5 days">
+            <div class="gap-axis"></div>
+            <div class="gap-span" style="left:41.7%; right:25%"></div>
+            <div class="gap-mark ben" style="left:41.7%"></div>
+            <div class="gap-mark cur" style="left:75%"></div>
+          </div>
+          <div class="gap-read"><span class="rv cur">9 days</span><span class="rarrow">→</span><span class="rv ben">5 days</span><span class="rclose">Current → standard · <b>&minus;4 days</b> to close</span></div>
+        </div>
+      </div>
+
+      <p class="footnote">Sources: <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html">NYU Stern margins</a> · <a href="https://www.asce.org/publications-and-news/civil-engineering-source/article/2026/01/22/how-much-does-field-rework-in-construction-actually-cost">ASCE rework</a> · <a href="https://rabbet.com/reports/construction-payments-2025">Rabbet payments</a> · <a href="https://www.abc.org/News-Media/News-Releases?Category=construction-backlog-indicator">ABC backlog</a> · <a href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads">HBR response speed</a>. Proposal cycle is an internal operating standard. Public-company margin is an outside anchor, not a small-GC peer benchmark.</p>
+    </section>
+
+    <!-- ============ 3. IMPROVEMENT PLAN ============ -->
+    <section data-screen-label="Improvement plan">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <span class="sec-title">Improvement plan</span>
+        <span class="sec-rule"></span>
+      </div>
+      <p class="sec-sub">Each gap is classified by the disposition that closes it, the same five-part framework used across the library. Color is the taxonomy of fixes, nothing else.</p>
+
+      <div class="plan-strip-wrap">
+        <div class="ucl-strip" style="height:8px" aria-label="Recoverable EBITDA mix by disposition">
+          <i class="ucl-strip--optimize" style="flex:7 0 0"></i>
+          <i class="ucl-strip--report" style="flex:3 0 0"></i>
+          <i class="ucl-strip--eliminate" style="flex:2 0 0"></i>
+          <i class="ucl-strip--simplify" style="flex:5 0 0"></i>
+          <i class="ucl-strip--automate" style="flex:4 0 0"></i>
+        </div>
+        <div class="plan-strip-legend">
+          <span class="item"><span class="chip" style="background:var(--ucl-optimize)"></span>Optimize · $0.7M</span>
+          <span class="item"><span class="chip" style="background:var(--ucl-report)"></span>Report · $0.3M</span>
+          <span class="item"><span class="chip" style="background:var(--ucl-eliminate)"></span>Eliminate · $0.2M</span>
+          <span class="item"><span class="chip" style="background:var(--ucl-simplify)"></span>Simplify · $0.5M</span>
+          <span class="item"><span class="chip" style="background:var(--ucl-automate)"></span>Automate · $0.4M</span>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Disposition</th>
+              <th class="col-cb">Current → Benchmark</th>
+              <th>The fix</th>
+              <th class="num">EBITDA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rowname">Gross margin</span></td>
+              <td><span class="ucl-tag ucl-tag--optimize"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18a7 7 0 0 1 14 0"/><path d="M12 18l4-5"/></svg></span>Optimize</span></td>
+              <td class="col-cb">13.8% <span style="color:var(--ucl-ink-3)">→</span> 15.5%</td>
+              <td>Weekly margin-exception review.</td>
+              <td class="num money">$0.4M</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Change capture</span></td>
+              <td><span class="ucl-tag ucl-tag--report"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V13M12 20V7M18 20v-9"/></svg></span>Report</span></td>
+              <td class="col-cb">70% <span style="color:var(--ucl-ink-3)">→</span> 95% in 48h</td>
+              <td>Change log and backup standard.</td>
+              <td class="num money">$0.3M</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Rework cost</span></td>
+              <td><span class="ucl-tag ucl-tag--eliminate"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Eliminate</span></td>
+              <td class="col-cb">1.60% <span style="color:var(--ucl-ink-3)">→</span> 0.76%</td>
+              <td>Root-cause log on every correction.</td>
+              <td class="num money">$0.2M</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Proposal cycle</span></td>
+              <td><span class="ucl-tag ucl-tag--simplify"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l7 7M19 5l-7 7M12 12v7"/></svg></span>Simplify</span></td>
+              <td class="col-cb">9 days <span style="color:var(--ucl-ink-3)">→</span> 5 days</td>
+              <td>Proposal aging board.</td>
+              <td class="num money">$0.5M</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Backlog &amp; staffing</span></td>
+              <td><span class="ucl-tag ucl-tag--optimize"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18a7 7 0 0 1 14 0"/><path d="M12 18l4-5"/></svg></span>Optimize</span></td>
+              <td class="col-cb">28% <span style="color:var(--ucl-ink-3)">→</span> 10% not start-ready</td>
+              <td>90-day staffing plan.</td>
+              <td class="num money">$0.3M</td>
+            </tr>
+            <tr>
+              <td><span class="rowname">Payment cycle</span></td>
+              <td><span class="ucl-tag ucl-tag--automate"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 13h6l-1 8 8-11h-6z"/></svg></span>Automate</span></td>
+              <td class="col-cb">68 DSO <span style="color:var(--ucl-ink-3)">→</span> 50 DSO</td>
+              <td>Pay-app and AR checklist.</td>
+              <td class="num money">$0.4M</td>
+            </tr>
+            <tr class="total">
+              <td><span class="rowname">Total recoverable</span></td>
+              <td><span style="font-family:var(--ucl-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ucl-ink-3)">Monthly scorecard</span></td>
+              <td class="col-cb">Held against flat baseline</td>
+              <td>One owner per metric.</td>
+              <td class="num money">$2.1M</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 4. FIRST 90 DAYS ============ -->
+    <section data-screen-label="First 90 days">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <span class="sec-title">First 90 days</span>
+        <span class="sec-rule"></span>
+      </div>
+
+      <div class="controls">
+        <div class="control" style="--c:var(--ucl-optimize)">
+          <div class="top">
+            <h3>Margin control</h3>
+            <span class="ucl-tag ucl-tag--optimize ucl-tag--small"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18a7 7 0 0 1 14 0"/><path d="M12 18l4-5"/></svg></span>Optimize</span>
+          </div>
+          <ul>
+            <li>Margin exceptions, reviewed weekly.</li>
+            <li>Cost-to-complete refresh.</li>
+            <li>Estimate-to-budget variance.</li>
+          </ul>
+        </div>
+        <div class="control" style="--c:var(--ucl-automate)">
+          <div class="top">
+            <h3>Cash control</h3>
+            <span class="ucl-tag ucl-tag--automate ucl-tag--small"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 13h6l-1 8 8-11h-6z"/></svg></span>Automate</span>
+          </div>
+          <ul>
+            <li>Pay-app checklist.</li>
+            <li>AR owner by account.</li>
+            <li>Weekly collections list.</li>
+          </ul>
+        </div>
+        <div class="control" style="--c:var(--ucl-simplify)">
+          <div class="top">
+            <h3>Capacity control</h3>
+            <span class="ucl-tag ucl-tag--simplify ucl-tag--small"><span style="display:inline-flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l7 7M19 5l-7 7M12 12v7"/></svg></span>Simplify</span>
+          </div>
+          <ul>
+            <li>90-day staffing plan.</li>
+            <li>Start-ready backlog tracker.</li>
+            <li>Proposal aging board.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-timeline">
+        <div class="pt-rail" aria-hidden="true">
+          <span class="pt-line"></span>
+          <span class="pt-node" style="--c:var(--ucl-eliminate); left:12.5%"></span>
+          <span class="pt-node" style="--c:var(--ucl-simplify); left:37.5%"></span>
+          <span class="pt-node" style="--c:var(--ucl-optimize); left:62.5%"></span>
+          <span class="pt-node" style="--c:var(--ucl-report); left:87.5%"></span>
+          <span class="pt-head"></span>
+        </div>
+        <div class="timeline">
+          <div class="tl-step" style="--c:var(--ucl-eliminate)">
+            <div class="ph">Phase 1</div>
+            <div class="dr">Days 1–15</div>
+            <p>Baseline, leak map, owner scorecard.</p>
+            <div class="tl-dots"><i class="on"></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="tl-step" style="--c:var(--ucl-simplify)">
+            <div class="ph">Phase 2</div>
+            <div class="dr">Days 16–30</div>
+            <p>Change log, AR list, backlog quality.</p>
+            <div class="tl-dots"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          </div>
+          <div class="tl-step" style="--c:var(--ucl-optimize)">
+            <div class="ph">Phase 3</div>
+            <div class="dr">Days 31–60</div>
+            <p>Margin review, VE map, proposal board.</p>
+            <div class="tl-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+          </div>
+          <div class="tl-step" style="--c:var(--ucl-report)">
+            <div class="ph">Phase 4</div>
+            <div class="dr">Days 61–90</div>
+            <p>Measured gains, next-quarter scorecard.</p>
+            <div class="tl-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BRIDGE ============ -->
+    <section data-screen-label="Bridge">
+      <div class="bridge">
+        <div>
+          <div class="be">The bridge</div>
+          <h3>This packet shows the model. The audit maps your numbers.</h3>
+          <p>Every figure here is a worked example against a $24M baseline. Run it on your job-cost, WIP, AR, and change-order records and the same six leaks resolve to your dollars, with one owner and a 90-day proof.</p>
+        </div>
+        <div class="bridge-side">
+          <button class="bridge-cta" type="button">Get your audit <span class="ar">→</span></button>
+          <div class="bridge-sub">90-day engagement · monthly scorecard · sanitized data in any workshop setting.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. SOURCES ============ -->
+    <section data-screen-label="Source anchors">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <span class="sec-title">Source anchors</span>
+        <span class="sec-rule"></span>
+      </div>
+      <p class="sec-sub">Public benchmarks are pain evidence and outside anchors, not peer benchmarks. ROI proof comes from the client's own job-cost, WIP, AR, proposal, and change-order records.</p>
+
+      <div class="sources">
+        <div class="src"><div class="sn"><a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html">NYU Stern margins</a></div><div class="sd">Engineering/Construction gross margin 15.46%.</div></div>
+        <div class="src"><div class="sn"><a href="https://rabbet.com/reports/construction-payments-2025">Rabbet payments</a></div><div class="sd">GCs lose 65 admin hours/month to payment work.</div></div>
+        <div class="src"><div class="sn"><a href="https://www.abc.org/News-Media/News-Releases?Category=construction-backlog-indicator">ABC backlog</a></div><div class="sd">Industry backlog 8.0 months, Jan 2026.</div></div>
+        <div class="src"><div class="sn"><a href="https://www.agc.org/sites/default/files/users/user21902/2026%20Outlook%20Virtual%20Media%20Briefing%20Remarks_Final.pdf">AGC / Sage outlook</a></div><div class="sd">Cancellations, labor shortages, staffing pressure.</div></div>
+        <div class="src"><div class="sn"><a href="https://www.autodesk.com/blogs/construction/construction-disconnected-fmi-report/">Autodesk / FMI</a></div><div class="sd">35% nonproductive time, 48% data-linked rework.</div></div>
+        <div class="src"><div class="sn"><a href="https://www.asce.org/publications-and-news/civil-engineering-source/article/2026/01/22/how-much-does-field-rework-in-construction-actually-cost">ASCE rework</a></div><div class="sd">0.76% of contract value including corrections.</div></div>
+        <div class="src"><div class="sn"><a href="https://www.bls.gov/iif/nonfatal-injuries-and-illnesses-tables/table-1-injury-and-illness-rates-by-industry-2024-national.htm">BLS safety</a></div><div class="sd">Construction TRC 2.2 per 100 FTE, 2024.</div></div>
+        <div class="src"><div class="sn"><a href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads">HBR lead response</a></div><div class="sd">Response-speed evidence, directional only.</div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <div class="wrap">
+      <div class="row">
+        <span>Profit Leak Assessment · PLA-2026-01</span>
+        <span>Confidential · Sample data · Replace with client records before use</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
