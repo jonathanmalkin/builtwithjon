@@ -11,3 +11,8 @@
 /cowork /ai-assistant/ 301
 /workshop-setup/* /ai-assistant/ 301
 /workshop-setup /ai-assistant/ 301
+
+# Profit-leak assessment renamed from sample-assessment 2026-06-11.
+# It is the pre-engagement business case, not a sample of the full AI Audit output.
+/ai-workflow-audit/sample-assessment/ /ai-workflow-audit/profit-leak-assessment/ 301
+/ai-workflow-audit/sample-assessment /ai-workflow-audit/profit-leak-assessment/ 301
