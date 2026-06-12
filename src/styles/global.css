@@ -1127,6 +1127,60 @@ a.story-card:hover {
   .story-card-3 .story-num { color: #6ee7b7; }
 }
 
+/* Homepage "how I work" method band: links to the public method pages. */
+.method-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .method-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+.method-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+a.method-card:hover {
+  border-color: var(--color-accent);
+  text-decoration: none;
+  color: var(--color-text);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.method-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.method-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.method-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;

@@ -196,6 +196,8 @@ const useCaseDefinitions = [
 .ucl-ai-note { margin-top: 16px; padding: 16px 17px; border-left: 3px solid var(--ucl-ink); background: var(--ucl-paper-card); }
 .ucl-ai-note b { font-weight: 600; }
 .ucl-ai-note p { font-size: 14.5px; max-width: 70ch; margin: 0; color: var(--ucl-ink); }
+.ucl-fw-process { margin-top: 12px !important; font-family: var(--ucl-mono); font-size: 12.5px; color: var(--ucl-ink-2); }
+.ucl-fw-process a { color: var(--ucl-ink); text-decoration: underline; text-underline-offset: .15em; }
 
 @media (min-width: 920px) {
   .ucl-fw-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: start; }
@@ -786,7 +788,7 @@ const useCaseDefinitions = [
         cls: "ucl-word",
         marks: [["blue", "automate"], ["red", "eliminate"], ["orange", "simplify"], ["green", "report"]]
       }
-    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-ai-note" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, framework.aiHeading), " ", framework.aiBody))))), /* @__PURE__ */ React.createElement(
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-ai-note" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, framework.aiHeading), " ", framework.aiBody), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-process" }, "These five verdicts are one step of a bigger sequence. ", /* @__PURE__ */ React.createElement("a", { href: "/process/" }, "See where they fit in the process →")))))), /* @__PURE__ */ React.createElement(
       Toolbar,
       {
         query,
