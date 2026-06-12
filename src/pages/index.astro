@@ -5,8 +5,8 @@ const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Jonathan Malkin',
-  jobTitle: 'AI Workshop Leader & Implementation Consultant',
-  description: 'Jonathan Malkin runs hands-on AI workshops where teams build something real with AI against their own work, tailored to their industry and workflows.',
+  jobTitle: 'AI Workflow Consultant & Implementation Partner',
+  description: 'Jonathan Malkin audits one workflow at a time, finds where AI can safely help, and either builds it on your platform or runs a hands-on workshop so your team builds it themselves.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
@@ -20,26 +20,27 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Hands-on AI workshops where your team builds something real with AI, against your own work, in a single session.',
+  description: 'Start with an AI workflow audit: map one process, find where AI can safely help, then have it built for you or build it with your team.',
 };
 ---
 
 <Base
   title="Jonathan Malkin"
-  description="Hands-on AI workshops where your team builds something real with AI, against your own work, in a single session."
+  description="Start with an AI workflow audit: map one process, find where AI can safely help, then have it built for you or build it with your team."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
   <section class="hero-split container-wide">
     <div class="hero-split-copy">
-      <p class="eyebrow">Hands-on AI workshops</p>
-      <h1>AI that actually does your work.</h1>
+      <p class="eyebrow">Start with the AI workflow audit</p>
+      <h1>Find the one workflow AI should actually help with.</h1>
       <p class="subtitle">
-        Build a real AI workflow with your own data, hands-on, the way your team actually works. Personal assistants, sales, marketing, and more, tailored to your industry.
+        Bring one recurring process that costs you time, follow-up, or trust. I map it, find where AI can safely help, and hand you a first pilot plan you can act on. From there you can have it built or build it with your team.
       </p>
       <div class="hero-links">
-        <a href="/contact/" class="hero-btn">Start a conversation</a>
+        <a href="/ai-workflow-audit/" class="hero-btn">Start with an audit</a>
+        <a href="/use-cases/" class="hero-btn-outline">See the use case library &rarr;</a>
       </div>
     </div>
     <figure class="hero-split-media">
@@ -55,29 +56,30 @@ const websiteSchema = {
     </figure>
   </section>
 
-  <section class="container" id="what-i-do" style="margin-bottom: 3rem;">
-    <h2>What the room feels like</h2>
+  <section class="container offerings" style="margin-bottom: 3rem;" aria-labelledby="offerings-h">
+    <p class="eyebrow">Work with me</p>
+    <h2 id="offerings-h">One workflow at a time.</h2>
     <p class="section-intro">
-      Real tools, your own work on the screen. People who came in curious leave with something that works.
+      No big platform decision, no pricing puzzle. We map one real process you run today, then decide together if it is worth going further.
     </p>
-    <div class="story-grid">
-      <div class="story-card story-card-1">
-        <span class="story-num">01</span>
-        <div class="eyebrow">Hands-on</div>
-        <h3>Build, don't watch</h3>
-        <p>Your team builds the real thing during the session, with human approval gates so it never acts on its own.</p>
+
+    <a href="/ai-workflow-audit/" class="offer-frontdoor">
+      <span class="offer-frontdoor-label">The front door</span>
+      <span class="offer-frontdoor-title">The AI workflow audit &rarr;</span>
+      <span class="offer-frontdoor-desc">Bring one recurring process. I map it, find where AI can safely help, and hand you a first pilot plan. The write-up is yours to keep whether or not we work together again.</span>
+    </a>
+
+    <p class="offer-split-intro">Then, if it earns the next step, two ways forward:</p>
+    <div class="offer-routes">
+      <div class="offer-route">
+        <span class="offer-route-label">Have it done for you</span>
+        <h3>I build it on your platform</h3>
+        <p>I implement the pilot in the tools you already use, Claude Cowork or Google Workspace, so you own it from day one. Nothing of mine to host. After the build I can stay on in an advisory or fractional role.</p>
       </div>
-      <div class="story-card story-card-2">
-        <span class="story-num">02</span>
-        <div class="eyebrow">Your real work</div>
-        <h3>On your own data</h3>
-        <p>We use your actual processes, not generic demos. You see exactly where AI helps and where it should stay out.</p>
-      </div>
-      <div class="story-card story-card-3">
-        <span class="story-num">03</span>
-        <div class="eyebrow">Something remarkable</div>
-        <h3>Walk out with it</h3>
-        <p>Everyone leaves with a working AI workflow and a clear view of what to build next.</p>
+      <div class="offer-route">
+        <span class="offer-route-label">Build the capability</span>
+        <h3>Your team builds it, in a workshop</h3>
+        <p>A hands-on session where your people build the real thing against your own work, with human approval gates so it never acts on its own. They walk out able to run and extend it themselves.</p>
       </div>
     </div>
   </section>
@@ -107,43 +109,11 @@ const websiteSchema = {
     </div>
   </section>
 
-  <section class="container offerings" style="margin-bottom: 3rem;" aria-labelledby="offerings-h">
-    <p class="eyebrow">Work with me</p>
-    <h2 id="offerings-h">Start with one workflow.</h2>
-    <p class="section-intro">
-      No big platform decision, no pricing puzzle. We map one real process you run today, then decide together if it is worth going further.
-    </p>
-
-    <a href="/ai-workflow-audit/" class="offer-frontdoor">
-      <span class="offer-frontdoor-label">The front door</span>
-      <span class="offer-frontdoor-title">The AI workflow audit &rarr;</span>
-      <span class="offer-frontdoor-desc">Bring one recurring process. I map it, find where AI can safely help, and hand you a first pilot plan. The write-up is yours to keep whether or not we work together again.</span>
-    </a>
-
-    <p class="offer-split-intro">Then, if it earns the next step, two ways forward:</p>
-    <div class="offer-routes">
-      <div class="offer-route">
-        <span class="offer-route-label">Have it done for you</span>
-        <h3>I build it on your platform</h3>
-        <p>I implement the pilot in the tools you already use, Claude Cowork or Google Workspace, so you own it from day one. Nothing of mine to host. After the build I can stay on in an advisory or fractional role.</p>
-      </div>
-      <div class="offer-route">
-        <span class="offer-route-label">Build the capability</span>
-        <h3>Your team builds it, hands-on</h3>
-        <p>A workshop where your people build the real thing against your own work, with human approval gates so it never acts on its own. They walk out able to run and extend it themselves.</p>
-      </div>
-    </div>
-
-    <div class="hero-links" style="justify-content: center; margin-top: 1.5rem;">
-      <a href="/ai-workflow-audit/" class="hero-btn">Start the conversation</a>
-    </div>
-  </section>
-
   <section class="container why-me-grid" style="margin-bottom: 3rem;">
     <div>
       <h2>Why me</h2>
       <p class="cred-line">
-        20+ years in enterprise tech, spent getting teams to actually adopt new systems, not just buy them. I run my own AI workflows every day, so the workshops teach what I already use.
+        20+ years in enterprise tech, spent getting teams to actually adopt new systems, not just buy them. I run my own AI workflows every day, so what I build and teach is what I already use.
       </p>
       <p><a href="/about/">More about how I work &rarr;</a></p>
     </div>
@@ -161,12 +131,12 @@ const websiteSchema = {
 
   <section class="container home-final-cta">
     <p class="eyebrow">Let's talk</p>
-    <h2>Want your team building with AI, not just talking about it?</h2>
+    <h2>Want AI doing real work, not just talked about?</h2>
     <p>
-      Tell me about your team and what's slowing you down. I'll help shape the right session.
+      Tell me about one workflow that is slowing you down. I will tell you whether it is worth an audit, and where AI should stay out.
     </p>
     <div class="hero-links" style="justify-content: center;">
-      <a href="/contact/" class="hero-btn">Start a conversation</a>
+      <a href="/ai-workflow-audit/" class="hero-btn">Start with an audit</a>
     </div>
   </section>
 </Base>
