@@ -95,7 +95,7 @@ export const categories = [
     "id": "finance",
     "num": "11",
     "name": "Finance and Bookkeeping",
-    "intro": "Bookkeeping is where chaos gets expensive. Small business owners can usually fix most misses with standard discipline and a small set of templates before any AI work can actually help.",
+    "intro": "Money admin is the same failure repeated at different scales: the receipt pile, the month-end weekend, the can-I-afford-this guess, the January shoebox. Almost all of it is a capture problem, not an intelligence problem. Bank feeds, matching rules, and one connected dashboard do the heavy lifting; AI gets the narrow jobs, like categorizing the weird vendor. And sales tax wants software that follows rules perfectly, not software that reasons.",
     "stat": null,
     "group": "function"
   },
@@ -103,7 +103,7 @@ export const categories = [
     "id": "cs",
     "num": "12",
     "name": "Customer Service",
-    "intro": "A service business does not lose customers when they send many messages; it loses customers when answers vary. Your system should route first, then support with consistent tone and history.",
+    "intro": "Customer service pain is mostly volume wearing a disguise: the same three questions, five inboxes, the 7pm call from the couch, the review that sat for two weeks. Route everything into one place first, automate the recitable answers, and let AI draft where speed beats polish, like positive review replies. The angry customer and the ambiguous complaint stay human. They were always the actual job.",
     "stat": null,
     "group": "function"
   },
@@ -111,7 +111,7 @@ export const categories = [
     "id": "hr",
     "num": "13",
     "name": "Hiring and Human Resources",
-    "intro": "Early hiring workflows do not fail because of tooling. They fail because criteria, communication, and onboarding signals are not consistent. AI can help with consistency, never with bias judgment.",
+    "intro": "Hiring at a small business is structure problems wearing AI costumes. Knockout questions beat resume-ranking models, a booking link beats a scheduling bot, and digital onboarding beats every chatbot demo. AI earns a place drafting job postings and review summaries. The one step where it touches candidate decisions, screening, is the one step where the legal risk lives, so that one keeps a human on every call.",
     "stat": null,
     "group": "function"
   },
@@ -119,7 +119,7 @@ export const categories = [
     "id": "op",
     "num": "14",
     "name": "Operations and Scheduling",
-    "intro": "Ops teams lose leverage when every day starts with what was done yesterday and never ends with a clear next owner. The gain is less software and more sequencing.",
+    "intro": "Operations problems repeat on a schedule: the Sunday-night roster, the 6am call-out, the supply run, the machine that dies during your busiest week. Nearly every fix here is a template, a threshold, or a checklist, features you may already pay for. The standout genuine AI win is getting the business out of your head: talk through a task once and let AI turn the recording into a written procedure.",
     "stat": null,
     "group": "function"
   },
