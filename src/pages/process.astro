@@ -1,0 +1,216 @@
+---
+import Base from '../layouts/Base.astro';
+import { processPhases } from '../data/process';
+
+const description =
+  'How a Built with Jon engagement actually runs: see the data, map the workflow, decide each step, build the first pilot, run and measure. The implementation process behind the audit.';
+
+const auditHref = '/ai-workflow-audit/';
+const principlesHref = '/principles/';
+const libraryHref = '/use-cases/';
+---
+
+<Base title="The Process" description={description}>
+<style is:global>
+/* process.astro: same field-manual language as /use-cases and /principles
+   (--ucl-* tokens + disposition colors live in global.css). */
+
+.prc-root {
+  --prc-maxw: 1140px;
+  background: var(--ucl-paper);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: calc(var(--ucl-gutter, 20px) * -1);
+  margin-right: calc(var(--ucl-gutter, 20px) * -1);
+  margin-top: -2rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.prc-root *, .prc-root *::before, .prc-root *::after { box-sizing: border-box; }
+.prc-wrap { max-width: var(--prc-maxw); margin: 0 auto; padding: 0 20px; }
+.prc-eyebrow {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ucl-ink-3); font-weight: 500;
+}
+
+/* bar */
+.prc-bar { background: var(--ucl-paper); border-bottom: 1px solid var(--ucl-ink); }
+.prc-bar-in { max-width: var(--prc-maxw); margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.prc-wordmark { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .12em; line-height: 1.35; white-space: nowrap; text-decoration: none; }
+.prc-wordmark b { display: block; font-weight: 600; color: var(--ucl-ink); }
+.prc-wordmark span { color: var(--ucl-ink-3); }
+.prc-cta {
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--ucl-mono); font-weight: 500; font-size: 14px; letter-spacing: .01em;
+  background: var(--ucl-ink); color: var(--ucl-paper);
+  border: none; padding: 14px 20px; border-radius: 3px; cursor: pointer;
+  text-decoration: none; line-height: 1; white-space: nowrap; transition: background .15s ease;
+}
+.prc-cta:hover { background: #000; }
+.prc-cta svg { transition: transform .15s ease; }
+.prc-cta:hover svg { transform: translateX(3px); }
+.prc-cta--sm { padding: 10px 14px; font-size: 12.5px; }
+.prc-cta--ghost { background: var(--ucl-paper); color: var(--ucl-ink); box-shadow: inset 0 0 0 1px var(--ucl-ink); }
+.prc-cta--ghost:hover { background: var(--ucl-ink); color: var(--ucl-paper); }
+
+/* hero */
+.prc-hero { padding: 48px 0 26px; }
+.prc-hero .prc-eyebrow { display: block; margin-bottom: 20px; }
+.prc-hero h1 {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em;
+  line-height: 1.04; font-size: clamp(40px, 6.4vw, 64px); margin: 0; max-width: 15ch;
+}
+.prc-hero-lead {
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(20px, 3.6vw, 26px);
+  line-height: 1.34; letter-spacing: -.01em; margin: 24px 0 0; max-width: 44ch; color: var(--ucl-ink-2);
+}
+
+/* the three-frameworks map */
+.prc-map { border-top: 1px solid var(--ucl-ink); padding: 34px 0 8px; margin-top: 10px; }
+.prc-map h2 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(22px, 3vw, 28px); margin: 8px 0 0; letter-spacing: -.01em; }
+.prc-map-intro { color: var(--ucl-ink-2); max-width: 64ch; margin: 14px 0 0; line-height: 1.55; }
+.prc-layers { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 26px 0 8px; }
+.prc-layer { border: 1px solid var(--ucl-line-2); border-radius: 5px; background: var(--ucl-paper-card); padding: 18px 20px; }
+.prc-layer-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.prc-layer-tag { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.prc-layer-name { font-family: var(--ucl-serif); font-size: 20px; font-weight: 500; }
+.prc-layer-q { color: var(--ucl-ink-2); font-size: 14.5px; margin: 6px 0 0; line-height: 1.45; }
+.prc-layer-q a { color: var(--ucl-ink); text-decoration: underline; text-underline-offset: .14em; }
+.prc-layer.is-here { box-shadow: inset 0 0 0 1px var(--ucl-ink); border-color: var(--ucl-ink); }
+.prc-layer.is-here .prc-layer-tag { color: var(--ucl-ink); }
+
+/* phase list, the vertical flow */
+.prc-flow { padding: 36px 0 8px; border-top: 1px solid var(--ucl-line); margin-top: 30px; }
+.prc-flow > .prc-eyebrow { display: block; margin-bottom: 22px; }
+.prc-steps { list-style: none; margin: 0; padding: 0; }
+.prc-step { display: flex; gap: 20px; }
+.prc-rail { position: relative; flex: none; width: 34px; display: flex; flex-direction: column; align-items: center; }
+.prc-node { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--ucl-paper); flex: none; margin-top: 4px; z-index: 1; }
+.prc-line { width: 2px; flex: 1; background: var(--ucl-line-2); margin-top: 4px; }
+.prc-step:last-child .prc-line { display: none; }
+.prc-step-body { padding-bottom: 34px; flex: 1; min-width: 0; }
+.prc-step:last-child .prc-step-body { padding-bottom: 8px; }
+.prc-step-num { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .1em; color: var(--ucl-ink-3); }
+.prc-step-name { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(24px, 3.4vw, 30px); line-height: 1.08; margin: 4px 0 0; letter-spacing: -.01em; }
+.prc-step-body p { font-size: 16px; line-height: 1.55; color: var(--ucl-ink); max-width: 60ch; margin: 12px 0 0; }
+.prc-step-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 16px 0 0; }
+.prc-chiplet { display: inline-flex; align-items: baseline; gap: 8px; }
+.prc-chiplet .k { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.prc-chiplet .v { font-size: 13.5px; color: var(--ucl-ink-2); }
+.prc-chiplet .v a { color: var(--ucl-ink); text-decoration: underline; text-underline-offset: .14em; }
+.prc-uses { display: inline-block; margin-top: 12px; font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-2); border: 1px dashed var(--ucl-line-2); border-radius: 3px; padding: 6px 10px; }
+.prc-uses a { color: var(--ucl-ink); text-decoration: underline; text-underline-offset: .14em; }
+
+/* closing */
+.prc-close { padding: 44px 0 60px; }
+.prc-close-card { background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 5px; padding: 38px 34px; display: flex; flex-direction: column; gap: 14px; }
+.prc-close-ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ucl-line); }
+.prc-close-card h2 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(26px, 4vw, 36px); line-height: 1.12; margin: 0; }
+.prc-close-card p { font-size: 16px; line-height: 1.55; margin: 0; color: #E9E2D2; max-width: 56ch; }
+.prc-close .prc-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 6px; }
+.prc-close .prc-cta:hover { background: #fff; }
+.prc-colophon { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); margin-top: 20px; text-align: center; }
+
+/* node colors */
+.node-automate  { background: var(--ucl-automate); }
+.node-simplify  { background: var(--ucl-simplify); }
+.node-eliminate { background: var(--ucl-eliminate); }
+.node-optimize  { background: var(--ucl-optimize); }
+.node-report    { background: var(--ucl-report); }
+
+@media (min-width: 820px) {
+  .prc-layers { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+<div class="prc-root">
+  <header class="prc-bar">
+    <div class="prc-bar-in">
+      <a class="prc-wordmark" href="/">
+        <b>BUILTWITHJON</b>
+        <span>The Process</span>
+      </a>
+      <a class="prc-cta prc-cta--sm" href={auditHref}>
+        Get your AI audit
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <section class="prc-wrap prc-hero">
+    <span class="prc-eyebrow">From "here is my mess" to a working system</span>
+    <h1>How the work actually runs.</h1>
+    <p class="prc-hero-lead">
+      The principles say what I believe. The library shows the workflows. This is the order I move through to turn one of them into something that runs on its own, one safe win at a time.
+    </p>
+  </section>
+
+  <section class="prc-wrap prc-map">
+    <span class="prc-eyebrow">How the pieces fit</span>
+    <h2>Three frameworks, three altitudes.</h2>
+    <p class="prc-map-intro">
+      Everything I do sits in one of three layers. They are not a menu; they nest. The principles govern the process, and one phase of the process applies the five-question lens from the library. This page is the middle layer: the sequence that carries the work.
+    </p>
+    <div class="prc-layers">
+      <div class="prc-layer">
+        <div class="prc-layer-top"><span class="prc-layer-tag">Layer 1 &middot; Belief</span></div>
+        <div class="prc-layer-name">Principles</div>
+        <p class="prc-layer-q">Why I do it this way. <a href={principlesHref}>Read the five principles &rarr;</a></p>
+      </div>
+      <div class="prc-layer is-here">
+        <div class="prc-layer-top"><span class="prc-layer-tag">Layer 2 &middot; Sequence &middot; you are here</span></div>
+        <div class="prc-layer-name">The process</div>
+        <p class="prc-layer-q">The order the work runs in, below.</p>
+      </div>
+      <div class="prc-layer">
+        <div class="prc-layer-top"><span class="prc-layer-tag">Layer 3 &middot; Lens</span></div>
+        <div class="prc-layer-name">Five dispositions</div>
+        <p class="prc-layer-q">The verdict each step gets. <a href={libraryHref}>See it in the library &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="prc-wrap prc-flow">
+    <span class="prc-eyebrow">The five phases</span>
+    <ol class="prc-steps">
+      {processPhases.map((ph) => (
+        <li class="prc-step">
+          <span class="prc-rail" aria-hidden="true">
+            <span class={`prc-node node-${ph.accent}`}></span>
+            <span class="prc-line"></span>
+          </span>
+          <div class="prc-step-body">
+            <span class="prc-step-num">Phase {ph.num}</span>
+            <h2 class="prc-step-name">{ph.name}</h2>
+            <p>{ph.body}</p>
+            {ph.usesDispositions && (
+              <span class="prc-uses">This is where the five dispositions apply: <a href={libraryHref}>eliminate, simplify, automate, optimize, report &rarr;</a></span>
+            )}
+            <div class="prc-step-meta">
+              <span class="prc-chiplet"><span class="k">You leave with</span> <span class="v">{ph.output}</span></span>
+              <span class="prc-chiplet"><span class="k">Principle</span> <span class="v"><a href={principlesHref}>{ph.principle}</a></span></span>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="prc-wrap prc-close">
+    <div class="prc-close-card">
+      <span class="prc-close-ce">Start here</span>
+      <h2>Phase one is the audit. That is the whole first step.</h2>
+      <p>
+        Bring one recurring workflow that costs you time, follow-up, or trust. We see where the data lives, map how the work runs, and you leave with a prioritized plan: what to fix first, and what to leave alone.
+      </p>
+      <a class="prc-cta" href={auditHref}>
+        Get your AI audit
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <p class="prc-colophon">See the data &middot; Map the workflow &middot; Decide each step &middot; Build the first pilot &middot; Run and measure</p>
+  </section>
+</div>
+</Base>

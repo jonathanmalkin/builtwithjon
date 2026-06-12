@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import { processPhases } from '../data/process';
 
 const description =
   'The principles behind every Built with Jon automation: connect the data first, audit the workflow not the tool, and keep a human at the high-stakes gate. The method under the use case library.';
 
 const auditHref = '/ai-workflow-audit/';
 const libraryHref = '/use-cases/';
+const processHref = '/process/';
 
 // The principles, in teaching order. accent maps to a disposition color token
 // so the page reads as a sibling of the library.
@@ -152,16 +154,45 @@ const principles = [
 
 /* ---------- hero ---------- */
 .prn-hero { padding: 48px 0 30px; }
-.prn-hero .prn-eyebrow { display: block; margin-bottom: 20px; }
+.prn-hero-grid { display: flex; flex-direction: column; gap: 40px; }
+.prn-hero-copy .prn-eyebrow { display: block; margin-bottom: 20px; }
 .prn-hero h1 {
   font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em;
-  line-height: 1.04; font-size: clamp(40px, 7vw, 72px); margin: 0; max-width: 16ch;
+  line-height: 1.04; font-size: clamp(40px, 6.4vw, 64px); margin: 0; max-width: 16ch;
 }
 .prn-hero-lead {
-  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(20px, 3.6vw, 27px);
-  line-height: 1.34; letter-spacing: -.01em; margin: 26px 0 0; max-width: 40ch; color: var(--ucl-ink-2);
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(20px, 3.6vw, 26px);
+  line-height: 1.34; letter-spacing: -.01em; margin: 24px 0 0; max-width: 40ch; color: var(--ucl-ink-2);
 }
 .prn-hero-cta { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- the process rail (the third framework, shown beside the hero) ---------- */
+.prn-flow { background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 5px; padding: 22px 22px 8px; }
+.prn-flow-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.prn-flow-title { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.prn-flow-link { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-2); text-decoration: none; white-space: nowrap; }
+.prn-flow-link:hover { color: var(--ucl-ink); text-decoration: underline; text-underline-offset: .15em; }
+.prn-flow-list { list-style: none; margin: 14px 0 0; padding: 0; }
+.prn-flow-step { position: relative; display: flex; gap: 14px; padding: 0 0 18px; }
+.prn-flow-rail { position: relative; flex: none; width: 22px; display: flex; flex-direction: column; align-items: center; }
+.prn-flow-node { width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--ucl-paper-card); flex: none; margin-top: 3px; z-index: 1; }
+.prn-flow-line { width: 2px; flex: 1; background: var(--ucl-line-2); margin-top: 2px; }
+.prn-flow-step:last-child .prn-flow-line { display: none; }
+.prn-flow-step:last-child { padding-bottom: 14px; }
+.prn-flow-body { padding-top: 0; }
+.prn-flow-num { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .08em; color: var(--ucl-ink-3); }
+.prn-flow-name { font-family: var(--ucl-serif); font-size: 18px; font-weight: 500; line-height: 1.2; margin: 1px 0 2px; }
+.prn-flow-short { font-size: 13px; color: var(--ucl-ink-2); line-height: 1.4; }
+.prn-flow-uses { display: inline-block; margin-top: 5px; font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+.prn-flow-foot { border-top: 1px solid var(--ucl-line); margin-top: 4px; padding: 12px 0 14px; }
+.prn-flow-foot a { display: inline-flex; align-items: center; gap: .5em; font-family: var(--ucl-mono); font-size: 12px; color: var(--ucl-ink); text-decoration: none; }
+.prn-flow-foot a:hover svg { transform: translateX(3px); }
+.prn-flow-foot svg { transition: transform .15s ease; }
+.node-automate  { background: var(--ucl-automate); }
+.node-simplify  { background: var(--ucl-simplify); }
+.node-eliminate { background: var(--ucl-eliminate); }
+.node-optimize  { background: var(--ucl-optimize); }
+.node-report    { background: var(--ucl-report); }
 
 /* ---------- contents rail ---------- */
 .prn-toc {
@@ -260,6 +291,10 @@ const principles = [
   .prn-toc-grid { grid-template-columns: 1fr 1fr; gap: 10px 28px; }
   .prn-jobs { grid-template-columns: 1fr 1fr; }
 }
+@media (min-width: 940px) {
+  .prn-hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 52px; align-items: start; }
+  .prn-flow { position: sticky; top: 16px; }
+}
 </style>
 
 <div class="prn-root">
@@ -277,17 +312,50 @@ const principles = [
   </header>
 
   <section class="prn-wrap prn-hero">
-    <span class="prn-eyebrow">The method under the library</span>
-    <h1>What I check before I automate anything.</h1>
-    <p class="prn-hero-lead">
-      The use case library shows the workflows. These are the rules I run them through, in order. The first one is the one almost everybody skips.
-    </p>
-    <div class="prn-hero-cta">
-      <a class="prn-cta" href="#p-01">
-        Start with the data
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
-      </a>
-      <a class="prn-cta prn-cta--ghost" href={libraryHref}>Browse the use cases</a>
+    <div class="prn-hero-grid">
+      <div class="prn-hero-copy">
+        <span class="prn-eyebrow">The method under the library</span>
+        <h1>What I check before I automate anything.</h1>
+        <p class="prn-hero-lead">
+          The use case library shows the workflows. These are the rules I run them through, in order. The first one is the one almost everybody skips.
+        </p>
+        <div class="prn-hero-cta">
+          <a class="prn-cta" href="#p-01">
+            Start with the data
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
+          </a>
+          <a class="prn-cta prn-cta--ghost" href={libraryHref}>Browse the use cases</a>
+        </div>
+      </div>
+
+      <aside class="prn-flow" aria-label="The implementation process">
+        <div class="prn-flow-head">
+          <span class="prn-flow-title">The process</span>
+          <a class="prn-flow-link" href={processHref}>Full process &rarr;</a>
+        </div>
+        <ol class="prn-flow-list">
+          {processPhases.map((ph) => (
+            <li class="prn-flow-step">
+              <span class="prn-flow-rail" aria-hidden="true">
+                <span class={`prn-flow-node node-${ph.accent}`}></span>
+                <span class="prn-flow-line"></span>
+              </span>
+              <div class="prn-flow-body">
+                <span class="prn-flow-num">{ph.num}</span>
+                <div class="prn-flow-name">{ph.name}</div>
+                <div class="prn-flow-short">{ph.short}</div>
+                {ph.usesDispositions && <span class="prn-flow-uses">applies the five dispositions</span>}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="prn-flow-foot">
+          <a href={processHref}>
+            How the work actually runs
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </aside>
     </div>
   </section>
 
