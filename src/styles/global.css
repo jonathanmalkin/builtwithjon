@@ -1181,6 +1181,199 @@ a.method-card:hover {
   color: var(--color-text-muted);
 }
 
+.starter-gate {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06));
+  padding: 1.15rem 1.25rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.starter-gate-label {
+  color: var(--color-copper);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.4rem;
+}
+
+.starter-gate-lede {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  margin: 0 0 0.85rem;
+}
+
+.starter-gate-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: stretch;
+}
+
+.starter-gate-input {
+  flex: 1 1 230px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.starter-gate-btn {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0.6rem 1.15rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--color-blue-mug);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.starter-gate-btn:hover {
+  background: var(--color-blueprint);
+}
+
+.starter-gate-btn:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.starter-gate-note {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  margin: 0.7rem 0 0;
+}
+
+.starter-gate-error {
+  color: #a3361d;
+  font-size: 0.82rem;
+  margin: 0.6rem 0 0;
+}
+
+.starter-gate-unlocked {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-paper, #fbf6ec);
+  padding: 1.05rem 1.25rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.starter-gate-unlocked p {
+  margin: 0 0 0.5rem;
+  font-size: 0.92rem;
+}
+
+.starter-gate-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+
+.offer-frontdoor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.5rem 1.6rem;
+  margin-top: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06));
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+a.offer-frontdoor:hover {
+  border-color: var(--color-accent);
+  text-decoration: none;
+  color: var(--color-text);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.offer-frontdoor-label {
+  color: var(--color-copper);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.offer-frontdoor-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.offer-frontdoor-desc {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  max-width: 60ch;
+}
+
+.offer-split-intro {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 1.5rem 0 0.85rem;
+}
+
+.offer-routes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .offer-routes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.offer-route {
+  padding: 1.4rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-soft, 0 1px 3px rgba(0, 0, 0, 0.06));
+}
+
+.offer-route-label {
+  display: block;
+  color: var(--color-copper);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.offer-route h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.offer-route p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;

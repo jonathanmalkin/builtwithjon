@@ -258,8 +258,50 @@ const schema = {
           <svg class="cc-chevron" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </summary>
         <div class="cc-detail-body">
+          <div
+            class="starter-gate"
+            id="starter-gate"
+            data-kit="claude-code"
+            data-file="/ai-assistant/claude-code/claude-code-assistant-pack.zip"
+            data-filename="claude-code-assistant-pack.zip"
+          >
+            <p class="starter-gate-label">Free Starter Kit</p>
+            <p class="starter-gate-lede">Enter your email and I will unlock the Claude Code resource pack. I send the occasional note on building assistants. No spam, unsubscribe anytime.</p>
+            <form
+              class="starter-gate-form"
+              id="starter-gate-form"
+              action="https://formspree.io/f/xdapgpae"
+              method="POST"
+            >
+              <input type="hidden" name="_subject" value="Starter Kit download" />
+              <input type="hidden" name="inquiry_type" value="starter-kit-download" />
+              <input type="hidden" name="which_kit" value="claude-code" />
+              <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
+              <input
+                type="email"
+                id="starter-gate-email"
+                name="email"
+                class="starter-gate-input"
+                placeholder="you@example.com"
+                required
+                autocomplete="email"
+                inputmode="email"
+                spellcheck="false"
+              />
+              <button type="submit" class="starter-gate-btn">Unlock the pack</button>
+            </form>
+            <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite">
+              Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will send it directly.
+            </p>
+            <p class="starter-gate-note">The site is static, so the file is not locked. This just lets me know who is building.</p>
+          </div>
+          <div class="starter-gate-unlocked" id="starter-gate-unlocked" hidden>
+            <p>Thanks. Your download is ready:</p>
+            <a class="starter-gate-download" id="starter-gate-link" href="/ai-assistant/claude-code/claude-code-assistant-pack.zip" download>
+              Download claude-code-assistant-pack.zip
+            </a>
+          </div>
           <ol class="cc-step-list">
-            <li><strong>Download the resource pack.</strong> Get it here: <a href="/ai-assistant/claude-code/claude-code-assistant-pack.zip" download>claude-code-assistant-pack.zip</a>.</li>
             <li><strong>Unzip it.</strong> On Mac, double-click the <code>.zip</code> file. On Windows, right-click it and choose <strong>Extract All</strong>.</li>
             <li><strong>Move the unzipped folder somewhere you will keep it.</strong> Your Documents folder is fine. This is your assistant's home, so do not treat it like a disposable download.</li>
           </ol>
@@ -578,6 +620,51 @@ const schema = {
       }
       var nodes = document.querySelectorAll('.prompt');
       for (var i = 0; i < nodes.length; i++) attach(nodes[i]);
+    })();
+
+    (function () {
+      var gate = document.getElementById('starter-gate');
+      var unlocked = document.getElementById('starter-gate-unlocked');
+      if (!gate || !unlocked) return;
+      var form = document.getElementById('starter-gate-form');
+      var errorEl = document.getElementById('starter-gate-error');
+      var btn = form ? form.querySelector('.starter-gate-btn') : null;
+      var kit = gate.getAttribute('data-kit') || 'kit';
+      var storeKey = 'bwj-starter-kit-' + kit;
+
+      function reveal() {
+        gate.hidden = true;
+        unlocked.hidden = false;
+      }
+
+      try {
+        if (window.localStorage && localStorage.getItem(storeKey) === 'unlocked') {
+          reveal();
+        }
+      } catch (e) {}
+
+      if (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (errorEl) errorEl.hidden = true;
+          if (btn) { btn.disabled = true; btn.textContent = 'Unlocking...'; }
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          }).then(function (response) {
+            if (response.ok) {
+              try { if (window.localStorage) localStorage.setItem(storeKey, 'unlocked'); } catch (e) {}
+              reveal();
+              return;
+            }
+            throw new Error('Submission failed');
+          }).catch(function () {
+            if (errorEl) errorEl.hidden = false;
+            if (btn) { btn.disabled = false; btn.textContent = 'Unlock the pack'; }
+          });
+        });
+      }
     })();
   </script>
 

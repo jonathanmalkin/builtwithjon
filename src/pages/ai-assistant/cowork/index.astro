@@ -160,9 +160,52 @@ const schema = {
       <ul class="cw-plain-list">
         <li><span class="check">1</span><span><strong>Claude Desktop installed.</strong> This is the Claude app on your computer (Mac or Windows). If you do not have it, download it from <a href="https://claude.com/download">claude.com/download</a> and install it first.</span></li>
         <li><span class="check">2</span><span><strong>A Gmail account and a Google Calendar</strong> you are willing to let your assistant read.</span></li>
-        <li><span class="check">3</span><span><strong>The assistant add-on file.</strong> <a href="/ai-assistant/cowork/personal-assistant-cowork-plugin.zip" download>Click here to download <code>personal-assistant-cowork-plugin.zip</code></a>. It will save to your <strong>Downloads</strong> folder, you will need it in step 2.</span></li>
+        <li><span class="check">3</span><span><strong>The assistant add-on file.</strong> Unlock the free Starter Kit below, then download <code>personal-assistant-cowork-plugin.zip</code>. It will save to your <strong>Downloads</strong> folder, you will need it in step 2.</span></li>
         <li><span class="check">4</span><span><strong>A name for your assistant</strong> in mind, anything you like, such as <strong>Margaret</strong> or <strong>Pam</strong>. Wherever this guide shows <strong>[Name]</strong>, use the name you picked.</span></li>
       </ul>
+      <div
+        class="starter-gate"
+        id="starter-gate"
+        data-kit="cowork"
+        data-file="/ai-assistant/cowork/personal-assistant-cowork-plugin.zip"
+        data-filename="personal-assistant-cowork-plugin.zip"
+      >
+        <p class="starter-gate-label">Free Starter Kit</p>
+        <p class="starter-gate-lede">Enter your email and I will unlock the Cowork assistant add-on. I send the occasional note on building assistants. No spam, unsubscribe anytime.</p>
+        <form
+          class="starter-gate-form"
+          id="starter-gate-form"
+          action="https://formspree.io/f/xdapgpae"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="Starter Kit download" />
+          <input type="hidden" name="inquiry_type" value="starter-kit-download" />
+          <input type="hidden" name="which_kit" value="cowork" />
+          <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
+          <input
+            type="email"
+            id="starter-gate-email"
+            name="email"
+            class="starter-gate-input"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+            inputmode="email"
+            spellcheck="false"
+          />
+          <button type="submit" class="starter-gate-btn">Unlock the add-on</button>
+        </form>
+        <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite">
+          Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will send it directly.
+        </p>
+        <p class="starter-gate-note">The site is static, so the file is not locked. This just lets me know who is building.</p>
+      </div>
+      <div class="starter-gate-unlocked" id="starter-gate-unlocked" hidden>
+        <p>Thanks. Your download is ready:</p>
+        <a class="starter-gate-download" id="starter-gate-link" href="/ai-assistant/cowork/personal-assistant-cowork-plugin.zip" download>
+          Download personal-assistant-cowork-plugin.zip
+        </a>
+      </div>
     </div>
 
     <div class="cw-roadmap">
@@ -238,7 +281,7 @@ user can approve a draft or change; silence is not approval.</code></pre>
         <span class="cw-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4v4h3a1 1 0 0 1 1 1v3h-4v.5a2.5 2.5 0 0 0 5 0V11h1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h4z"/></svg></span>
         <div>
           <div class="cw-step-head"><span class="cw-step-num">2</span><h3>Install the assistant add-on</h3></div>
-          <p>This is the bundle of everything your assistant can do. You install it once. If you have not downloaded it yet, <a href="/ai-assistant/cowork/personal-assistant-cowork-plugin.zip" download>download <code>personal-assistant-cowork-plugin.zip</code> here</a> first.</p>
+          <p>This is the bundle of everything your assistant can do. You install it once. If you have not downloaded it yet, unlock the Starter Kit near the top of this page to get <code>personal-assistant-cowork-plugin.zip</code> first.</p>
           <ol>
             <li>In the Claude app, click <strong>Customize</strong> in the left sidebar.</li>
             <li>In the left sidebar, find <strong>Personal Plugins</strong>. It may appear greyed out until you open it.</li>
@@ -592,6 +635,51 @@ user can approve a draft or change; silence is not approval.</code></pre>
       }
       var nodes = document.querySelectorAll('.prompt, pre');
       for (var i = 0; i < nodes.length; i++) attach(nodes[i]);
+    })();
+
+    (function () {
+      var gate = document.getElementById('starter-gate');
+      var unlocked = document.getElementById('starter-gate-unlocked');
+      if (!gate || !unlocked) return;
+      var form = document.getElementById('starter-gate-form');
+      var errorEl = document.getElementById('starter-gate-error');
+      var btn = form ? form.querySelector('.starter-gate-btn') : null;
+      var kit = gate.getAttribute('data-kit') || 'kit';
+      var storeKey = 'bwj-starter-kit-' + kit;
+
+      function reveal() {
+        gate.hidden = true;
+        unlocked.hidden = false;
+      }
+
+      try {
+        if (window.localStorage && localStorage.getItem(storeKey) === 'unlocked') {
+          reveal();
+        }
+      } catch (e) {}
+
+      if (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (errorEl) errorEl.hidden = true;
+          if (btn) { btn.disabled = true; btn.textContent = 'Unlocking...'; }
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          }).then(function (response) {
+            if (response.ok) {
+              try { if (window.localStorage) localStorage.setItem(storeKey, 'unlocked'); } catch (e) {}
+              reveal();
+              return;
+            }
+            throw new Error('Submission failed');
+          }).catch(function () {
+            if (errorEl) errorEl.hidden = false;
+            if (btn) { btn.disabled = false; btn.textContent = 'Unlock the add-on'; }
+          });
+        });
+      }
     })();
   </script>
 
