@@ -79,7 +79,7 @@ export const categories = [
     "id": "ps",
     "num": "09",
     "name": "Professional Services",
-    "intro": "Professional services firms run on clarity and timing. The hard part is often not billing software. It is scope clarity, version control, and turning client conversations into repeatable outcomes.",
+    "intro": "Firms that sell expertise leak money in the unbillable gaps: the day reconstructed from memory at 6pm, the engagement letter that took until Tuesday, the proposal rewritten from scratch because nobody could find the last one. AI genuinely helps here, drafting narratives, scope sections, and research summaries, because the raw material is text. The gates are professional ones: you sign every bill, review every letter, and verify every citation.",
     "stat": null,
     "group": "industry"
   },
@@ -87,7 +87,7 @@ export const categories = [
     "id": "hw",
     "num": "10",
     "name": "Health and Wellness",
-    "intro": "Health and wellness practices carry trust risk and scheduling pressure at the same time. Fast service is valuable, but process mistakes can harm retention and compliance posture.",
+    "intro": "A practice loses revenue in empty chairs: the no-show, the cancelled slot nobody refilled, the patient who quietly lapsed, the new caller who reached voicemail. Almost every fix is reminders, waitlists, and sequences, plain automation with one big constraint. Everything touches protected health information, so the whole stack lives inside HIPAA-compliant tools with a signed BAA, and nothing clinical ever gets delegated to a bot.",
     "stat": null,
     "group": "industry"
   },
