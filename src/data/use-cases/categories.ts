@@ -55,7 +55,7 @@ export const categories = [
     "id": "hs",
     "num": "06",
     "name": "Home Services & Trades",
-    "intro": "Trade businesses run on trust, timing, and response speed. Miss one call or miss one follow-up and the margin disappears. Most operational pain here is not complicated logic. It is fragmented process with no reliable memory.",
+    "intro": "A trade business loses money in the gaps: the call that rang out while you were under a house, the quote nobody chased, the membership that lapsed quietly, the callback that ate the margin. Almost none of the fix is AI. It is intake, cadence, and proof, with AI saved for the moments that need real judgment, like triaging the 2am emergency.",
     "stat": null,
     "group": "industry"
   },
@@ -63,7 +63,7 @@ export const categories = [
     "id": "re",
     "num": "07",
     "name": "Real Estate",
-    "intro": "Real estate teams move money in stages that stretch over months and years. Any delay in communication creates compounding friction, not just one missed task. The playbook is reduce ambiguity early and preserve proof for every handoff.",
+    "intro": "Real estate runs on long timelines and short attention. The lead that buys in month 14, the referral that arrives in year three, the transaction with forty documents in flight. The wins here are sequencing and follow-through, with AI drafting copy and reading contracts. It organizes and presents; it never sets the price.",
     "stat": null,
     "group": "industry"
   },
@@ -71,7 +71,7 @@ export const categories = [
     "id": "pm",
     "num": "08",
     "name": "Property Management",
-    "intro": "Property managers are not behind because they are busy. They are behind because one problem is waiting in two places at once. Repeated follow-up, tenant communication, and reporting can be stabilized without losing judgment.",
+    "intro": "Property management is the same five problems on a loop: the 11pm emergency that isn't one, the application weekend, the lease that expired unnoticed, the monthly rent chase, the owner report nobody wants to write. Nearly all of it is rules and sequencing. The one genuinely AI-shaped job is triage.",
     "stat": null,
     "group": "industry"
   },
