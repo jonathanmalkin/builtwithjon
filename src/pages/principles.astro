@@ -1,0 +1,364 @@
+---
+import Base from '../layouts/Base.astro';
+
+const description =
+  'The principles behind every Built with Jon automation: connect the data first, audit the workflow not the tool, and keep a human at the high-stakes gate. The method under the use case library.';
+
+const auditHref = '/ai-workflow-audit/';
+const libraryHref = '/use-cases/';
+
+// The principles, in teaching order. accent maps to a disposition color token
+// so the page reads as a sibling of the library.
+const principles = [
+  {
+    num: '01',
+    accent: 'automate',
+    eyebrow: 'The one most people skip',
+    verb: 'Connect the data first',
+    foundation: 'Data foundation',
+    lead:
+      'Most automation fails for a boring reason: the data it needs was never connected. The numbers live in one app, the customers in another, the schedule in a third, and the truth in your head. Before anything gets automated, the sources have to agree on one picture.',
+    twoJobs: [
+      {
+        phase: 'When I assess',
+        title: 'See the data',
+        body:
+          'I look at where your information actually lives and how it moves between people and tools. That walk-through is how the bottlenecks reveal themselves: the double entry, the status-chasing, the "it is in the email somewhere." You cannot find the friction without following the data.',
+      },
+      {
+        phase: 'When I build',
+        title: 'Wire it together',
+        body:
+          'Then the sources get connected so they present one truth. Not a giant new platform: usually a few links between tools you already pay for. Automation built on connected data holds up. Automation built on scattered data quietly breaks.',
+      },
+    ],
+    proof: [
+      { id: 'OP5', label: 'Everything lives in my head' },
+      { id: 'A7', label: 'Typing the same thing twice' },
+      { id: 'S5', label: 'Feeding the CRM' },
+      { id: 'F1', label: 'The receipt pile on your desk' },
+      { id: 'RE4', label: 'Herding docs to close' },
+    ],
+  },
+  {
+    num: '02',
+    accent: 'simplify',
+    eyebrow: 'The question that comes first',
+    verb: 'Audit the workflow, not the tool',
+    lead:
+      'The question is never "what AI tool should I buy." It is "which recurring workflow is actually ready." Start from the work that repeats and frustrates, then decide what to do with each step. The tool is the last decision, not the first.',
+    proof: [
+      { id: 'A1', label: 'Where are we on that?' },
+      { id: 'OP1', label: 'The schedule that falls apart by Tuesday' },
+      { id: 'PS1', label: 'The invisible clock' },
+    ],
+  },
+  {
+    num: '03',
+    accent: 'eliminate',
+    eyebrow: 'The honest part',
+    verb: 'Most wins need no AI at all',
+    lead:
+      'The highest-value fixes, scheduling, onboarding, invoice follow-up, reminders, contain no AI. They are rules, templates, and one connected calendar. Reach for AI only where the job is genuinely reading, drafting, or summarizing. Spending on AI before fixing the plumbing is the most common and most expensive mistake.',
+    proof: [
+      { id: 'A3', label: 'Calendar Tetris' },
+      { id: 'HR3', label: 'The calendar ping-pong' },
+      { id: 'PM4', label: 'The monthly rent chase' },
+    ],
+  },
+  {
+    num: '04',
+    accent: 'optimize',
+    eyebrow: 'The line that protects you',
+    verb: 'Keep a human at the high-stakes gate',
+    lead:
+      'AI can read, summarize, draft, and recommend. The safe ladder stops at "draft" or "recommend" wherever the stakes are real: a hiring decision, a legal citation, a clinical note. The machine does the typing; a person signs the consequence. That line is where the risk lives, so that is where the human stays.',
+    proof: [
+      { id: 'HR2', label: 'The resume avalanche', note: 'EEOC' },
+      { id: 'PS6', label: 'The research rabbit hole', note: 'citations' },
+      { id: 'HW6', label: 'The phone that never stops', note: 'HIPAA' },
+    ],
+  },
+  {
+    num: '05',
+    accent: 'report',
+    eyebrow: 'The unexpected deliverable',
+    verb: '"Don’t automate yet" is an answer',
+    lead:
+      'Some workflows are too messy, too high-stakes, or too unclear to automate safely right now. Naming those is part of the value, not a failure to deliver. A good audit tells you what to fix first and what to leave alone, so you do not pour effort into automating a process that should be redesigned instead.',
+    proof: [
+      { id: 'CS5', label: 'Complaint without a process' },
+      { id: 'F6', label: 'The shoebox handoff' },
+      { id: 'OP6', label: 'The quality that depends on who is working' },
+    ],
+  },
+];
+---
+
+<Base title="Principles" description={description}>
+<style is:global>
+/* principles.astro: reuses the use case library field-manual language
+   (--ucl-* tokens + .ucl-tag--* disposition colors live in global.css).
+   This file adds only principle-page layout on top of those tokens. */
+
+.prn-root {
+  --prn-maxw: 1140px;
+  background: var(--ucl-paper);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: calc(var(--ucl-gutter, 20px) * -1);
+  margin-right: calc(var(--ucl-gutter, 20px) * -1);
+  margin-top: -2rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.prn-root *, .prn-root *::before, .prn-root *::after { box-sizing: border-box; }
+
+.prn-wrap { max-width: var(--prn-maxw); margin: 0 auto; padding: 0 20px; }
+
+.prn-eyebrow {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ucl-ink-3); font-weight: 500;
+}
+
+/* ---------- top bar ---------- */
+.prn-bar {
+  background: var(--ucl-paper); border-bottom: 1px solid var(--ucl-ink);
+}
+.prn-bar-in {
+  max-width: var(--prn-maxw); margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.prn-wordmark { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .12em; line-height: 1.35; white-space: nowrap; }
+.prn-wordmark b { display: block; font-weight: 600; color: var(--ucl-ink); }
+.prn-wordmark span { color: var(--ucl-ink-3); }
+
+.prn-cta {
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--ucl-mono); font-weight: 500; font-size: 14px; letter-spacing: .01em;
+  background: var(--ucl-ink); color: var(--ucl-paper);
+  border: none; padding: 14px 20px; border-radius: 3px; cursor: pointer;
+  text-decoration: none; line-height: 1; white-space: nowrap;
+  transition: background .15s ease;
+}
+.prn-cta:hover { background: #000; }
+.prn-cta svg { transition: transform .15s ease; }
+.prn-cta:hover svg { transform: translateX(3px); }
+.prn-cta--sm { padding: 10px 14px; font-size: 12.5px; }
+.prn-cta--ghost { background: var(--ucl-paper); color: var(--ucl-ink); box-shadow: inset 0 0 0 1px var(--ucl-ink); }
+.prn-cta--ghost:hover { background: var(--ucl-ink); color: var(--ucl-paper); }
+
+/* ---------- hero ---------- */
+.prn-hero { padding: 48px 0 30px; }
+.prn-hero .prn-eyebrow { display: block; margin-bottom: 20px; }
+.prn-hero h1 {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em;
+  line-height: 1.04; font-size: clamp(40px, 7vw, 72px); margin: 0; max-width: 16ch;
+}
+.prn-hero-lead {
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(20px, 3.6vw, 27px);
+  line-height: 1.34; letter-spacing: -.01em; margin: 26px 0 0; max-width: 40ch; color: var(--ucl-ink-2);
+}
+.prn-hero-cta { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- contents rail ---------- */
+.prn-toc {
+  border-top: 1px solid var(--ucl-line); border-bottom: 1px solid var(--ucl-line);
+  padding: 18px 0; margin-top: 8px;
+}
+.prn-toc-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.prn-toc-item {
+  display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--ucl-ink);
+  padding: 4px 0; border-radius: 3px;
+}
+.prn-toc-item:hover .prn-toc-verb { text-decoration: underline; text-underline-offset: .15em; }
+.prn-toc-num { font-family: var(--ucl-mono); font-size: 11px; color: var(--ucl-ink-3); letter-spacing: .08em; min-width: 22px; }
+.prn-toc-verb { font-family: var(--ucl-serif); font-size: 18px; line-height: 1.3; }
+.prn-toc-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; align-self: center; }
+
+/* ---------- principle blocks ---------- */
+.prn-list { padding: 8px 0 0; }
+.prn-item {
+  padding: 40px 0; border-bottom: 1px solid var(--ucl-line);
+  scroll-margin-top: 70px;
+}
+.prn-item-head { display: flex; align-items: flex-start; gap: 16px; }
+.prn-rail {
+  width: 5px; align-self: stretch; border-radius: 3px; flex: none; margin-top: 6px;
+}
+.prn-item-num { font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .1em; color: var(--ucl-ink-3); }
+.prn-item-eyebrow { margin: 0 0 6px; }
+.prn-item-verb {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.015em;
+  font-size: clamp(28px, 4.6vw, 40px); line-height: 1.06; margin: 8px 0 0;
+}
+.prn-item-found {
+  display: inline-block; margin-top: 10px;
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 5px 9px; border-radius: 3px; border: 1px solid;
+}
+.prn-item-lead {
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(18px, 2.5vw, 21px);
+  line-height: 1.5; letter-spacing: -.005em; margin: 18px 0 0; max-width: 62ch; color: var(--ucl-ink);
+}
+
+/* ---------- the two-job split (data principle) ---------- */
+.prn-jobs { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 26px 0 0; }
+.prn-job {
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 4px;
+  padding: 20px 22px;
+}
+.prn-job-phase { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.prn-job-title { font-family: var(--ucl-serif); font-size: 22px; font-weight: 500; margin: 6px 0 8px; }
+.prn-job-body { font-size: 15px; line-height: 1.55; color: var(--ucl-ink-2); margin: 0; }
+
+/* ---------- proof: links into the library ---------- */
+.prn-proof { margin: 24px 0 0; }
+.prn-proof-lbl { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); margin-bottom: 10px; }
+.prn-proof-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.prn-chip {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 3px;
+  padding: 7px 11px; color: var(--ucl-ink); transition: border-color .14s ease, background .14s ease;
+}
+.prn-chip:hover { border-color: var(--ucl-ink); background: #fff; }
+.prn-chip-id { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .05em; color: var(--ucl-ink-3); }
+.prn-chip-name { font-size: 13.5px; }
+.prn-chip-note { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--ucl-ink-3); border-left: 1px solid var(--ucl-line-2); padding-left: 8px; }
+
+/* ---------- closing band ---------- */
+.prn-close { padding: 48px 0 60px; }
+.prn-close-card {
+  background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 5px;
+  padding: 38px 34px; display: flex; flex-direction: column; gap: 14px;
+}
+.prn-close-ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ucl-line); }
+.prn-close-card h2 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(26px, 4vw, 36px); line-height: 1.12; margin: 0; }
+.prn-close-card p { font-size: 16px; line-height: 1.55; margin: 0; color: #E9E2D2; max-width: 56ch; }
+.prn-close-cta { margin-top: 6px; }
+.prn-close .prn-cta { background: var(--ucl-paper); color: var(--ucl-ink); }
+.prn-close .prn-cta:hover { background: #fff; }
+.prn-colophon { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); margin-top: 20px; text-align: center; }
+
+/* ---------- accent application via disposition tokens ---------- */
+.prn-item.acc-eliminate .prn-rail { background: var(--ucl-eliminate); }
+.prn-item.acc-simplify  .prn-rail { background: var(--ucl-simplify); }
+.prn-item.acc-automate  .prn-rail { background: var(--ucl-automate); }
+.prn-item.acc-optimize  .prn-rail { background: var(--ucl-optimize); }
+.prn-item.acc-report    .prn-rail { background: var(--ucl-report); }
+.acc-eliminate .prn-item-found { color: var(--ucl-eliminate); background: var(--ucl-eliminate-bg); border-color: var(--ucl-eliminate-ln); }
+.acc-automate  .prn-item-found { color: var(--ucl-automate);  background: var(--ucl-automate-bg);  border-color: var(--ucl-automate-ln); }
+.dot-eliminate { background: var(--ucl-eliminate); }
+.dot-simplify  { background: var(--ucl-simplify); }
+.dot-automate  { background: var(--ucl-automate); }
+.dot-optimize  { background: var(--ucl-optimize); }
+.dot-report    { background: var(--ucl-report); }
+
+@media (min-width: 760px) {
+  .prn-toc-grid { grid-template-columns: 1fr 1fr; gap: 10px 28px; }
+  .prn-jobs { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+<div class="prn-root">
+  <header class="prn-bar">
+    <div class="prn-bar-in">
+      <a class="prn-wordmark" href="/" style="text-decoration:none">
+        <b>BUILTWITHJON</b>
+        <span>Principles</span>
+      </a>
+      <a class="prn-cta prn-cta--sm" href={auditHref}>
+        Get your AI audit
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <section class="prn-wrap prn-hero">
+    <span class="prn-eyebrow">The method under the library</span>
+    <h1>What I check before I automate anything.</h1>
+    <p class="prn-hero-lead">
+      The use case library shows the workflows. These are the rules I run them through, in order. The first one is the one almost everybody skips.
+    </p>
+    <div class="prn-hero-cta">
+      <a class="prn-cta" href="#p-01">
+        Start with the data
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
+      </a>
+      <a class="prn-cta prn-cta--ghost" href={libraryHref}>Browse the use cases</a>
+    </div>
+  </section>
+
+  <nav class="prn-wrap prn-toc" aria-label="The principles">
+    <div class="prn-toc-grid">
+      {principles.map((p) => (
+        <a class="prn-toc-item" href={`#p-${p.num}`}>
+          <span class="prn-toc-num">{p.num}</span>
+          <span class={`prn-toc-dot dot-${p.accent}`}></span>
+          <span class="prn-toc-verb">{p.verb}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <div class="prn-wrap prn-list">
+    {principles.map((p) => (
+      <section class={`prn-item acc-${p.accent}`} id={`p-${p.num}`}>
+        <div class="prn-item-head">
+          <span class="prn-rail" aria-hidden="true"></span>
+          <div>
+            <p class="prn-item-eyebrow prn-eyebrow">{p.num} &middot; {p.eyebrow}</p>
+            <h2 class="prn-item-verb">{p.verb}</h2>
+            {p.foundation && <span class="prn-item-found">{p.foundation}</span>}
+            <p class="prn-item-lead">{p.lead}</p>
+
+            {p.twoJobs && (
+              <div class="prn-jobs">
+                {p.twoJobs.map((j) => (
+                  <div class="prn-job">
+                    <div class="prn-job-phase">{j.phase}</div>
+                    <div class="prn-job-title">{j.title}</div>
+                    <p class="prn-job-body">{j.body}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div class="prn-proof">
+              <div class="prn-proof-lbl">See it in the library</div>
+              <div class="prn-proof-row">
+                {p.proof.map((c) => (
+                  <a class="prn-chip" href={`${libraryHref}#case-${c.id}`}>
+                    <span class="prn-chip-id">{c.id}</span>
+                    <span class="prn-chip-name">{c.label}</span>
+                    {c.note && <span class="prn-chip-note">{c.note}</span>}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="prn-wrap prn-close">
+    <div class="prn-close-card">
+      <span class="prn-close-ce">The bridge</span>
+      <h2>The audit is these five principles, run on your business.</h2>
+      <p>
+        We start by looking at where your data lives, then map the workflows that repeat and frustrate, then tell you which to fix first and which to leave alone. No tool pitch until the plumbing is clear.
+      </p>
+      <div class="prn-close-cta">
+        <a class="prn-cta" href={auditHref}>
+          Get your AI audit
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+    <p class="prn-colophon">Connect the data &middot; Audit the workflow &middot; Most wins need no AI &middot; Human at the gate &middot; Don&rsquo;t automate yet</p>
+  </section>
+</div>
+</Base>
