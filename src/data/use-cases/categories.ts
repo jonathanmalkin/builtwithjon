@@ -127,7 +127,7 @@ export const categories = [
     "id": "personal",
     "num": "15",
     "name": "Personal and Household",
-    "intro": "The same framework works outside business because home life is a workflow too. The framework does not own your life for you. It gives you the same simple process you use with clients.",
+    "intro": "Everything this library teaches about business workflows applies at home, because home life is workflows too: the subscriptions nobody audits, the inbox that eats an evening, the school newsletter that hides the spirit day. Same five questions, same order. Eliminate the forgotten subscriptions before optimizing anything, let filters and shared calendars do the boring work, and save AI for what it's genuinely good at here: parsing the newsletter, planning the meals, compressing the research.",
     "stat": null,
     "group": "personal"
   }
