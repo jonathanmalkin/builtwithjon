@@ -439,16 +439,17 @@ const useCaseDefinitions = [
     { id: "optimize", label: "Optimize", question: "A human still does it, can they do it in a tenth of the time?", meaning: "AI drafts, you approve." },
     { id: "report", label: "Report", question: "Can the exhaust of this work give you visibility you've never had?", meaning: "Finally see what's actually happening." }
   ];
-  const GROUPS = [
-    { id: "function", label: "Business Functions" },
-    { id: "industry", label: "Industries" },
-    { id: "personal", label: "Personal" }
-  ];
-  // Content ships in stages: hide categories (and whole groups) with no cases yet.
+  // Content ships in stages: hide categories with no cases yet.
   const populatedCategoryIds = new Set(useCases.map((u) => u.categoryId));
   const visibleCategories = categories.filter((c) => populatedCategoryIds.has(c.id));
-  const visibleGroups = GROUPS.filter((g) => visibleCategories.some((c) => c.group === g.id));
+  // Two filter axes, each a dropdown. "Business function" = function-group categories.
+  // "Industry" = industry-group categories PLUS the personal group, folded in as Life & Home.
+  const functionCategories = visibleCategories.filter((c) => c.group === "function");
+  const industryCategories = visibleCategories.filter((c) => c.group === "industry" || c.group === "personal");
   const categoryGroupById = new Map(categories.map((c) => [c.id, c.group]));
+  // Plain, warm label override: the Personal & Household category reads as "Life & Home"
+  // inside the Industry dropdown so it sits naturally alongside the verticals.
+  const industryLabel = (c) => (c.group === "personal" ? "Life & Home" : c.name);
   const dispositionOrder = ["eliminate", "simplify", "automate", "optimize", "report"];
   const framework = {
     heading: "Every workflow gets the same five-question treatment.",
@@ -494,11 +495,6 @@ const useCaseDefinitions = [
       for (const d of item.dispositions) counts[d] = (counts[d] || 0) + 1;
     }
     return dispositionOrder.filter((id) => counts[id]).map((id) => ({ id, count: counts[id] }));
-  }
-  function caseDispositionSet(useCase) {
-    const set = /* @__PURE__ */ new Set();
-    for (const item of useCase.breakdown) for (const d of item.dispositions) set.add(d);
-    return set;
   }
   function stepTies(useCase, stepNumber) {
     const ids = [];
@@ -628,7 +624,6 @@ const useCaseDefinitions = [
       return /* @__PURE__ */ React.createElement("li", { className: "ucl-flow-step", key: i }, /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-n" }, String(i + 1).padStart(2, "0")), /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-t" }, text, ties.length > 0 && /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-ties", "aria-hidden": "true" }, ties.map((d) => /* @__PURE__ */ React.createElement("i", { key: d, className: d })))));
     })), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The breakdown"), /* @__PURE__ */ React.createElement("div", { className: "ucl-break" }, useCase.breakdown.map((item, i) => /* @__PURE__ */ React.createElement("div", { className: "ucl-break-item", key: i }, /* @__PURE__ */ React.createElement("div", { className: "ucl-break-top" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-break-step" }, stepLabel(item)), item.human ? /* @__PURE__ */ React.createElement(Tag, { human: true }) : item.dispositions.map((d) => /* @__PURE__ */ React.createElement(Tag, { id: d, key: d }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-break-rat" }, item.rationale)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "Where AI actually fits"), /* @__PURE__ */ React.createElement("p", { className: "ucl-aifit" }, useCase.aiFit), useCase.complianceNote && /* @__PURE__ */ React.createElement("div", { className: "ucl-compliance" }, /* @__PURE__ */ React.createElement("div", { className: "lbl" }, "Compliance note"), useCase.complianceNote), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The after state"), /* @__PURE__ */ React.createElement("p", { className: "ucl-after" }, useCase.afterState), /* @__PURE__ */ React.createElement("div", { className: "ucl-bridge" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("h4", null, ctaCopy.headline), /* @__PURE__ */ React.createElement("p", null, ctaCopy.body), /* @__PURE__ */ React.createElement("button", { className: "ucl-cta", onClick: onAudit }, ctaCopy.button.replace(" \u2192", ""), " ", /* @__PURE__ */ React.createElement(ArrowRight, null)), /* @__PURE__ */ React.createElement("div", { className: "sub" }, ctaCopy.subline)), /* @__PURE__ */ React.createElement("div", { className: "ucl-pager" }, /* @__PURE__ */ React.createElement("button", { onClick: onPrev, disabled: !prevCase }, /* @__PURE__ */ React.createElement("span", { className: "d" }, /* @__PURE__ */ React.createElement(ChevronLeft, { size: 12 }), " Prev"), /* @__PURE__ */ React.createElement("span", { className: "n" }, prevCase ? prevCase.name : "None")), /* @__PURE__ */ React.createElement("button", { className: "nx", onClick: onNext, disabled: !nextCase }, /* @__PURE__ */ React.createElement("span", { className: "d" }, "Next \u2192"), /* @__PURE__ */ React.createElement("span", { className: "n" }, nextCase ? nextCase.name : "None")))))));
   }
-  const AUTOMATION_FILTERS = ["Fully automatable", "Mostly automatable", "Partially automatable"];
   const categoryById = Object.fromEntries(categories.map((c) => [c.id, c]));
   function Marked({ text, marks, cls }) {
     const parts = [];
@@ -652,31 +647,18 @@ const useCaseDefinitions = [
   function Toolbar({
     query,
     setQuery,
-    group,
-    setGroup,
-    availableCategories,
-    catFilter,
-    toggleCat,
-    dispFilter,
-    toggleDisp,
+    fn,
+    setFn,
+    industry,
+    setIndustry,
     freq,
     setFreq,
-    auto,
-    setAuto,
     anyActive,
     clearAll,
     count,
     total
   }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar-in" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-bar" }, visibleGroups.map((g) => /* @__PURE__ */ React.createElement(
-      "button",
-      {
-        key: g.id,
-        className: `ucl-chip${group === g.id ? " is-on" : ""}`,
-        onClick: () => setGroup(g.id)
-      },
-      g.label
-    )), /* @__PURE__ */ React.createElement("span", { className: "ucl-sep", "aria-hidden": "true" }), /* @__PURE__ */ React.createElement("div", { className: "ucl-search" }, /* @__PURE__ */ React.createElement(SearchIcon, null), /* @__PURE__ */ React.createElement(
+    return /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar-in" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-bar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-search" }, /* @__PURE__ */ React.createElement(SearchIcon, null), /* @__PURE__ */ React.createElement(
       "input",
       {
         type: "text",
@@ -685,35 +667,31 @@ const useCaseDefinitions = [
         placeholder: "Search the week you keep losing\u2026",
         "aria-label": "Search use cases"
       }
-    )), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: freq, onChange: (e) => setFreq(e.target.value), "aria-label": "Filter by frequency" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "All frequencies"), FREQUENCY_FILTERS.map((f) => /* @__PURE__ */ React.createElement("option", { key: f, value: f }, f))), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: auto, onChange: (e) => setAuto(e.target.value), "aria-label": "Filter by automation potential" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "Any automation potential"), AUTOMATION_FILTERS.map((a) => /* @__PURE__ */ React.createElement("option", { key: a, value: a }, a))), /* @__PURE__ */ React.createElement("span", { className: "ucl-count" }, count, " of ", total), anyActive && /* @__PURE__ */ React.createElement("button", { className: "ucl-clear", onClick: clearAll }, "Clear")), /* @__PURE__ */ React.createElement("div", { className: "ucl-bar" }, availableCategories.map((c) => /* @__PURE__ */ React.createElement(
-      "button",
-      {
-        key: c.id,
-        className: `ucl-chip${catFilter.has(c.id) ? " is-on" : ""}`,
-        onClick: () => toggleCat(c.id)
-      },
-      c.name
-    )), /* @__PURE__ */ React.createElement("span", { className: "ucl-sep", "aria-hidden": "true" }), dispositions.map((d) => /* @__PURE__ */ React.createElement(
-      "button",
-      {
-        key: d.id,
-        className: `ucl-tag ucl-tag--${d.id} is-toggle${dispFilter.has(d.id) ? " is-on" : ""}`,
-        onClick: () => toggleDisp(d.id)
-      },
-      /* @__PURE__ */ React.createElement(DispositionIcon, { id: d.id }),
-      d.label
-    )))));
+    )), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: fn, onChange: (e) => setFn(e.target.value), "aria-label": "Filter by business function" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "Business function"), functionCategories.map((c) => /* @__PURE__ */ React.createElement("option", { key: c.id, value: c.id }, c.name))), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: industry, onChange: (e) => setIndustry(e.target.value), "aria-label": "Filter by industry" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "Industry"), industryCategories.map((c) => /* @__PURE__ */ React.createElement("option", { key: c.id, value: c.id }, industryLabel(c)))), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: freq, onChange: (e) => setFreq(e.target.value), "aria-label": "Filter by how often" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "How often"), FREQUENCY_FILTERS.map((f) => /* @__PURE__ */ React.createElement("option", { key: f, value: f }, f))), /* @__PURE__ */ React.createElement("span", { className: "ucl-count" }, count, " of ", total), anyActive && /* @__PURE__ */ React.createElement("button", { className: "ucl-clear", onClick: clearAll }, "Clear"))));
   }
   function UseCaseLibrary({ auditHref = "#audit" }) {
     const [query, setQuery] = useState("");
-    const [group, setGroup] = useState("function");
-    const [catFilter, setCatFilter] = useState(() => /* @__PURE__ */ new Set());
-    const [dispFilter, setDispFilter] = useState(() => /* @__PURE__ */ new Set());
+    const [fn, setFn] = useState("all");
+    const [industry, setIndustry] = useState("all");
     const [freq, setFreq] = useState("all");
-    const [auto, setAuto] = useState("all");
     const [openId, setOpenId] = useState(null);
     const [opened, setOpened] = useState(() => /* @__PURE__ */ new Set());
-    const activeCategories = useMemo(() => visibleCategories.filter((c) => c.group === group), [group]);
+    // The ordered list of category objects to render, derived from the two dropdowns:
+    //  - neither            -> all functions, then all industries
+    //  - function only      -> that one function, nothing else
+    //  - industry only      -> that industry first, then all business functions (they apply broadly)
+    //  - both               -> industry, then the selected function, then the remaining functions
+    const activeCategories = useMemo(() => {
+      const oneFn = functionCategories.filter((c) => c.id === fn);
+      const otherFns = functionCategories.filter((c) => c.id !== fn);
+      if (industry === "all") {
+        if (fn === "all") return [...functionCategories, ...industryCategories];
+        return oneFn; // function selected, no industry: that function only
+      }
+      const ind = industryCategories.filter((c) => c.id === industry);
+      if (fn === "all") return [...ind, ...functionCategories];
+      return [...ind, ...oneFn, ...otherFns];
+    }, [fn, industry]);
     const activeCategoryIds = useMemo(() => new Set(activeCategories.map((c) => c.id)), [activeCategories]);
     const activeGroupUseCases = useMemo(() => useCases.filter((u) => activeCategoryIds.has(u.categoryId)), [activeCategoryIds]);
     const hashId = () => {
@@ -725,8 +703,10 @@ const useCaseDefinitions = [
       if (id) {
         const target = useCases.find((u) => u.id === id);
         if (target) {
-          const targetGroup = categoryGroupById.get(target.categoryId);
-          if (targetGroup) setGroup(targetGroup);
+          // Make sure the case's category is in view: route it into the right dropdown.
+          const g = categoryGroupById.get(target.categoryId);
+          if (g === "function") setFn(target.categoryId);
+          else { setIndustry(target.categoryId); setFn("all"); }
           setOpenId(id);
           setOpened((p) => new Set(p).add(id));
           return;
@@ -742,12 +722,6 @@ const useCaseDefinitions = [
       window.addEventListener("popstate", onPop);
       return () => window.removeEventListener("popstate", onPop);
     }, [setOpenFromHash]);
-    useEffect(() => {
-      setCatFilter((prev) => {
-        const next = new Set([...prev].filter((id) => activeCategoryIds.has(id)));
-        return next;
-      });
-    }, [activeCategoryIds]);
     useEffect(() => {
       if (openId && !activeGroupUseCases.some((u) => u.id === openId)) {
         setOpenId(null);
@@ -770,48 +744,28 @@ const useCaseDefinitions = [
       if (hashId()) window.history.back();
       else setOpenId(null);
     }, []);
-    const switchGroup = useCallback((g) => {
-      if (hashId()) window.history.replaceState(null, "", window.location.pathname + window.location.search);
-      setOpenId(null);
-      setGroup(g);
-    }, []);
     const filtered = useMemo(() => {
       const q = query.trim().toLowerCase();
       return activeGroupUseCases.filter((u) => {
-        if (catFilter.size && !catFilter.has(u.categoryId)) return false;
         if (freq !== "all" && !frequencyTokens(u.frequency).includes(freq)) return false;
-        if (auto !== "all" && u.automation !== auto) return false;
-        if (dispFilter.size) {
-          const set = caseDispositionSet(u);
-          let hit = false;
-          for (const d of dispFilter) if (set.has(d)) {
-            hit = true;
-            break;
-          }
-          if (!hit) return false;
-        }
         if (q) {
           const hay = `${u.id} ${u.name} ${u.subject} ${u.painLine}`.toLowerCase();
           if (!hay.includes(q)) return false;
         }
         return true;
       });
-    }, [activeGroupUseCases, query, catFilter, dispFilter, freq, auto]);
-    const anyActive = catFilter.size > 0 || dispFilter.size > 0 || freq !== "all" || auto !== "all" || query.trim() !== "";
+    }, [activeGroupUseCases, query, freq]);
+    const anyActive = fn !== "all" || industry !== "all" || freq !== "all" || query.trim() !== "";
     const clearAll = () => {
       setQuery("");
-      setCatFilter(/* @__PURE__ */ new Set());
-      setDispFilter(/* @__PURE__ */ new Set());
+      setFn("all");
+      setIndustry("all");
       setFreq("all");
-      setAuto("all");
     };
-    const toggleSet = (setter) => (val) => setter((prev) => {
-      const next = new Set(prev);
-      next.has(val) ? next.delete(val) : next.add(val);
-      return next;
-    });
+    // Preserve the dropdown-driven category order, then drop empty categories.
     const grouped = activeCategories.map((c) => ({ category: c, items: filtered.filter((u) => u.categoryId === c.id) })).filter((g) => g.items.length > 0);
-    const order = filtered.length ? filtered : activeGroupUseCases;
+    // Prev/next should follow the order cases actually appear on the page.
+    const order = grouped.length ? grouped.flatMap((g) => g.items) : activeGroupUseCases;
     const openCaseObj = openId ? activeGroupUseCases.find((u) => u.id === openId) : null;
     const openIdx = openCaseObj ? order.findIndex((u) => u.id === openId) : -1;
     const prevCase = openIdx > 0 ? order[openIdx - 1] : null;
@@ -837,17 +791,12 @@ const useCaseDefinitions = [
       {
         query,
         setQuery,
-        group,
-        setGroup: switchGroup,
-        availableCategories: activeCategories,
-        catFilter,
-        toggleCat: toggleSet(setCatFilter),
-        dispFilter,
-        toggleDisp: toggleSet(setDispFilter),
+        fn,
+        setFn,
+        industry,
+        setIndustry,
         freq,
         setFreq,
-        auto,
-        setAuto,
         anyActive,
         clearAll,
         count: filtered.length,
