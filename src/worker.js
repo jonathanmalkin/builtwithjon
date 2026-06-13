@@ -127,16 +127,16 @@ async function handleScorecardReport(request, env) {
   const report = buildReport(payload, env);
   const idempotencyKey = await stableKey(payload);
 
-  const resend = await sendReportEmail(report, env, idempotencyKey);
-  if (!resend.ok) {
-    console.error("scorecard resend failed", JSON.stringify(resend.publicError));
-    return json({ ok: false, error: "report_send_failed" }, 502);
-  }
-
   const formspree = await submitLeadToFormspree(payload);
   if (!formspree.ok) {
     console.error("scorecard formspree failed", JSON.stringify(formspree.publicError));
     return json({ ok: false, error: "lead_capture_failed" }, 502);
+  }
+
+  const resend = await sendReportEmail(report, env, idempotencyKey);
+  if (!resend.ok) {
+    console.error("scorecard resend failed", JSON.stringify(resend.publicError));
+    return json({ ok: false, error: "report_send_failed" }, 502);
   }
 
   return json({ ok: true, report_id: resend.id || null });
