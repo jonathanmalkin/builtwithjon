@@ -7,7 +7,7 @@ import Base from '../layouts/Base.astro';
 // Spec: Workspace/01-Strategy/Active/2026-06-12-builtwithjon-scorecard-spec.md
 // Copy: ...-builtwithjon-scorecard-copy.md  Email: ...-scorecard-email-report-spec.md
 
-const formEndpoint = 'https://formspree.io/f/xdapgpae'; // same closed path as other forms -> inbox -> CRM
+const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + Formspree -> CRM.
 ---
 
 <Base
@@ -37,7 +37,7 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae'; // same closed path as o
     </noscript>
   </section>
 
-  <script is:inline define:vars={{ formEndpoint }}>
+  <script is:inline define:vars={{ reportEndpoint }}>
     // ---- Data model (mirrors the spec). Pure data + deterministic scoring. No model. ----
     // Q1 is INDUSTRY only. The deals/time/cash axes already capture the functional
     // dimension (sales, admin, finance, etc.), so those are NOT segment choices.
@@ -184,13 +184,14 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae'; // same closed path as o
           <div class="sc-gate">
             <p class="sc-gate-h">Want the full breakdown?</p>
             <p class="sc-gate-sub">I'll show the rough size of each leak, and where to start. It's an estimate from your answers and ${answers.segment.label.toLowerCase()} benchmarks. The audit measures it for real.</p>
-            <form id="sc-gate-form" action="${formEndpoint}" method="POST" novalidate>
+            <form id="sc-gate-form" action="${reportEndpoint}" method="POST" novalidate>
               <input type="hidden" name="_subject" value="Scorecard lead" />
               <input type="hidden" name="inquiry_type" value="scorecard-lead" />
               <input type="hidden" name="segment" value="${answers.segment.value}" />
               <input type="hidden" name="tier" value="${tier.label}" />
               <input type="hidden" name="scores" value='${JSON.stringify(scores)}' />
               <input type="hidden" name="answers" value='${JSON.stringify(Object.fromEntries(Object.entries(answers).map(([k,v]) => [k, v.label])))}' />
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="sc-hp" />
               <div class="sc-gate-fields">
                 <input type="text" name="name" placeholder="First name" autocomplete="given-name" class="sc-input" aria-label="First name" />
                 <input type="email" name="email" required placeholder="you@company.com" autocomplete="email" class="sc-input" aria-label="Email" />
@@ -215,10 +216,11 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae'; // same closed path as o
         if (errEl) errEl.hidden = true;
         btn.disabled = true; btn.textContent = 'Reading your answers...';
         try {
-          // Formspree -> inbox -> CRM. (Resend personalized report is a SEPARATE,
-          // APPROVAL-GATED server send, wired at build time. Not called here yet.)
-          const res = await fetch(form.action, { method:'POST', body:new FormData(form), headers:{ Accept:'application/json' } });
-          if (!res.ok) throw new Error('failed');
+          const data = new FormData(form);
+          data.set('source_url', window.location.href);
+          const res = await fetch(form.action, { method:'POST', body:data, headers:{ Accept:'application/json' } });
+          const result = await res.json().catch(() => ({}));
+          if (!res.ok || !result.ok) throw new Error(result.error || 'failed');
           showThanks(form);
         } catch (err) {
           if (errEl) errEl.hidden = false;
@@ -343,6 +345,7 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae'; // same closed path as o
     .sc-gate-fields { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
     .sc-input { flex: 1 1 160px; padding: 0.65rem 0.85rem; border: 1.5px solid var(--color-foam-line); border-radius: 9px; background: var(--color-bg); font-size: 0.98rem; color: var(--color-text); }
     .sc-input:focus-visible { outline: 2px solid var(--color-copper); outline-offset: 1px; border-color: var(--color-copper); }
+    .sc-hp { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     .sc-submit { width: 100%; padding: 0.8rem; border: none; border-radius: 9px; background: var(--color-copper); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.08s; }
     .sc-submit:hover { background: #7a3f1c; }
     .sc-submit:active { transform: scale(0.99); }

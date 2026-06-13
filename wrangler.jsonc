@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jonathanmalkin-site",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-03-18",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "dist"
+  },
+  "vars": {
+    "SITE_ORIGIN": "https://builtwithjon.com",
+    "RESEND_FROM": "Built with Jon <jonathan@builtwithjon.com>",
+    "RESEND_REPLY_TO": "jonathan@builtwithjon.com"
+  }
+}
