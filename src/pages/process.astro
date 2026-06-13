@@ -3,8 +3,9 @@ import Base from '../layouts/Base.astro';
 import { processPhases } from '../data/process';
 
 const description =
-  'How a Built with Jon engagement actually runs: see the data, map the workflow, decide each step, build the first pilot, run and measure. The implementation process behind the audit.';
+  'How a Built with Jon engagement actually runs after the scorecard: see the data, map the workflow, decide each step, build the first pilot, run and measure.';
 
+const scorecardHref = '/scorecard/';
 const auditHref = '/ai-workflow-audit/';
 const principlesHref = '/principles/';
 const libraryHref = '/use-cases/';
@@ -111,6 +112,7 @@ const libraryHref = '/use-cases/';
 .prc-close-card p { font-size: 16px; line-height: 1.55; margin: 0; color: #E9E2D2; max-width: 56ch; }
 .prc-close .prc-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 6px; }
 .prc-close .prc-cta:hover { background: #fff; }
+.prc-close-card a:not(.prc-cta) { color: var(--ucl-paper); text-decoration: underline; text-underline-offset: .16em; }
 .prc-colophon { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); margin-top: 20px; text-align: center; }
 
 /* node colors */
@@ -132,8 +134,8 @@ const libraryHref = '/use-cases/';
         <b>BUILTWITHJON</b>
         <span>The Process</span>
       </a>
-      <a class="prc-cta prc-cta--sm" href={auditHref}>
-        Get your AI audit
+      <a class="prc-cta prc-cta--sm" href={scorecardHref}>
+        Take the scorecard
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
@@ -201,14 +203,15 @@ const libraryHref = '/use-cases/';
   <section class="prc-wrap prc-close">
     <div class="prc-close-card">
       <span class="prc-close-ce">Start here</span>
-      <h2>Phase one is the audit. That is the whole first step.</h2>
+      <h2>The scorecard shows the leak. The audit measures it.</h2>
       <p>
-        Bring one recurring workflow that costs you time, follow-up, or trust. We see where the data lives, map how the work runs, and you leave with a prioritized plan: what to fix first, and what to leave alone.
+        Start with the fast deals, time, and cash score. If it shows a real leak, the audit becomes phase one: we see where the data lives, map how the work runs, and decide what to fix first.
       </p>
-      <a class="prc-cta" href={auditHref}>
-        Get your AI audit
+      <a class="prc-cta" href={scorecardHref}>
+        Take the scorecard
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
+      <p><a href={auditHref}>Already scored? See how the audit works.</a></p>
     </div>
     <p class="prc-colophon">See the data &middot; Map the workflow &middot; Decide each step &middot; Build the first pilot &middot; Run and measure</p>
   </section>

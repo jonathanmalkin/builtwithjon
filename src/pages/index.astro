@@ -6,7 +6,7 @@ const personSchema = {
   '@type': 'Person',
   name: 'Jonathan Malkin',
   jobTitle: 'AI Workflow Consultant & Implementation Partner',
-  description: 'Jonathan Malkin audits one workflow at a time, finds where AI can safely help, and either builds it on your platform or runs a hands-on workshop so your team builds it themselves.',
+  description: 'Jonathan Malkin audits one workflow at a time, finds where AI can safely help, and either builds it on your platform or runs a hands-on workshop so your team builds it themselves and becomes an AI-powered team.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
@@ -20,26 +20,26 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Start with an AI workflow audit: map one process, find where AI can safely help, then have it built for you or build it with your team.',
+  description: 'Start with a free AI workflow scorecard: find where your business is leaking deals, time, and cash, then use the audit to measure the best first pilot.',
 };
 ---
 
 <Base
   title="Jonathan Malkin"
-  description="Start with an AI workflow audit: map one process, find where AI can safely help, then have it built for you or build it with your team."
+  description="Start with a free AI workflow scorecard: find where your business is leaking deals, time, and cash, then use the audit to measure the best first pilot."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
   <section class="hero-split container-wide">
     <div class="hero-split-copy">
-      <p class="eyebrow">Start with the AI workflow audit</p>
-      <h1>Find the one workflow AI should actually help with.</h1>
+      <p class="eyebrow">Start with the 3-minute scorecard</p>
+      <h1>Find where AI can stop the leaks in your business.</h1>
       <p class="subtitle">
-        Bring one recurring process that costs you time, follow-up, or trust. I map it, find where AI can safely help, and hand you a first pilot plan you can act on. From there you can have it built or build it with your team.
+        Answer a few questions about deals, time, and cash. You get an instant leak score, the likely first fix, and a clear path to the measured audit if the opportunity is real.
       </p>
       <div class="hero-links">
-        <a href="/ai-workflow-audit/" class="hero-btn">Start with an audit</a>
+        <a href="/scorecard/" class="hero-btn">Take the scorecard</a>
         <a href="/use-cases/" class="hero-btn hero-btn-outline">See the use case library &rarr;</a>
       </div>
     </div>
@@ -63,10 +63,10 @@ const websiteSchema = {
       No big platform decision, no pricing puzzle. We map one real process you run today, then decide together if it is worth going further.
     </p>
 
-    <a href="/ai-workflow-audit/" class="offer-frontdoor">
+    <a href="/scorecard/" class="offer-frontdoor">
       <span class="offer-frontdoor-label">The front door</span>
-      <span class="offer-frontdoor-title">The AI workflow audit &rarr;</span>
-      <span class="offer-frontdoor-desc">Bring one recurring process. I map it, find where AI can safely help, and hand you a first pilot plan. The write-up is yours to keep whether or not we work together again.</span>
+      <span class="offer-frontdoor-title">The AI workflow scorecard &rarr;</span>
+      <span class="offer-frontdoor-desc">Find the leak that is costing deals, time, or cash. The scorecard gives the fast assumption-based view; the audit is the paid, measured version with your real data.</span>
     </a>
 
     <p class="offer-split-intro">Then, if it earns the next step, two ways forward:</p>
@@ -78,8 +78,8 @@ const websiteSchema = {
       </div>
       <div class="offer-route">
         <span class="offer-route-label">Build the capability</span>
-        <h3>Your team builds it, in a workshop</h3>
-        <p>A hands-on session where your people build the real thing against your own work, with human approval gates so it never acts on its own. They walk out able to run and extend it themselves.</p>
+        <h3>Your team builds it, and becomes AI-powered</h3>
+        <p>A hands-on session where your people build the real thing against your own work, with human approval gates so it never acts on its own. They leave with it running, and an AI-powered team able to build and extend the next one themselves.</p>
       </div>
     </div>
   </section>
@@ -130,13 +130,14 @@ const websiteSchema = {
   </section>
 
   <section class="container home-final-cta">
-    <p class="eyebrow">Let's talk</p>
-    <h2>Want AI doing real work, not just talked about?</h2>
+    <p class="eyebrow">Start here</p>
+    <h2>Want to know where AI is worth touching first?</h2>
     <p>
-      Tell me about one workflow that is slowing you down. I will tell you whether it is worth an audit, and where AI should stay out.
+      Take the scorecard first. If the result shows a real leak, the audit turns those assumptions into measured numbers and a first pilot plan.
     </p>
     <div class="hero-links" style="justify-content: center;">
-      <a href="/ai-workflow-audit/" class="hero-btn">Start with an audit</a>
+      <a href="/scorecard/" class="hero-btn">Take the scorecard</a>
+      <a href="/ai-workflow-audit/" class="hero-btn hero-btn-outline">See how the audit works</a>
     </div>
   </section>
 </Base>

@@ -3,8 +3,9 @@ import Base from '../layouts/Base.astro';
 import { processPhases } from '../data/process';
 
 const description =
-  'The principles behind every Built with Jon automation: connect the data first, audit the workflow not the tool, and keep a human at the high-stakes gate. The method under the use case library.';
+  'The principles behind every Built with Jon automation: connect the data first, audit the workflow not the tool, and keep a human at the high-stakes gate. The method behind the scorecard and use case library.';
 
+const scorecardHref = '/scorecard/';
 const auditHref = '/ai-workflow-audit/';
 const libraryHref = '/use-cases/';
 const processHref = '/process/';
@@ -271,6 +272,7 @@ const principles = [
 .prn-close-cta { margin-top: 6px; }
 .prn-close .prn-cta { background: var(--ucl-paper); color: var(--ucl-ink); }
 .prn-close .prn-cta:hover { background: #fff; }
+.prn-close-card a:not(.prn-cta) { color: var(--ucl-paper); text-decoration: underline; text-underline-offset: .16em; }
 .prn-colophon { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); margin-top: 20px; text-align: center; }
 
 /* ---------- accent application via disposition tokens ---------- */
@@ -304,8 +306,8 @@ const principles = [
         <b>BUILTWITHJON</b>
         <span>Principles</span>
       </a>
-      <a class="prn-cta prn-cta--sm" href={auditHref}>
-        Get your AI audit
+      <a class="prn-cta prn-cta--sm" href={scorecardHref}>
+        Take the scorecard
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
@@ -415,16 +417,17 @@ const principles = [
   <section class="prn-wrap prn-close">
     <div class="prn-close-card">
       <span class="prn-close-ce">The bridge</span>
-      <h2>The audit is these five principles, run on your business.</h2>
+      <h2>The scorecard is the first pass at these principles, run on your business.</h2>
       <p>
-        We start by looking at where your data lives, then map the workflows that repeat and frustrate, then tell you which to fix first and which to leave alone. No tool pitch until the plumbing is clear.
+        It names the biggest leak across deals, time, and cash. If the leak is real, the audit measures it against your data and turns it into a first pilot plan.
       </p>
       <div class="prn-close-cta">
-        <a class="prn-cta" href={auditHref}>
-          Get your AI audit
+        <a class="prn-cta" href={scorecardHref}>
+          Take the scorecard
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
       </div>
+      <p><a href={auditHref}>Already scored? See the measured audit.</a></p>
     </div>
     <p class="prn-colophon">Connect the data &middot; Audit the workflow &middot; Most wins need no AI &middot; Human at the gate &middot; Don&rsquo;t automate yet</p>
   </section>
