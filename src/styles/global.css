@@ -3398,10 +3398,10 @@ textarea.form-input {
   --ucl-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --ucl-sans: "Archivo", system-ui, -apple-system, sans-serif;
   --ucl-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --ucl-r-sm: 3px;
-  --ucl-r-md: 5px;
-  --ucl-r-lg: 6px;
-  --ucl-r-xl: 7px;
+  --ucl-r-sm: 4px;
+  --ucl-r-md: 7px;
+  --ucl-r-lg: 10px;
+  --ucl-r-xl: 12px;
   --ucl-max-width: 1140px;
   --ucl-gutter: 20px;
   --ucl-header-h: 48px;
@@ -3426,10 +3426,25 @@ textarea.form-input {
   --color-copper: var(--ucl-simplify);
   --color-sage: var(--ucl-report);
   --color-plum: var(--ucl-optimize);
-  --shadow-card: none;
-  --shadow-soft: none;
+  --shadow-card: 0 10px 30px -18px rgba(31, 23, 19, 0.30);
+  --shadow-soft: 0 6px 18px -12px rgba(31, 23, 19, 0.22);
   --max-width: 760px;
   --max-width-wide: var(--ucl-max-width);
+}
+
+/* Expressive register, true axis hues. Declared after the Field Manual
+   alignment :root so they win, and immune to the disposition remap of
+   --color-* above. Interactive tools (scorecard, calculators) read --exp-*. */
+:root {
+  --exp-deals: #e8752b;    --exp-deals-soft: #fbe6d6;
+  --exp-time: #3b6e8f;     --exp-time-soft: #dfeaf1;
+  --exp-cash: #6e8b6f;     --exp-cash-soft: #e2ebe2;
+  --exp-segment: #7a4e68;  --exp-segment-soft: #efe2ea;
+  --exp-copper: #8f4e24;   --exp-copper-soft: #f3e0d4;
+  --exp-header-wash: #f1ece2;
+  --exp-tier-holding: #297150;
+  --exp-tier-leaking: #a96a11;
+  --exp-tier-open: #b5462b;
 }
 
 html {

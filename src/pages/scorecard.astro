@@ -257,8 +257,8 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
       box-sizing: border-box;
     }
     .sc-card {
-      --axis: var(--color-copper);
-      --axis-soft: #f3e0d4;
+      --axis: var(--exp-copper);
+      --axis-soft: var(--exp-copper-soft);
       width: 100%; max-width: 560px;
       max-height: calc(100svh - 4.25rem);
       display: flex; flex-direction: column;
@@ -273,11 +273,11 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-card[data-axis="result"] { max-width: 620px; max-height: none; overflow: visible; }
     .sc-card[data-axis="result"] .sc-body { overflow-y: visible; }
     /* per-axis theming, drives bar + icons + option accents */
-    .sc-card[data-axis="segment"] { --axis: var(--color-plum); --axis-soft: #efe2ea; }
-    .sc-card[data-axis="deals"]   { --axis: var(--color-jules-orange); --axis-soft: #fbe6d6; }
-    .sc-card[data-axis="time"]    { --axis: var(--color-blue-mug); --axis-soft: #dfeaf1; }
-    .sc-card[data-axis="cash"]    { --axis: var(--color-sage); --axis-soft: #e2ebe2; }
-    .sc-card[data-axis="result"] { --axis: var(--color-copper); --axis-soft: #f3e0d4; }
+    .sc-card[data-axis="segment"] { --axis: var(--exp-segment); --axis-soft: var(--exp-segment-soft); }
+    .sc-card[data-axis="deals"]   { --axis: var(--exp-deals); --axis-soft: var(--exp-deals-soft); }
+    .sc-card[data-axis="time"]    { --axis: var(--exp-time); --axis-soft: var(--exp-time-soft); }
+    .sc-card[data-axis="cash"]    { --axis: var(--exp-cash); --axis-soft: var(--exp-cash-soft); }
+    .sc-card[data-axis="result"] { --axis: var(--exp-copper); --axis-soft: var(--exp-copper-soft); }
 
     .sc-top { padding: clamp(0.6rem, 2vh, 1.1rem) 1.4rem clamp(0.55rem, 1.5vh, 0.9rem); background-color: var(--axis-soft); transition: background-color 0.45s ease; }
     /* keep the header wash calm during questions; only the bar/icons carry the axis hue.
@@ -285,14 +285,14 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-card[data-axis="segment"] .sc-top,
     .sc-card[data-axis="deals"] .sc-top,
     .sc-card[data-axis="time"] .sc-top,
-    .sc-card[data-axis="cash"] .sc-top { background-color: #f1ece2; }
+    .sc-card[data-axis="cash"] .sc-top { background-color: var(--exp-header-wash); }
     .sc-eyebrow { display: flex; align-items: center; gap: 0.45rem; color: var(--axis); font-family: var(--font-mono); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 clamp(0.3rem, 1vh, 0.5rem); }
     .sc-spark { width: 8px; height: 8px; border-radius: 999px; background: var(--axis); box-shadow: 0 0 0 4px color-mix(in srgb, var(--axis) 22%, transparent); }
     .sc-title { font-size: clamp(1.05rem, 2.6vh + 0.4rem, 1.6rem); line-height: 1.1; margin: 0 0 clamp(0.5rem, 1.5vh, 0.85rem); font-weight: 700; }
     .sc-title em { font-style: normal; }
-    .sc-w-deals { color: var(--color-jules-orange); }
-    .sc-w-time { color: var(--color-blue-mug); }
-    .sc-w-cash { color: var(--color-sage); }
+    .sc-w-deals { color: var(--exp-deals); }
+    .sc-w-time { color: var(--exp-time); }
+    .sc-w-cash { color: var(--exp-cash); }
     .sc-progress { height: 6px; background: rgba(31,23,19,0.10); border-radius: 999px; overflow: hidden; margin-bottom: 0.55rem; }
     .sc-progress-bar { display: block; height: 100%; width: 0; background-color: var(--axis); border-radius: 999px; transition: width 0.3s ease; }
     .sc-step-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--color-text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; margin: 0; }
@@ -326,10 +326,10 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-verdict { font-size: 1rem; line-height: 1.5; color: var(--color-text); margin: 0 0 1.1rem; }
 
     .sc-axes { display: flex; flex-direction: column; gap: 0.85rem; }
-    .sc-axis-row { --axis: var(--color-copper); }
-    .sc-axis-row[data-axis="deals"] { --axis: var(--color-jules-orange); }
-    .sc-axis-row[data-axis="time"] { --axis: var(--color-blue-mug); }
-    .sc-axis-row[data-axis="cash"] { --axis: var(--color-sage); }
+    .sc-axis-row { --axis: var(--exp-copper); }
+    .sc-axis-row[data-axis="deals"] { --axis: var(--exp-deals); }
+    .sc-axis-row[data-axis="time"] { --axis: var(--exp-time); }
+    .sc-axis-row[data-axis="cash"] { --axis: var(--exp-cash); }
     .sc-axis-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 700; margin-bottom: 0.3rem; }
     .sc-axis-name { display: inline-flex; align-items: center; gap: 0.4rem; }
     .sc-axis-ico { font-size: 0.95rem; }
@@ -344,9 +344,9 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-gate-sub { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.45; margin: 0 0 0.9rem; }
     .sc-gate-fields { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
     .sc-input { flex: 1 1 160px; padding: 0.65rem 0.85rem; border: 1.5px solid var(--color-foam-line); border-radius: 9px; background: var(--color-bg); font-size: 0.98rem; color: var(--color-text); }
-    .sc-input:focus-visible { outline: 2px solid var(--color-copper); outline-offset: 1px; border-color: var(--color-copper); }
+    .sc-input:focus-visible { outline: 2px solid var(--exp-copper); outline-offset: 1px; border-color: var(--exp-copper); }
     .sc-hp { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-    .sc-submit { width: 100%; padding: 0.8rem; border: none; border-radius: 9px; background: var(--color-copper); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.08s; }
+    .sc-submit { width: 100%; padding: 0.8rem; border: none; border-radius: 9px; background: var(--exp-copper); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.08s; }
     .sc-submit:hover { background: #7a3f1c; }
     .sc-submit:active { transform: scale(0.99); }
     .sc-submit:disabled { opacity: 0.6; cursor: default; }
@@ -355,8 +355,8 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
 
     .sc-thanks { text-align: center; padding: 0.5rem 0; }
     .sc-cta-row { display: flex; flex-direction: column; gap: 0.55rem; align-items: center; margin-top: 1.1rem; }
-    .sc-cta { display: inline-block; padding: 0.8rem 1.4rem; background: var(--color-copper); color: #fff; border-radius: 9px; font-weight: 700; text-decoration: none; }
-    .sc-cta-soft { background: none; color: var(--color-copper); padding: 0.4rem; }
+    .sc-cta { display: inline-block; padding: 0.8rem 1.4rem; background: var(--exp-copper); color: #fff; border-radius: 9px; font-weight: 700; text-decoration: none; }
+    .sc-cta-soft { background: none; color: var(--exp-copper); padding: 0.4rem; }
     .sc-noscript { margin-top: 1.5rem; color: var(--color-text-muted); text-align: center; }
 
     @media (max-width: 480px) {
