@@ -38,11 +38,22 @@ const articleSchema = {
   author: {
     '@type': 'Person',
     name: 'Jonathan Malkin',
-    url: 'https://builtwithjon.com',
+    url: 'https://builtwithjon.com/about/',
+    sameAs: [
+      'https://github.com/jonathanmalkin',
+      'https://x.com/builtwithjon',
+      'https://linkedin.com/in/jonathanmalkin',
+    ],
   },
   publisher: {
     '@type': 'Person',
     name: 'Jonathan Malkin',
+    url: 'https://builtwithjon.com/about/',
+    sameAs: [
+      'https://github.com/jonathanmalkin',
+      'https://x.com/builtwithjon',
+      'https://linkedin.com/in/jonathanmalkin',
+    ],
   },
   ...(image ? { image: new URL(image, 'https://builtwithjon.com').href } : {}),
 };
