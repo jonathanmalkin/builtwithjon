@@ -367,6 +367,81 @@ hr {
   display: contents;
 }
 
+/* Grouped dropdown menus */
+.nav-group {
+  position: relative;
+}
+
+.nav-group-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
+}
+
+.nav-group-toggle:hover,
+.nav-group.is-active .nav-group-toggle {
+  color: var(--color-text);
+}
+
+.nav-group.is-active .nav-group-toggle {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.nav-caret {
+  transition: transform 0.15s ease;
+}
+
+.nav-group-toggle[aria-expanded="true"] .nav-caret {
+  transform: rotate(180deg);
+}
+
+.nav-submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  min-width: 168px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(31, 23, 19, 0.12);
+  padding: 0.35rem;
+  z-index: 60;
+}
+
+.nav-group:hover .nav-submenu,
+.nav-group:focus-within .nav-submenu,
+.nav-group-toggle[aria-expanded="true"] + .nav-submenu {
+  display: block;
+}
+
+.nav-submenu a {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.nav-submenu a:hover {
+  background: rgba(59, 110, 143, 0.1);
+}
+
+.nav-submenu a[aria-current="page"] {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
 @media (max-width: 860px) {
   .site-header {
     padding: 1rem 0;
@@ -405,6 +480,53 @@ hr {
     justify-content: center;
     margin: 0.75rem 0 0.4rem;
     padding: 0.72rem 1rem;
+  }
+
+  /* Dropdowns become stacked collapsible sections on mobile */
+  .nav-group {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-group-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+  }
+
+  .nav-submenu {
+    position: static;
+    display: none;
+    margin: 0 0 0.5rem;
+    min-width: 0;
+    border: none;
+    box-shadow: none;
+    background: none;
+    padding: 0 0 0 0.75rem;
+  }
+
+  /* On mobile, hover/focus-within must NOT open; only the explicit toggle does */
+  .nav-group:hover .nav-submenu,
+  .nav-group:focus-within .nav-submenu {
+    display: none;
+  }
+
+  .nav-group-toggle[aria-expanded="true"] + .nav-submenu {
+    display: block;
+  }
+
+  .nav-submenu a {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.95rem;
+  }
+
+  .nav-submenu a:last-child {
+    border-bottom: none;
+  }
+
+  .nav-submenu a:hover {
+    background: none;
   }
 
   .header-social {
@@ -1630,6 +1752,22 @@ a.offer-frontdoor:hover {
   font-size: clamp(2.1rem, 4.8vw, 3.1rem);
   letter-spacing: -0.05em;
   line-height: 1.04;
+}
+
+/* "Hidden Profit" highlight in the hero headline: copper accent, underline on
+   hover, links to the scorecard. Inherits the h1's size/weight. */
+.hero-split-copy h1 .hero-highlight {
+  color: var(--color-copper);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid color-mix(in srgb, var(--color-copper) 28%, transparent);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.hero-split-copy h1 .hero-highlight:hover,
+.hero-split-copy h1 .hero-highlight:focus-visible {
+  color: var(--color-jules-orange);
+  border-bottom-color: var(--color-jules-orange);
 }
 
 .hero-split-copy .subtitle {

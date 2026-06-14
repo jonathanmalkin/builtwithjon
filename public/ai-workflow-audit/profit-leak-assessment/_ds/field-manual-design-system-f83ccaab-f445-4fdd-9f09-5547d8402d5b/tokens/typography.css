@@ -1,6 +1,0 @@
-:root {
-  /* Three voices — they never cross over */
-  --ucl-serif: "Newsreader", Georgia, "Times New Roman", serif; /* @kind font */
-  --ucl-sans:  "Archivo", system-ui, -apple-system, sans-serif; /* @kind font */
-  --ucl-mono:  "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace; /* @kind font */
-}

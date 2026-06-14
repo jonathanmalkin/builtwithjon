@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Hidden Profit Review | Sample</title>
+  <style>
+    :root {
+      --paper: #fbf6ec;
+      --porcelain: #fffdf8;
+      --ink: #1f1713;
+      --umber: #5e5047;
+      --line: #e5d7c3;
+      --blue: #3b6e8f;
+      --blueprint: #1d4ed8;
+      --copper: #8f4e24;
+      --sage: #6e8b6f;
+      --plum: #7a4e68;
+      --orange: #e8752b;
+      --wash: #f2e7d6;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+      line-height: 1.42;
+      letter-spacing: 0;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 9px 16px;
+      flex-wrap: wrap;
+    }
+    .toolbar .brand {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #d8cab2;
+    }
+    .toolbar .controls { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 650;
+      border: 1px solid rgba(251, 246, 236, 0.35);
+      background: transparent;
+      color: var(--paper);
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .btn:hover { background: rgba(251, 246, 236, 0.12); }
+    .btn.primary { background: var(--blue); border-color: var(--blue); }
+    .btn.primary:hover { background: var(--blueprint); border-color: var(--blueprint); }
+    .counter {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      color: #d8cab2;
+      min-width: 56px;
+      text-align: center;
+      display: none;
+    }
+
+    header { background: var(--porcelain); border-bottom: 1px solid var(--line); padding: 26px 0 20px; }
+    main, .header-inner { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    main { padding: 0 0 48px; }
+
+    .title-row {
+      display: grid;
+      grid-template-columns: 1.1fr 1.9fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .label {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--umber);
+      margin-bottom: 8px;
+    }
+    h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.05; }
+    h2 { margin: 0 0 12px; font-size: 1.32rem; line-height: 1.18; }
+    h3 { margin: 0 0 8px; font-size: 1rem; line-height: 1.2; }
+    h4 { margin: 0 0 6px; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--umber); }
+    p { margin: 0 0 10px; }
+    ul, ol { margin: 0; padding-left: 20px; }
+    li { margin: 3px 0; }
+    a { color: var(--blueprint); }
+    .hero-copy { max-width: 680px; font-size: 1.02rem; color: var(--umber); }
+
+    section, .card, .financial-target {
+      background: var(--porcelain);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    section { padding: 22px; margin: 16px 0; scroll-margin-top: 60px; }
+    .section-label {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 4px;
+    }
+    .financial-target { padding: 18px; }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .metric-tile { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+    .big { font-size: 1.85rem; line-height: 1; font-weight: 780; color: var(--blue); }
+    .small { color: var(--umber); font-size: 0.86rem; }
+
+    .chart-card { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
+    .chart-header { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 8px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--umber); font-size: 0.82rem; }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 999px; margin-right: 5px; vertical-align: middle; color: transparent; font-size: 0; line-height: 10px; }
+    .dot.cost { background: var(--copper); }
+    .dot.benefit { background: var(--blue); }
+
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+      min-height: 250px;
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 8px 8px 12px;
+    }
+    .bar-group { display: grid; grid-template-rows: 210px auto; gap: 6px; align-items: end; min-width: 0; }
+    .bar-pair { display: flex; align-items: end; justify-content: center; gap: 7px; height: 210px; }
+    .bar { width: min(36px, 42%); border-radius: 6px 6px 0 0; display: flex; align-items: flex-start; justify-content: center; position: relative; }
+    .bar span { position: absolute; top: -18px; font-size: 0.72rem; font-weight: 760; white-space: nowrap; }
+    .benefit .bar span { color: var(--blue); }
+    .cost .bar span { color: var(--copper); }
+    .bar.benefit { background: var(--blue); }
+    .bar.cost { background: var(--copper); }
+    .year-label { text-align: center; font-size: 0.86rem; font-weight: 760; }
+
+    .grid { display: grid; gap: 14px; }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card { padding: 16px; }
+    .card.blue { border-top: 5px solid var(--blue); }
+    .card.copper { border-top: 5px solid var(--copper); }
+    .card.sage { border-top: 5px solid var(--sage); }
+    .card.plum { border-top: 5px solid var(--plum); }
+
+    /* Scorecard gauges */
+    .score-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 18px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+    }
+    .score-row:first-of-type { border-top: 0; padding-top: 4px; }
+    /* Markers sit as auto-width rounded pills above the scale line. The benchmark
+       pill rides one row higher than the current pill, so even when their left%
+       values are close they stack cleanly instead of overlapping or cropping. */
+    .circle-gauge { position: relative; height: 118px; padding: 12px 14px 0; }
+    .scale-line { position: absolute; left: 14px; right: 14px; bottom: 14px; height: 8px; border-radius: 999px; background: linear-gradient(90deg, #d9945a, #f0d28b, #7da67e); border: 1px solid rgba(31, 23, 19, 0.15); }
+    .circle-marker {
+      position: absolute;
+      transform: translateX(-50%);
+      min-width: 64px;
+      max-width: 132px;
+      border-radius: 999px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 12px;
+      text-align: center;
+      white-space: nowrap;
+      border: 2px solid var(--line);
+      background: var(--white);
+      box-shadow: 0 1px 3px rgba(31, 23, 19, 0.1);
+      z-index: 2;
+    }
+    /* Current pill sits just above the line; benchmark pill is raised a row higher
+       and gets a thin connector so the two never collide at close positions. */
+    .circle-marker.current { bottom: 28px; border-color: #d9945a; background: #fff7ed; color: var(--copper); }
+    .circle-marker.benchmark { bottom: 64px; border-color: #9bbbc8; background: #eef5f6; color: var(--blue); }
+    .circle-marker::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      background: currentColor;
+      opacity: 0.4;
+    }
+    .circle-marker.current::after { top: 100%; height: 22px; }
+    .circle-marker.benchmark::after { top: 100%; height: 58px; }
+    .circle-marker strong { display: block; font-size: 0.86rem; line-height: 1.05; }
+    .circle-marker span { display: block; margin-top: 1px; font-size: 0.6rem; line-height: 1.05; color: var(--umber); text-transform: uppercase; letter-spacing: 0.03em; font-weight: 760; }
+
+    /* Tables */
+    .table-wrap { overflow: visible; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; font-size: 0.9rem; }
+    th { background: var(--wash); font-weight: 760; }
+    tr:last-child td { border-bottom: 0; }
+    .money { font-weight: 780; color: var(--blue); white-space: nowrap; }
+
+    .note { background: #fffaf2; border: 1px solid var(--line); border-left: 6px solid var(--copper); border-radius: 8px; padding: 12px 14px; margin-top: 12px; }
+    .footnote { color: var(--umber); font-size: 0.8rem; margin-top: 12px; }
+
+    /* Disposition + AI tags */
+    .tag { display: inline-block; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+    .tag.eliminate { background: #f4e7e0; color: var(--copper); border-color: #e2c6b3; }
+    .tag.simplify { background: #eef5f6; color: var(--blue); border-color: #c2d6dd; }
+    .tag.automate { background: #ecf2ec; color: var(--sage); border-color: #c6d6c6; }
+    .tag.optimize { background: #f1ecf0; color: var(--plum); border-color: #d6c6d2; }
+    .tag.report { background: #fbf1e4; color: var(--orange); border-color: #ead0b3; }
+    .tag.ai { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .tag.noai { background: var(--white); color: var(--ink); }
+    .tag.mix { background: #f0ece4; color: var(--umber); }
+    .tag.effort { background: var(--white); color: var(--umber); }
+
+    /* Function overview grid */
+    .fn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .fn-card { background: var(--white); border: 1px solid var(--line); border-left: 5px solid var(--blue); border-radius: 8px; padding: 14px; }
+    .fn-card .fn-name { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--umber); margin-bottom: 4px; }
+    .fn-card h3 { margin-bottom: 6px; }
+    .fn-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .fn-impact { margin-top: 8px; font-size: 0.82rem; color: var(--umber); }
+    .fn-impact strong { color: var(--blue); }
+
+    /* Disposition legend */
+    .legend-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 0.88rem; }
+    .legend-row:first-child { border-top: 0; }
+
+    /* Deep-dive process block */
+    .process { scroll-margin-top: 60px; }
+    .process .proc-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; justify-content: space-between; }
+    .process .proc-head .fn-name { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--copper); }
+    .pain { background: #fbf1e4; border: 1px solid var(--line); border-left: 6px solid var(--orange); border-radius: 8px; padding: 11px 14px; font-style: italic; color: var(--ink); margin: 10px 0 14px; }
+    .proc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .proc-panel { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 13px 15px; }
+    .proc-panel.today { border-top: 4px solid var(--copper); }
+    .proc-panel.changes { border-top: 4px solid var(--sage); }
+    .step-list { padding-left: 18px; }
+    .step-list li { margin: 5px 0; }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+    .meta-tile { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+    .meta-tile .small { display: block; margin-bottom: 3px; }
+    .gate { background: #f1ecf0; border: 1px solid #d6c6d2; border-left: 6px solid var(--plum); border-radius: 8px; padding: 10px 13px; margin-top: 12px; font-size: 0.9rem; }
+    .gate strong { color: var(--plum); }
+
+    /* Roadmap */
+    .roadmap { display: grid; gap: 10px; }
+    .road-row { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+    .road-num { width: 34px; height: 34px; border-radius: 999px; background: var(--blue); color: var(--white); display: grid; place-items: center; font-weight: 780; }
+    .road-row.r2 .road-num { background: var(--copper); }
+    .road-row.r3 .road-num { background: var(--sage); }
+    .road-row.r4 .road-num { background: var(--plum); }
+    .road-row.r5 .road-num { background: var(--orange); }
+
+    .timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .timeline-step { background: var(--white); border: 1px solid var(--line); border-top: 5px solid var(--blue); border-radius: 8px; padding: 12px; }
+    .timeline-step:nth-child(2) { border-top-color: var(--copper); }
+    .timeline-step:nth-child(3) { border-top-color: var(--sage); }
+    .timeline-step:nth-child(4) { border-top-color: var(--plum); }
+
+    .source-list { columns: 2; column-gap: 28px; padding-left: 18px; color: var(--umber); font-size: 0.86rem; }
+    .source-list li { break-inside: avoid; margin-bottom: 7px; }
+
+    .cta { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); border-radius: 8px; padding: 22px; margin: 16px 0; }
+    .cta h2 { color: var(--paper); }
+    .cta p { color: #d8cab2; }
+    .cta .btn.primary { border-color: var(--blue); }
+
+    .present-nav { display: none; }
+
+    /* Present mode */
+    body.present main { padding-bottom: 0; }
+    body.present .slide { display: none; min-height: calc(100vh - 46px); padding: 26px 4px 70px; margin: 0 auto; max-width: 1120px; overflow: auto; }
+    body.present .slide.active { display: block; animation: fade 0.18s ease; }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    body.present header { border-bottom: 0; }
+    body.present .counter { display: inline-block; }
+    body.present .present-nav { display: flex; gap: 8px; }
+    body.present section { margin: 0; }
+
+    @media (max-width: 900px) {
+      .title-row, .business-grid, .grid.two, .grid.three, .grid.four,
+      .score-row, .fn-grid, .proc-cols, .meta-grid, .timeline, .legend-row { grid-template-columns: 1fr; }
+      .bars { grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); gap: 8px; }
+      .road-row { grid-template-columns: 34px 1fr; }
+      .source-list { columns: 1; }
+    }
+    @media (max-width: 560px) {
+      main, .header-inner { width: min(100% - 20px, 1120px); }
+      section, .financial-target, .chart-card { padding: 13px; }
+      .bars { grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)); }
+    }
+
+    @media print {
+      .toolbar { display: none !important; }
+      body, body.present { background: #ffffff; }
+      header { background: #ffffff; }
+      main, .header-inner { width: 100%; padding-left: 14px; padding-right: 14px; }
+      body.present .slide, .slide { display: block !important; min-height: 0 !important; padding: 0 !important; overflow: visible !important; }
+      section, .card, .financial-target, .fn-card, .proc-panel, .process { break-inside: avoid; box-shadow: none; }
+      section { page-break-before: auto; }
+      .process, .cta { page-break-before: always; }
+      a { color: var(--ink); text-decoration: none; }
+      th, td { font-size: 0.78rem; padding: 6px; }
+      .present-nav, .counter { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="brand">Built with Jon &middot; The Hidden Profit Review</span>
+    <div class="controls">
+      <div class="present-nav">
+        <button class="btn" id="prevBtn" aria-label="Previous slide">&larr;</button>
+        <span class="counter" id="counter">1 / 1</span>
+        <button class="btn" id="nextBtn" aria-label="Next slide">&rarr;</button>
+      </div>
+      <button class="btn" id="modeBtn">Present</button>
+      <button class="btn primary" id="pdfBtn">Download PDF</button>
+    </div>
+  </div>
+
+  <!-- ===================== SLIDE 1: COVER + BUSINESS CASE ===================== -->
+  <header class="slide active">
+    <div class="header-inner">
+      <div class="title-row">
+        <div>
+          <div class="label">Confidential assessment &middot; Sample data</div>
+          <h1>The Hidden Profit Review</h1>
+          <p class="hero-copy">$24M general contractor. The business case, the plan, and the five highest-value workflows mapped end to end: what to fix, in what order, and where a human stays at the gate.</p>
+        </div>
+        <div class="financial-target">
+          <h2>Business case</h2>
+          <div class="business-grid">
+            <div class="metric-tile"><div class="big">$2.1M</div><div class="small">year 1 opportunity</div></div>
+            <div class="metric-tile"><div class="big">$0.2M</div><div class="small">year 1 cost</div></div>
+            <div class="metric-tile"><div class="big">$0.6M</div><div class="small">90-day delay</div></div>
+            <div class="metric-tile"><div class="big">$10.3M</div><div class="small">5-year net</div></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>5-year cost vs benefit</h3>
+              <div class="legend">
+                <span><span class="dot benefit" aria-hidden="true">.</span>Benefit</span>
+                <span><span class="dot cost" aria-hidden="true">.</span>Cost</span>
+              </div>
+            </div>
+            <div class="bars" aria-label="Five year cost and benefit bar chart">
+              <div class="bar-group"><div class="bar-pair"><div class="bar benefit" style="height:158px;"><span>$2.1M</span></div><div class="bar cost" style="height:18px;"><span>$0.2M</span></div></div><div class="year-label">Year 1</div></div>
+              <div class="bar-group"><div class="bar-pair"><div class="bar benefit" style="height:167px;"><span>$2.2M</span></div><div class="bar cost" style="height:19px;"><span>$0.3M</span></div></div><div class="year-label">Year 2</div></div>
+              <div class="bar-group"><div class="bar-pair"><div class="bar benefit" style="height:177px;"><span>$2.3M</span></div><div class="bar cost" style="height:20px;"><span>$0.3M</span></div></div><div class="year-label">Year 3</div></div>
+              <div class="bar-group"><div class="bar-pair"><div class="bar benefit" style="height:188px;"><span>$2.5M</span></div><div class="bar cost" style="height:21px;"><span>$0.3M</span></div></div><div class="year-label">Year 4</div></div>
+              <div class="bar-group"><div class="bar-pair"><div class="bar benefit" style="height:200px;"><span>$2.6M</span></div><div class="bar cost" style="height:23px;"><span>$0.3M</span></div></div><div class="year-label">Year 5</div></div>
+            </div>
+            <p class="footnote">Numbers describe the size of the problem in this sample, not a promised result. Cost starts at $0.2M, rising about 10% a year. Benefit uses modeled EBITDA recovery.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== SLIDE 2: ROI SUMMARY ===================== -->
+    <section class="slide">
+      <div class="section-label">Part A &middot; The business case</div>
+      <h2>1. ROI summary</h2>
+      <p class="small">The same shape you saw in the free scorecard, now carried into the full assessment. The scorecard estimates from your answers; this report works from your processes.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Year</th><th>Value</th><th>Cost</th><th>Net</th><th>ROI</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Year 1</strong></td><td class="money">$2.1M</td><td>$0.2M</td><td class="money">$1.9M</td><td>9.2x</td></tr>
+            <tr><td><strong>Year 2</strong></td><td class="money">$4.2M</td><td>$0.5M</td><td class="money">$3.8M</td><td>9.0x</td></tr>
+            <tr><td><strong>Year 3</strong></td><td class="money">$6.5M</td><td>$0.7M</td><td class="money">$5.9M</td><td>8.8x</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><strong>Decision point:</strong> waiting 90 days costs about $0.6M in missed EBITDA. The opportunity is real, but the point of this report is what comes next: the plan, the processes that create the value, and what we would actually do.</div>
+    </section>
+
+    <!-- ===================== SLIDE 3: SCORECARD ===================== -->
+    <section class="slide">
+      <div class="section-label">Part A &middot; The business case</div>
+      <h2>2. Process audit scorecard</h2>
+      <p class="small">Current result vs benchmark. Benchmark equals target. Each gap below maps to one or more of the processes analyzed later in this report.</p>
+
+      <div class="score-row">
+        <div><h3>Gross margin</h3><p class="small">$24M revenue. Margin trails the sector benchmark.</p></div>
+        <div><div class="circle-gauge"><div class="scale-line"></div>
+          <div class="circle-marker current" style="left:32%;"><div><strong>13.8%</strong><span>Current</span></div></div>
+          <div class="circle-marker benchmark" style="left:62%;"><div><strong>15.5%</strong><span>Benchmark</span></div></div>
+        </div></div>
+      </div>
+      <div class="score-row">
+        <div><h3>Change-order capture</h3><p class="small">Higher is better. Field signals that reach a billed, collected change.</p></div>
+        <div><div class="circle-gauge"><div class="scale-line"></div>
+          <div class="circle-marker current" style="left:30%;"><div><strong>52%</strong><span>Current</span></div></div>
+          <div class="circle-marker benchmark" style="left:74%;"><div><strong>90%</strong><span>Benchmark</span></div></div>
+        </div></div>
+      </div>
+      <div class="score-row">
+        <div><h3>Payment administration</h3><p class="small">Lower is better. Pay-apps, waivers, invoices, follow-up.</p></div>
+        <div><div class="circle-gauge"><div class="scale-line"></div>
+          <div class="circle-marker benchmark" style="left:38%;"><div><strong>65h</strong><span>Benchmark</span></div></div>
+          <div class="circle-marker current" style="left:78%;"><div><strong>110h</strong><span>Current</span></div></div>
+        </div></div>
+      </div>
+      <div class="score-row">
+        <div><h3>Proposal cycle time</h3><p class="small">Lower is better. Qualified proposals out the door.</p></div>
+        <div><div class="circle-gauge"><div class="scale-line"></div>
+          <div class="circle-marker benchmark" style="left:35%;"><div><strong>5 days</strong><span>Standard</span></div></div>
+          <div class="circle-marker current" style="left:74%;"><div><strong>9 days</strong><span>Current</span></div></div>
+        </div></div>
+      </div>
+      <div class="score-row">
+        <div><h3>Start-ready backlog</h3><p class="small">Lower is better. Share of backlog not yet ready to staff and start.</p></div>
+        <div><div class="circle-gauge"><div class="scale-line"></div>
+          <div class="circle-marker benchmark" style="left:30%;"><div><strong>10%</strong><span>Benchmark</span></div></div>
+          <div class="circle-marker current" style="left:70%;"><div><strong>28%</strong><span>Current</span></div></div>
+        </div></div>
+      </div>
+      <p class="footnote">Sources: <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html">NYU Stern margins</a>, <a href="https://rabbet.com/reports/construction-payments-2025">Rabbet payments</a>, <a href="https://www.abc.org/News-Media/News-Releases?Category=construction-backlog-indicator">ABC backlog</a>, <a href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads">HBR lead response</a>. Proposal cycle is an internal operating standard. Full list in Part D.</p>
+    </section>
+
+    <!-- ===================== COMBINED ROADMAP: SEQUENCE + FIRST 90 DAYS ===================== -->
+    <section class="slide">
+      <div class="section-label">Part B &middot; The plan</div>
+      <h2>3. The plan: sequence and first 90 days</h2>
+      <p class="small">Highest value at lowest risk goes first, then a 90-day window that proves the method before anything scales.</p>
+
+      <h3 style="margin-top:16px;">The order we would do this</h3>
+      <p class="small">Each step earns trust and data for the next. Nothing here requires ripping out a tool the team already uses.</p>
+      <div class="roadmap">
+        <div class="road-row r1"><div class="road-num">1</div><div><strong>Field-to-office change capture</strong><div class="small">Smallest, lowest-risk pilot with a clear money leak. Proves the method in two weeks. (Admin &amp; ops)</div></div><span class="tag automate">Pilot</span></div>
+        <div class="road-row r2"><div class="road-num">2</div><div><strong>Pay-app and AR collection cycle</strong><div class="small">Largest near-term cash and hours win. Mostly no-AI, so it is fast and safe. (Finance)</div></div><span class="tag eliminate">Cash</span></div>
+        <div class="road-row r3"><div class="road-num">3</div><div><strong>Proposal and bid turnaround</strong><div class="small">Highest single line item. Builds on the templates and data already connected. (Sales)</div></div><span class="tag simplify">Growth</span></div>
+        <div class="road-row r4"><div class="road-num">4</div><div><strong>Scheduling readiness</strong><div class="small">Visibility layer that protects the gains above. (Operations)</div></div><span class="tag report">Protect</span></div>
+        <div class="road-row r5"><div class="road-num">5</div><div><strong>Client comms and after-hours intake</strong><div class="small">Compounding system that protects margin and repeat work once the core is stable. (Customer service)</div></div><span class="tag optimize">Compound</span></div>
+      </div>
+      <div class="note"><strong>Why this order:</strong> the pilot is small enough to finish fast and visible enough to build belief. Cash comes next because it funds everything. Revenue growth follows once the data plumbing is in. Protective and compounding systems come last, when there is stable ground to stand on.</div>
+
+      <h3 style="margin-top:20px;">The first 90 days</h3>
+      <p class="small">Focused on pilot one (change capture) and pilot two (cash), the two that fund and de-risk the rest.</p>
+      <div class="grid three">
+        <div class="card blue"><h3>Capture control</h3><ul><li>Voice-to-field-note live on two jobs.</li><li>Change-order draft and routing.</li><li>Weekly capture funnel review.</li></ul></div>
+        <div class="card copper"><h3>Cash control</h3><ul><li>Pay-app generated, not assembled.</li><li>AR owner named per account.</li><li>Live cash and aging view.</li></ul></div>
+        <div class="card sage"><h3>Proof and guardrails</h3><ul><li>Before-and-after on pilot metrics.</li><li>Human-at-the-gate rules written down.</li><li>Decision on pilot three.</li></ul></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-step"><h3>Days 1-15</h3><p class="small">Connect data, baseline the two pilots, agree the guardrails.</p></div>
+        <div class="timeline-step"><h3>Days 16-30</h3><p class="small">Change capture live on two jobs. Pay-app generation built.</p></div>
+        <div class="timeline-step"><h3>Days 31-60</h3><p class="small">AR cadence running. Capture funnel and cash view in use.</p></div>
+        <div class="timeline-step"><h3>Days 61-90</h3><p class="small">Measured gains reviewed. Pilot three scoped and started.</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== PROCESS OVERVIEW ===================== -->
+    <section class="slide">
+      <div class="section-label">Part C &middot; The processes we analyzed</div>
+      <h2>4. The processes we analyzed</h2>
+      <p class="small">A full review looks across the whole company, not one department. We mapped the five highest-value workflows across five core business functions, scored each with the five dispositions, and flagged where AI actually earns its place. The full plan for each is in the deep dives below.</p>
+
+      <div class="fn-grid">
+        <div class="fn-card" style="border-left-color:var(--blue);">
+          <div class="fn-name">Sales</div>
+          <h3>Proposal and bid turnaround</h3>
+          <p class="small">Estimate to signed proposal, plus follow-up on open bids.</p>
+          <div class="fn-tags"><span class="tag simplify">Simplify</span><span class="tag automate">Automate</span><span class="tag mix">Mix</span><span class="tag effort">Effort M</span></div>
+          <div class="fn-impact">Tied to <strong>$0.5M</strong> proposal opportunity. 9 days to 5.</div>
+        </div>
+        <div class="fn-card" style="border-left-color:var(--copper);">
+          <div class="fn-name">Finance &amp; bookkeeping</div>
+          <h3>Pay-app and AR collection cycle</h3>
+          <p class="small">Pay applications, lien waivers, invoicing, and collections follow-up.</p>
+          <div class="fn-tags"><span class="tag eliminate">Eliminate</span><span class="tag automate">Automate</span><span class="tag noai">No-AI</span><span class="tag effort">Effort M</span></div>
+          <div class="fn-impact">Tied to <strong>$0.4M</strong> cash opportunity. 110 hrs to 65.</div>
+        </div>
+        <div class="fn-card" style="border-left-color:var(--sage);">
+          <div class="fn-name">Admin &amp; ops</div>
+          <h3>Field-to-office change capture</h3>
+          <p class="small">Daily field notes, RFIs, and the change-order signal that starts in the field.</p>
+          <div class="fn-tags"><span class="tag automate">Automate</span><span class="tag simplify">Simplify</span><span class="tag mix">Mix</span><span class="tag effort">Effort S</span></div>
+          <div class="fn-impact">Tied to <strong>$0.3M</strong> change capture. Best first pilot.</div>
+        </div>
+        <div class="fn-card" style="border-left-color:var(--plum);">
+          <div class="fn-name">Operations &amp; scheduling</div>
+          <h3>Crew and sub scheduling readiness</h3>
+          <p class="small">Keeping backlog start-ready and crews and subs sequenced.</p>
+          <div class="fn-tags"><span class="tag report">Report</span><span class="tag optimize">Optimize</span><span class="tag noai">No-AI</span><span class="tag effort">Effort M</span></div>
+          <div class="fn-impact">Tied to <strong>$0.3M</strong> staffing readiness. 28% to 10%.</div>
+        </div>
+        <div class="fn-card" style="border-left-color:var(--blue);">
+          <div class="fn-name">Customer service</div>
+          <h3>Client comms and after-hours intake</h3>
+          <p class="small">Owner and client updates, plus calls that arrive after hours.</p>
+          <div class="fn-tags"><span class="tag automate">Automate</span><span class="tag report">Report</span><span class="tag mix">Mix</span><span class="tag effort">Effort S</span></div>
+          <div class="fn-impact">Protects margin and repeat work. Compounding.</div>
+        </div>
+        <div class="fn-card" style="border-left-color:var(--sage); border-left-style:dashed;">
+          <div class="fn-name">How to read the impact</div>
+          <h3>Numbers describe the problem</h3>
+          <p class="small">Four functions map to direct line items in the $2.1M case (proposal, pay-app/AR, change capture, scheduling). The fifth (client comms, customer service) protects margin and repeat work. We never promise a result.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:20px;">The five dispositions</h3>
+      <p class="small">Every process is sorted into one or more of these before any tool is chosen. Most high-value wins need no AI at all.</p>
+      <div style="background:var(--white); border:1px solid var(--line); border-radius:8px; padding:6px 14px; margin-top:8px;">
+        <div class="legend-row"><span><span class="tag eliminate">Eliminate</span></span><span>Stop doing the step entirely. The cheapest win and the one teams skip.</span></div>
+        <div class="legend-row"><span><span class="tag simplify">Simplify</span></span><span>Cut steps, handoffs, or fields so the work is smaller before anything is automated.</span></div>
+        <div class="legend-row"><span><span class="tag automate">Automate</span></span><span>Hand a rules-based step to software. Often no AI involved.</span></div>
+        <div class="legend-row"><span><span class="tag optimize">Optimize</span></span><span>Improve an existing step with better sequencing, data, or judgment support.</span></div>
+        <div class="legend-row"><span><span class="tag report">Report</span></span><span>Make the work visible so problems surface early instead of at month-end.</span></div>
+      </div>
+    </section>
+
+    <!-- ===================== PER-PROCESS DEEP DIVES (5.1 - 5.5) ===================== -->
+
+    <!-- 5.1 Sales -->
+    <section class="slide process" id="p-sales">
+      <div class="proc-head">
+        <div>
+          <div class="fn-name">Part C &middot; Sales</div>
+          <h2>5.1 Proposal and bid turnaround</h2>
+        </div>
+        <div class="fn-tags"><span class="tag simplify">Simplify</span><span class="tag automate">Automate</span><span class="tag optimize">Optimize</span><span class="tag mix">Mix</span></div>
+      </div>
+      <p class="small">Daily through bid season. Mostly automatable, with a human owner on price and scope.</p>
+      <div class="pain">"We win on relationships, but we lose bids because the proposal sits on someone's desk for a week. By the time it goes out, the owner has already talked to two other GCs."</div>
+      <div class="proc-cols">
+        <div class="proc-panel today">
+          <h4>The workflow today</h4>
+          <ol class="step-list">
+            <li>Invitation to bid lands in an estimator's inbox and is tracked in memory or a spreadsheet.</li>
+            <li>Estimator pulls quantities and chases subs for pricing by phone and email.</li>
+            <li>Numbers are assembled in a one-off spreadsheet, formatting redone each time.</li>
+            <li>Proposal narrative is written from scratch, reusing last job's language by hand.</li>
+            <li>Proposal waits for a principal to review and sign before it goes out.</li>
+            <li>Follow-up on sent bids is inconsistent. Some are never chased.</li>
+          </ol>
+        </div>
+        <div class="proc-panel changes">
+          <h4>What changes</h4>
+          <ul class="step-list">
+            <li><strong>Report:</strong> a single proposal aging board shows every open bid, its age, and its owner.</li>
+            <li><strong>Simplify:</strong> a standard proposal template and sub-pricing request replace the one-off rebuilds.</li>
+            <li><strong>Automate:</strong> sub-pricing requests and reminders go out and chase themselves on a schedule.</li>
+            <li><strong>AI assist:</strong> a first-draft narrative is generated from the estimate and the standard template. The estimator edits, never starts from a blank page.</li>
+            <li><strong>Optimize:</strong> automatic follow-up sequence on every sent bid until it is won, lost, or withdrawn.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta-tile"><span class="small">Where AI earns its place</span>Drafting the narrative and the follow-up copy from structured estimate data. Pricing and scope stay human.</div>
+        <div class="meta-tile"><span class="small">Effort &amp; risk</span><span class="tag effort">Effort M</span> &middot; Low risk. No pricing is automated.</div>
+        <div class="meta-tile"><span class="small">Expected impact</span>Cycle 9 days to 5. Part of the <strong>$0.5M</strong> proposal opportunity in the case.</div>
+      </div>
+      <div class="gate"><strong>Human at the gate:</strong> a principal still approves price and scope before any proposal is sent. AI drafts language, it does not commit the company to a number.</div>
+    </section>
+
+    <!-- 5.2 Finance -->
+    <section class="slide process" id="p-finance">
+      <div class="proc-head">
+        <div>
+          <div class="fn-name">Part C &middot; Finance &amp; bookkeeping</div>
+          <h2>5.2 Pay-app and AR collection cycle</h2>
+        </div>
+        <div class="fn-tags"><span class="tag eliminate">Eliminate</span><span class="tag automate">Automate</span><span class="tag report">Report</span><span class="tag noai">No-AI</span></div>
+      </div>
+      <p class="small">Monthly billing cycle plus weekly collections. Mostly automatable with almost no AI. This is the clean no-AI win.</p>
+      <div class="pain">"Billing week eats two people for days. We assemble the same pay-app package by hand every month, then we are slow to chase what we are owed, so cash sits out there."</div>
+      <div class="proc-cols">
+        <div class="proc-panel today">
+          <h4>The workflow today</h4>
+          <ol class="step-list">
+            <li>Each month, staff rebuild the pay-application package per project by hand.</li>
+            <li>Lien waivers are requested from subs by individual emails and tracked on a list.</li>
+            <li>Invoices are created, formatted, and sent one at a time.</li>
+            <li>AR follow-up happens when someone remembers, not on a schedule.</li>
+            <li>Owner or controller reconstructs cash position from several systems at month-end.</li>
+          </ol>
+        </div>
+        <div class="proc-panel changes">
+          <h4>What changes</h4>
+          <ul class="step-list">
+            <li><strong>Eliminate:</strong> manual package assembly. The pay-app is generated from project data on a schedule.</li>
+            <li><strong>Automate:</strong> lien-waiver requests and reminders to subs run as a rules-based sequence.</li>
+            <li><strong>Automate:</strong> AR follow-up fires on a fixed cadence with an owner named per account.</li>
+            <li><strong>Report:</strong> a live cash and AR-aging view replaces the month-end reconstruction.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta-tile"><span class="small">Where AI earns its place</span>Almost nowhere, and that is the lesson. The value is in rules and integration. AI is optional only to soften a collections note.</div>
+        <div class="meta-tile"><span class="small">Effort &amp; risk</span><span class="tag effort">Effort M</span> &middot; Low risk. Humans approve every invoice before send.</div>
+        <div class="meta-tile"><span class="small">Expected impact</span>Admin 110 hrs to 65, DSO 68 to 50. Part of the <strong>$0.4M</strong> cash opportunity.</div>
+      </div>
+      <div class="gate"><strong>Human at the gate:</strong> a person reviews and releases each invoice and each waiver. Automation prepares, it does not send money documents on its own.</div>
+    </section>
+
+    <!-- 5.3 Admin & Ops -->
+    <section class="slide process" id="p-admin">
+      <div class="proc-head">
+        <div>
+          <div class="fn-name">Part C &middot; Admin &amp; ops</div>
+          <h2>5.3 Field-to-office change capture</h2>
+        </div>
+        <div class="fn-tags"><span class="tag automate">Automate</span><span class="tag simplify">Simplify</span><span class="tag report">Report</span><span class="tag mix">Mix</span></div>
+      </div>
+      <p class="small">Daily, on every active job. Partially automatable. This is the recommended first pilot: small, low-risk, real.</p>
+      <div class="pain">"The crew knows when something changed in the field. By the time it gets written up, priced, and approved, half of them never make it to a billed change order. We are doing free work."</div>
+      <div class="proc-cols">
+        <div class="proc-panel today">
+          <h4>The workflow today</h4>
+          <ol class="step-list">
+            <li>A super notices a field change, a delay, or an owner request on site.</li>
+            <li>It gets remembered, texted, or scribbled, and sometimes lost.</li>
+            <li>Daily logs are written at night from memory, if at all.</li>
+            <li>The change is priced and submitted days later, with weak backup.</li>
+            <li>Owners dispute thinly documented changes, and some are written off.</li>
+          </ol>
+          <p class="footnote">Only 52% of field change signals reach a billed, collected change.</p>
+        </div>
+        <div class="proc-panel changes">
+          <h4>What changes</h4>
+          <ul class="step-list">
+            <li><strong>Simplify:</strong> the super leaves a two-minute voice memo at end of day. No new app to learn.</li>
+            <li><strong>AI assist:</strong> the memo becomes a formatted daily log and a draft change-order with photos attached.</li>
+            <li><strong>Automate:</strong> draft changes route to the PM for pricing and to the owner-rep for sign-off, with reminders.</li>
+            <li><strong>Report:</strong> a change-capture funnel shows where signals are lost, week over week.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta-tile"><span class="small">Where AI earns its place</span>Turning an unstructured voice memo into a structured, formatted log and draft. Input is messy, output is constrained, stakes are low.</div>
+        <div class="meta-tile"><span class="small">Effort &amp; risk</span><span class="tag effort">Effort S</span> &middot; Low risk. Nothing is billed without a human.</div>
+        <div class="meta-tile"><span class="small">Expected impact</span>Capture 52% toward 90%. Part of the <strong>$0.3M</strong> change-capture opportunity.</div>
+      </div>
+      <div class="gate"><strong>Human at the gate:</strong> the PM prices the change and the owner-rep approves it. AI drafts the paperwork from the field signal, nothing more.</div>
+    </section>
+
+    <!-- 5.4 Operations & Scheduling -->
+    <section class="slide process" id="p-ops">
+      <div class="proc-head">
+        <div>
+          <div class="fn-name">Part C &middot; Operations &amp; scheduling</div>
+          <h2>5.4 Crew and sub scheduling readiness</h2>
+        </div>
+        <div class="fn-tags"><span class="tag report">Report</span><span class="tag optimize">Optimize</span><span class="tag simplify">Simplify</span><span class="tag noai">No-AI</span></div>
+      </div>
+      <p class="small">Weekly look-ahead plus daily adjustments. Partially automatable, mostly through visibility, not AI.</p>
+      <div class="pain">"We have backlog, but a chunk of it is not actually ready to start: permits, submittals, long-lead items. So crews idle on one job while another stalls. We find out too late."</div>
+      <div class="proc-cols">
+        <div class="proc-panel today">
+          <h4>The workflow today</h4>
+          <ol class="step-list">
+            <li>Backlog is tracked as contract value, not as start-readiness.</li>
+            <li>Permits, submittals, and long-lead items live in separate places.</li>
+            <li>The three-week look-ahead is rebuilt manually in spreadsheets.</li>
+            <li>Crew and sub conflicts surface on the morning they happen.</li>
+            <li>Idle time and stalls are noticed after the fact in job-cost reports.</li>
+          </ol>
+          <p class="footnote">28% of backlog is not start-ready against a 10% benchmark.</p>
+        </div>
+        <div class="proc-panel changes">
+          <h4>What changes</h4>
+          <ul class="step-list">
+            <li><strong>Report:</strong> a start-ready board scores each backlog job on permits, submittals, and long-lead status.</li>
+            <li><strong>Simplify:</strong> one look-ahead view replaces the rebuilt spreadsheets.</li>
+            <li><strong>Automate:</strong> readiness flags and reminders fire as gate items slip.</li>
+            <li><strong>Optimize:</strong> crew and sub sequencing is planned against readiness, not just contract dates.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta-tile"><span class="small">Where AI earns its place</span>Optional, late. The first win is plain visibility. AI can later suggest sequencing, with a human approving the plan.</div>
+        <div class="meta-tile"><span class="small">Effort &amp; risk</span><span class="tag effort">Effort M</span> &middot; Low risk. The board informs decisions, it does not make them.</div>
+        <div class="meta-tile"><span class="small">Expected impact</span>Not-ready backlog 28% to 10%. Part of the <strong>$0.3M</strong> staffing-readiness opportunity.</div>
+      </div>
+      <div class="gate"><strong>Human at the gate:</strong> the ops lead owns the schedule. The system surfaces readiness and conflicts; people still make the call.</div>
+    </section>
+
+    <!-- 5.5 Customer Service -->
+    <section class="slide process" id="p-cs">
+      <div class="proc-head">
+        <div>
+          <div class="fn-name">Part C &middot; Customer service</div>
+          <h2>5.5 Client comms and after-hours intake</h2>
+        </div>
+        <div class="fn-tags"><span class="tag automate">Automate</span><span class="tag report">Report</span><span class="tag simplify">Simplify</span><span class="tag mix">Mix</span></div>
+      </div>
+      <p class="small">Continuous. Partially automatable. Compounding value: it protects margin and repeat work rather than showing up as one line item.</p>
+      <div class="pain">"Owners chase us for updates because we only call when there is a problem. And a call that comes in after five too often just rings out. That is the call that becomes the next job, or the next complaint."</div>
+      <div class="proc-cols">
+        <div class="proc-panel today">
+          <h4>The workflow today</h4>
+          <ol class="step-list">
+            <li>Project updates to owners are ad hoc, usually triggered by a problem.</li>
+            <li>After-hours calls go to voicemail and are returned late or not at all.</li>
+            <li>No record ties a missed call to a lost or delayed opportunity.</li>
+            <li>The same status questions get answered by phone, over and over.</li>
+          </ol>
+        </div>
+        <div class="proc-panel changes">
+          <h4>What changes</h4>
+          <ul class="step-list">
+            <li><strong>Automate:</strong> a scheduled, plain-language project update goes to each owner on a set cadence.</li>
+            <li><strong>Automate:</strong> after-hours calls are captured, triaged, and routed, with emergencies escalated.</li>
+            <li><strong>Report:</strong> every inbound call and its outcome is logged so missed opportunities are visible.</li>
+            <li><strong>AI assist (optional):</strong> an after-hours assistant takes a structured message. A human handles anything urgent or unclear.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta-tile"><span class="small">Where AI earns its place</span>Drafting routine status updates and taking structured after-hours messages. Judgment calls and emergencies stay with people.</div>
+        <div class="meta-tile"><span class="small">Effort &amp; risk</span><span class="tag effort">Effort S</span> &middot; Low to medium risk. Tone and escalation rules need care.</div>
+        <div class="meta-tile"><span class="small">Expected impact</span>Compounding. Protects margin, repeat work, and reputation. Not a direct case line item.</div>
+      </div>
+      <div class="gate"><strong>Human at the gate:</strong> a person owns every real relationship and every emergency. The assistant catches and routes, it does not replace the callback.</div>
+    </section>
+
+    <!-- ===================== WHAT WE WOULD NOT AUTOMATE ===================== -->
+    <section class="slide">
+      <div class="section-label">Part D &middot; Guardrails and sources</div>
+      <h2>6. What we would not automate yet</h2>
+      <p class="small">A real assessment is as clear about what to leave alone as what to change. These stay human in this engagement.</p>
+      <div class="grid two">
+        <div class="card plum">
+          <h3>Stays with people</h3>
+          <ul>
+            <li>Pricing and scope on any proposal or change order.</li>
+            <li>Releasing invoices, waivers, and any money document.</li>
+            <li>Every hiring and screening decision (EEOC).</li>
+            <li>Emergency and judgment calls from clients.</li>
+          </ul>
+        </div>
+        <div class="card sage">
+          <h3>Not yet, and why</h3>
+          <ul>
+            <li>Full estimating automation. Data is not clean enough to trust.</li>
+            <li>Autonomous client replies. Tone and stakes are too high early.</li>
+            <li>AI-driven scheduling decisions. Earn it after the readiness board is trusted.</li>
+            <li>Anything that sends without a person, until the pilots prove out.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SOURCES + CTA ===================== -->
+    <section class="slide">
+      <div class="section-label">Part D &middot; Guardrails and sources</div>
+      <h2>7. Source anchors</h2>
+      <ul class="source-list">
+        <li><a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html">NYU Stern margins</a>: Engineering/Construction gross margin near 15.5%.</li>
+        <li><a href="https://rabbet.com/reports/construction-payments-2025">Rabbet payments</a>: GCs lose around 65 admin hours a month to payments.</li>
+        <li><a href="https://www.abc.org/News-Media/News-Releases?Category=construction-backlog-indicator">ABC backlog</a>: roughly 8 months of backlog in early 2026.</li>
+        <li><a href="https://www.autodesk.com/blogs/construction/construction-disconnected-fmi-report/">Autodesk/FMI</a>: significant nonproductive time and data-linked rework.</li>
+        <li><a href="https://www.asce.org/publications-and-news/civil-engineering-source/article/2026/01/22/how-much-does-field-rework-in-construction-actually-cost">ASCE rework</a>: field rework cost as a share of contract value.</li>
+        <li><a href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads">HBR lead response</a>: response speed drives win rate.</li>
+      </ul>
+      <p class="footnote">Sample uses anonymized, modeled figures consistent with these public benchmarks. The audit produces the measured version from your real data.</p>
+    </section>
+
+    <!-- CTA -->
+    <section class="slide cta">
+      <h2>This is what the audit delivers</h2>
+      <p>What you just read is a worked sample. The free scorecard gives you this shape from your own answers in a few minutes. The audit turns it into the measured version: your processes, your numbers, your sequence.</p>
+      <div class="controls" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+        <a class="btn primary" href="/hidden-profit-review/" style="text-decoration:none;">See The Hidden Profit Review</a>
+        <a class="btn" href="/use-cases/" style="text-decoration:none; color:var(--paper);">Browse the use-case library</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var idx = 0;
+      var modeBtn = document.getElementById('modeBtn');
+      var pdfBtn = document.getElementById('pdfBtn');
+      var prevBtn = document.getElementById('prevBtn');
+      var nextBtn = document.getElementById('nextBtn');
+      var counter = document.getElementById('counter');
+
+      function isPresent() { return document.body.classList.contains('present'); }
+
+      function show(i) {
+        idx = Math.max(0, Math.min(slides.length - 1, i));
+        slides.forEach(function (s, j) { s.classList.toggle('active', j === idx); });
+        counter.textContent = (idx + 1) + ' / ' + slides.length;
+        window.scrollTo(0, 0);
+      }
+
+      function setMode(present) {
+        document.body.classList.toggle('present', present);
+        modeBtn.textContent = present ? 'Scroll view' : 'Present';
+        if (present) {
+          show(idx);
+        } else {
+          slides.forEach(function (s) { s.classList.add('active'); });
+        }
+      }
+
+      modeBtn.addEventListener('click', function () { setMode(!isPresent()); });
+      nextBtn.addEventListener('click', function () { show(idx + 1); });
+      prevBtn.addEventListener('click', function () { show(idx - 1); });
+
+      document.addEventListener('keydown', function (e) {
+        if (!isPresent()) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { show(idx + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { show(idx - 1); }
+        else if (e.key === 'Escape') { setMode(false); }
+      });
+
+      pdfBtn.addEventListener('click', function () {
+        var wasPresent = isPresent();
+        if (wasPresent) { setMode(false); }
+        window.print();
+      });
+
+      // Start in scroll view with all slides shown.
+      slides.forEach(function (s) { s.classList.add('active'); });
+    })();
+  </script>
+</body>
+</html>

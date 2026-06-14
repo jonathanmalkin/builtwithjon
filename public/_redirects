@@ -12,7 +12,13 @@
 /workshop-setup/* /ai-assistant/ 301
 /workshop-setup /ai-assistant/ 301
 
-# Profit-leak assessment renamed from sample-assessment 2026-06-11.
-# It is the pre-engagement business case, not a sample of the full AI Audit output.
-/ai-workflow-audit/sample-assessment/ /ai-workflow-audit/profit-leak-assessment/ 301
-/ai-workflow-audit/sample-assessment /ai-workflow-audit/profit-leak-assessment/ 301
+# AI Workflow Audit renamed to The Hidden Profit Review, slug /hidden-profit-review/ 2026-06-14.
+# Order matters: specific sample + thanks paths first, then the catch-all for the section.
+/ai-workflow-audit/sample-assessment/ /hidden-profit-review/sample/ 301
+/ai-workflow-audit/sample-assessment /hidden-profit-review/sample/ 301
+/ai-workflow-audit/profit-leak-assessment/ /hidden-profit-review/sample/ 301
+/ai-workflow-audit/profit-leak-assessment /hidden-profit-review/sample/ 301
+/ai-workflow-audit/thanks/ /hidden-profit-review/thanks/ 301
+/ai-workflow-audit/thanks /hidden-profit-review/thanks/ 301
+/ai-workflow-audit/* /hidden-profit-review/:splat 301
+/ai-workflow-audit /hidden-profit-review/ 301

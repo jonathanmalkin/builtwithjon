@@ -197,8 +197,8 @@ function buildReport(payload, env) {
   const worst = axisReports.slice().sort((a, b) => b.score - a.score)[0];
   const firstName = firstNameOf(payload.name);
   const subject = `Your workflow leak report${firstName ? `, ${firstName}` : ""}`;
-  const ctaUrl = `${siteOrigin(env)}/ai-workflow-audit/`;
-  const sampleUrl = `${siteOrigin(env)}/ai-workflow-audit/profit-leak-assessment/`;
+  const ctaUrl = `${siteOrigin(env)}/hidden-profit-review/`;
+  const sampleUrl = `${siteOrigin(env)}/hidden-profit-review/sample/`;
   const useCasesUrl = `${siteOrigin(env)}/use-cases/`;
   const revenueProvided = payload.answers.q9 && payload.answers.q9 !== "Skip";
 

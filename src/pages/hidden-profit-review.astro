@@ -1,0 +1,400 @@
+---
+import Base from '../layouts/Base.astro';
+
+const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const thanksUrl = '/hidden-profit-review/thanks';
+const sampleUrl = '/hidden-profit-review/sample/';
+---
+
+<Base
+  title="The Hidden Profit Review"
+  description="A close look at one workflow to surface profit you can't currently see, and the first AI fix worth making."
+>
+  <section class="audit-page">
+    <div class="audit-hero-grid">
+      <div class="audit-hero">
+        <p class="audit-label">The Hidden Profit Review</p>
+        <h1>Find the profit hiding in how your business actually runs.</h1>
+        <p class="audit-lede">
+          Bring one recurring process that is quietly costing time, follow-up, or
+          cash. I map the workflow, surface the profit it is leaking, and tell you
+          whether to pilot AI now, clean up first, hand it off, or leave it alone.
+        </p>
+      </div>
+
+      <form
+        id="ai-audit-form"
+        action={formEndpoint}
+        method="POST"
+        class="audit-form panel"
+        data-thanks={thanksUrl}
+      >
+        <input type="hidden" name="_subject" value="Hidden Profit Review lead" />
+        <input type="hidden" name="inquiry_type" value="ai-workflow-audit-lead" />
+
+        <p class="audit-form-intro">Start the review. Three fields, about 20 seconds.</p>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required class="form-input" autocomplete="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company or practice</label>
+          <input type="text" id="company" name="company" class="form-input" autocomplete="organization" />
+        </div>
+
+        <button type="submit" class="form-submit audit-submit">Start the review</button>
+        <p class="audit-note">I reply personally if there is profit worth surfacing.</p>
+        <p class="audit-error" hidden role="alert" aria-live="polite">
+          Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will help.
+        </p>
+      </form>
+    </div>
+
+    <section class="audit-sample-block" aria-labelledby="sample-heading">
+      <div class="audit-sample-head">
+        <h2 id="sample-heading">See exactly what you get.</h2>
+        <p>
+          A worked sample for a $24M general contractor: the business case, the
+          plan, and the five highest-value workflows mapped end to end. Scroll it
+          or click through it slide by slide.
+        </p>
+      </div>
+      <div class="sample-thumbs">
+        <a class="sample-thumb" href={sampleUrl}>
+          <img
+            src="/images/hidden-profit-review/sample-cover.png"
+            alt="Sample cover: the business case with a five-year cost-versus-benefit chart for a $24M general contractor."
+            width="1112" height="604" loading="lazy"
+          />
+          <span class="sample-thumb-cap">The business case</span>
+        </a>
+        <a class="sample-thumb" href={sampleUrl}>
+          <img
+            src="/images/hidden-profit-review/sample-scorecard.png"
+            alt="Sample process audit scorecard: current results versus benchmark across gross margin, change-order capture, payment administration, proposal cycle time, and start-ready backlog."
+            width="1176" height="1008" loading="lazy"
+          />
+          <span class="sample-thumb-cap">The process scorecard</span>
+        </a>
+        <a class="sample-thumb" href={sampleUrl}>
+          <img
+            src="/images/hidden-profit-review/sample-process.png"
+            alt="Sample per-process deep dive: the workflow today versus what changes, with where AI earns its place and a human kept at the gate."
+            width="1176" height="739" loading="lazy"
+          />
+          <span class="sample-thumb-cap">A process deep dive</span>
+        </a>
+      </div>
+      <p class="sample-cta">
+        <a href={sampleUrl}>See the full sample &rarr;</a>
+      </p>
+    </section>
+
+    <div class="audit-copy">
+      <h2>Not a strategy deck.</h2>
+      <p>
+        This starts with the work you already do: email, client follow-up,
+        proposals, scheduling, finance/admin reporting, content operations,
+        or project handoffs.
+      </p>
+      <ul>
+        <li>One current workflow map</li>
+        <li>Top friction points and risks</li>
+        <li>One safe first pilot recommendation</li>
+        <li>A clear "not yet" when AI is the wrong move</li>
+      </ul>
+      <p class="audit-process-note">
+        The review is step one of a five-phase process: see the data, map the workflow, decide each step.
+        <a href="/process/">See the whole process</a>, or
+        <a href="/principles/">the principles behind it</a>.
+      </p>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ thanksUrl }}>
+    const form = document.getElementById('ai-audit-form');
+    if (form) {
+      const submitBtn = form.querySelector('.audit-submit');
+      const errorEl = form.querySelector('.audit-error');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (errorEl) errorEl.hidden = true;
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+        }
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+          if (response.ok) {
+            window.location.assign(thanksUrl);
+            return;
+          }
+          throw new Error('Submission failed');
+        } catch (err) {
+          if (errorEl) errorEl.hidden = false;
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Start the review';
+          }
+        }
+      });
+    }
+  </script>
+
+  <style>
+    .audit-page {
+      margin: 0 auto 4rem;
+      max-width: var(--max-width-wide);
+    }
+
+    .audit-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+      gap: 2rem;
+      align-items: start;
+      padding: 1.5rem 0 2.5rem;
+      min-width: 0;
+    }
+
+    .audit-hero {
+      min-width: 0;
+      padding-top: 0.25rem;
+    }
+
+    .audit-label {
+      color: var(--color-copper);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .audit-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.35rem);
+      letter-spacing: 0;
+      line-height: 1.06;
+      margin: 0 0 1rem;
+      max-width: 760px;
+    }
+
+    .audit-lede {
+      color: var(--color-text-muted);
+      font-size: 1.08rem;
+      max-width: 700px;
+    }
+
+    .audit-sample-block {
+      border-top: 1px solid var(--color-border);
+      margin-bottom: 2.25rem;
+      padding-top: 1.5rem;
+    }
+
+    .audit-sample-head {
+      max-width: 720px;
+    }
+
+    .audit-sample-head h2 {
+      margin-top: 0;
+    }
+
+    .audit-sample-head p {
+      color: var(--color-text-muted);
+    }
+
+    .sample-thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .sample-thumb {
+      display: block;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      text-decoration: none;
+      color: var(--color-text);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+    }
+
+    .sample-thumb:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 6px 18px rgba(31, 23, 19, 0.1);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .sample-thumb img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 11;
+      object-fit: cover;
+      object-position: top center;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .sample-thumb-cap {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: 0.6rem 0.75rem;
+    }
+
+    .sample-cta {
+      margin: 1rem 0 0;
+      font-weight: 700;
+    }
+
+    .audit-form-intro {
+      color: var(--color-text-muted);
+      font-size: 0.86rem;
+      margin: 0 0 1rem;
+    }
+
+    .audit-copy {
+      border-top: 1px solid var(--color-border);
+      min-width: 0;
+      padding-top: 1.5rem;
+      max-width: 720px;
+    }
+
+    .audit-copy h2 {
+      margin-top: 0;
+    }
+
+    .audit-copy ul {
+      color: var(--color-text-muted);
+    }
+
+    .audit-process-note {
+      color: var(--color-text-muted);
+      font-size: 0.88rem;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--color-border, rgba(0,0,0,0.1));
+    }
+
+    .audit-form {
+      border-radius: 12px;
+      min-width: 0;
+      padding: 1.25rem;
+    }
+
+    .audit-form .form-group {
+      margin-bottom: 0.95rem;
+    }
+
+    .audit-form label {
+      color: var(--color-text);
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 750;
+      margin-bottom: 0.35rem;
+    }
+
+    .audit-form .form-input {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      color: var(--color-text);
+      font: inherit;
+      min-height: 44px;
+      padding: 0.65rem 0.75rem;
+      width: 100%;
+    }
+
+    .audit-submit {
+      background: var(--color-blue-mug);
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      padding: 0.75rem 1rem;
+      width: 100%;
+    }
+
+    .audit-submit:hover {
+      background: var(--color-blueprint);
+    }
+
+    .audit-submit:disabled {
+      cursor: wait;
+      opacity: 0.75;
+    }
+
+    .audit-note,
+    .audit-error {
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      margin: 0.8rem 0 0;
+    }
+
+    @media (max-width: 760px) {
+      .audit-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+
+      .sample-thumbs {
+        grid-template-columns: 1fr;
+      }
+
+      .audit-page,
+      .audit-hero,
+      .audit-hero-grid,
+      .audit-copy,
+      .audit-form {
+        max-width: 100%;
+      }
+
+      .audit-hero h1 {
+        font-size: clamp(1.85rem, 8vw, 2.35rem);
+        line-height: 1.12;
+        overflow-wrap: anywhere;
+      }
+
+      .audit-lede,
+      .audit-copy p,
+      .audit-copy li,
+      .audit-form label,
+      .audit-note,
+      .audit-error {
+        overflow-wrap: anywhere;
+      }
+
+      .audit-form {
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .audit-form .form-input {
+        max-width: 100%;
+        min-width: 0;
+      }
+    }
+  </style>
+</Base>

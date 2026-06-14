@@ -1,5 +1,9 @@
 ---
 const pathname = Astro.url.pathname;
+
+const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWith('/hidden-profit-review');
+const methodActive = pathname.startsWith('/principles') || pathname.startsWith('/process');
+const workActive = pathname === '/projects/' || pathname.startsWith('/articles');
 ---
 
 <header class="site-header">
@@ -10,14 +14,43 @@ const pathname = Astro.url.pathname;
       <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <div class="nav-links" id="site-nav-links">
-      <a class="nav-cta" href="/scorecard/" aria-current={pathname.startsWith('/scorecard') ? 'page' : undefined}>Scorecard</a>
-      <a href="/ai-assistant/" aria-current={pathname.startsWith('/ai-assistant') ? 'page' : undefined}>AI Assistant</a>
+      <div class={`nav-group${servicesActive ? ' is-active' : ''}`}>
+        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="nav-services">
+          Services
+          <svg class="nav-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+        </button>
+        <div class="nav-submenu" id="nav-services" role="menu">
+          <a role="menuitem" href="/ai-assistant/" aria-current={pathname.startsWith('/ai-assistant') ? 'page' : undefined}>AI Assistant</a>
+          <a role="menuitem" href="/hidden-profit-review/" aria-current={pathname.startsWith('/hidden-profit-review') ? 'page' : undefined}>Hidden Profit</a>
+        </div>
+      </div>
+
       <a href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use Cases</a>
-      <a href="/principles/" aria-current={pathname.startsWith('/principles') ? 'page' : undefined}>Principles</a>
-      <a href="/process/" aria-current={pathname.startsWith('/process') ? 'page' : undefined}>Process</a>
-      <a href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Projects</a>
-      <a href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>
+
+      <div class={`nav-group${methodActive ? ' is-active' : ''}`}>
+        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="nav-method">
+          Method
+          <svg class="nav-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+        </button>
+        <div class="nav-submenu" id="nav-method" role="menu">
+          <a role="menuitem" href="/principles/" aria-current={pathname.startsWith('/principles') ? 'page' : undefined}>Principles</a>
+          <a role="menuitem" href="/process/" aria-current={pathname.startsWith('/process') ? 'page' : undefined}>Process</a>
+        </div>
+      </div>
+
+      <div class={`nav-group${workActive ? ' is-active' : ''}`}>
+        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="nav-work">
+          Work
+          <svg class="nav-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+        </button>
+        <div class="nav-submenu" id="nav-work" role="menu">
+          <a role="menuitem" href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Projects</a>
+          <a role="menuitem" href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>
+        </div>
+      </div>
+
       <a href="/contact/" aria-current={pathname === '/contact/' ? 'page' : undefined}>Contact</a>
+      <a class="nav-cta" href="/scorecard/" aria-current={pathname.startsWith('/scorecard') ? 'page' : undefined}>Scorecard</a>
     </div>
     <div class="header-social">
       <a href="https://github.com/jonathanmalkin" rel="me" aria-label="GitHub" title="GitHub">
@@ -43,5 +76,34 @@ const pathname = Astro.url.pathname;
     this.setAttribute('aria-expanded', String(nextExpanded));
     this.setAttribute('aria-label', nextExpanded ? 'Close menu' : 'Open menu');
     document.querySelector('.nav-links')?.classList.toggle('open');
+  });
+
+  const navToggles = Array.from(document.querySelectorAll('.nav-group-toggle'));
+
+  function closeAllGroups(except) {
+    navToggles.forEach((btn) => {
+      if (btn !== except) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  navToggles.forEach((btn) => {
+    btn.addEventListener('click', function (event) {
+      event.stopPropagation();
+      const open = this.getAttribute('aria-expanded') === 'true';
+      closeAllGroups(this);
+      this.setAttribute('aria-expanded', String(!open));
+    });
+
+    btn.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        this.setAttribute('aria-expanded', 'false');
+        this.focus();
+      }
+    });
+  });
+
+  // Click outside closes any open group (desktop dropdowns).
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.nav-group')) closeAllGroups(null);
   });
 </script>
