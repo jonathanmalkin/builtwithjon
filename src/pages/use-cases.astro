@@ -192,6 +192,12 @@ const useCaseDefinitions = [
 .ucl-legend-row .lq { min-width: 124px; flex: none; padding-top: 1px; }
 .ucl-legend-row .lx { color: var(--ucl-ink-2); font-size: 14.5px; line-height: 1.5; }
 .ucl-legend-row .lx b { color: var(--ucl-ink); font-weight: 600; }
+.ucl-fw-verdicts { border-top: 1px solid var(--ucl-ink); padding-top: 18px; }
+.ucl-chiprow { display: flex; flex-wrap: wrap; gap: 8px; }
+.ucl-fw-full { display: inline-flex; align-items: center; gap: .5em; margin-top: 16px; font-family: var(--ucl-mono); font-size: 12.5px; color: var(--ucl-ink); text-decoration: none; }
+.ucl-fw-full:hover { text-decoration: underline; text-underline-offset: .15em; }
+.ucl-fw-full svg { transition: transform .15s ease; }
+.ucl-fw-full:hover svg { transform: translateX(3px); }
 .ucl-fw-side p { margin-top: 0; font-size: 15px; }
 .ucl-ai-note { margin-top: 16px; padding: 16px 17px; border-left: 3px solid var(--ucl-ink); background: var(--ucl-paper-card); }
 .ucl-ai-note b { font-weight: 600; }
@@ -781,14 +787,14 @@ const useCaseDefinitions = [
         cls: "ucl-hl",
         marks: [["eliminated", "eliminate"], ["automated", "automate"], ["done in a tenth of the time", "optimize"]]
       }
-    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-attr" }, "Source, ", hero.source), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-cta" }, /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, null)))))), /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-framework" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow" }, "The framework"), /* @__PURE__ */ React.createElement("h2", null, framework.heading), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-intro" }, framework.intro), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-grid" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-legend" }, dispositions.map((d) => /* @__PURE__ */ React.createElement("div", { className: "ucl-legend-row", key: d.id }, /* @__PURE__ */ React.createElement("span", { className: "lq" }, /* @__PURE__ */ React.createElement("span", { className: `ucl-tag ucl-tag--${d.id}` }, /* @__PURE__ */ React.createElement(DispositionIcon, { id: d.id }), d.label)), /* @__PURE__ */ React.createElement("span", { className: "lx" }, /* @__PURE__ */ React.createElement("b", null, d.question), " ", d.meaning)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-side" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement(
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-attr" }, "Source, ", hero.source), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-cta" }, /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, null)))))), /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-framework" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow" }, "The framework"), /* @__PURE__ */ React.createElement("h2", null, framework.heading), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-intro" }, framework.intro), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-grid" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-verdicts" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-chiprow" }, dispositions.map((d) => /* @__PURE__ */ React.createElement("span", { className: `ucl-tag ucl-tag--${d.id}`, key: d.id }, /* @__PURE__ */ React.createElement(DispositionIcon, { id: d.id }), d.label))), /* @__PURE__ */ React.createElement("a", { className: "ucl-fw-full", href: "/dispositions/" }, "What each verdict means ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-side" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement(
       Marked,
       {
         text: framework.afterTable,
         cls: "ucl-word",
         marks: [["blue", "automate"], ["red", "eliminate"], ["orange", "simplify"], ["green", "report"]]
       }
-    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-ai-note" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, framework.aiHeading), " ", framework.aiBody), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-process" }, "These five verdicts are one step of a bigger sequence. ", /* @__PURE__ */ React.createElement("a", { href: "/process/" }, "See where they fit in the process →")))))), /* @__PURE__ */ React.createElement(
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-ai-note" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, framework.aiHeading), " ", framework.aiBody), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-process" }, "These five verdicts are one step of a bigger sequence. ", /* @__PURE__ */ React.createElement("a", { href: "/dispositions/" }, "The five dispositions"), " · ", /* @__PURE__ */ React.createElement("a", { href: "/process/" }, "where they fit in the process →")))))), /* @__PURE__ */ React.createElement(
       Toolbar,
       {
         query,

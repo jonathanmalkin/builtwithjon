@@ -1,6 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
+import ApproachFlow from '../components/ApproachFlow.astro';
+import ApproachIcon from '../components/ApproachIcon.astro';
 import { processPhases } from '../data/process';
+
+// Each principle's line glyph (belief family in ApproachIcon), keyed by num.
+const principleIconByNum: Record<string, string> = {
+  '01': 'data',
+  '02': 'workflow',
+  '03': 'no-ai',
+  '04': 'human',
+  '05': 'not-yet',
+};
 
 const description =
   'The principles behind every Built with Jon automation: connect the data first, audit the workflow not the tool, and keep a human at the high-stakes gate. The method behind the scorecard and use case library.';
@@ -209,6 +220,16 @@ const principles = [
 .prn-toc-num { font-family: var(--ucl-mono); font-size: 11px; color: var(--ucl-ink-3); letter-spacing: .08em; min-width: 22px; }
 .prn-toc-verb { font-family: var(--ucl-serif); font-size: 18px; line-height: 1.3; }
 .prn-toc-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; align-self: center; }
+.prn-toc-ic { display: inline-flex; align-self: center; flex: none; }
+
+/* per-principle icon next to the verb */
+.prn-item-verb-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.prn-item-ic {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 40px; height: 40px; border-radius: 9px;
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2);
+}
+.prn-item-verb-row .prn-item-verb { margin: 0; }
 
 /* ---------- principle blocks ---------- */
 .prn-list { padding: 8px 0 0; }
@@ -289,6 +310,18 @@ const principles = [
 .dot-optimize  { background: var(--ucl-optimize); }
 .dot-report    { background: var(--ucl-report); }
 
+/* icon glyphs inherit their accent color via currentColor */
+.prn-toc-ic.acc-eliminate, .prn-item-ic.acc-eliminate { color: var(--ucl-eliminate); }
+.prn-toc-ic.acc-simplify,  .prn-item-ic.acc-simplify  { color: var(--ucl-simplify); }
+.prn-toc-ic.acc-automate,  .prn-item-ic.acc-automate  { color: var(--ucl-automate); }
+.prn-toc-ic.acc-optimize,  .prn-item-ic.acc-optimize  { color: var(--ucl-optimize); }
+.prn-toc-ic.acc-report,    .prn-item-ic.acc-report    { color: var(--ucl-report); }
+.prn-item-ic.acc-eliminate { background: var(--ucl-eliminate-bg); border-color: var(--ucl-eliminate-ln); }
+.prn-item-ic.acc-simplify  { background: var(--ucl-simplify-bg);  border-color: var(--ucl-simplify-ln); }
+.prn-item-ic.acc-automate  { background: var(--ucl-automate-bg);  border-color: var(--ucl-automate-ln); }
+.prn-item-ic.acc-optimize  { background: var(--ucl-optimize-bg);  border-color: var(--ucl-optimize-ln); }
+.prn-item-ic.acc-report    { background: var(--ucl-report-bg);    border-color: var(--ucl-report-ln); }
+
 @media (min-width: 760px) {
   .prn-toc-grid { grid-template-columns: 1fr 1fr; gap: 10px 28px; }
   .prn-jobs { grid-template-columns: 1fr 1fr; }
@@ -312,6 +345,8 @@ const principles = [
       </a>
     </div>
   </header>
+
+  <ApproachFlow current="principles" />
 
   <section class="prn-wrap prn-hero">
     <div class="prn-hero-grid">
@@ -366,7 +401,7 @@ const principles = [
       {principles.map((p) => (
         <a class="prn-toc-item" href={`#p-${p.num}`}>
           <span class="prn-toc-num">{p.num}</span>
-          <span class={`prn-toc-dot dot-${p.accent}`}></span>
+          <span class={`prn-toc-ic acc-${p.accent}`}><ApproachIcon name={principleIconByNum[p.num]} size={16} /></span>
           <span class="prn-toc-verb">{p.verb}</span>
         </a>
       ))}
@@ -380,7 +415,10 @@ const principles = [
           <span class="prn-rail" aria-hidden="true"></span>
           <div>
             <p class="prn-item-eyebrow prn-eyebrow">{p.num} &middot; {p.eyebrow}</p>
-            <h2 class="prn-item-verb">{p.verb}</h2>
+            <div class="prn-item-verb-row">
+              <span class={`prn-item-ic acc-${p.accent}`}><ApproachIcon name={principleIconByNum[p.num]} size={22} /></span>
+              <h2 class="prn-item-verb">{p.verb}</h2>
+            </div>
             {p.foundation && <span class="prn-item-found">{p.foundation}</span>}
             <p class="prn-item-lead">{p.lead}</p>
 
