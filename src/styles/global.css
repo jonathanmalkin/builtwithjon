@@ -407,9 +407,9 @@ hr {
 .nav-submenu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 0.5rem);
   left: 0;
-  margin-top: 0.5rem;
+  margin-top: 0;
   min-width: 168px;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -417,6 +417,18 @@ hr {
   box-shadow: 0 8px 24px rgba(31, 23, 19, 0.12);
   padding: 0.35rem;
   z-index: 60;
+}
+
+/* Transparent bridge that keeps the hover region continuous across the gap
+   between the toggle and the panel, so moving the cursor down does not
+   collapse :hover before reaching the submenu items. */
+.nav-submenu::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 0.5rem;
 }
 
 .nav-group:hover .nav-submenu,
