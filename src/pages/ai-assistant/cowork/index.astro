@@ -201,10 +201,15 @@ const schema = {
         <p class="starter-gate-note">The site is static, so the file is not locked. This just lets me know who is building.</p>
       </div>
       <div class="starter-gate-unlocked" id="starter-gate-unlocked" hidden>
-        <p>Thanks. Your download is ready:</p>
+        <p class="starter-gate-ready">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          You are in. Download is ready
+        </p>
         <a class="starter-gate-download" id="starter-gate-link" href="/ai-assistant/cowork/personal-assistant-cowork-plugin.zip" download>
-          Download personal-assistant-cowork-plugin.zip
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download the Cowork add-on
         </a>
+        <p class="starter-gate-download-hint">Did not start automatically? <a href="/ai-assistant/cowork/personal-assistant-cowork-plugin.zip" download>Click here to download <code>personal-assistant-cowork-plugin.zip</code></a>.</p>
       </div>
     </div>
 
@@ -644,17 +649,28 @@ user can approve a draft or change; silence is not approval.</code></pre>
       var form = document.getElementById('starter-gate-form');
       var errorEl = document.getElementById('starter-gate-error');
       var btn = form ? form.querySelector('.starter-gate-btn') : null;
+      var link = document.getElementById('starter-gate-link');
       var kit = gate.getAttribute('data-kit') || 'kit';
       var storeKey = 'bwj-starter-kit-' + kit;
 
-      function reveal() {
+      function reveal(justUnlocked) {
         gate.hidden = true;
         unlocked.hidden = false;
+        if (justUnlocked && link) {
+          // Bring the download into view and start it automatically.
+          if (unlocked.scrollIntoView) {
+            unlocked.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          setTimeout(function () {
+            try { link.click(); } catch (e) {}
+            try { link.focus(); } catch (e) {}
+          }, 350);
+        }
       }
 
       try {
         if (window.localStorage && localStorage.getItem(storeKey) === 'unlocked') {
-          reveal();
+          reveal(false);
         }
       } catch (e) {}
 
@@ -670,7 +686,7 @@ user can approve a draft or change; silence is not approval.</code></pre>
           }).then(function (response) {
             if (response.ok) {
               try { if (window.localStorage) localStorage.setItem(storeKey, 'unlocked'); } catch (e) {}
-              reveal();
+              reveal(true);
               return;
             }
             throw new Error('Submission failed');
