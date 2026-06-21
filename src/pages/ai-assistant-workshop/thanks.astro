@@ -2,11 +2,13 @@
 import Base from '../../layouts/Base.astro';
 
 const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const waitlistUrl = '/ai-assistant-workshop/';
 ---
 
 <Base
   title="You're on the waitlist"
   description="Your Build Your Practical AI Assistant waitlist request was received."
+  noindex
 >
   <section class="container assistant-thanks panel">
     <p class="eyebrow">You're on the list</p>
@@ -22,8 +24,12 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
     <p class="eyebrow">Optional, 30 more seconds</p>
     <h2>Help me tailor the cohort to you.</h2>
     <p>Answer any of these and I shape the sessions around what you need. Skip any of them.</p>
+    <p id="assistant-tailor-gate" class="assistant-tailor-gate">
+      To send these details, start with the waitlist form so I can match them to your name and email.
+      <a href={waitlistUrl}>Join the waitlist</a>
+    </p>
 
-    <form id="assistant-tailor-form" action={formEndpoint} method="POST" class="assistant-tailor-form">
+    <form id="assistant-tailor-form" data-endpoint={formEndpoint} class="assistant-tailor-form" hidden>
       <input type="hidden" name="_subject" value="AI assistant workshop waitlist details" />
       <input type="hidden" name="inquiry_type" value="ai-assistant-workshop-waitlist-details" />
       <input type="hidden" id="partner_context" name="partner_context" value="direct" />
@@ -98,7 +104,7 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
       </p>
     </form>
 
-    <p class="assistant-thanks-back"><a href="/ai-assistant-workshop/">Back to the workshop page</a></p>
+    <p class="assistant-thanks-back"><a href={waitlistUrl}>Back to the workshop page</a></p>
   </section>
 </Base>
 
@@ -106,6 +112,7 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
   const form = document.getElementById('assistant-tailor-form');
   if (form) {
     // Carry identity from the signup so the two submissions match up.
+    let hasSignupIdentity = false;
     try {
       const email = sessionStorage.getItem('waitlist_email');
       const name = sessionStorage.getItem('waitlist_name');
@@ -113,8 +120,22 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
       if (email) form.querySelector('#email').value = email;
       if (name) form.querySelector('#name').value = name;
       if (ctx) form.querySelector('#partner_context').value = ctx;
+      hasSignupIdentity = Boolean(email && name);
     } catch (storageErr) {
-      // Storage unavailable; submissions still arrive, just without the join key.
+      // Storage unavailable means we cannot safely match the optional details.
+    }
+
+    const gateEl = document.getElementById('assistant-tailor-gate');
+    if (!hasSignupIdentity) {
+      form.remove();
+    } else {
+      const endpoint = form.dataset.endpoint;
+      if (endpoint) {
+        form.setAttribute('action', endpoint);
+        form.setAttribute('method', 'POST');
+      }
+      form.hidden = false;
+      if (gateEl) gateEl.hidden = true;
     }
 
     const submitBtn = form.querySelector('.form-submit');
@@ -123,6 +144,7 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+      if (!hasSignupIdentity || !form.action) return;
       if (errorEl) errorEl.hidden = true;
       if (submitBtn) {
         submitBtn.disabled = true;

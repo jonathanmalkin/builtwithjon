@@ -6,6 +6,7 @@ interface Props {
   article?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   article = false,
   publishedTime,
   modifiedTime,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -24,6 +26,7 @@ const siteName = 'Jonathan Malkin';
 
 <link rel="canonical" href={canonicalURL} />
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 
 <!-- Open Graph -->
 <meta property="og:type" content={article ? 'article' : 'website'} />
