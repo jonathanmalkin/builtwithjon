@@ -214,6 +214,10 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (errEl) errEl.hidden = true;
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
         btn.disabled = true; btn.textContent = 'Reading your answers...';
         try {
           const data = new FormData(form);
