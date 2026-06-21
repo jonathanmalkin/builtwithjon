@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#3a1d0e" />
+<meta name="robots" content="noindex, nofollow" />
+<title>A Special Delivery</title>
+<style>
+  :root{
+    --broth:#f0a92a;        /* chicken soup gold */
+    --broth-lite:#f6c64f;
+    --broth-deep:#c9831a;
+    --matzo-hi:#f3dca0;     /* matzo ball, lit side */
+    --matzo:#e6c277;        /* matzo ball, body */
+    --matzo-shade:#b88e3f;  /* matzo ball, shadow side */
+    --matzo-deep:#8f6826;   /* crevices */
+    --pastrami:#e06a7b;     /* pastrami pink */
+    --pickle:#7fa64a;       /* pickle green */
+    --carrot:#e8852b;
+    --bg-1:#7a3f16;         /* warm amber top */
+    --bg-2:#4a2410;         /* mid braise */
+    --bg-3:#2c1608;         /* deep braise floor */
+    --cream:#fff7e6;
+    --ink:#3a2410;
+    --shadow:rgba(28,11,2,.5);
+    --display:'Baloo 2', ui-rounded, 'Hiragino Maru Gothic ProN', 'Comic Sans MS', system-ui, sans-serif;
+    --body:-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; padding:0; height:100%; }
+  body{
+    font-family:var(--body);
+    color:var(--cream);
+    background:
+      /* warm glow behind the action */
+      radial-gradient(95% 55% at 50% 34%, rgba(246,198,79,.22) 0%, rgba(246,198,79,0) 60%),
+      /* soft amber-to-braise vertical wash */
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 52%, var(--bg-3) 100%);
+    background-attachment:fixed;
+    min-height:100svh;
+    overflow-x:hidden;
+    text-align:center;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+
+  /* drifting steam blooms + faint speckle, layered for depth */
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      radial-gradient(38% 30% at 22% 18%, rgba(255,224,150,.10), transparent 70%),
+      radial-gradient(42% 34% at 82% 30%, rgba(255,214,120,.08), transparent 70%),
+      radial-gradient(50% 40% at 50% 88%, rgba(255,160,60,.07), transparent 75%);
+  }
+  body::after{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:radial-gradient(rgba(255,238,200,.05) 1px, transparent 1.4px);
+    background-size:24px 24px;
+    opacity:.6;
+  }
+
+  /* slow-rising steam wisps */
+  .steam{ position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .steam i{
+    position:absolute; bottom:-12%;
+    width:120px; height:120px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,243,214,.16), rgba(255,243,214,0) 68%);
+    filter:blur(6px);
+    animation:rise linear infinite;
+  }
+  .steam i:nth-child(1){ left:14%; animation-duration:13s; animation-delay:0s; transform:scale(.8); }
+  .steam i:nth-child(2){ left:44%; animation-duration:17s; animation-delay:3s; transform:scale(1.15); }
+  .steam i:nth-child(3){ left:72%; animation-duration:15s; animation-delay:6s; transform:scale(.95); }
+  .steam i:nth-child(4){ left:86%; animation-duration:19s; animation-delay:1.5s; transform:scale(.7); }
+  @keyframes rise{
+    0%{ transform:translateY(0) scale(.7); opacity:0; }
+    15%{ opacity:.9; }
+    100%{ transform:translateY(-118svh) scale(1.5); opacity:0; }
+  }
+
+  .stage{
+    position:relative; z-index:2;
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:28px 22px calc(34px + env(safe-area-inset-bottom));
+    gap:14px;
+  }
+
+  /* ---------- screens ---------- */
+  .screen{ display:none; width:100%; max-width:440px; }
+  .screen.active{ display:flex; flex-direction:column; align-items:center; gap:16px; animation:fadeUp .6s ease both; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+  .kicker{
+    font-family:var(--display); font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase;
+    font-size:.78rem; color:var(--broth);
+    background:rgba(242,180,23,.12);
+    border:1.5px solid rgba(242,180,23,.4);
+    padding:7px 14px; border-radius:999px;
+  }
+
+  h1{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(2.2rem, 11vw, 3.2rem);
+    line-height:1.02; margin:6px 0 0;
+    color:var(--cream);
+    text-shadow:0 3px 0 var(--shadow);
+  }
+  .sub{
+    font-size:1.05rem; line-height:1.5; color:rgba(255,247,230,.82);
+    max-width:34ch; margin:0 auto;
+  }
+
+  /* ---------- the matzo ball in a bowl of broth ---------- */
+  .ball-wrap{ position:relative; width:300px; height:236px; margin:6px auto 0; }
+
+  /* the ceramic soup bowl: wide and shallow, broad rounded base (not a flute) */
+  .bowl{
+    position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+    width:300px; height:104px;
+    border-radius:0 0 200px 200px / 0 0 90px 90px;
+    background:linear-gradient(180deg, #f4f0e6 0%, #e7ddc9 55%, #d3c4a6 100%);
+    box-shadow: inset 0 -12px 20px rgba(120,90,40,.28),
+                inset 0 8px 14px rgba(255,255,255,.6),
+                0 18px 30px var(--shadow);
+    z-index:1;
+  }
+  /* the broth filling the bowl */
+  .broth{
+    position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+    width:288px; height:82px;
+    border-radius:0 0 196px 196px / 0 0 78px 78px;
+    background:
+      radial-gradient(130% 170% at 50% -30%, var(--broth-lite) 0%, var(--broth) 44%, var(--broth-deep) 100%);
+    overflow:hidden; z-index:2;
+    box-shadow: inset 0 -10px 18px rgba(120,70,12,.4);
+  }
+  /* broth surface ellipse (the meniscus the ball half-sinks into) */
+  .broth::before{
+    content:""; position:absolute; top:-7px; left:50%; transform:translateX(-50%);
+    width:284px; height:24px; border-radius:50%;
+    background:radial-gradient(ellipse at 50% 30%, var(--broth-lite), var(--broth) 72%);
+    box-shadow:inset 0 3px 6px rgba(255,245,200,.65), inset 0 -4px 8px rgba(150,90,16,.4);
+  }
+  /* floating soup bits as precisely-placed child elements */
+  .bit{ position:absolute; border-radius:50%; box-shadow:0 1px 2px rgba(90,50,10,.3); }
+  .bit.carrot{ width:11px; height:11px; background:var(--carrot); }
+  .bit.carrot.sm{ width:8px; height:8px; }
+  .bit.pea{ width:7px; height:7px; background:var(--pickle); }
+  .bit.noodle{ width:14px; height:5px; border-radius:3px; background:rgba(245,225,150,.95); }
+
+  /* the dumpling itself: golden, dimpled dough, nestled into the broth */
+  .matzo{
+    position:absolute; left:50%; top:6px; transform:translateX(-50%);
+    width:158px; height:152px;
+    border-radius:50% 50% 49% 49% / 52% 52% 48% 48%;
+    background:
+      radial-gradient(circle at 38% 28%, var(--matzo-hi) 0%, var(--matzo) 46%, var(--matzo-shade) 84%, var(--matzo-deep) 100%);
+    box-shadow: inset -14px -16px 26px rgba(110,76,22,.55),
+                inset 10px 10px 20px rgba(255,242,200,.55),
+                0 12px 18px rgba(40,18,2,.4);
+    filter:url(#bumpy);
+    cursor:pointer; z-index:4;
+  }
+  /* texture comes from the bumpy edge filter + speckles below; no center dimples (they warped onto the face) */
+  /* fine crumb speckle, kept off the central face zone */
+  .matzo::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background-image:
+      radial-gradient(circle, rgba(120,82,30,.5) 0 1.5px, transparent 2.5px),
+      radial-gradient(circle, rgba(120,82,30,.4) 0 1px, transparent 2px),
+      radial-gradient(circle, rgba(120,82,30,.45) 0 1.5px, transparent 2.5px),
+      radial-gradient(circle, rgba(255,245,210,.5) 0 1px, transparent 2px),
+      radial-gradient(circle, rgba(120,82,30,.4) 0 1px, transparent 2px);
+    background-position:14% 26%, 86% 28%, 10% 48%, 90% 50%, 20% 10%;
+    background-repeat:no-repeat;
+    pointer-events:none;
+  }
+  .ball-wrap.boing .matzo{ animation:boing 1.4s ease-in-out infinite; }
+  @keyframes boing{
+    0%,100%{ transform:translateX(-50%) translateY(0) scale(1,1); }
+    45%{ transform:translateX(-50%) translateY(-24px) scale(.95,1.06); }
+    60%{ transform:translateX(-50%) translateY(0) scale(1.07,.93); }
+    72%{ transform:translateX(-50%) translateY(-7px) scale(.98,1.02); }
+  }
+
+  /* face: wrap is 300 wide, dumpling ~158 wide centered (spans x 71-229, center x 150) */
+  .face{ position:absolute; inset:0; pointer-events:none; z-index:5; }
+  .eye{
+    position:absolute; top:52px; width:34px; height:40px; border-radius:50%;
+    background:#fffdf6; box-shadow:inset 0 -3px 6px rgba(80,50,12,.18), 0 2px 3px rgba(60,38,10,.22);
+    overflow:hidden;
+  }
+  .eye.l{ left:108px; }
+  .eye.r{ right:108px; }
+  .pupil{
+    position:absolute; bottom:8px; left:9px; width:16px; height:16px; border-radius:50%;
+    background:#2a1606;
+    animation:googly 2.6s ease-in-out infinite;
+  }
+  .pupil::after{ content:""; position:absolute; top:3px; right:3px; width:5px; height:5px; border-radius:50%; background:#fff; }
+  @keyframes googly{
+    0%,100%{ transform:translate(0,0); }
+    20%{ transform:translate(6px,-2px); }
+    45%{ transform:translate(-5px,2px); }
+    70%{ transform:translate(4px,3px); }
+  }
+  .blush{ position:absolute; top:94px; width:24px; height:13px; border-radius:50%; background:rgba(224,106,123,.5); filter:blur(1.5px); }
+  .blush.l{ left:92px; } .blush.r{ right:92px; }
+  .mouth{
+    position:absolute; top:96px; left:50%; transform:translateX(-50%);
+    width:40px; height:22px;
+    border:0 solid transparent; border-bottom:6px solid #2a1606;
+    border-bottom-left-radius:40px; border-bottom-right-radius:40px;
+  }
+  /* tiny arms, golden to match the dough */
+  .arm{ position:absolute; top:84px; width:30px; height:9px; border-radius:6px;
+    background:linear-gradient(180deg, var(--matzo) , var(--matzo-shade));
+    box-shadow:0 2px 3px rgba(60,38,10,.25); }
+  .arm.l{ left:62px; transform:rotate(22deg); transform-origin:right center; animation:waveL 1.6s ease-in-out infinite; }
+  .arm.r{ right:62px; transform:rotate(-22deg); transform-origin:left center; }
+  @keyframes waveL{ 0%,100%{ transform:rotate(22deg);} 50%{ transform:rotate(-18deg);} }
+
+  /* speech bubble for the punchlines */
+  .bubble{
+    position:relative;
+    background:var(--cream); color:var(--ink);
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(1.4rem,7vw,2rem); line-height:1.15;
+    padding:18px 22px; border-radius:22px;
+    box-shadow:0 12px 24px var(--shadow);
+    max-width:90%; margin:4px auto 0;
+    min-height:1em;
+  }
+  .bubble .yiddish{ color:var(--pastrami); display:block; }
+  .bubble .yword{ color:var(--pastrami); display:inline; font-style:normal; }
+  .bubble .gloss{ display:block; font-family:var(--body); font-weight:600; font-size:.95rem; color:var(--ink); opacity:.7; margin-top:6px; }
+  .bubble::after{
+    content:""; position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+    border:12px solid transparent; border-bottom-color:var(--cream); border-top:0;
+  }
+  .bubble.pop{ animation:pop .4s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes pop{ from{ transform:scale(.7); opacity:0;} to{ transform:scale(1); opacity:1;} }
+
+  /* buttons */
+  .btn{
+    font-family:var(--display); font-weight:800;
+    font-size:1.15rem; color:var(--ink);
+    background:linear-gradient(180deg, #ffd24a, var(--broth));
+    border:none; border-radius:18px;
+    padding:16px 30px; margin-top:6px;
+    box-shadow:0 7px 0 var(--broth-deep), 0 12px 22px var(--shadow);
+    cursor:pointer; transition:transform .08s ease, box-shadow .08s ease;
+    -webkit-user-select:none; user-select:none;
+  }
+  .btn:active{ transform:translateY(5px); box-shadow:0 2px 0 var(--broth-deep), 0 6px 14px var(--shadow); }
+  .btn.ghost{
+    background:transparent; color:var(--broth);
+    border:2px solid rgba(242,180,23,.55); box-shadow:none;
+    font-size:.95rem; padding:11px 20px; margin-top:14px;
+  }
+  .btn.ghost:active{ transform:translateY(2px); }
+
+  /* progress dots */
+  .dots{ display:flex; gap:8px; margin-top:8px; }
+  .dot{ width:8px; height:8px; border-radius:50%; background:rgba(255,247,230,.28); transition:all .3s ease; }
+  .dot.on{ background:var(--broth); transform:scale(1.35); }
+
+  /* the gift on the opening screen */
+  .gift{ font-size:5.2rem; line-height:1; filter:drop-shadow(0 12px 16px var(--shadow)); cursor:pointer; animation:wiggle 2.2s ease-in-out infinite; }
+  @keyframes wiggle{ 0%,100%{ transform:rotate(-5deg) scale(1);} 25%{ transform:rotate(5deg) scale(1.05);} 50%{ transform:rotate(-4deg) scale(1);} 75%{ transform:rotate(4deg) scale(1.04);} }
+
+  /* final-screen styling */
+  .finale .bubble{ padding:16px 18px; }
+  .mensch-line{
+    display:block; color:var(--ink);
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(1.05rem, 5.4vw, 1.55rem);
+    line-height:1.2; white-space:nowrap;
+  }
+  .heart-line{ font-family:var(--display); font-weight:800; font-size:1.5rem; color:var(--broth); margin:4px 0 0; }
+  .signoff{ font-size:1.05rem; color:rgba(255,247,230,.85); line-height:1.6; max-width:32ch; margin:0 auto; }
+  .replay{ margin-top:18px; }
+
+  /* confetti canvas */
+  #confetti{ position:fixed; inset:0; z-index:5; pointer-events:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001s !important; animation-iteration-count:1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG filter for the bumpy matzo surface -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="bumpy">
+    <feTurbulence type="fractalNoise" baseFrequency="0.06 0.07" numOctaves="3" seed="11" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<!-- rising steam -->
+<div class="steam" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<canvas id="confetti"></canvas>
+
+<div class="stage">
+
+  <!-- SCREEN 0: the title -->
+  <section class="screen active" id="s0">
+    <div class="kicker">For The World&rsquo;s #1 Dad</div>
+    <h1 class="title">Mazel Tov</h1>
+    <p class="sub">There&rsquo;s a little something here just for you. Better tap it before it gets cold.</p>
+    <div class="gift" id="giftBtn" role="button" aria-label="Open your surprise">🥣</div>
+    <button class="btn" id="openBtn">Open it &rarr;</button>
+  </section>
+
+  <!-- SCREEN 1: the matzo ball delivers Yiddish one-liners -->
+  <section class="screen" id="s1">
+    <div class="ball-wrap boing" id="ballWrap">
+      <div class="bowl"></div>
+      <div class="broth">
+        <span class="bit carrot" style="left:12%; top:30%;"></span>
+        <span class="bit noodle" style="right:14%; top:26%; transform:rotate(18deg);"></span>
+        <span class="bit pea" style="left:26%; top:48%;"></span>
+        <span class="bit carrot sm" style="right:24%; top:46%;"></span>
+        <span class="bit noodle" style="left:34%; top:62%; transform:rotate(-12deg);"></span>
+        <span class="bit pea" style="right:36%; top:64%;"></span>
+      </div>
+      <div class="matzo" id="matzo"></div>
+      <div class="face">
+        <div class="arm l"></div>
+        <div class="arm r"></div>
+        <div class="eye l"><span class="pupil"></span></div>
+        <div class="eye r"><span class="pupil"></span></div>
+        <div class="blush l"></div>
+        <div class="blush r"></div>
+        <div class="mouth"></div>
+      </div>
+    </div>
+    <div class="bubble pop" id="bubble"></div>
+    <div class="dots" id="dots"></div>
+    <button class="btn" id="nextBtn">Keep going &rarr;</button>
+  </section>
+
+  <!-- SCREEN 2: the finale -->
+  <section class="screen finale" id="s2">
+    <div class="ball-wrap boing">
+      <div class="bowl"></div>
+      <div class="broth">
+        <span class="bit carrot" style="left:12%; top:30%;"></span>
+        <span class="bit noodle" style="right:14%; top:26%; transform:rotate(18deg);"></span>
+        <span class="bit pea" style="left:26%; top:48%;"></span>
+        <span class="bit carrot sm" style="right:24%; top:46%;"></span>
+        <span class="bit noodle" style="left:34%; top:62%; transform:rotate(-12deg);"></span>
+        <span class="bit pea" style="right:36%; top:64%;"></span>
+      </div>
+      <div class="matzo"></div>
+      <div class="face">
+        <div class="arm l"></div>
+        <div class="arm r"></div>
+        <div class="eye l"><span class="pupil"></span></div>
+        <div class="eye r"><span class="pupil"></span></div>
+        <div class="blush l"></div>
+        <div class="blush r"></div>
+        <div class="mouth"></div>
+      </div>
+    </div>
+    <div class="bubble">
+      <span class="mensch-line">You&rsquo;re a total <span class="yword">mensch</span>, Dad.</span>
+    </div>
+    <p class="heart-line">Happy Father&rsquo;s Day!</p>
+    <p class="signoff">Now do everyone a favor: stop kvetching, listen to the doctors, and get your tuchus home soon. The soup&rsquo;s getting cold.</p>
+    <p class="signoff" style="margin-top:14px; font-weight:600; color:var(--broth);">Zei gezunt. ❤️</p>
+    <button class="btn ghost replay" id="replayBtn">↺ Watch the matzo ball again</button>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  // ---- the Yiddish one-liners the matzo ball delivers ----
+  var lines = [
+    { y:"Happy Father&rsquo;s Day." },
+    { y:"Happy Father&rsquo;s Day, you big <span class='yword'>nudnik</span>." },
+    { y:"Heard you&rsquo;re in the hospital. <span class='yword'>Oy gevalt.</span>" },
+    { y:"Quit the <span class='yword'>kvetching</span> and get better already." },
+    { y:"You raised a <span class='yword'>meshuggeneh</span> kid who built you a website." }
+  ];
+
+  var bubble = document.getElementById('bubble');
+  var dotsEl = document.getElementById('dots');
+  var idx = 0;
+
+  // build progress dots
+  lines.forEach(function(_,i){
+    var d = document.createElement('span');
+    d.className = 'dot' + (i===0 ? ' on':'');
+    dotsEl.appendChild(d);
+  });
+  var dots = dotsEl.querySelectorAll('.dot');
+
+  function renderLine(i){
+    var L = lines[i];
+    // sentence text is ink-colored; the Yiddish words inside carry their own .yword highlight
+    bubble.innerHTML = "<span style='color:var(--ink)'>" + L.y + "</span>";
+    bubble.classList.remove('pop'); void bubble.offsetWidth; bubble.classList.add('pop');
+    dots.forEach(function(d,j){ d.classList.toggle('on', j===i); });
+    boing();
+  }
+
+  // ---- screen switching ----
+  function show(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  document.getElementById('openBtn').addEventListener('click', start);
+  document.getElementById('giftBtn').addEventListener('click', start);
+  function start(){ show('s1'); idx=0; renderLine(0); burst(18); }
+
+  var nextBtn = document.getElementById('nextBtn');
+  nextBtn.addEventListener('click', function(){
+    idx++;
+    if(idx < lines.length){
+      renderLine(idx);
+      burst(8);
+      if(idx === lines.length-1){ nextBtn.textContent = "And one more thing… ❤️"; }
+    } else {
+      show('s2'); finale();
+    }
+  });
+
+  // tapping the matzo ball also advances + makes it boing harder
+  document.getElementById('matzo').addEventListener('click', function(){ nextBtn.click(); });
+
+  document.getElementById('replayBtn').addEventListener('click', function(){
+    show('s1'); idx=0; nextBtn.textContent="Keep going →"; renderLine(0); burst(12);
+  });
+
+  // ---- boing trigger on the live ball ----
+  var ballWrap = document.getElementById('ballWrap');
+  function boing(){
+    ballWrap.classList.remove('boing'); void ballWrap.offsetWidth; ballWrap.classList.add('boing');
+  }
+
+  // ================= CONFETTI (soup noodles + matzo balls) =================
+  var cv = document.getElementById('confetti');
+  var ctx = cv.getContext('2d');
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  function resize(){ cv.width = innerWidth*DPR; cv.height = innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
+  resize(); addEventListener('resize', resize);
+
+  var bits = [];
+  var COLORS = ['#f2b417','#f5ead0','#e06a7b','#7fa64a','#ffd24a'];
+  function burst(n){
+    for(var i=0;i<n;i++){
+      bits.push({
+        x: innerWidth/2 + (Math.random()-.5)*120,
+        y: innerHeight*0.42,
+        vx:(Math.random()-.5)*7,
+        vy:-(Math.random()*9+4),
+        g:0.22+Math.random()*0.12,
+        r:Math.random()*Math.PI,
+        vr:(Math.random()-.5)*0.3,
+        size:6+Math.random()*8,
+        color:COLORS[(Math.random()*COLORS.length)|0],
+        noodle: Math.random()<0.5,
+        life:0
+      });
+    }
+    if(!running) loop();
+  }
+  function finale(){ burst(70); setTimeout(function(){burst(40);}, 350); setTimeout(function(){burst(40);}, 750); }
+
+  var running=false;
+  function loop(){
+    running=true;
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(var i=bits.length-1;i>=0;i--){
+      var b=bits[i];
+      b.vy+=b.g; b.x+=b.vx; b.y+=b.vy; b.r+=b.vr; b.life++;
+      ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.r); ctx.fillStyle=b.color;
+      if(b.noodle){ ctx.fillRect(-b.size*0.5,-b.size*0.18, b.size*1.6, b.size*0.36); }
+      else { ctx.beginPath(); ctx.arc(0,0,b.size*0.6,0,Math.PI*2); ctx.fill(); }
+      ctx.restore();
+      if(b.y > innerHeight+40) bits.splice(i,1);
+    }
+    if(bits.length){ requestAnimationFrame(loop); } else { ctx.clearRect(0,0,innerWidth,innerHeight); running=false; }
+  }
+})();
+</script>
+</body>
+</html>
