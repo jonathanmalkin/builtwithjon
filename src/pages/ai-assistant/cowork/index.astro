@@ -718,6 +718,16 @@ user can approve a draft or change; silence is not approval.</code></pre>
       margin-bottom: 0.7rem;
     }
 
+    /* A mid-section heading is not the section's intro heading, so it needs
+       breathing room above it. The reset above zeroes section-level h2 margins,
+       and its specificity (two selectors) beats the single .cw-subhead class,
+       so restore the gap here. */
+    .cw-band > h2.cw-subhead,
+    .cw-section > h2.cw-subhead {
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
     /* Hero */
     .cw-hero {
       display: grid;
@@ -804,10 +814,6 @@ user can approve a draft or change; silence is not approval.</code></pre>
 
     .cw-band > .eyebrow {
       margin-bottom: 0.4rem;
-    }
-
-    .cw-subhead {
-      margin-top: 2rem;
     }
 
     /* Tables */
