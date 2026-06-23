@@ -3,7 +3,7 @@
 // Pass `current` to mark the active page; that item renders as a non-clickable
 // current marker instead of a link.
 interface Props {
-  current: 'hub' | 'cowork' | 'claude-code' | 'workshop';
+  current: 'hub' | 'cowork' | 'claude-code' | 'workshop' | 'workshop-austin';
 }
 
 const { current } = Astro.props;
@@ -12,7 +12,8 @@ const items = [
   { key: 'hub', label: 'All paths', href: '/ai-assistant/' },
   { key: 'cowork', label: 'Cowork DIY', href: '/ai-assistant/cowork/' },
   { key: 'claude-code', label: 'Claude Code DIY', href: '/ai-assistant/claude-code/' },
-  { key: 'workshop', label: 'Guided class', href: '/ai-assistant-workshop/' },
+  { key: 'workshop', label: 'Online Class', href: '/ai-assistant-workshop/' },
+  { key: 'workshop-austin', label: 'In-Person Austin Class', href: '/ai-assistant-workshop-austin/' },
 ];
 ---
 
