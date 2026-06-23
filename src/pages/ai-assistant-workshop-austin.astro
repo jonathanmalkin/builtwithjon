@@ -1,0 +1,954 @@
+---
+import Base from '../layouts/Base.astro';
+import PathSwitch from '../components/PathSwitch.astro';
+import { Icon } from 'astro-icon/components';
+
+const lumaUrl = 'https://luma.com/qefkb1b7';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'Build Your Practical AI Assistant, Austin in person',
+  description:
+    'A hands-on, in-person class in Austin where owners build a practical AI assistant in Claude Cowork for meeting prep, follow-ups, and a daily brief. One 2-hour session. Sign up on Luma.',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  startDate: '2026-07-06T17:30:00-05:00',
+  endDate: '2026-07-06T20:00:00-05:00',
+  url: 'https://builtwithjon.com/ai-assistant-workshop-austin/',
+  location: {
+    '@type': 'Place',
+    name: 'Austin, Texas',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Austin',
+      addressRegion: 'TX',
+      addressCountry: 'US',
+    },
+  },
+  organizer: {
+    '@type': 'Person',
+    name: 'Jonathan Malkin',
+    url: 'https://builtwithjon.com',
+  },
+};
+---
+
+<Base
+  title="Build Your Practical AI Assistant, Austin in person"
+  description="A hands-on, in-person class in Austin where owners build a practical AI assistant in Claude Cowork for meeting prep, follow-ups, and a daily brief. One 2-hour session. Sign up on Luma."
+  image="/home/workshop-room.jpg"
+  schema={schema}
+>
+  <PathSwitch current="workshop" />
+
+  <section class="assistant-hero">
+    <div class="assistant-hero-inner">
+      <p class="eyebrow assistant-kicker">In person &middot; Austin, TX</p>
+      <h1 class="assistant-h1"><span>An AI Personal Assistant</span> <span>that works <em>for you</em></span></h1>
+      <p class="assistant-subtitle">A hands-on class in Austin where you build a working assistant for meeting prep, follow-ups, and your daily brief. You leave with it running, and able to build the next one yourself. One 2-hour session. Sign up on Luma.</p>
+      <div class="assistant-hero-actions">
+        <a href={lumaUrl} class="hero-btn" target="_blank" rel="noopener">Sign up on Luma</a>
+      </div>
+      <p class="assistant-hero-trust">Mon, Jul 6 &middot; 5:30 to 8:00 PM &middot; In person in Austin &middot; Limited seats</p>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-outcome-band" aria-label="What you get">
+    <div class="assistant-outcome-head">
+      <p class="eyebrow">Why it is worth it</p>
+      <h2>You leave with two things: a working assistant, and the skill to build more.</h2>
+      <p class="assistant-outcome-intro">Most AI training ends when the slides do. This ends with something running in your business, and with you and your team AI-powered enough to build the next one without me.</p>
+    </div>
+    <div class="assistant-outcome-grid">
+      <article>
+        <h3>Prepared For Every Meeting</h3>
+        <p>Every meeting, you know the person, the company, the last conversation, and what is still open.</p>
+      </article>
+      <article>
+        <h3>Nothing Falls Through</h3>
+        <p>Follow-ups, open loops, and who is waiting on you, all in one brief that refreshes every morning.</p>
+      </article>
+      <article>
+        <h3>You Become An AI-Powered Team</h3>
+        <p>You do the building, so you can adjust it, extend it, and apply the same method to the next workflow yourself.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section" id="outcomes">
+    <div class="assistant-section-head">
+      <p class="eyebrow">What you build, and learn by building</p>
+      <h2>A personal assistant for the owner/operator workday.</h2>
+      <p class="assistant-section-intro">You build each piece yourself, with help in the room. By the end, the assistant works, and you understand it well enough to change it.</p>
+    </div>
+
+    <div class="assistant-outcomes">
+      <article>
+        <span class="assistant-icon blue"><Icon name="lucide:calendar-check" /></span>
+        <h3>Daily Brief</h3>
+        <p>Today&apos;s meetings, open loops, follow-ups, and priorities in one place.</p>
+      </article>
+      <article>
+        <span class="assistant-icon sage"><Icon name="lucide:users" /></span>
+        <h3>Meeting prep</h3>
+        <p>The people, the company, and the last conversation, ready before you walk in.</p>
+      </article>
+      <article>
+        <span class="assistant-icon plum"><Icon name="lucide:file-pen-line" /></span>
+        <h3>Meeting follow-up</h3>
+        <p>Notes captured, records updated, and next steps tracked after every meeting.</p>
+      </article>
+      <article>
+        <span class="assistant-icon copper"><Icon name="lucide:mail-check" /></span>
+        <h3>Email triage</h3>
+        <p>The replies that actually need you, surfaced and drafted for your review.</p>
+      </article>
+      <article>
+        <span class="assistant-icon orange"><Icon name="lucide:brain" /></span>
+        <h3>Business memory</h3>
+        <p>People, companies, decisions, and open loops, remembered in plain files.</p>
+      </article>
+      <article>
+        <span class="assistant-icon blue"><Icon name="lucide:wrench" /></span>
+        <h3>Teach it over time</h3>
+        <p>Correct it once and it remembers. It gets sharper the more you use it.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section assistant-daily">
+    <div class="assistant-section-head">
+      <p class="eyebrow">How your day works</p>
+      <h2>Set it up once. It runs with you every day.</h2>
+    </div>
+
+    <div class="assistant-daily-grid">
+      <article class="assistant-diagram-card">
+        <h3>It all runs through one brief</h3>
+        <svg class="assistant-diagram" viewBox="0 0 320 160" role="img" aria-label="Calendar, meetings, and notes flow into one Daily Brief that you review.">
+          <defs>
+            <marker id="arrowInk2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#1F1713" />
+            </marker>
+          </defs>
+          <rect x="8" y="18" width="80" height="30" rx="7" fill="#6E8B6F" />
+          <text x="48" y="38" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Calendar</text>
+          <rect x="8" y="65" width="80" height="30" rx="7" fill="#7A4E68" />
+          <text x="48" y="85" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Meetings</text>
+          <rect x="8" y="112" width="80" height="30" rx="7" fill="#8F4E24" />
+          <text x="48" y="132" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Your notes</text>
+          <rect x="128" y="55" width="86" height="50" rx="9" fill="#3B6E8F" />
+          <text x="171" y="76" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Daily</text>
+          <text x="171" y="91" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Brief</text>
+          <rect x="248" y="63" width="64" height="34" rx="8" fill="#1F1713" />
+          <text x="280" y="84" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">You</text>
+          <line x1="88" y1="33" x2="126" y2="66" stroke="#1F1713" stroke-width="1.5" marker-end="url(#arrowInk2)" />
+          <line x1="88" y1="80" x2="126" y2="80" stroke="#1F1713" stroke-width="1.5" marker-end="url(#arrowInk2)" />
+          <line x1="88" y1="127" x2="126" y2="94" stroke="#1F1713" stroke-width="1.5" marker-end="url(#arrowInk2)" />
+          <line x1="214" y1="80" x2="246" y2="80" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowInk2)" />
+        </svg>
+        <p>Everything lands in one place. You review and decide.</p>
+      </article>
+
+      <article class="assistant-diagram-card">
+        <h3>Every meeting, handled</h3>
+        <svg class="assistant-diagram" viewBox="0 0 220 200" role="img" aria-label="Meeting cycle: prep, then meeting, then capture, then follow up, looping back to prep.">
+          <defs>
+            <marker id="arrowCycle" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#1F1713" />
+            </marker>
+          </defs>
+          <circle cx="110" cy="100" r="62" fill="none" stroke="#E5D7C3" stroke-width="1.5" />
+          <path d="M97 41 A62 62 0 0 1 169 87" fill="none" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowCycle)" />
+          <path d="M169 113 A62 62 0 0 1 123 159" fill="none" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowCycle)" />
+          <path d="M97 159 A62 62 0 0 1 51 113" fill="none" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowCycle)" />
+          <path d="M51 87 A62 62 0 0 1 97 41" fill="none" stroke="#6E8B6F" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrowCycle)" />
+          <g>
+            <rect x="78" y="6" width="64" height="30" rx="7" fill="#7A4E68" />
+            <text x="110" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Meeting</text>
+          </g>
+          <g>
+            <rect x="158" y="85" width="58" height="30" rx="7" fill="#8F4E24" />
+            <text x="187" y="105" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Capture</text>
+          </g>
+          <g>
+            <rect x="76" y="164" width="68" height="30" rx="7" fill="#6E8B6F" />
+            <text x="110" y="184" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Follow up</text>
+          </g>
+          <g>
+            <rect x="6" y="85" width="58" height="30" rx="7" fill="#3B6E8F" />
+            <text x="35" y="105" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Prep</text>
+          </g>
+        </svg>
+        <p>Prep, meeting, capture, follow up. Every meeting feeds the next.</p>
+      </article>
+
+      <article class="assistant-diagram-card">
+        <h3>It gets sharper over time</h3>
+        <svg class="assistant-diagram" viewBox="0 0 320 150" role="img" aria-label="Teach it, the agent remembers, you get better outcomes, looping back.">
+          <defs>
+            <marker id="arrowSage" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#6E8B6F" />
+            </marker>
+          </defs>
+          <rect x="6" y="48" width="92" height="40" rx="8" fill="#3B6E8F" />
+          <text x="52" y="72" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Teach it</text>
+          <rect x="114" y="48" width="92" height="40" rx="8" fill="#7A4E68" />
+          <text x="160" y="66" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Agent</text>
+          <text x="160" y="79" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">remembers</text>
+          <rect x="222" y="48" width="92" height="40" rx="8" fill="#6E8B6F" />
+          <text x="268" y="66" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Better</text>
+          <text x="268" y="79" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">outcomes</text>
+          <line x1="98" y1="68" x2="112" y2="68" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowSage)" />
+          <line x1="206" y1="68" x2="220" y2="68" stroke="#1F1713" stroke-width="1.6" marker-end="url(#arrowSage)" />
+          <path d="M268 88 L268 126 L52 126 L52 90" fill="none" stroke="#6E8B6F" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrowSage)" />
+        </svg>
+        <p>Teach it once and it sticks. Less steering each week.</p>
+      </article>
+    </div>
+
+    <ul class="assistant-magic">
+      <li>Stop chasing your day and start running it.</li>
+      <li>Walk into every meeting ready.</li>
+    </ul>
+  </section>
+
+  <section class="container-wide assistant-visual-section" aria-label="Daily Brief example">
+    <div class="assistant-visual-copy">
+      <p class="eyebrow">The daily surface</p>
+      <h2>Not a dashboard. A working brief.</h2>
+      <p>
+        Open it each morning to see what needs attention, what follow-ups are due,
+        and what is waiting on you. One glance, and you know your day.
+      </p>
+    </div>
+    <figure class="assistant-visual">
+      <img
+        src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png"
+        width="2080"
+        height="2176"
+        alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </section>
+
+  <div class="container-wide assistant-inline-cta">
+    <a href={lumaUrl} class="hero-btn" target="_blank" rel="noopener">Sign up on Luma</a>
+    <p>Limited seats. Reserve yours on Luma before the room fills.</p>
+  </div>
+
+  <section class="container-wide assistant-section">
+    <div class="assistant-section-head">
+      <p class="eyebrow">Format</p>
+      <h2>One session, two parts. Help in the room.</h2>
+      <p>
+        A single 2-hour, in-person session in Austin, kept small so you can open
+        your laptop, get hands-on, and leave with a working assistant. The first
+        part gets it running; the second puts it to work.
+      </p>
+    </div>
+
+    <div class="assistant-schedule">
+      <article>
+        <h3>Get it running</h3>
+        <ul>
+          <li>Set up your Claude Cowork project</li>
+          <li>Install the Built with Jon plugin</li>
+          <li>Connect Gmail and Calendar</li>
+          <li>Name your assistant</li>
+          <li>See your Daily Brief go live</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Put it to work</h3>
+        <ul>
+          <li>Prep for a real upcoming meeting</li>
+          <li>Turn messy notes into follow-ups</li>
+          <li>Capture a decision and watch it stick</li>
+          <li>Teach it your preferences</li>
+          <li>Make it sharper over time</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section assistant-fit-section">
+    <div>
+      <p class="eyebrow">Best fit</p>
+      <h2>This is for owners who want the assistant running, and want to come out an AI-powered team, not just shown a demo.</h2>
+    </div>
+    <div class="assistant-fit-grid">
+      <div>
+        <h3>Good fit</h3>
+        <ul>
+          <li>You have meetings, follow-ups, and client context to manage.</li>
+          <li>You can join in person in Austin and bring a laptop.</li>
+          <li>You will connect Gmail and Calendar inside Claude.</li>
+          <li>You want guided setup, not a self-paced course.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Not the right fit</h3>
+        <ul>
+          <li>You want it to act on its own, without your approval.</li>
+          <li>You want a recording instead of live setup help.</li>
+          <li>You need regulated financial, legal, or medical advice.</li>
+          <li>You want custom automation built from scratch in class.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-section assistant-proof-section" aria-label="What attendees say">
+    <div class="assistant-section-head">
+      <p class="eyebrow">From a recent class</p>
+      <h2>People leave with it running.</h2>
+    </div>
+    <div class="assistant-proof-grid">
+      <blockquote class="assistant-proof-card">
+        <p>&ldquo;I have been using the personal assistant, and I have found it very useful! &hellip; Thanks again for the masterclass, it was a lot of fun.&rdquo;</p>
+        <footer>G.M., May 2026 class</footer>
+      </blockquote>
+      <blockquote class="assistant-proof-card">
+        <p>&ldquo;You are an incredible teacher!!!&rdquo;</p>
+        <footer>Workshop attendee, May 2026</footer>
+      </blockquote>
+      <blockquote class="assistant-proof-card">
+        <p>&ldquo;Super enjoyed your workshop, thanks.&rdquo;</p>
+        <footer>L.M., May 2026 class</footer>
+      </blockquote>
+      <blockquote class="assistant-proof-card">
+        <p>&ldquo;Wonderful. Thank you Jonathan!&rdquo;</p>
+        <footer>N.S., May 2026 class</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="container-wide assistant-apply-section" id="signup">
+    <div class="assistant-apply-copy">
+      <p class="eyebrow">Reserve your seat</p>
+      <h2>One in-person session in Austin. Seats are limited.</h2>
+      <p>
+        Grab your spot on Luma. You will get the venue, the exact time, and what to
+        bring. Come with a laptop and the workflows you want to hand off.
+      </p>
+      <div class="assistant-apply-points">
+        <span>In person in Austin</span>
+        <span>One 2-hour session</span>
+        <span>Limited seats</span>
+      </div>
+      <p class="assistant-founder-note">
+        Built and led by Jonathan Malkin, who runs his own AI assistant every day and builds new
+        ones for his own business constantly. The class teaches you the same method, so you leave
+        able to do it yourself, not just watch.
+      </p>
+      <p class="assistant-guarantee">
+        <strong>The guarantee:</strong> you walk out with a working assistant, and the skill to build the next one.
+        Jonathan does not stop until you do.
+      </p>
+    </div>
+
+    <aside class="assistant-luma-card">
+      <p class="assistant-luma-eyebrow">Sign up on Luma</p>
+      <h3>Build Your Practical AI Assistant</h3>
+      <ul class="assistant-luma-details">
+        <li><span class="assistant-luma-icon"><Icon name="lucide:calendar" /></span> Mon, Jul 6 &middot; 5:30 to 8:00 PM</li>
+        <li><span class="assistant-luma-icon"><Icon name="lucide:map-pin" /></span> In person &middot; Austin, TX</li>
+        <li><span class="assistant-luma-icon"><Icon name="lucide:laptop" /></span> Bring a laptop &middot; leave with it running</li>
+      </ul>
+      <a href={lumaUrl} class="hero-btn assistant-luma-btn" target="_blank" rel="noopener">Sign up on Luma</a>
+      <p class="assistant-form-note">Registration and seat details are handled on Luma. Date, time, and venue are on the event page.</p>
+    </aside>
+  </section>
+
+  <div class="assistant-sticky-cta" id="assistant-sticky-cta" hidden>
+    <a href={lumaUrl} class="hero-btn" target="_blank" rel="noopener">Sign up on Luma</a>
+  </div>
+
+  <script is:inline>
+    // Sticky mobile CTA: show after the hero scrolls away, hide once the signup is in view.
+    const stickyCta = document.getElementById('assistant-sticky-cta');
+    const heroEl = document.querySelector('.assistant-hero');
+    const signupEl = document.getElementById('signup');
+    if (stickyCta && heroEl && signupEl && 'IntersectionObserver' in window) {
+      let heroGone = false;
+      let signupVisible = false;
+      const sync = () => {
+        stickyCta.hidden = !(heroGone && !signupVisible);
+      };
+      new IntersectionObserver((entries) => {
+        heroGone = !entries[0].isIntersecting;
+        sync();
+      }).observe(heroEl);
+      new IntersectionObserver((entries) => {
+        signupVisible = entries[0].isIntersecting;
+        sync();
+      }, { rootMargin: '0px 0px -20% 0px' }).observe(signupEl);
+    }
+  </script>
+</Base>
+
+<style>
+  .assistant-hero {
+    position: relative;
+    width: 100%;
+    min-height: clamp(560px, 74vh, 780px);
+    margin: 0 auto 2rem;
+    padding: 5.5rem 1.5rem 3.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, rgba(31, 23, 19, 0.82) 0%, rgba(31, 23, 19, 0.58) 45%, rgba(31, 23, 19, 0.25) 100%),
+      url('/home/workshop-room.jpg') center 44% / cover no-repeat;
+    color: #fffdf8;
+  }
+
+  .assistant-hero-inner {
+    width: min(960px, 100%);
+    margin: 0 auto;
+  }
+
+  .assistant-kicker {
+    color: #f9cf9b;
+  }
+
+  .assistant-hero h1 {
+    max-width: 760px;
+    margin-top: 0.4rem;
+    font-size: clamp(2.25rem, 4.6vw, 3.9rem);
+    line-height: 1.06;
+    letter-spacing: 0;
+  }
+
+  .assistant-h1 span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .assistant-subtitle {
+    max-width: 680px;
+    color: #fff7ec;
+    font-size: 1.18rem;
+    line-height: 1.55;
+  }
+
+  .assistant-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.35rem 0;
+  }
+
+  .assistant-hero-actions .hero-btn {
+    margin: 0;
+  }
+
+  .assistant-hero-trust {
+    margin: 0 0 0.5rem;
+    color: #fff7ec;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-inline-cta {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .assistant-inline-cta .hero-btn {
+    margin: 0 auto;
+  }
+
+  .assistant-inline-cta p {
+    margin: 0.6rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .assistant-proof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.9rem;
+    max-width: 980px;
+  }
+
+  .assistant-proof-card {
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-copper);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.1rem 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-proof-card p {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+
+  .assistant-proof-card footer {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: none;
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .assistant-sticky-cta .hero-btn {
+    margin: 0 auto;
+    width: min(420px, 100%);
+  }
+
+  .assistant-hero-actions .hero-btn-outline {
+    border-color: #fffdf8;
+    color: #fffdf8;
+  }
+
+  .assistant-apply-points span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    border: 1px solid rgba(255, 253, 248, 0.42);
+    border-radius: 6px;
+    padding: 0.38rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-outcome-band,
+  .assistant-section,
+  .assistant-visual-section,
+  .assistant-apply-section {
+    margin-bottom: 3rem;
+  }
+
+  .assistant-outcome-head {
+    max-width: 720px;
+    margin-bottom: 1rem;
+  }
+
+  .assistant-outcome-intro,
+  .assistant-section-intro {
+    max-width: 640px;
+    margin: 0.75rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  .assistant-outcome-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .assistant-outcome-grid article {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-outcome-grid h3 {
+    margin-top: 0;
+    letter-spacing: 0;
+  }
+
+  .assistant-outcome-grid p {
+    margin-bottom: 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-daily-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .assistant-diagram-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.1rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-diagram-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 1.02rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-diagram {
+    width: 100%;
+    height: auto;
+    margin-bottom: 0.75rem;
+  }
+
+  .assistant-diagram-card p {
+    margin-bottom: 0;
+    margin-top: auto;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .assistant-magic {
+    list-style: none;
+    margin: 1.5rem auto 0;
+    padding: 0;
+    max-width: 760px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .assistant-magic li {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 1.18rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-ink);
+  }
+
+  .assistant-magic li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.16em;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 50%;
+    background: var(--color-sage);
+    box-shadow: inset 0 0 0 2px var(--color-surface), inset 0 0 0 3px var(--color-sage);
+  }
+
+  .assistant-section h2,
+  .assistant-visual-section h2,
+  .assistant-apply-section h2 {
+    margin-top: 0.35rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-outcome-head h2 {
+    margin-top: 0.35rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-section-head p,
+  .assistant-visual-copy p,
+  .assistant-apply-copy p {
+    color: var(--color-text-muted);
+  }
+
+  .assistant-section-head {
+    max-width: 720px;
+    margin-bottom: 1rem;
+  }
+
+  .assistant-outcomes,
+  .assistant-schedule,
+  .assistant-fit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .assistant-outcomes article,
+  .assistant-schedule article,
+  .assistant-fit-grid > div {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-outcomes h3,
+  .assistant-schedule h3,
+  .assistant-fit-grid h3 {
+    margin-top: 0.5rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-schedule h3 {
+    margin-top: 0;
+  }
+
+  .assistant-outcomes p {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    color: #fff;
+  }
+
+  .assistant-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .assistant-icon.blue { background: var(--color-blue-mug); }
+  .assistant-icon.sage { background: var(--color-sage); color: var(--color-ink); }
+  .assistant-icon.plum { background: var(--color-plum); }
+  .assistant-icon.copper { background: var(--color-copper); }
+  .assistant-icon.orange { background: var(--color-jules-orange); color: var(--color-ink); }
+
+  .assistant-visual-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .assistant-visual {
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-visual img {
+    display: block;
+    border-radius: 0;
+  }
+
+  .assistant-schedule ul,
+  .assistant-fit-grid ul {
+    margin-bottom: 0;
+  }
+
+  .assistant-fit-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .assistant-apply-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .assistant-apply-copy {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .assistant-apply-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .assistant-apply-points span {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .assistant-luma-card {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .assistant-luma-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-copper);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .assistant-luma-card h3 {
+    margin: 0 0 1rem;
+    letter-spacing: 0;
+  }
+
+  .assistant-luma-details {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .assistant-luma-details li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .assistant-luma-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--color-sage) 18%, var(--color-surface));
+    color: var(--color-ink);
+  }
+
+  .assistant-luma-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .assistant-luma-btn {
+    width: 100%;
+    margin: 0;
+  }
+
+  .assistant-founder-note {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-guarantee {
+    margin-top: 0.85rem;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--color-sage);
+    border-radius: 0 6px 6px 0;
+    background: color-mix(in srgb, var(--color-sage) 8%, var(--color-surface));
+    color: var(--color-text);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .assistant-guarantee strong {
+    color: var(--color-ink);
+  }
+
+  .assistant-form-note {
+    margin: 0.85rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 820px) {
+    .assistant-hero {
+      min-height: min(72vh, 620px);
+      margin-bottom: 1.25rem;
+      padding: 3rem 1rem 2rem;
+      background:
+        linear-gradient(90deg, rgba(31, 23, 19, 0.9) 0%, rgba(31, 23, 19, 0.7) 62%, rgba(31, 23, 19, 0.34) 100%),
+        url('/home/workshop-room.jpg') 45% center / cover no-repeat;
+    }
+
+    .assistant-hero h1 {
+      font-size: clamp(1.95rem, 9.5vw, 2.65rem);
+    }
+
+    .assistant-h1 span {
+      display: inline;
+      white-space: normal;
+    }
+
+    .assistant-subtitle {
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .assistant-hero-actions {
+      gap: 0.55rem;
+      margin: 1rem 0;
+    }
+
+    .assistant-daily-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .assistant-outcome-grid,
+    .assistant-outcomes,
+    .assistant-schedule,
+    .assistant-fit-grid,
+    .assistant-visual-section,
+    .assistant-fit-section,
+    .assistant-apply-section {
+      grid-template-columns: 1fr;
+    }
+
+    .assistant-apply-copy {
+      position: static;
+    }
+
+    .assistant-sticky-cta {
+      display: block;
+    }
+
+    .assistant-sticky-cta[hidden] {
+      display: none;
+    }
+  }
+
+  @media (min-width: 821px) and (max-width: 1120px) {
+    .assistant-hero {
+      min-height: clamp(560px, 68vh, 700px);
+      background-position: 56% center;
+    }
+  }
+</style>
