@@ -1,7 +1,7 @@
 ---
 const pathname = Astro.url.pathname;
 
-const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWith('/hidden-profit-review') || pathname.startsWith('/articles');
+const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWith('/hidden-profit-review') || pathname.startsWith('/use-cases') || pathname.startsWith('/articles');
 ---
 
 <header class="site-header">
@@ -20,11 +20,10 @@ const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWi
         <div class="nav-submenu" id="nav-services" role="menu">
           <a role="menuitem" href="/ai-assistant/" aria-current={pathname.startsWith('/ai-assistant') ? 'page' : undefined}>AI Assistant</a>
           <a role="menuitem" href="/hidden-profit-review/" aria-current={pathname.startsWith('/hidden-profit-review') ? 'page' : undefined}>Hidden Profit</a>
+          <a role="menuitem" href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use Cases</a>
           <a role="menuitem" href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>
         </div>
       </div>
-
-      <a href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use Cases</a>
 
       <a href="/principles/" aria-current={pathname.startsWith('/principles') ? 'page' : undefined}>Approach</a>
 

@@ -29,6 +29,23 @@ const formattedUpdated = updated?.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
+const authorSchema = {
+  '@type': 'Person',
+  name: 'Jonathan Malkin',
+  jobTitle: 'AI Workflow Consultant & Implementation Partner',
+  url: 'https://builtwithjon.com/about/',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Built with Jon',
+    url: 'https://builtwithjon.com/',
+  },
+  sameAs: [
+    'https://github.com/jonathanmalkin',
+    'https://x.com/builtwithjon',
+    'https://linkedin.com/in/jonathanmalkin',
+  ],
+};
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -36,26 +53,8 @@ const articleSchema = {
   description: description,
   datePublished: date.toISOString(),
   dateModified: (updated ?? date).toISOString(),
-  author: {
-    '@type': 'Person',
-    name: 'Jonathan Malkin',
-    url: 'https://builtwithjon.com/about/',
-    sameAs: [
-      'https://github.com/jonathanmalkin',
-      'https://x.com/builtwithjon',
-      'https://linkedin.com/in/jonathanmalkin',
-    ],
-  },
-  publisher: {
-    '@type': 'Person',
-    name: 'Jonathan Malkin',
-    url: 'https://builtwithjon.com/about/',
-    sameAs: [
-      'https://github.com/jonathanmalkin',
-      'https://x.com/builtwithjon',
-      'https://linkedin.com/in/jonathanmalkin',
-    ],
-  },
+  author: authorSchema,
+  publisher: authorSchema,
   ...(image ? { image: new URL(image, 'https://builtwithjon.com').href } : {}),
 };
 ---
@@ -78,6 +77,13 @@ const articleSchema = {
           <span> &middot; Updated {formattedUpdated}</span>
         )}
       </div>
+      <aside class="article-author" aria-label="Article author">
+        <div class="article-author-mark" aria-hidden="true">JM</div>
+        <div>
+          <p class="article-author-name">By <a href="/about/" rel="author">Jonathan Malkin</a></p>
+          <p class="article-author-bio">AI workflow consultant in Austin, TX. Jonathan runs every Hidden Profit Review personally and builds the operating loops he recommends.</p>
+        </div>
+      </aside>
     </header>
     <div class="article-content">
       <slot />

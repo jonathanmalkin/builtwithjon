@@ -3,11 +3,11 @@ export const categories = [
     "id": "admin",
     "num": "01",
     "name": "Admin & Ops",
-    "intro": "Small business owners spend roughly 16 hours a week, two full workdays, on administrative work. Studies of knowledge workers put \"work about work\", status chasing, app switching, hunting for files, at around 58–60% of the workday. This is the category where elimination and simplification beat fancy tools.",
+    "intro": "Small business owners spend roughly 16 hours a week, two full workdays, on administrative work. A 2024 survey of 2,000 small business owners found they lose about 96 minutes of productive time every day, and 28% name waiting for status updates as a top time-waster. This is the category where elimination and simplification beat fancy tools.",
     "stat": {
-      "value": "58–60%",
-      "text": "of the workday goes to \"work about work\", status chasing, app switching, hunting for files.",
-      "source": "Asana, Anatomy of Work Index"
+      "value": "~96 min",
+      "text": "of productive time lost per day by small business owners; 28% cite waiting for status updates as a top time-waster.",
+      "source": "Slack / Salesforce, 2024 small business productivity survey"
     },
     "group": "function"
   },
@@ -15,11 +15,11 @@ export const categories = [
     "id": "sales",
     "num": "02",
     "name": "Sales",
-    "intro": "The brutal math of small business sales: leads contacted within five minutes are dramatically more likely to convert, by some studies 21x versus a 30-minute wait, yet typical business response times run one to two days, and a large share of inquiries never get a response at all. Meanwhile nearly half of leads arrive outside business hours. Sales automation isn’t about replacing selling. It’s about making sure selling actually happens.",
+    "intro": "The brutal math of small business sales: the odds of qualifying a new lead drop roughly 21x when the response slips from five minutes to thirty, yet 63.5% of B2B companies never respond to inbound requests at all, and the average response takes more than a day. Meanwhile nearly half of leads arrive outside business hours. Sales automation isn’t about replacing selling. It’s about making sure selling actually happens.",
     "stat": {
-      "value": "21×",
-      "text": "more likely to convert when a lead is contacted within 5 minutes vs. 30, yet the average business takes ~42 hours.",
-      "source": "InsideSales / Drift, lead-response research"
+      "value": "21x",
+      "text": "drop in the odds of qualifying a lead when response slips from 5 minutes to 30; 63.5% of B2B companies never respond at all.",
+      "source": "MIT / InsideSales lead-response study; RevenueHero 2024"
     },
     "group": "function"
   },
