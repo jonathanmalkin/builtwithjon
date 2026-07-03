@@ -1,0 +1,91 @@
+---
+interface Props {
+  story: number;
+}
+
+const { story } = Astro.props;
+const forFounders = story === 3;
+---
+
+<aside class="business-bridge" aria-label="Work with Jonathan">
+  <p class="bridge-kicker">From my day job</p>
+  {forFounders ? (
+    <p class="bridge-copy">
+      Running a business on top of all this? Finding where workflows leak deals,
+      time, and cash is what I do for clients. The 3-minute scorecard shows where
+      yours is leaking &mdash; free, no call, no pitch.
+    </p>
+  ) : (
+    <p class="bridge-copy">
+      I write these notes as a builder. My day job is putting the same systems to
+      work inside small businesses: finding where deals, time, and cash leak,
+      then fixing one workflow at a time with a human at the gate.
+    </p>
+  )}
+  <div class="bridge-actions">
+    {forFounders ? (
+      <>
+        <a href="/scorecard/" class="bridge-btn" data-track="cta:scorecard-article-s3">Take the scorecard</a>
+        <a href="/hidden-profit-review/#waitlist" class="bridge-link" data-track="cta:waitlist-article">or join the review waitlist &rarr;</a>
+      </>
+    ) : (
+      <>
+        <a href="/scorecard/" class="bridge-btn" data-track="cta:scorecard-article">Take the 3-minute scorecard</a>
+        <a href="/use-cases/" class="bridge-link" data-track="cta:usecases-article">or browse 96 use cases &rarr;</a>
+      </>
+    )}
+  </div>
+</aside>
+
+<style>
+  .business-bridge {
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-copper);
+    border-radius: 0 10px 10px 0;
+    margin: 2.5rem auto 0;
+    max-width: var(--max-width);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .bridge-kicker {
+    color: var(--color-copper);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .bridge-copy {
+    color: var(--color-text-muted);
+    margin: 0 0 1rem;
+    max-width: 640px;
+  }
+
+  .bridge-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .bridge-btn {
+    background: var(--color-blue-mug);
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 800;
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+  }
+
+  .bridge-btn:hover {
+    background: var(--color-blueprint);
+    text-decoration: none;
+  }
+
+  .bridge-link {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+</style>
