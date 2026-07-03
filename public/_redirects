@@ -27,5 +27,10 @@
 /ai-workflow-audit/profit-leak-assessment /hidden-profit-review/sample/ 301
 /ai-workflow-audit/thanks/ /hidden-profit-review/thanks/ 301
 /ai-workflow-audit/thanks /hidden-profit-review/thanks/ 301
+# Catch splat landing paths when an edge /ai-workflow-audit/* rule may shadow the specific rules above.
+/hidden-profit-review/profit-leak-assessment/ /hidden-profit-review/sample/ 301
+/hidden-profit-review/profit-leak-assessment /hidden-profit-review/sample/ 301
+/hidden-profit-review/sample-assessment/ /hidden-profit-review/sample/ 301
+/hidden-profit-review/sample-assessment /hidden-profit-review/sample/ 301
 /ai-workflow-audit/* /hidden-profit-review/:splat 301
 /ai-workflow-audit /hidden-profit-review/ 301
