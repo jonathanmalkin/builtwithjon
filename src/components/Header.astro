@@ -2,7 +2,6 @@
 const pathname = Astro.url.pathname;
 
 const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWith('/hidden-profit-review') || pathname.startsWith('/articles');
-const approachActive = pathname.startsWith('/principles') || pathname.startsWith('/process') || pathname.startsWith('/dispositions');
 ---
 
 <header class="site-header">
@@ -27,17 +26,7 @@ const approachActive = pathname.startsWith('/principles') || pathname.startsWith
 
       <a href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use Cases</a>
 
-      <div class={`nav-group${approachActive ? ' is-active' : ''}`}>
-        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="nav-approach">
-          Approach
-          <svg class="nav-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
-        </button>
-        <div class="nav-submenu" id="nav-approach" role="menu">
-          <a role="menuitem" href="/principles/" aria-current={pathname.startsWith('/principles') ? 'page' : undefined}>Principles</a>
-          <a role="menuitem" href="/process/" aria-current={pathname.startsWith('/process') ? 'page' : undefined}>Process</a>
-          <a role="menuitem" href="/dispositions/" aria-current={pathname.startsWith('/dispositions') ? 'page' : undefined}>Dispositions</a>
-        </div>
-      </div>
+      <a href="/principles/" aria-current={pathname.startsWith('/principles') ? 'page' : undefined}>Approach</a>
 
       <a href="/contact/" aria-current={pathname === '/contact/' ? 'page' : undefined}>Contact</a>
       <a class="nav-cta" href="/scorecard/" data-track="cta:scorecard-nav" aria-current={pathname.startsWith('/scorecard') ? 'page' : undefined}>Scorecard</a>
