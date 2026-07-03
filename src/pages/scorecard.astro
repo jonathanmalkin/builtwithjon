@@ -101,6 +101,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     const card = document.getElementById('sc-app');
 
     function renderQuestion() {
+      if (window.bwjTrack) window.bwjTrack('scorecard:q' + (idx + 1));
       const item = QUESTIONS[idx];
       const axisKey = item.axis || 'segment';
       card.setAttribute('data-axis', axisKey);
@@ -148,6 +149,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     function tierFor(score) { return score >= 60 ? TIERS[2] : score >= 30 ? TIERS[1] : TIERS[0]; }
 
     function showResult() {
+      if (window.bwjTrack) window.bwjTrack('scorecard:result');
       bar.style.width = '100%';
       const seg = answers.segment ? answers.segment.value : 'general';
       const lines = LINES[seg] || LINES.general;
@@ -184,7 +186,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
           <div class="sc-gate">
             <p class="sc-gate-h">Want the full breakdown?</p>
             <p class="sc-gate-sub">I'll show the rough size of each leak, and where to start. It's an estimate from your answers and ${answers.segment.label.toLowerCase()} benchmarks. The Hidden Profit Review measures it for real.</p>
-            <form id="sc-gate-form" action="${reportEndpoint}" method="POST" novalidate>
+            <form id="sc-gate-form" action="${reportEndpoint}" method="POST" novalidate data-track-form="scorecard-gate">
               <input type="hidden" name="_subject" value="Scorecard lead" />
               <input type="hidden" name="inquiry_type" value="scorecard-lead" />
               <input type="hidden" name="segment" value="${answers.segment.value}" />
@@ -234,11 +236,12 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     }
 
     function showThanks(form) {
+      if (window.bwjTrack) window.bwjTrack('scorecard:gate-success');
       form.outerHTML = `<div class="sc-thanks">
         <p class="sc-gate-h">On its way.</p>
-        <p>Your breakdown is headed to your inbox. While you wait, the Hidden Profit Review is how these estimates become measured numbers with your real data.</p>
+        <p>Your breakdown is headed to your inbox. When it points at a real leak, the Hidden Profit Review measures it with your real data. I run every review personally, so spots go through a waitlist.</p>
         <div class="sc-cta-row">
-          <a href="/hidden-profit-review/" class="sc-cta">See how the review works &rarr;</a>
+          <a href="/hidden-profit-review/#waitlist" class="sc-cta" data-track="cta:waitlist-scorecard">Join the review waitlist &rarr;</a>
           <a href="/use-cases/" class="sc-cta sc-cta-soft">Or browse the use cases</a>
         </div>
       </div>`;

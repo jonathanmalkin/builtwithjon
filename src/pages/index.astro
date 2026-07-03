@@ -22,6 +22,37 @@ const websiteSchema = {
   url: 'https://builtwithjon.com',
   description: 'Start with a free AI workflow scorecard: find where your business is leaking deals, time, and cash, then use the Hidden Profit Review to measure the best first pilot.',
 };
+
+const professionalServiceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Built with Jon',
+  url: 'https://builtwithjon.com',
+  description: 'AI workflow consulting for small and mid-size businesses: find where a business is leaking deals, time, and cash, then fix one workflow at a time with a human at the gate.',
+  founder: personSchema,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Austin',
+    addressRegion: 'TX',
+    addressCountry: 'US',
+  },
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      name: 'The AI workflow scorecard',
+      description: 'A free 3-minute scorecard that shows where a business is leaking deals, time, and cash.',
+      price: '0',
+      priceCurrency: 'USD',
+      url: 'https://builtwithjon.com/scorecard/',
+    },
+    {
+      '@type': 'Offer',
+      name: 'The Hidden Profit Review',
+      description: 'A measured review of one recurring workflow with a first AI pilot plan. Limited monthly capacity via waitlist.',
+      url: 'https://builtwithjon.com/hidden-profit-review/',
+    },
+  ],
+};
 ---
 
 <Base
@@ -30,6 +61,7 @@ const websiteSchema = {
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(professionalServiceSchema)} />
 
   <section class="hero-split container-wide">
     <div class="hero-split-copy">
@@ -39,8 +71,9 @@ const websiteSchema = {
         Answer a few questions about deals, time, and cash. You get an instant leak score, the likely first fix, and a clear path to the measured Hidden Profit Review if the opportunity is real.
       </p>
       <div class="hero-links">
-        <a href="/scorecard/" class="hero-btn">Take the scorecard</a>
+        <a href="/scorecard/" class="hero-btn" data-track="cta:scorecard-hero">Take the scorecard</a>
       </div>
+      <p class="hero-microcopy">Free &middot; 3 minutes &middot; no call, no pitch</p>
     </div>
     <figure class="hero-split-media">
       <img
@@ -62,7 +95,7 @@ const websiteSchema = {
       No big platform decision, no pricing puzzle. We map one real process you run today, then decide together if it is worth going further.
     </p>
 
-    <a href="/scorecard/" class="offer-frontdoor">
+    <a href="/scorecard/" class="offer-frontdoor" data-track="cta:scorecard-frontdoor">
       <span class="offer-frontdoor-label">The front door</span>
       <span class="offer-frontdoor-title">The AI workflow scorecard &rarr;</span>
       <span class="offer-frontdoor-desc">Find the leak that is costing deals, time, or cash. The scorecard gives the fast assumption-based view; the Hidden Profit Review is the paid, measured version with your real data.</span>
@@ -135,8 +168,17 @@ const websiteSchema = {
       Take the scorecard first. If the result shows a real leak, the Hidden Profit Review turns those assumptions into measured numbers and a first pilot plan.
     </p>
     <div class="hero-links" style="justify-content: center;">
-      <a href="/scorecard/" class="hero-btn">Take the scorecard</a>
-      <a href="/hidden-profit-review/" class="hero-btn hero-btn-outline">See how the review works</a>
+      <a href="/scorecard/" class="hero-btn" data-track="cta:scorecard-final">Take the scorecard</a>
+      <a href="/hidden-profit-review/#waitlist" class="hero-btn hero-btn-outline" data-track="cta:waitlist-final">Join the review waitlist</a>
     </div>
+    <p class="hero-microcopy" style="text-align: center;">I run every review personally, so I take on a handful a month &mdash; the waitlist holds your spot.</p>
   </section>
+
+  <style>
+    .hero-microcopy {
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      margin: 0.6rem 0 0;
+    }
+  </style>
 </Base>
