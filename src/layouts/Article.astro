@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import BusinessBridge from '../components/BusinessBridge.astro';
 interface Props {
   title: string;
   description: string;
@@ -95,5 +96,6 @@ const articleSchema = {
         </p>
       )}
     </footer>
+    <BusinessBridge story={story} />
   </article>
 </Base>

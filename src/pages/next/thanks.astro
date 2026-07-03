@@ -1,48 +1,41 @@
 ---
 import Base from '../../layouts/Base.astro';
 
-const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
+const waitlistUrl = '/hidden-profit-review/#waitlist';
 ---
 
 <Base
-  title="You're in. Let's talk"
-  description="Thanks for telling Jonathan what's next for your agent. Book a free 15-minute call to map your next move."
+  title="You're in. Here's the fast lane"
+  description="Thanks for telling Jonathan what's next for your agent. The review waitlist is the fast lane to personal help on your workflow."
   noindex
 >
   <div class="container next-page">
     <div class="book-hero panel">
-      <p class="book-kicker">One Last Step &middot; Do This Now</p>
-      <h1>Book your free 15-min call.</h1>
-
-      <div class="book-cta-wrap">
-        <a href={bookingUrl} class="book-cta" target="_blank" rel="noopener">
-          <span class="book-cta-main">Pick a time &rarr;</span>
-          <span class="book-cta-sub">Free &middot; 15 min</span>
-        </a>
-        <p class="book-urgency">
-          <span class="book-dot" aria-hidden="true"></span>
-          Easiest while it's still fresh. Do it now
-        </p>
-      </div>
+      <p class="book-kicker">Got it &middot; One more step</p>
+      <h1>Want me on your workflow personally?</h1>
 
       <p class="book-sub">
-        You just told me where you want to take your agent. The fastest way to
-        get there is 15 minutes with me, looking at your actual workflow. Bring
-        the one task you'd most like off your plate.
+        You just told me where you want to take your agent. When I work a
+        workflow personally, it runs through the Hidden Profit Review &mdash; and
+        because I run every review myself, I take on a handful a month. The
+        waitlist holds your place in line.
       </p>
 
+      <div class="book-cta-wrap">
+        <a href={waitlistUrl} class="book-cta" data-track="cta:waitlist-next">
+          <span class="book-cta-main">Join the review waitlist &rarr;</span>
+          <span class="book-cta-sub">30 seconds &middot; your spot holds, no obligation</span>
+        </a>
+      </div>
+
       <ul class="book-benefits">
-        <li>A clear read on whether your workflow is worth automating</li>
-        <li>The specific next step to build it, or an honest &ldquo;not yet,&rdquo; and why</li>
+        <li>I read every entry personally, and invites go out in order</li>
+        <li>A clear read on whether your workflow is worth automating, or an honest &ldquo;not yet&rdquo;</li>
         <li>No pitch, no slides, just your work and a plan</li>
       </ul>
 
-      <a href={bookingUrl} class="book-cta book-cta-secondary" target="_blank" rel="noopener">
-        <span class="book-cta-main">Book my free call &rarr;</span>
-      </a>
-
       <p class="book-reassure">
-        100% free &middot; 15 minutes &middot; no obligation.
+        Not ready? Keep building &mdash; the <a href="/ai-assistant/">guides</a> stay free, and your survey answers already shape what I publish next.
       </p>
     </div>
   </div>

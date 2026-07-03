@@ -4,14 +4,39 @@ import Base from '../layouts/Base.astro';
 const formEndpoint = 'https://formspree.io/f/xdapgpae';
 const thanksUrl = '/hidden-profit-review/thanks';
 const sampleUrl = '/hidden-profit-review/sample/';
+// Set this to the number of reviews you can genuinely run per month.
+const monthlyCapacity = 4;
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'The Hidden Profit Review',
+  serviceType: 'Business process and AI workflow review',
+  description:
+    'A measured review of one recurring business workflow to surface the profit it is leaking in deals, time, and cash, with one safe first AI pilot recommendation.',
+  url: 'https://builtwithjon.com/hidden-profit-review/',
+  areaServed: 'United States',
+  provider: {
+    '@type': 'Person',
+    name: 'Jonathan Malkin',
+    jobTitle: 'AI Workflow Consultant & Implementation Partner',
+    url: 'https://builtwithjon.com',
+    sameAs: [
+      'https://github.com/jonathanmalkin',
+      'https://x.com/builtwithjon',
+      'https://linkedin.com/in/jonathanmalkin',
+    ],
+  },
+};
 ---
 
 <Base
   title="The Hidden Profit Review"
-  description="A close look at one workflow to surface profit you can't currently see, and the first AI fix worth making."
+  description="A close look at one workflow to surface profit you can't currently see, and the first AI fix worth making. Limited spots each month — join the waitlist."
+  schema={serviceSchema}
 >
   <section class="audit-page">
-    <div class="audit-hero-grid">
+    <div class="audit-hero-grid" id="waitlist">
       <div class="audit-hero">
         <p class="audit-label">The Hidden Profit Review</p>
         <h1>Find the profit hiding in how your business actually runs.</h1>
@@ -28,11 +53,16 @@ const sampleUrl = '/hidden-profit-review/sample/';
         method="POST"
         class="audit-form panel"
         data-thanks={thanksUrl}
+        data-track-form="hpr-waitlist"
       >
-        <input type="hidden" name="_subject" value="Hidden Profit Review lead" />
-        <input type="hidden" name="inquiry_type" value="ai-workflow-audit-lead" />
+        <input type="hidden" name="_subject" value="Hidden Profit Review waitlist" />
+        <input type="hidden" name="inquiry_type" value="hpr-waitlist" />
 
-        <p class="audit-form-intro">Start the review. Three fields, about 20 seconds.</p>
+        <p class="audit-capacity">Waitlist open &middot; {monthlyCapacity} reviews a month</p>
+        <p class="audit-form-intro">
+          I run every review personally, so I take on {monthlyCapacity} a month.
+          Get in line for the next opening &mdash; about 30 seconds, and your answers become the first page of your review.
+        </p>
 
         <div class="form-group">
           <label for="name">Name</label>
@@ -49,8 +79,19 @@ const sampleUrl = '/hidden-profit-review/sample/';
           <input type="text" id="company" name="company" class="form-input" autocomplete="organization" />
         </div>
 
-        <button type="submit" class="form-submit audit-submit">Start the review</button>
-        <p class="audit-note">I reply personally if there is profit worth surfacing.</p>
+        <div class="form-group">
+          <label for="biggest_leak">Where do you feel it most?</label>
+          <select id="biggest_leak" name="biggest_leak" required class="form-input">
+            <option value="" disabled selected>Choose one</option>
+            <option>Losing deals</option>
+            <option>Losing time</option>
+            <option>Cash coming in slow</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+
+        <button type="submit" class="form-submit audit-submit">Join the waitlist</button>
+        <p class="audit-note">I read every entry personally. Invites go out in order &mdash; no skipping the line. Your spot holds with no obligation.</p>
         <p class="audit-error" hidden role="alert" aria-live="polite">
           Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will help.
         </p>
@@ -93,7 +134,7 @@ const sampleUrl = '/hidden-profit-review/sample/';
         </a>
       </div>
       <p class="sample-cta">
-        <a href={sampleUrl}>See the full sample &rarr;</a>
+        <a href={sampleUrl} data-track="hpr:sample-click">See the full sample &rarr;</a>
       </p>
     </section>
 
@@ -138,6 +179,7 @@ const sampleUrl = '/hidden-profit-review/sample/';
             headers: { Accept: 'application/json' },
           });
           if (response.ok) {
+            if (window.bwjTrack) window.bwjTrack('hpr-waitlist:success');
             window.location.assign(thanksUrl);
             return;
           }
@@ -146,7 +188,7 @@ const sampleUrl = '/hidden-profit-review/sample/';
           if (errorEl) errorEl.hidden = false;
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Start the review';
+            submitBtn.textContent = 'Join the waitlist';
           }
         }
       });
@@ -265,6 +307,16 @@ const sampleUrl = '/hidden-profit-review/sample/';
     .sample-cta {
       margin: 1rem 0 0;
       font-weight: 700;
+    }
+
+    .audit-capacity {
+      color: var(--color-copper);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin: 0 0 0.5rem;
+      text-transform: uppercase;
     }
 
     .audit-form-intro {

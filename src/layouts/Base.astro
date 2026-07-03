@@ -31,6 +31,9 @@ const {
 const pageTitle = title === 'Jonathan Malkin'
   ? title
   : `${title} | Jonathan Malkin`;
+
+// Cloudflare Web Analytics token — create the site under the CF dashboard (Web Analytics) and paste the token here.
+const CF_BEACON_TOKEN = '';
 ---
 
 <!doctype html>
@@ -54,8 +57,38 @@ const pageTitle = title === 'Jonathan Malkin'
       noindex={noindex}
     />
     {schema && <JsonLd schema={schema} />}
+    {CF_BEACON_TOKEN && (
+      <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })} is:inline></script>
+    )}
   </head>
   <body>
+    <script is:inline>
+(function () {
+  function track(name) {
+    try {
+      if (!navigator.sendBeacon) return;
+      var body = new Blob([JSON.stringify({ e: name, p: location.pathname, r: document.referrer })], { type: 'application/json' });
+      navigator.sendBeacon('/api/event', body);
+    } catch (err) {}
+  }
+  window.bwjTrack = track;
+  document.addEventListener('click', function (ev) {
+    var el = ev.target && ev.target.closest ? ev.target.closest('[data-track]') : null;
+    if (el) track(el.getAttribute('data-track'));
+  });
+  document.addEventListener('focusin', function (ev) {
+    var form = ev.target && ev.target.closest ? ev.target.closest('form[data-track-form]') : null;
+    if (form && !form.dataset.trackStarted) {
+      form.dataset.trackStarted = '1';
+      track(form.getAttribute('data-track-form') + ':start');
+    }
+  });
+  document.addEventListener('submit', function (ev) {
+    var form = ev.target && ev.target.closest ? ev.target.closest('form[data-track-form]') : null;
+    if (form) track(form.getAttribute('data-track-form') + ':submit');
+  });
+})();
+</script>
     <a href="#main" class="skip-link">Skip to content</a>
     <Header />
     <main id="main">

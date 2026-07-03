@@ -1,6 +1,8 @@
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const MAX_SCORECARD_BODY_BYTES = 32_000;
+const EVENT_PATH = "/api/event";
+const MAX_EVENT_BODY_BYTES = 2048;
 
 const SEGMENTS = {
   gc: "General contracting",
@@ -82,6 +84,10 @@ export default {
       return handleScorecardReport(request, env);
     }
 
+    if (url.pathname === EVENT_PATH) {
+      return handleEvent(request, env);
+    }
+
     return env.ASSETS.fetch(request);
   },
 };
@@ -142,6 +148,55 @@ async function handleScorecardReport(request, env) {
   return json({ ok: true, report_id: resend.id || null });
 }
 
+async function handleEvent(request, env) {
+  if (request.method !== "POST") {
+    return json({ ok: false, error: "method_not_allowed" }, 405);
+  }
+
+  if (!originAllowed(request)) {
+    return json({ ok: false, error: "origin_not_allowed" }, 403);
+  }
+
+  const contentLength = Number(request.headers.get("content-length") || "0");
+  if (contentLength > MAX_EVENT_BODY_BYTES) {
+    return json({ ok: false, error: "payload_too_large" }, 413);
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ ok: false, error: "invalid_body" }, 400);
+  }
+
+  const event = String(body?.e || "");
+  if (!/^[a-z0-9-]+:[a-z0-9-]+$/.test(event) || event.length > 64) {
+    return json({ ok: false, error: "invalid_event" }, 400);
+  }
+
+  const path = String(body?.p || "").slice(0, 200);
+
+  let referrerHost = "";
+  try {
+    referrerHost = new URL(body?.r || "").hostname;
+  } catch {
+    referrerHost = "";
+  }
+
+  if (!env.SITE_EVENTS) {
+    return json({ ok: true, skipped: true });
+  }
+
+  const category = event.split(":")[0];
+  try {
+    env.SITE_EVENTS.writeDataPoint({ blobs: [event, path, referrerHost], doubles: [1], indexes: [category] });
+  } catch (err) {
+    console.error("site event write failed", err);
+  }
+
+  return json({ ok: true });
+}
+
 function normalizePayload(form, request) {
   const rawSegment = safeText(form.get("segment"), 40) || "general";
   const segment = SEGMENTS[rawSegment] ? rawSegment : "general";
@@ -197,7 +252,7 @@ function buildReport(payload, env) {
   const worst = axisReports.slice().sort((a, b) => b.score - a.score)[0];
   const firstName = firstNameOf(payload.name);
   const subject = `Your workflow leak report${firstName ? `, ${firstName}` : ""}`;
-  const ctaUrl = `${siteOrigin(env)}/hidden-profit-review/`;
+  const ctaUrl = `${siteOrigin(env)}/hidden-profit-review/#waitlist`;
   const sampleUrl = `${siteOrigin(env)}/hidden-profit-review/sample/`;
   const useCasesUrl = `${siteOrigin(env)}/use-cases/`;
   const revenueProvided = payload.answers.q9 && payload.answers.q9 !== "Skip";
@@ -338,8 +393,9 @@ function renderHtmlEmail(model) {
           <h2 style="margin:16px 0 8px;font:750 18px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Where I would start</h2>
           <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">${escapeHtml(model.firstMove)} One working thing beats a grand plan.</p>
           <h2 style="margin:16px 0 8px;font:750 18px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">The next fidelity</h2>
-          <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Everything above is the assumption version. The audit is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the audit measures."}</p>
-          <p style="margin:0 0 18px;"><a href="${escapeAttribute(model.ctaUrl)}" style="display:inline-block;background:#8F4E24;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:12px 16px;font:700 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">See how the audit works</a></p>
+          <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Everything above is the assumption version. The Hidden Profit Review is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the review measures."}</p>
+          <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">I run every review personally, so I take on a handful each month. The waitlist holds your spot, and invites go out in order.</p>
+          <p style="margin:0 0 18px;"><a href="${escapeAttribute(model.ctaUrl)}" style="display:inline-block;background:#8F4E24;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:12px 16px;font:700 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Join the review waitlist</a></p>
           <p style="margin:0;font:400 14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">Not ready to talk? Fair. Here is <a href="${escapeAttribute(model.sampleUrl)}" style="color:#1D4ED8;">a complete worked example</a>. Or browse <a href="${escapeAttribute(model.useCasesUrl)}" style="color:#1D4ED8;">use cases</a> other ${escapeHtml(model.segmentLabel.toLowerCase())} businesses started with.</p>
         </td>
       </tr>
@@ -373,9 +429,11 @@ function renderTextEmail(model) {
     `${model.firstMove} One working thing beats a grand plan.`,
     "",
     "The next fidelity",
-    `Everything above is the assumption version. The audit is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the audit measures."}`,
+    `Everything above is the assumption version. The Hidden Profit Review is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the review measures."}`,
     "",
-    `See how the audit works: ${model.ctaUrl}`,
+    "I run every review personally, so I take on a handful each month. The waitlist holds your spot, and invites go out in order.",
+    "",
+    `Join the review waitlist: ${model.ctaUrl}`,
     `Complete worked example: ${model.sampleUrl}`,
     `Use cases: ${model.useCasesUrl}`,
     "",

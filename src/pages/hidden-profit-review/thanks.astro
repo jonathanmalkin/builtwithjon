@@ -1,35 +1,105 @@
 ---
 import Base from '../../layouts/Base.astro';
 
-const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
+const sampleUrl = '/hidden-profit-review/sample/';
 ---
 
 <Base
-  title="The Hidden Profit Review: next step"
-  description="Thanks for starting The Hidden Profit Review. Book a quick call and I will come prepared."
+  title="You're on the review waitlist"
+  description="Your spot on the Hidden Profit Review waitlist is held. Here is what happens next."
   noindex
 >
   <div class="container next-page">
     <div class="book-hero panel">
-      <p class="book-kicker">You're in</p>
-      <h1>Let's find the hidden profit.</h1>
+      <p class="book-kicker">You're on the list</p>
+      <h1>Your spot is held.</h1>
       <p class="book-sub">
-        I have your details. Book a quick call below and I will follow up by
-        email to learn about the workflow before we talk.
+        The review starts with what you just sent me, not with a sales call.
+        Here is exactly what happens from here.
       </p>
 
-      <div class="book-cta-wrap">
-        <a href={bookingUrl} class="book-cta" target="_blank" rel="noopener">
-          <span class="book-cta-main">Book a quick call &rarr;</span>
-          <span class="book-cta-sub">Free &middot; 15 min</span>
-        </a>
-      </div>
+      <ol class="wait-steps">
+        <li>
+          <strong>I read your entry personally</strong> within two business days
+          &mdash; every one, no filters, no assistant.
+        </li>
+        <li>
+          <strong>When a slot opens, you get a private booking invite</strong> by
+          email. Invites go out in order. No skipping the line.
+        </li>
+        <li>
+          <strong>Until then, your spot holds</strong> with no obligation. If the
+          timing stops working for you, one reply takes you off the list.
+        </li>
+      </ol>
 
-      <ul class="book-benefits">
-        <li>Bring one real workflow, not a whole-company wish list</li>
-        <li>We will decide if AI, cleanup, or no action is the honest next step</li>
-        <li>No obligation and no tool pitch</li>
-      </ul>
+      <div class="wait-while">
+        <p class="wait-while-label">While you wait</p>
+        <ul class="book-benefits">
+          <li>
+            <a href={sampleUrl} data-track="waitlist:sample-click">See a complete worked review</a>
+            for a $24M general contractor &mdash; exactly what you'll get.
+          </li>
+          <li>
+            Haven't run the <a href="/scorecard/" data-track="cta:scorecard-waitlist">3-minute scorecard</a> yet?
+            It gives me a head start on your entry.
+          </li>
+          <li>
+            Browse <a href="/use-cases/" data-track="waitlist:usecases-click">96 use cases</a>
+            from businesses like yours to see what a first fix looks like.
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
+
+  <style>
+    .wait-steps {
+      counter-reset: step;
+      list-style: none;
+      margin: 1.5rem 0 0;
+      padding: 0;
+    }
+
+    .wait-steps li {
+      counter-increment: step;
+      margin-bottom: 1rem;
+      padding-left: 2.4rem;
+      position: relative;
+    }
+
+    .wait-steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.05rem;
+      width: 1.7rem;
+      height: 1.7rem;
+      border: 1px solid var(--color-copper);
+      border-radius: 50%;
+      color: var(--color-copper);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wait-while {
+      border-top: 1px solid var(--color-border);
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+    }
+
+    .wait-while-label {
+      color: var(--color-copper);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin: 0 0 0.5rem;
+      text-transform: uppercase;
+    }
+  </style>
 </Base>

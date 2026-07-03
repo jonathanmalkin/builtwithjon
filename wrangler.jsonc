@@ -11,5 +11,8 @@
     "SITE_ORIGIN": "https://builtwithjon.com",
     "RESEND_FROM": "Built with Jon <jonathan@builtwithjon.com>",
     "RESEND_REPLY_TO": "jonathan@builtwithjon.com"
-  }
+  },
+  "analytics_engine_datasets": [
+    { "binding": "SITE_EVENTS", "dataset": "site_events" }
+  ]
 }

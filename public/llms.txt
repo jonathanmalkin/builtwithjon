@@ -1,25 +1,33 @@
 # Jonathan Malkin
 
-> AI automation consultant and builder. I help teams map messy business workflows, design safe AI pilots, and build practical automation systems.
+> AI Workflow Consultant & Implementation Partner. I help small-business owners find and fix the workflow leaks — lost deals, lost time, slow cash — costing them money, then build safe, human-approved AI pilots to fix them one workflow at a time.
 
 ## About
 
-Jonathan Malkin is an AI automation consultant and product builder based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps teams turn operational friction into AI-assisted systems, safe pilot maps, and implementation plans.
+Jonathan Malkin is an AI Workflow Consultant & Implementation Partner based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps small-business owners diagnose where AI can actually save them money — then implements safe, narrow AI pilots with human approval gates. Clients own everything he builds.
 
-His primary work product is Jules, a deeply customized Claude Code system with skills, rules, hooks, memory, and automated workflows that runs his own business. He writes about AI infrastructure, implementation strategy, automation workflows, and the practical reality of building with AI.
+His technical writing draws on Jules, a deeply customized Claude Code system with skills, rules, hooks, memory, and automated workflows that runs his own business. It's proof of the engineering rigor behind his consulting work, not the offer itself.
 
 ## Key Topics
 
+- Small-business AI workflow diagnosis: finding lost deals, lost time, and slow cash caused by process gaps
+- Safe AI pilots: narrow scope, human approval gates, client ownership of systems and data
 - Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
 - AI agents: autonomous workflows, model selection, team-based agent architectures
 - AI operations: workflow design, automation patterns, and operational systems
-- Advisory and workshops: AI Workflow Friction Map sessions, implementation planning, and practical delivery
+
+## Offers
+
+- Scorecard (free, 3 minutes): https://builtwithjon.com/scorecard/
+- Hidden Profit Review (paid, waitlist): https://builtwithjon.com/hidden-profit-review/
+- Hidden Profit Review sample: https://builtwithjon.com/hidden-profit-review/sample/
+- AI Assistant guides: https://builtwithjon.com/ai-assistant/
+- Use-case library (96 examples, 15 business types): https://builtwithjon.com/use-cases/
 
 ## Content
 
 - Articles: https://builtwithjon.com/articles/
 - RSS: https://builtwithjon.com/rss.xml
-- Services: https://builtwithjon.com/workshops/
 - Jules System: https://builtwithjon.com/jules/
 - Projects: https://builtwithjon.com/projects/
 
