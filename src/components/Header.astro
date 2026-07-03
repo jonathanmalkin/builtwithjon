@@ -51,7 +51,7 @@ const workActive = pathname === '/projects/' || pathname.startsWith('/articles')
       </div>
 
       <a href="/contact/" aria-current={pathname === '/contact/' ? 'page' : undefined}>Contact</a>
-      <a class="nav-cta" href="/scorecard/" aria-current={pathname.startsWith('/scorecard') ? 'page' : undefined}>Scorecard</a>
+      <a class="nav-cta" href="/scorecard/" data-track="cta:scorecard-nav" aria-current={pathname.startsWith('/scorecard') ? 'page' : undefined}>Scorecard</a>
     </div>
     <div class="header-social">
       <a href="https://github.com/jonathanmalkin" rel="me" aria-label="GitHub" title="GitHub">
