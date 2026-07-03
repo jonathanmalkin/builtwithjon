@@ -1,10 +1,10 @@
 # Jonathan Malkin
 
-> AI Workflow Consultant & Implementation Partner. I help small-business owners find and fix the workflow leaks — lost deals, lost time, slow cash — costing them money, then build safe, human-approved AI pilots to fix them one workflow at a time.
+> AI Workflow Consultant & Implementation Partner. I help small-business owners find and fix the workflow leaks, lost deals, lost time, and slow cash, costing them money, then build safe, human-approved AI pilots to fix them one workflow at a time.
 
 ## About
 
-Jonathan Malkin is an AI Workflow Consultant & Implementation Partner based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps small-business owners diagnose where AI can actually save them money — then implements safe, narrow AI pilots with human approval gates. Clients own everything he builds.
+Jonathan Malkin is an AI Workflow Consultant & Implementation Partner based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps small-business owners diagnose where AI can actually save them money, then implements safe, narrow AI pilots with human approval gates. Clients own everything he builds.
 
 His technical writing draws on Jules, a deeply customized Claude Code system with skills, rules, hooks, memory, and automated workflows that runs his own business. It's proof of the engineering rigor behind his consulting work, not the offer itself.
 
@@ -29,7 +29,6 @@ His technical writing draws on Jules, a deeply customized Claude Code system wit
 - Articles: https://builtwithjon.com/articles/
 - RSS: https://builtwithjon.com/rss.xml
 - Jules System: https://builtwithjon.com/jules/
-- Projects: https://builtwithjon.com/projects/
 
 ## Links
 

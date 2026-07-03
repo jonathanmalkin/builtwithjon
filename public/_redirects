@@ -4,6 +4,13 @@
 /articles/what-i-actually-do-with-claude-code/ / 301
 /knowledge-os-product/ /knowledge-os-proof/ 301
 
+# Projects section retired 2026-07-03. Technical proof now lives in Articles and Jules.
+/projects/ava-attendance-officer/ /articles/ 301
+/projects/ava-attendance-officer /articles/ 301
+/projects/* /articles/ 301
+/projects/ /articles/ 301
+/projects /articles/ 301
+
 # Workshop follow-up + setup pages forwarded to the AI assistant hub 2026-06-05.
 # Attendees now land on the hub to choose Cowork DIY, Claude Code DIY, or the class.
 # Splats cover the old downloadable assets too (plugin zip, slides, resource pack).
