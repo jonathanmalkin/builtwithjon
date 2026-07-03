@@ -4,16 +4,24 @@ interface Props {
 }
 
 const { story } = Astro.props;
-const forFounders = story === 3;
+// Story 2 (client work) and 3 (solo founder) readers run businesses — they get
+// the direct CTA. Story 1 (technical builders) gets the softer variant.
+const direct = story === 2 || story === 3;
 ---
 
 <aside class="business-bridge" aria-label="Work with Jonathan">
   <p class="bridge-kicker">From my day job</p>
-  {forFounders ? (
+  {story === 3 ? (
     <p class="bridge-copy">
       Running a business on top of all this? Finding where workflows leak deals,
       time, and cash is what I do for clients. The 3-minute scorecard shows where
       yours is leaking &mdash; free, no call, no pitch.
+    </p>
+  ) : story === 2 ? (
+    <p class="bridge-copy">
+      If this sounds like your week, the 3-minute scorecard puts a number on it:
+      where your business is leaking deals, time, and cash, and which leak to fix
+      first &mdash; free, no call, no pitch.
     </p>
   ) : (
     <p class="bridge-copy">
@@ -23,9 +31,9 @@ const forFounders = story === 3;
     </p>
   )}
   <div class="bridge-actions">
-    {forFounders ? (
+    {direct ? (
       <>
-        <a href="/scorecard/" class="bridge-btn" data-track="cta:scorecard-article-s3">Take the scorecard</a>
+        <a href="/scorecard/" class="bridge-btn" data-track={story === 2 ? 'cta:scorecard-article-s2' : 'cta:scorecard-article-s3'}>Take the scorecard</a>
         <a href="/hidden-profit-review/#waitlist" class="bridge-link" data-track="cta:waitlist-article">or join the review waitlist &rarr;</a>
       </>
     ) : (
