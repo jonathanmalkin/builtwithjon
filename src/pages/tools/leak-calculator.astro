@@ -1,0 +1,755 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const metaDescription =
+  'Put a dollar figure on your worst operational leak in about a minute. Ten calculators: missed calls, slow bids, unbilled change orders, unanswered inquiries, slow quotes, no-shows, first-reply speed, and invoice aging.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      name: 'The Leak Calculator',
+      url: 'https://builtwithjon.com/tools/leak-calculator/',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      description: metaDescription,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://builtwithjon.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Leak Calculator', item: 'https://builtwithjon.com/tools/leak-calculator/' },
+      ],
+    },
+  ],
+};
+
+interface CalcField {
+  k: string;
+  label: string;
+  v: number;
+  min?: number;
+  max?: number;
+  step?: number;
+}
+
+interface Calc {
+  id: string;
+  title: string;
+  segment: string;
+  axis: 'deals' | 'cash';
+  desc: string;
+  fields: CalcField[];
+  note: string;
+  cite: string;
+  article: string;
+  articleTitle: string;
+}
+
+const CALCS: Calc[] = [
+  {
+    id: 'missed-calls',
+    title: 'Missed calls',
+    segment: 'Home services',
+    axis: 'deals',
+    desc: 'Calls that ring out while your crews are on jobs. The caller usually dials the next company on the list.',
+    fields: [
+      { k: 'calls', label: 'Missed calls per month (check your call log, do not guess)', v: 30, min: 0 },
+      { k: 'per', label: 'One real job request per how many missed calls?', v: 3, min: 1 },
+      { k: 'ticket', label: 'Average ticket ($)', v: 450, min: 0 },
+    ],
+    note: 'Pull the actual call log before believing any of this. If your working-hours answer rate is genuinely high, this is not your leak. Look at your invoice chase instead.',
+    cite: 'Example inputs from the article. No industry benchmark is assumed here.',
+    article: '/articles/missed-call-math-home-services/',
+    articleTitle: 'The missed-call math',
+  },
+  {
+    id: 'slow-bids',
+    title: 'Slow bid follow-up',
+    segment: 'Contractors',
+    axis: 'deals',
+    desc: 'Bids that go out and then go quiet. The close-rate difference between fast and slow follow-up is the leak.',
+    fields: [
+      { k: 'bids', label: 'Bids sent per month', v: 20, min: 0 },
+      { k: 'value', label: 'Average job value ($)', v: 18000, min: 0 },
+      { k: 'fast', label: 'Close rate with follow-up inside a day (%)', v: 30, min: 0, max: 100 },
+      { k: 'slow', label: 'Close rate when follow-up slips past a week (%)', v: 25, min: 0, max: 100 },
+    ],
+    note: 'Every bid that dies from silence still consumed the walk-through, the takeoff, and the proposal. You paid to lose.',
+    cite: 'Example inputs, not benchmarks. The five-point swing is the article’s illustration. Use a swing you actually believe.',
+    article: '/articles/slow-bid-follow-up-loses-jobs/',
+    articleTitle: 'Slow bid follow-up loses jobs',
+  },
+  {
+    id: 'change-orders',
+    title: 'Unbilled change orders',
+    segment: 'Contractors',
+    axis: 'cash',
+    desc: 'Extra work that got a verbal yes in the field and never made it onto an invoice.',
+    fields: [
+      { k: 'value', label: 'Typical contract value ($)', v: 400000, min: 0 },
+      { k: 'co', label: 'Change orders as % of contract', v: 8, min: 0, max: 100 },
+      { k: 'undoc', label: 'Portion never formally documented (%)', v: 30, min: 0, max: 100 },
+      { k: 'jobs', label: 'Jobs per year at this scale', v: 5, min: 0 },
+    ],
+    note: 'This is completed work you already paid crews for. Capture at the moment of the yes beats reconstruction at billing time.',
+    cite: 'The 8% and 30% figures are the article’s typical-remodel illustration. Put in your real contract mix.',
+    article: '/articles/change-order-revenue-never-invoiced/',
+    articleTitle: 'Change-order revenue you never invoiced',
+  },
+  {
+    id: 'inquiries',
+    title: 'Unanswered inquiries',
+    segment: 'Professional services',
+    axis: 'deals',
+    desc: 'New inquiries that sit past the day they arrive. Prospects reached promptly close at a very different rate than prospects reached late.',
+    fields: [
+      { k: 'inq', label: 'New inquiries per month (email + phone)', v: 20, min: 0 },
+      { k: 'sameday', label: 'Portion answered same-day today (%)', v: 40, min: 0, max: 100 },
+      { k: 'value', label: 'Average engagement value ($)', v: 8000, min: 0 },
+      { k: 'fast', label: 'Close rate when reached within the day (%)', v: 30, min: 0, max: 100 },
+      { k: 'slow', label: 'Close rate when reached late or never (%)', v: 10, min: 0, max: 100 },
+    ],
+    note: 'The estimate assumes half of your slow-answered inquiries would have converted at the prompt rate. The other half were never going to hire you anyway.',
+    cite: 'The same-day default reflects Clio’s 2024 Legal Trends finding that only 40% of firms answered calls and 60% never answered email inquiries at all.',
+    article: '/articles/inquiry-that-booked-your-competitor/',
+    articleTitle: 'The inquiry that booked your competitor',
+  },
+  {
+    id: 'letters',
+    title: 'Engagement-letter delay',
+    segment: 'Professional services',
+    axis: 'cash',
+    desc: 'The gap between the verbal yes and the signed letter. The fee clock does not start until the document goes out.',
+    fields: [
+      { k: 'eng', label: 'New engagements per month, firm-wide', v: 6, min: 0 },
+      { k: 'delay', label: 'Average delay from verbal yes to signed letter (business days)', v: 6, min: 0 },
+      { k: 'fee', label: 'Average monthly fee once engaged ($)', v: 4000, min: 0 },
+    ],
+    note: 'This money is pushed later, not lost outright. But a slow-start engagement is more likely to become a slow-pay engagement.',
+    cite: 'Example inputs from the article. No industry benchmark is assumed here.',
+    article: '/articles/same-day-engagement-letters/',
+    articleTitle: 'Same-day engagement letters',
+  },
+  {
+    id: 'cold-dms',
+    title: 'Cold DMs and inquiries',
+    segment: 'Coaches and creators',
+    axis: 'deals',
+    desc: 'Your content generated the interest. Then the inquiry sat in an inbox while you were heads-down creating.',
+    fields: [
+      { k: 'inq', label: 'Inbound inquiries per month (DMs, form fills, replies)', v: 25, min: 0 },
+      { k: 'un', label: 'Portion that go unanswered past 24 hours (%)', v: 50, min: 0, max: 100 },
+      { k: 'book', label: 'Portion of those still worth booking a call with (%)', v: 25, min: 0, max: 100 },
+      { k: 'value', label: 'Value of a booked call that converts ($)', v: 1500, min: 0 },
+    ],
+    note: 'This counts only the conversations that went quiet before you saw them. Late replies that still lose are on top of this.',
+    cite: 'Context: RevenueHero’s 2024 study of 1,000 B2B companies found 63.5% never responded to inbound leads at all.',
+    article: '/articles/leads-go-cold-heads-down-creating/',
+    articleTitle: 'Leads go cold while you are heads-down creating',
+  },
+  {
+    id: 'slow-quotes',
+    title: 'Slow quotes',
+    segment: 'Home services',
+    axis: 'deals',
+    desc: 'The quote that waits until Friday competes with everyone who answered sooner.',
+    fields: [
+      { k: 'quotes', label: 'Quotes sent per month', v: 25, min: 0 },
+      { k: 'ticket', label: 'Average ticket ($)', v: 2200, min: 0 },
+      { k: 'fast', label: 'Close rate with same-day follow-up (%)', v: 35, min: 0, max: 100 },
+      { k: 'slow', label: 'Close rate when follow-up slips a few days (%)', v: 28, min: 0, max: 100 },
+    ],
+    note: 'These are stated example inputs, not benchmarks. Put in your own quote volume, ticket size, and a follow-up-speed swing you actually believe.',
+    cite: 'Example inputs from the article. No industry benchmark is assumed here.',
+    article: '/articles/quote-that-waited-until-friday/',
+    articleTitle: 'The quote that waited until Friday',
+  },
+  {
+    id: 'no-shows',
+    title: 'No-shows',
+    segment: 'Clinics and wellness',
+    axis: 'deals',
+    desc: 'Visits that were scheduled, staffed for, and never delivered.',
+    fields: [
+      { k: 'prov', label: 'Providers', v: 3, min: 0 },
+      { k: 'visits', label: 'Visits scheduled per provider, per day', v: 25, min: 0 },
+      { k: 'rate', label: 'No-show rate (%)', v: 6.81, min: 0, max: 100, step: 0.01 },
+      { k: 'value', label: 'Average visit value, net collected ($)', v: 140, min: 0 },
+      { k: 'days', label: 'Clinic days per month', v: 22, min: 0, max: 31 },
+    ],
+    note: 'Pull your real no-show rate from your scheduling system rather than guessing. Most owners underestimate it. North of 10% and this is very likely your biggest leak.',
+    cite: 'The 6.81% default is the MGMA 2023 median patient no-show rate.',
+    article: '/articles/empty-chairs-no-show-math/',
+    articleTitle: 'The empty-chairs no-show math',
+  },
+  {
+    id: 'first-reply',
+    title: 'The first-reply window',
+    segment: 'Real estate',
+    axis: 'deals',
+    desc: 'Online leads mostly go to whoever replies first. This is what is riding on your reply speed.',
+    fields: [
+      { k: 'leads', label: 'Online leads per month (site, Zillow, Realtor.com)', v: 40, min: 0 },
+      { k: 'share', label: 'Portion that go to whoever replies first (%)', v: 50, min: 0, max: 100 },
+      { k: 'close', label: 'Lead-to-close rate (%)', v: 4, min: 0, max: 100, step: 0.1 },
+      { k: 'comm', label: 'Average commission per closed deal ($)', v: 9000, min: 0 },
+    ],
+    note: 'This is commission riding on speed, not commission lost. Even the conservative read, one extra closed deal a quarter from being consistently first, is real money.',
+    cite: 'NAR 2024: 78% of buyers work with the first agent who responds. The up-for-grabs share is an example input, not a benchmark.',
+    article: '/articles/five-minute-reply-window-listing/',
+    articleTitle: 'The five-minute reply window',
+  },
+  {
+    id: 'invoice-aging',
+    title: 'Invoice aging',
+    segment: 'Any business',
+    axis: 'cash',
+    desc: 'Money you already earned, parked in receivables while payroll stays a fixed date.',
+    fields: [
+      { k: 'out', label: 'Total outstanding receivables ($)', v: 17500, min: 0 },
+      { k: 'share', label: 'Portion sitting 30+ days past due (%)', v: 47, min: 0, max: 100 },
+      { k: 'payroll', label: 'Weekly payroll ($)', v: 18000, min: 0 },
+    ],
+    note: 'This is cash parked, not cash lost. Pull your own aging report before trusting it. If the 30-plus bucket is small, this is not your leak.',
+    cite: 'Defaults are the Intuit QuickBooks 2025 national pattern: $17,500 average owed, 47% of small businesses carrying invoices 30+ days overdue.',
+    article: '/articles/invoice-chase-payroll-problem/',
+    articleTitle: 'The invoice chase is a payroll problem',
+  },
+];
+---
+
+<Base title="The Leak Calculator" description={metaDescription} schema={schema}>
+  <section class="lc-hero">
+    <p class="eyebrow">Free tool</p>
+    <h1>The Leak Calculator</h1>
+    <p class="lede">
+      Every operational leak has a dollar figure. Most owners never compute it, so the leak loses to whatever is loud today.
+      Pick your leak, enter three or four numbers you already know, and get a monthly and annual estimate you can prioritize against.
+    </p>
+  </section>
+
+  <div
+    class="starter-gate"
+    id="starter-gate"
+    data-kit="leak-calculator"
+  >
+    <p class="starter-gate-label">Free tool, unlocked by email</p>
+    <p class="starter-gate-lede">Enter your email and the calculator opens right here. I send the occasional note on fixing operational leaks. No spam, unsubscribe anytime.</p>
+    <form
+      class="starter-gate-form"
+      id="starter-gate-form"
+      action="https://formspree.io/f/xdapgpae"
+      method="POST"
+      data-track-form="lead-magnet"
+    >
+      <input type="hidden" name="_subject" value="Lead magnet unlock: Leak Calculator" />
+      <input type="hidden" name="inquiry_type" value="lead-magnet" />
+      <input type="hidden" name="which_kit" value="leak-calculator" />
+      <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
+      <input
+        type="email"
+        id="starter-gate-email"
+        name="email"
+        class="starter-gate-input"
+        placeholder="you@example.com"
+        required
+        autocomplete="email"
+        inputmode="email"
+        spellcheck="false"
+      />
+      <button type="submit" class="starter-gate-btn">Open the calculator</button>
+    </form>
+    <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite">
+      Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will send you the direct link.
+    </p>
+    <p class="starter-gate-note">The site is static, so nothing here is truly locked. This just lets me know who is running their numbers.</p>
+  </div>
+
+  <div class="lc-tool" id="lc-tool" hidden>
+    <p class="lc-pick-label">Pick the leak that has been nagging you</p>
+    <div class="lc-picker" id="lc-picker" role="tablist" aria-label="Choose a leak to calculate">
+      {CALCS.map((c) => (
+        <button class="lc-pick" type="button" data-calc={c.id} data-axis={c.axis} role="tab" aria-selected="false">
+          <span class="lc-pick-title">{c.title}</span>
+          <span class="lc-pick-seg">{c.segment}</span>
+        </button>
+      ))}
+    </div>
+
+    {CALCS.map((c) => (
+      <section class="lc-panel" id={`lc-panel-${c.id}`} data-axis={c.axis} hidden aria-label={`${c.title} calculator`}>
+        <div class="lc-panel-head">
+          <h2>{c.title}</h2>
+          <p class="lc-panel-seg">{c.segment}</p>
+        </div>
+        <p class="lc-panel-desc">{c.desc}</p>
+        <div class="lc-grid">
+          <div class="lc-inputs">
+            {c.fields.map((f) => (
+              <label class="lc-field">
+                <span>{f.label}</span>
+                <input
+                  type="number"
+                  data-calc-input={c.id}
+                  data-key={f.k}
+                  value={f.v}
+                  min={f.min}
+                  max={f.max}
+                  step={f.step ?? 'any'}
+                  inputmode="decimal"
+                />
+              </label>
+            ))}
+          </div>
+          <div class="lc-result">
+            <p class="lc-result-big" id={`lc-big-${c.id}`}>&nbsp;</p>
+            <p class="lc-result-biglabel" id={`lc-biglabel-${c.id}`}>&nbsp;</p>
+            <dl class="lc-result-rows" id={`lc-rows-${c.id}`}></dl>
+            <p class="lc-estimate">This is an estimate from your inputs, not a measurement.</p>
+          </div>
+        </div>
+        <p class="lc-note">{c.note}</p>
+        <p class="lc-cite">{c.cite}</p>
+        <p class="lc-links">
+          The fix is in the article: <a href={c.article}>{c.articleTitle}</a>.
+          This tool prices one leak. The <a href="/scorecard/">Hidden Profit Scorecard</a> ranks all three axes: deals, time, and cash.
+        </p>
+      </section>
+    ))}
+  </div>
+
+  <script is:inline>
+    (function () {
+      var gate = document.getElementById('starter-gate');
+      var tool = document.getElementById('lc-tool');
+      if (!gate || !tool) return;
+      var form = document.getElementById('starter-gate-form');
+      var errorEl = document.getElementById('starter-gate-error');
+      var btn = form ? form.querySelector('.starter-gate-btn') : null;
+      var kit = gate.getAttribute('data-kit') || 'kit';
+      var storeKey = 'bwj-starter-kit-' + kit;
+
+      function reveal(justUnlocked) {
+        gate.hidden = true;
+        tool.hidden = false;
+        if (justUnlocked) {
+          if (tool.scrollIntoView) {
+            tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          if (window.bwjTrack) window.bwjTrack('leakcalc:unlock');
+        }
+      }
+
+      try {
+        if (window.localStorage && localStorage.getItem(storeKey) === 'unlocked') {
+          reveal(false);
+        }
+      } catch (e) {}
+
+      if (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (errorEl) errorEl.hidden = true;
+          if (btn) { btn.disabled = true; btn.textContent = 'Opening...'; }
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          }).then(function (response) {
+            if (response.ok) {
+              try { if (window.localStorage) localStorage.setItem(storeKey, 'unlocked'); } catch (e) {}
+              reveal(true);
+              return;
+            }
+            throw new Error('Submission failed');
+          }).catch(function () {
+            if (errorEl) errorEl.hidden = false;
+            if (btn) { btn.disabled = false; btn.textContent = 'Open the calculator'; }
+          });
+        });
+      }
+    })();
+
+    (function () {
+      function money(n) {
+        if (!isFinite(n)) n = 0;
+        return '$' + Math.round(n).toLocaleString('en-US');
+      }
+      function num(n, dp) {
+        if (!isFinite(n)) n = 0;
+        return dp ? n.toFixed(dp) : Math.round(n).toLocaleString('en-US');
+      }
+
+      var FORMULAS = {
+        'missed-calls': function (v) {
+          var jobs = v.per > 0 ? v.calls / v.per : 0;
+          var mo = jobs * v.ticket;
+          return {
+            big: money(mo), bigLabel: 'estimated leak per month',
+            rows: [
+              ['Per year', money(mo * 12)],
+              ['Real job requests missed per month', num(jobs)]
+            ]
+          };
+        },
+        'slow-bids': function (v) {
+          var swing = (v.fast - v.slow) / 100;
+          var mo = v.bids * v.value * swing;
+          return {
+            big: money(mo), bigLabel: 'estimated leak per month',
+            rows: [
+              ['Per year', money(mo * 12)],
+              ['Extra jobs per month at stake', num(v.bids * swing, 1)]
+            ]
+          };
+        },
+        'change-orders': function (v) {
+          var perJob = v.value * (v.co / 100) * (v.undoc / 100);
+          return {
+            big: money(perJob), bigLabel: 'per job, completed and never invoiced',
+            rows: [
+              ['Per year at ' + num(v.jobs) + ' jobs', money(perJob * v.jobs)],
+              ['Change-order revenue per job', money(v.value * (v.co / 100))]
+            ]
+          };
+        },
+        'inquiries': function (v) {
+          var unanswered = v.inq * (1 - v.sameday / 100);
+          var extraEng = unanswered * 0.5 * ((v.fast - v.slow) / 100);
+          var mo = extraEng * v.value;
+          return {
+            big: money(mo), bigLabel: 'estimated leak per month',
+            rows: [
+              ['Per year', money(mo * 12)],
+              ['Inquiries not answered same-day', num(unanswered, 1) + ' / month'],
+              ['Engagements at stake per month', num(extraEng, 1)]
+            ]
+          };
+        },
+        'letters': function (v) {
+          var daily = (v.fee * 12) / 365;
+          var mo = v.eng * v.delay * daily;
+          return {
+            big: money(mo), bigLabel: 'in fees pushed later each month (not lost outright)',
+            rows: [
+              ['Per year', money(mo * 12)],
+              ['Drag per engagement', money(v.delay * daily)]
+            ]
+          };
+        },
+        'cold-dms': function (v) {
+          var convos = v.inq * (v.un / 100) * (v.book / 100);
+          var mo = convos * v.value;
+          return {
+            big: money(mo), bigLabel: 'estimated leak per month',
+            rows: [
+              ['Per year', money(mo * 12)],
+              ['Qualified conversations gone quiet', num(convos, 1) + ' / month']
+            ]
+          };
+        },
+        'slow-quotes': function (v) {
+          var swing = (v.fast - v.slow) / 100;
+          var mo = v.quotes * v.ticket * swing;
+          return {
+            big: money(mo), bigLabel: 'estimated leak per month',
+            rows: [
+              ['Per year', money(mo * 12)],
+              ['Extra jobs per month at stake', num(v.quotes * swing, 1)]
+            ]
+          };
+        },
+        'no-shows': function (v) {
+          var perDay = v.prov * v.visits * (v.rate / 100) * v.value;
+          var mo = perDay * v.days;
+          return {
+            big: money(mo), bigLabel: 'estimated leak per month',
+            rows: [
+              ['Per day', money(perDay)],
+              ['Per year', money(mo * 12)],
+              ['No-shows per day across the clinic', num(v.prov * v.visits * (v.rate / 100), 1)]
+            ]
+          };
+        },
+        'first-reply': function (v) {
+          var contested = v.leads * (v.share / 100);
+          var yr = contested * (v.close / 100) * v.comm * 12;
+          return {
+            big: money(yr), bigLabel: 'in commission riding on who replies first, per year',
+            rows: [
+              ['Leads up for grabs on speed', num(contested) + ' / month'],
+              ['Conservative read (one extra deal a quarter)', money(v.comm * 4) + ' / year']
+            ]
+          };
+        },
+        'invoice-aging': function (v) {
+          var over30 = v.out * (v.share / 100);
+          var weeks = v.payroll > 0 ? v.out / v.payroll : 0;
+          return {
+            big: money(over30), bigLabel: 'sitting 30+ days past due (parked, not lost)',
+            rows: [
+              ['Total parked in receivables', money(v.out)],
+              ['Weeks of payroll that covers', num(weeks, 1)]
+            ]
+          };
+        }
+      };
+
+      function recompute(id) {
+        var fn = FORMULAS[id];
+        if (!fn) return;
+        var inputs = document.querySelectorAll('[data-calc-input="' + id + '"]');
+        var v = {};
+        for (var i = 0; i < inputs.length; i++) {
+          v[inputs[i].getAttribute('data-key')] = parseFloat(inputs[i].value) || 0;
+        }
+        var r = fn(v);
+        var big = document.getElementById('lc-big-' + id);
+        var bigLabel = document.getElementById('lc-biglabel-' + id);
+        var rowsEl = document.getElementById('lc-rows-' + id);
+        if (big) big.textContent = r.big;
+        if (bigLabel) bigLabel.textContent = r.bigLabel;
+        if (rowsEl) {
+          var html = '';
+          for (var j = 0; j < r.rows.length; j++) {
+            html += '<div><dt>' + r.rows[j][0] + '</dt><dd>' + r.rows[j][1] + '</dd></div>';
+          }
+          rowsEl.innerHTML = html;
+        }
+      }
+
+      var picks = document.querySelectorAll('.lc-pick');
+      function show(id) {
+        var panels = document.querySelectorAll('.lc-panel');
+        for (var i = 0; i < panels.length; i++) panels[i].hidden = true;
+        for (var k = 0; k < picks.length; k++) {
+          var active = picks[k].getAttribute('data-calc') === id;
+          picks[k].classList.toggle('lc-pick-active', active);
+          picks[k].setAttribute('aria-selected', active ? 'true' : 'false');
+        }
+        var panel = document.getElementById('lc-panel-' + id);
+        if (panel) {
+          panel.hidden = false;
+          recompute(id);
+          if (panel.scrollIntoView) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        if (window.bwjTrack) window.bwjTrack('leakcalc:pick:' + id);
+      }
+
+      for (var i = 0; i < picks.length; i++) {
+        (function (btn) {
+          btn.addEventListener('click', function () {
+            show(btn.getAttribute('data-calc'));
+          });
+        })(picks[i]);
+      }
+
+      var allInputs = document.querySelectorAll('[data-calc-input]');
+      for (var j = 0; j < allInputs.length; j++) {
+        (function (input) {
+          input.addEventListener('input', function () {
+            recompute(input.getAttribute('data-calc-input'));
+          });
+        })(allInputs[j]);
+      }
+    })();
+  </script>
+
+  <style is:global>
+    .lc-hero {
+      margin: 0 0 1.5rem;
+    }
+    .lc-hero h1 {
+      margin: 0.2rem 0 0.6rem;
+    }
+    .lc-tool {
+      margin: 1.5rem 0 2rem;
+    }
+    .lc-pick-label {
+      color: var(--color-copper);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 0.7rem;
+    }
+    .lc-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.6rem;
+      margin: 0 0 1.5rem;
+    }
+    .lc-pick {
+      --axis: var(--exp-deals);
+      --axis-soft: var(--exp-deals-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      text-align: left;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-surface, #fff);
+      font: inherit;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .lc-pick[data-axis='cash'] {
+      --axis: var(--exp-cash);
+      --axis-soft: var(--exp-cash-soft);
+    }
+    .lc-pick:hover {
+      border-color: var(--axis);
+    }
+    .lc-pick-active {
+      border-color: var(--axis);
+      box-shadow: 0 0 0 2px var(--axis-soft);
+    }
+    .lc-pick-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .lc-pick-seg {
+      color: var(--color-text-muted);
+      font-size: 0.78rem;
+    }
+    .lc-panel {
+      --axis: var(--exp-deals);
+      --axis-soft: var(--exp-deals-soft);
+      border: 1px solid var(--color-border);
+      border-left: 4px solid var(--axis);
+      border-radius: 12px;
+      background: var(--color-surface, #fff);
+      padding: 1.3rem 1.4rem;
+      margin: 0 0 1.5rem;
+    }
+    .lc-panel[data-axis='cash'] {
+      --axis: var(--exp-cash);
+      --axis-soft: var(--exp-cash-soft);
+    }
+    .lc-panel-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .lc-panel-head h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+    .lc-panel-seg {
+      color: var(--axis);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .lc-panel-desc {
+      color: var(--color-text-muted);
+      margin: 0.4rem 0 1rem;
+    }
+    .lc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    @media (max-width: 640px) {
+      .lc-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .lc-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .lc-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.88rem;
+    }
+    .lc-field span {
+      color: var(--color-text-muted);
+    }
+    .lc-field input {
+      min-height: 42px;
+      padding: 0.45rem 0.65rem;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--color-text);
+      font: inherit;
+      font-variant-numeric: tabular-nums;
+    }
+    .lc-field input:focus {
+      outline: 2px solid var(--axis-soft);
+      border-color: var(--axis);
+    }
+    .lc-result {
+      border: 1px solid var(--axis-soft);
+      border-radius: 10px;
+      background: var(--color-paper, #fbf6ec);
+      padding: 1rem 1.1rem;
+      align-self: start;
+    }
+    .lc-result-big {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--axis);
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .lc-result-biglabel {
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      margin: 0.1rem 0 0.8rem;
+    }
+    .lc-result-rows {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .lc-result-rows div {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      font-size: 0.88rem;
+    }
+    .lc-result-rows dt {
+      color: var(--color-text-muted);
+    }
+    .lc-result-rows dd {
+      margin: 0;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .lc-estimate {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      font-style: italic;
+      margin: 0.9rem 0 0;
+    }
+    .lc-note {
+      font-size: 0.9rem;
+      margin: 1.1rem 0 0.4rem;
+    }
+    .lc-cite {
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      margin: 0 0 0.4rem;
+    }
+    .lc-links {
+      font-size: 0.9rem;
+      margin: 0.6rem 0 0;
+    }
+  </style>
+</Base>

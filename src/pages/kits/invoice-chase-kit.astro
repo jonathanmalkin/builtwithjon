@@ -1,0 +1,194 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const metaDescription =
+  'A free kit that puts the invoice chase on a clock: a day 0, 7, 14, 30 reminder sequence with email and text variants, the 15-minute weekly aging review, and the change-order capture log for contractors.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: 'The Invoice-Chase Kit',
+      url: 'https://builtwithjon.com/kits/invoice-chase-kit/',
+      description: metaDescription,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://builtwithjon.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Invoice-Chase Kit', item: 'https://builtwithjon.com/kits/invoice-chase-kit/' },
+      ],
+    },
+  ],
+};
+---
+
+<Base title="The Invoice-Chase Kit" description={metaDescription} schema={schema}>
+  <section class="kit-hero">
+    <p class="eyebrow">Free template kit</p>
+    <h1>The Invoice-Chase Kit</h1>
+    <p class="lede">
+      Sent and paid are different events, and most businesses only manage the first one.
+      This kit replaces memory with a clock: a reminder sequence, a 15-minute weekly ritual, and a capture log so the invoice includes everything you actually earned.
+    </p>
+  </section>
+
+  <section class="kit-inside" aria-label="What is inside">
+    <h2>What's inside</h2>
+    <ul class="kit-list">
+      <li><strong>The reminder sequence.</strong> Day 0, 7, 14, and 30 messages with email and text variants at each step, escalating one notch of tone at a time. Drafts run on the clock; a human sends every one.</li>
+      <li><strong>The 15-minute weekly aging review.</strong> One list, one owner, one fixed day, with a minute-by-minute agenda so it actually stays at 15 minutes.</li>
+      <li><strong>The change-order capture log.</strong> For contractors: the field rule, the log format, and the weekly reconciliation that stops completed work from evaporating before it reaches an invoice.</li>
+    </ul>
+    <p class="kit-guardrail">Context worth knowing: QuickBooks' 2025 research found 56% of US small businesses were owed money on unpaid invoices, averaging about $17,500, with 47% carrying invoices 30 or more days overdue.</p>
+  </section>
+
+  <div
+    class="starter-gate"
+    id="starter-gate"
+    data-kit="invoice-chase-kit"
+    data-file="/downloads/invoice-chase-kit.pdf"
+    data-filename="invoice-chase-kit.pdf"
+  >
+    <p class="starter-gate-label">Free download</p>
+    <p class="starter-gate-lede">Enter your email and I will unlock the kit. I send the occasional note on fixing operational leaks. No spam, unsubscribe anytime.</p>
+    <form
+      class="starter-gate-form"
+      id="starter-gate-form"
+      action="https://formspree.io/f/xdapgpae"
+      method="POST"
+      data-track-form="lead-magnet"
+    >
+      <input type="hidden" name="_subject" value="Lead magnet unlock: Invoice-Chase Kit" />
+      <input type="hidden" name="inquiry_type" value="lead-magnet" />
+      <input type="hidden" name="which_kit" value="invoice-chase-kit" />
+      <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
+      <input
+        type="email"
+        id="starter-gate-email"
+        name="email"
+        class="starter-gate-input"
+        placeholder="you@example.com"
+        required
+        autocomplete="email"
+        inputmode="email"
+        spellcheck="false"
+      />
+      <button type="submit" class="starter-gate-btn">Unlock the kit</button>
+    </form>
+    <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite">
+      Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will send it directly.
+    </p>
+    <p class="starter-gate-note">The site is static, so the file is not truly locked. This just lets me know who is fixing their chase.</p>
+  </div>
+
+  <div class="starter-gate-unlocked" id="starter-gate-unlocked" hidden>
+    <p class="starter-gate-ready">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      You are in. Download is ready
+    </p>
+    <a class="starter-gate-download" id="starter-gate-link" href="/downloads/invoice-chase-kit.pdf" download>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download the kit
+    </a>
+    <p class="starter-gate-download-hint">Did not start automatically? <a href="/downloads/invoice-chase-kit.pdf" download>Click here to download <code>invoice-chase-kit.pdf</code></a>.</p>
+  </div>
+
+  <section class="kit-next" aria-label="Related tools">
+    <h2>Want to know what the gap costs you?</h2>
+    <p>
+      The <a href="/tools/leak-calculator/">Leak Calculator</a> turns your receivables and change-order pattern into a dollar figure in about a minute.
+      The <a href="/scorecard/">Hidden Profit Scorecard</a> ranks where your operation leaks worst across deals, time, and cash.
+    </p>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var gate = document.getElementById('starter-gate');
+      var unlocked = document.getElementById('starter-gate-unlocked');
+      if (!gate || !unlocked) return;
+      var form = document.getElementById('starter-gate-form');
+      var errorEl = document.getElementById('starter-gate-error');
+      var btn = form ? form.querySelector('.starter-gate-btn') : null;
+      var link = document.getElementById('starter-gate-link');
+      var kit = gate.getAttribute('data-kit') || 'kit';
+      var storeKey = 'bwj-starter-kit-' + kit;
+
+      function reveal(justUnlocked) {
+        gate.hidden = true;
+        unlocked.hidden = false;
+        if (justUnlocked && link) {
+          if (unlocked.scrollIntoView) {
+            unlocked.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          setTimeout(function () {
+            try { link.click(); } catch (e) {}
+            try { link.focus(); } catch (e) {}
+          }, 350);
+        }
+      }
+
+      try {
+        if (window.localStorage && localStorage.getItem(storeKey) === 'unlocked') {
+          reveal(false);
+        }
+      } catch (e) {}
+
+      if (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (errorEl) errorEl.hidden = true;
+          if (btn) { btn.disabled = true; btn.textContent = 'Unlocking...'; }
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          }).then(function (response) {
+            if (response.ok) {
+              try { if (window.localStorage) localStorage.setItem(storeKey, 'unlocked'); } catch (e) {}
+              reveal(true);
+              return;
+            }
+            throw new Error('Submission failed');
+          }).catch(function () {
+            if (errorEl) errorEl.hidden = false;
+            if (btn) { btn.disabled = false; btn.textContent = 'Unlock the kit'; }
+          });
+        });
+      }
+    })();
+  </script>
+
+  <style>
+    .kit-hero h1 {
+      margin: 0.2rem 0 0.6rem;
+    }
+    .kit-inside {
+      margin: 1.5rem 0;
+    }
+    .kit-inside h2 {
+      font-size: 1.15rem;
+      margin: 0 0 0.6rem;
+    }
+    .kit-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .kit-guardrail {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      margin: 0.9rem 0 0;
+    }
+    .kit-next {
+      margin: 2rem 0;
+    }
+    .kit-next h2 {
+      font-size: 1.15rem;
+      margin: 0 0 0.5rem;
+    }
+  </style>
+</Base>
