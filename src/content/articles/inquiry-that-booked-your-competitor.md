@@ -27,7 +27,7 @@ Accounting and consulting firms run on the same rhythm — busy season, close se
 | Close rate for prospects reached within the day | 30% |
 | Close rate for prospects reached after a week or not at all | 10% |
 
-Twelve inquiries a month go unanswered on the day they arrive. If even half of those would have converted at the "reached promptly" rate instead of the "reached late" rate, that's a 20-point swing on six engagements — roughly **1 additional engagement a month**, or **$8,000–$16,000 a year** in fees that went to whichever competitor picked up the phone or answered the email first. Run your own inquiry count and average engagement value through the same table; the shape holds even if your numbers are smaller.
+Twelve inquiries a month go unanswered on the day they arrive. If even half of those would have converted at the "reached promptly" rate instead of the "reached late" rate, that's a 20-point swing on six engagements — roughly **1 additional engagement a month**, or **$8,000–$16,000 a month** in fees that went to whichever competitor picked up the phone or answered the email first. Run your own inquiry count and average engagement value through the same table; the shape holds even if your numbers are smaller.
 
 ## The fix that doesn't require a receptionist
 
