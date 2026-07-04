@@ -46,6 +46,57 @@ const authorSchema = {
   ],
 };
 
+const MAGNETS = {
+  calculator: {
+    kicker: 'Free tool',
+    title: 'The Leak Calculator',
+    href: '/tools/leak-calculator/',
+    blurb: 'Turn the math in this article into your own number. Pick the leak, enter three or four figures you already know, and see the monthly and annual cost with the source behind every benchmark. Takes about a minute.',
+    cta: 'Run your numbers',
+  },
+  swipe: {
+    kicker: 'Free swipe file',
+    title: 'The Follow-Up Swipe File',
+    href: '/kits/follow-up-swipe-file/',
+    blurb: 'The 20 copy-paste messages that fix this leak: first responses, the bid follow-up ladder, handoffs, and invoice nudges, each with its timing rule. Adapt them to how you actually talk and send them.',
+    cta: 'Get the swipe file',
+  },
+  kit: {
+    kicker: 'Free kit',
+    title: 'The Invoice-Chase Kit',
+    href: '/kits/invoice-chase-kit/',
+    blurb: 'The reminder sequence (day 0, 7, 14, 30 with email and text variants), the 15-minute weekly aging review, and the change-order capture log. Reminders draft on a clock; a human sends every one.',
+    cta: 'Get the kit',
+  },
+};
+
+const MAGNET_FOR_SLUG: Record<string, keyof typeof MAGNETS> = {
+  'invoice-chase-payroll-problem': 'kit',
+  'change-order-revenue-never-invoiced': 'kit',
+  'rent-chase-standing-meeting': 'kit',
+  'quote-that-waited-until-friday': 'swipe',
+  'inquiry-that-booked-your-competitor': 'swipe',
+  'leads-go-cold-heads-down-creating': 'swipe',
+  'five-minute-reply-window-listing': 'swipe',
+  'leasing-inquiry-applied-somewhere-else': 'swipe',
+  'new-patient-reached-voicemail': 'swipe',
+  'same-day-engagement-letters': 'swipe',
+  'quiet-churn-never-exit-interviewed': 'swipe',
+  'slow-bid-follow-up-loses-jobs': 'swipe',
+  'missed-call-math-home-services': 'swipe',
+  'fourteen-hours-that-never-pour-concrete': 'calculator',
+  'packaging-tax-one-person-brand': 'calculator',
+  'forty-documents-in-flight': 'calculator',
+  'where-deals-actually-fall-through': 'calculator',
+  'same-five-tenant-problems-loop': 'calculator',
+  'empty-chairs-no-show-math': 'calculator',
+  'two-clinical-days-prior-auth': 'calculator',
+  'non-billable-admin-audit': 'calculator',
+};
+
+const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? '';
+const magnet = MAGNET_FOR_SLUG[slug] ? MAGNETS[MAGNET_FOR_SLUG[slug]] : null;
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -88,6 +139,13 @@ const articleSchema = {
     <div class="article-content">
       <slot />
     </div>
+    {magnet && (
+      <aside class="article-magnet" aria-label="Free resource">
+        <p class="article-magnet-kicker">{magnet.kicker}</p>
+        <p><strong>{magnet.title}.</strong> {magnet.blurb}</p>
+        <p><a href={magnet.href}>{magnet.cta} &rarr;</a></p>
+      </aside>
+    )}
     <footer class="article-footer">
       {platforms && (platforms.reddit || platforms.x) && (
         <div class="platforms">
