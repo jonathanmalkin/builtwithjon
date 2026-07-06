@@ -3,6 +3,8 @@ const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const MAX_SCORECARD_BODY_BYTES = 32_000;
 const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
+const AGENT_DOWNLOAD_PATH = "/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
+const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 
 const SEGMENTS = {
   gc: "General contracting",
@@ -79,6 +81,10 @@ const AXIS_LABELS = {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (AGENT_SHORT_PATHS.has(url.pathname)) {
+      return Response.redirect(`${url.origin}${AGENT_DOWNLOAD_PATH}`, 302);
+    }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {
       return handleScorecardReport(request, env);
