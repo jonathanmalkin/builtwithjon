@@ -4,6 +4,10 @@
 /articles/what-i-actually-do-with-claude-code/ / 301
 /knowledge-os-product/ /knowledge-os-proof/ 301
 
+# Short installer link for the Cowork personal assistant plugin.
+/agent https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip 302
+/agent/ https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip 302
+
 # Projects section retired 2026-07-03. Technical proof now lives in Articles and Jules.
 /projects/ava-attendance-officer/ /articles/ 301
 /projects/ava-attendance-officer /articles/ 301

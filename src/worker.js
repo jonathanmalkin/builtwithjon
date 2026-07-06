@@ -3,7 +3,7 @@ const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const MAX_SCORECARD_BODY_BYTES = 32_000;
 const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
-const AGENT_DOWNLOAD_PATH = "/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
+const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 
 const SEGMENTS = {
@@ -83,7 +83,7 @@ export default {
     const url = new URL(request.url);
 
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
-      return Response.redirect(`${url.origin}${AGENT_DOWNLOAD_PATH}`, 302);
+      return Response.redirect(AGENT_DOWNLOAD_URL, 302);
     }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {
