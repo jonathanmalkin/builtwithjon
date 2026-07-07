@@ -2,9 +2,27 @@
 import Base from '../../layouts/Base.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
+import { customArticles } from '../../data/customArticles';
+import multipleEmailHero from '../../assets/articles/multiple-email-accounts-with-claude/option-c-whiteboard-v3.png';
 
-const articles = (await getCollection('articles', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const contentArticles = (await getCollection('articles', ({ data }) => !data.draft))
+  .map((article) => ({
+    title: article.data.title,
+    slug: article.id,
+    date: article.data.date,
+    description: article.data.description,
+    story: article.data.story,
+    image: undefined,
+    imageAlt: undefined,
+  }));
+
+const designedArticles = customArticles.map((article) => ({
+  ...article,
+  image: article.slug === 'multiple-email-accounts-with-claude' ? multipleEmailHero : undefined,
+}));
+
+const articles = [...designedArticles, ...contentArticles]
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf());
 ---
 
 <Base
@@ -18,11 +36,13 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     </p>
     {articles.map((article) => (
       <ArticleCard
-        title={article.data.title}
-        slug={article.id}
-        date={article.data.date}
-        description={article.data.description}
-        story={article.data.story}
+        title={article.title}
+        slug={article.slug}
+        date={article.date}
+        description={article.description}
+        story={article.story}
+        image={article.image}
+        imageAlt={article.imageAlt}
       />
     ))}
   </div>

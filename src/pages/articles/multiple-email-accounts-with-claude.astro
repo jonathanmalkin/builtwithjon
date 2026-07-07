@@ -1,0 +1,449 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { customArticles } from '../../data/customArticles';
+import heroImage from '../../assets/articles/multiple-email-accounts-with-claude/option-c-whiteboard-v3.png';
+
+const article = customArticles.find((item) => item.slug === 'multiple-email-accounts-with-claude')!;
+const publishedTime = article.date.toISOString();
+const shareImage = await getImage({
+  src: heroImage,
+  width: 1200,
+  format: 'jpg',
+  quality: 88,
+});
+
+const canonicalUrl = new URL(`/articles/${article.slug}/`, Astro.site).href;
+const shareImageUrl = new URL(shareImage.src, Astro.site).href;
+
+const authorSchema = {
+  '@type': 'Person',
+  name: 'Jonathan Malkin',
+  jobTitle: 'AI Workflow Consultant & Implementation Partner',
+  url: 'https://builtwithjon.com/about/',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Built with Jon',
+    url: 'https://builtwithjon.com/',
+  },
+  sameAs: [
+    'https://github.com/jonathanmalkin',
+    'https://x.com/builtwithjon',
+    'https://linkedin.com/in/jonathanmalkin',
+  ],
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.description,
+  datePublished: publishedTime,
+  dateModified: publishedTime,
+  mainEntityOfPage: canonicalUrl,
+  author: authorSchema,
+  publisher: authorSchema,
+  image: shareImageUrl,
+};
+---
+
+<Base
+  title={article.title}
+  description={article.description}
+  image={shareImage.src}
+  article={true}
+  publishedTime={publishedTime}
+  modifiedTime={publishedTime}
+  schema={articleSchema}
+>
+  <article class="email-article" aria-labelledby="email-article-title">
+    <div class="email-wrap">
+      <Image
+        class="email-article-hero"
+        src={heroImage}
+        alt="Hand-drawn whiteboard sketch: a fox with a coffee mug choosing among three numbered groups of options for connecting multiple email accounts to Claude."
+        widths={[700, 1024, 1536]}
+        sizes="(min-width: 760px) 700px, calc(100vw - 44px)"
+        format="webp"
+        quality={86}
+        loading="eager"
+      />
+      <p class="email-kicker">Built with Jon 🦊</p>
+      <h1 id="email-article-title">📬 Using more than one email account with Claude</h1>
+      <p class="email-lede">Claude connects to one email account at a time, one <a href="https://support.claude.com/en/articles/10166901-use-google-workspace-connectors">Gmail</a> or one <a href="https://support.claude.com/en/articles/14855664-use-claude-for-outlook">Outlook</a>. If you live in two inboxes, work and personal ✉️, or your team shares one, here is what actually works, and what I would do.</p>
+
+      <div class="email-rec">
+        <h2>☕ The short version</h2>
+        <ul>
+          <li><span class="email-em">📖</span><b>Just want Claude to read across both</b> (search, triage, summarize)? Forward one inbox into the other. Five minutes, and there is a copy-paste prompt below that walks you through it.</li>
+          <li><span class="email-em">👥</span><b>A team sharing one inbox on Microsoft 365?</b> A <a href="https://support.claude.com/en/articles/12684923-microsoft-365-connector-security-guide">shared mailbox</a> lets everyone's Claude read the same inbox through their delegate access.</li>
+          <li><span class="email-em">🏢</span><b>On Google Workspace instead?</b> No shared mailbox there, but your admin can set up a <a href="https://developers.google.com/identity/protocols/oauth2/service-account">service account</a> with <a href="https://knowledge.workspace.google.com/admin/apps/control-api-access-with-domain-wide-delegation">domain-wide access</a> so Claude can reach the team's mail.</li>
+          <li><span class="email-em">✍️</span><b>Want Claude to actually send from each account, not just draft?</b> The built-in connector drafts on Gmail and only reads on Outlook; it does not send on its own. For real send-from-each, run an MCP server for your provider (option 3).</li>
+        </ul>
+      </div>
+
+      <div class="email-bucket">
+        <div class="email-bucket-head"><span class="email-n">1</span><h2>📖 Read and triage across inboxes</h2><span class="email-tag">the easy one</span></div>
+        <ul class="email-opts">
+          <li><span class="email-em">📥</span>
+            <b>Forward everything into one inbox</b>
+            <p>Set up <a href="https://support.google.com/mail/answer/10957">auto-forwarding</a> from your other mailboxes into one Gmail (or use <a href="https://support.google.com/mail/answer/21289">import</a> if you want your old mail too), then create a <a href="https://support.google.com/mail/answer/6579">filter</a> that files it into its own label and skips your inbox. Connect Claude to that one account. The best quick win for reading and triage. Downside: replies go from that one address.</p>
+            <details class="email-promptbox">
+              <summary>📋 Copy the step-by-step prompt (click to open)</summary>
+              <div class="email-prompt-body">
+<pre>Consolidate my email into one inbox.
+
+I want every email from my other accounts to show up in my main Gmail, the one connected to you. Walk me through it one step at a time. Wait for me to finish each step before giving me the next one.
+
+First, ask me two things:
+1. Which accounts I want to pull in (Gmail, Outlook, or both) and their addresses
+2. Whether I want ONLY new mail going forward, or ALL my old emails too
+
+Then based on my answer:
+
+If I only want new mail, walk me through setting up auto-forwarding from each account into my main Gmail, including approving the confirmation email.
+
+If I want my old emails too, walk me through Gmail's "Import mail and contacts" tool instead, since forwarding won't grab anything already sitting in my inbox. Tell me it does a one-time import of old mail plus 30 more days of new mail.
+
+Keep each step short and plain. No jargon. If I get stuck or land on a different screen than you expected, help me find my way back. At the end, confirm mail is flowing into the one inbox so my agent can see all of it in one place.
+
+Heads up if it matters: imports usually only pull the Inbox, not every folder or label, and a big mailbox can take a few hours to finish.
+
+One more thing. I do NOT want this forwarded mail cluttering my main inbox. Set it up so the incoming mail from my other accounts SKIPS THE INBOX and auto-filters into a folder called &lt;NAME OF FOLDER&gt;. Walk me through creating a Gmail filter that catches everything from those accounts, applies the &lt;NAME OF FOLDER&gt; label, and marks it to skip the inbox. I am doing this so my agent can help me manage my other email inboxes, since Claude can only connect to one Gmail account. So everything needs to land in that one account but stay neatly filed in its own folder.</pre>
+                <p class="email-credit">Prompt courtesy of <a href="https://www.instagram.com/aiicclub/">Christine McDannell and The AI Implementation Club</a>.</p>
+              </div>
+            </details>
+          </li>
+          <li><span class="email-em">🔄</span>
+            <b>Switch which account is connected</b>
+            <p>Disconnect one, connect the other when you need it. Fine for an occasional peek at the second inbox, not a real everyday setup.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="email-bucket">
+        <div class="email-bucket-head"><span class="email-n">2</span><h2>🔧 Connect a second account or share one</h2><span class="email-tag">a little setup, no code</span></div>
+        <ul class="email-opts">
+          <li><span class="email-em">🔌</span>
+            <b>An automation tool</b>
+            <p>Add your second account through a reputable platform like <a href="https://github.com/zapier/zapier-mcp">Zapier</a>, alongside Claude's built-in connector. Nothing to run yourself, and you are trusting a known company.</p>
+          </li>
+          <li><span class="email-em">👥</span>
+            <b>Team shared mailbox (Microsoft 365)</b>
+            <p>Create a <a href="https://learn.microsoft.com/en-us/microsoft-365/admin/email/create-a-shared-mailbox?view=o365-worldwide">shared mailbox</a> in Microsoft 365 and give each person access. Everyone's Claude can then <a href="https://support.claude.com/en/articles/12684923-microsoft-365-connector-security-guide">read and triage</a> that same inbox through their delegate access. For a shared team inbox, not your own second account.</p>
+          </li>
+          <li><span class="email-em">🏢</span>
+            <b>Whole company on Google Workspace?</b>
+            <p>Your admin can set up a <a href="https://developers.google.com/identity/protocols/oauth2/service-account">service account</a> and give it <a href="https://knowledge.workspace.google.com/admin/apps/control-api-access-with-domain-wide-delegation">domain-wide delegation</a> in the Admin console, so Claude can reach the team's mail with no per-account logins to babysit. The most durable path at company scale.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="email-bucket">
+        <div class="email-bucket-head"><span class="email-n">3</span><h2>🛠️ An MCP server</h2><span class="email-tag">the technical one</span></div>
+        <p class="email-intro-line">Connect Claude to a separate email tool that holds all your accounts. Not a mail app like Apple Mail (Claude can't talk to that), but an MCP server: a connector Claude talks to directly. This is the only route that actually sends from every account, not just drafts.</p>
+        <ul class="email-opts">
+          <li><span class="email-em">🧩</span>
+            <b>Pick the one for your provider</b>
+            <p>Gmail runs on Google's official <a href="https://github.com/googleworkspace/cli">Workspace CLI (gws)</a>, which ships a built-in MCP server. Outlook runs on the Microsoft Graph API: <a href="https://github.com/softeria/ms-365-mcp-server">ms-365-mcp-server</a> is the maintained community server, and Microsoft's own <a href="https://learn.microsoft.com/en-us/microsoft-agent-365/mcp-server-reference/mail">mail MCP</a> is in preview.</p>
+            <p class="email-authnote">The real work is the auth. Each account needs its own login. On this route you sign each mailbox in yourself, one <a href="https://developers.google.com/identity/protocols/oauth2">OAuth</a> login per account (not a shared service account), and those logins quietly expire and need reconnecting. If your accounts all sit in one Google Workspace, the sturdier version is the <a href="https://knowledge.workspace.google.com/admin/apps/control-api-access-with-domain-wide-delegation">domain-wide service account</a> from option 2 instead.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="email-callout">
+        <h3>⚠️ Before you run third-party email code</h3>
+        <p>🔑 Email is the master key. Whoever can read your inbox can reset most of your other passwords. The moment you go past the built-in connector and run someone else's tool, slow down.</p>
+        <ul>
+          <li>⭐ Use popular, actively maintained tools. Check the last update and how many people rely on it. Skip anything abandoned or obscure.</li>
+          <li>🔍 Prefer read and draft access over send access until you trust it.</li>
+          <li>💻 Run it on your own machine, not a stranger's server. Never paste your email password or keys into a random website.</li>
+        </ul>
+      </div>
+
+      <p class="email-close">☕ Stuck between options? Tell me your setup and I will point you to the right one. <a href="https://builtwithjon.com/contact/">Reach out here 🦊</a>.</p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .email-article {
+    color-scheme: light;
+    --paper: #fbf6ec;
+    --surface: #fffdf8;
+    --ink: #1f1713;
+    --muted: #5e5047;
+    --border: #e5d7c3;
+    --blue: #3b6e8f;
+    --blueprint: #1d4ed8;
+    --orange: #e8752b;
+    --copper: #8f4e24;
+    --sage: #6e8b6f;
+    --code: #f2e7d6;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .email-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 44px 22px 70px;
+  }
+
+  .email-article-hero {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    margin: 0 0 22px;
+    display: block;
+    border: 1px solid var(--border);
+  }
+
+  .email-kicker {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+
+  .email-article h1 {
+    font-size: 32px;
+    line-height: 1.18;
+    margin: 0 0 10px;
+    letter-spacing: 0;
+  }
+
+  .email-lede {
+    color: var(--muted);
+    font-size: 18px;
+    margin: 0 0 26px;
+  }
+
+  .email-article h2 {
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 34px 0 12px;
+  }
+
+  .email-bucket {
+    margin-top: 30px;
+  }
+
+  .email-bucket-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    border-bottom: 2px solid var(--orange);
+    padding-bottom: 6px;
+  }
+
+  .email-bucket-head .email-n {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--orange);
+    border-radius: 6px;
+    padding: 2px 8px;
+  }
+
+  .email-bucket-head h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 17px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .email-bucket-head .email-tag {
+    font-size: 13px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .email-intro-line {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 8px 0 2px;
+  }
+
+  .email-rec {
+    background: var(--surface);
+    border: 1px solid var(--blue);
+    border-left: 5px solid var(--blue);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 4px 0 8px;
+  }
+
+  .email-rec h2 {
+    margin: 0 0 12px;
+    color: var(--blue);
+  }
+
+  .email-rec ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .email-rec li {
+    margin: 12px 0;
+    padding-left: 30px;
+    position: relative;
+  }
+
+  .email-rec li .email-em {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 18px;
+  }
+
+  .email-rec b {
+    color: var(--ink);
+  }
+
+  .email-opts {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+  }
+
+  .email-opts > li {
+    padding: 12px 0 12px 34px;
+    position: relative;
+    border-top: 1px solid var(--border);
+  }
+
+  .email-opts > li:first-child {
+    border-top: none;
+  }
+
+  .email-opts > li .email-em {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    font-size: 20px;
+  }
+
+  .email-opts b {
+    display: block;
+  }
+
+  .email-opts p {
+    margin: 6px 0 0;
+  }
+
+  .email-authnote {
+    color: var(--copper);
+    font-size: 15px;
+    margin: 8px 0 0;
+  }
+
+  .email-promptbox {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    margin-top: 12px;
+    overflow: hidden;
+  }
+
+  .email-promptbox summary {
+    cursor: pointer;
+    padding: 11px 16px;
+    font-weight: 600;
+    color: var(--blue);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f3ead9;
+  }
+
+  .email-promptbox summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .email-promptbox summary::before {
+    content: "▸";
+    color: var(--orange);
+    font-weight: 800;
+  }
+
+  .email-promptbox[open] summary::before {
+    content: "▾";
+  }
+
+  .email-promptbox summary:hover {
+    background: #eaddc6;
+  }
+
+  .email-prompt-body {
+    padding: 0 16px 14px;
+  }
+
+  .email-prompt-body pre {
+    white-space: pre-wrap;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    background: var(--code);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 0 0;
+    overflow-x: auto;
+    color: var(--ink);
+  }
+
+  .email-credit {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 10px 0 0;
+  }
+
+  .email-callout {
+    background: #fbead9;
+    border: 1px solid var(--orange);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 30px 0;
+  }
+
+  .email-callout h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--copper);
+    letter-spacing: 0;
+  }
+
+  .email-callout ul {
+    margin: 0;
+    padding-left: 22px;
+  }
+
+  .email-callout li {
+    margin: 6px 0;
+  }
+
+  .email-close {
+    margin-top: 32px;
+    padding: 18px 22px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .email-article a {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  .email-article a:hover {
+    color: var(--blueprint);
+  }
+</style>
