@@ -16,6 +16,9 @@ const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
+const MCP_REGISTRY_AUTH_PATH = "/.well-known/mcp-registry-auth";
+const MCP_REGISTRY_AUTH_PROOF =
+  "v=MCPv1; k=ecdsap384; p=AvUGKTlupoWJNtt1rtl5R5SD9Z3yK59b7dTHmdbt53BWO/EqQARKJm+V22+awwN/HA==";
 
 export default {
   async fetch(request, env) {
@@ -29,6 +32,12 @@ export default {
 
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
       return Response.redirect(AGENT_DOWNLOAD_URL, 302);
+    }
+
+    if (url.pathname === MCP_REGISTRY_AUTH_PATH && request.method === "GET") {
+      return new Response(`${MCP_REGISTRY_AUTH_PROOF}\n`, {
+        headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=300" },
+      });
     }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {
