@@ -7,6 +7,7 @@ import {
   tierFor,
   compositeScore,
 } from "./data/scorecard";
+import { isMcpRequest, handleMcp } from "./mcp/handler";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
@@ -19,6 +20,12 @@ const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // MCP server (POST /mcp + preflight + SSE-GET rejection); plain browser
+    // GETs on /mcp fall through to the static docs page.
+    if (isMcpRequest(url, request)) {
+      return handleMcp(request, env);
+    }
 
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
       return Response.redirect(AGENT_DOWNLOAD_URL, 302);
