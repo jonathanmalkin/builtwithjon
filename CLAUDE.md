@@ -50,7 +50,9 @@ npm run preview  # Preview built site
 4. Commit and push to main
 5. Run Wrangler deploy
 
-**Deploy command:** `npm run build && find dist -name .DS_Store -delete && wrangler deploy --name jonathanmalkin-site --assets dist --compatibility-date 2026-03-18`
+**Deploy command:** `npm run build && find dist -name .DS_Store -delete && wrangler deploy`
+
+(name, worker entry, assets directory, `run_worker_first` for /mcp, and compatibility date all come from `wrangler.jsonc` — don't re-specify them on the CLI, or overrides can drop the MCP routing config)
 
 In the broader `Active-Work` workspace, prefer `Scripts/deploy-website.sh` because it pushes `main`, builds, cleans deploy artifacts, and runs Wrangler in one sequence.
 
