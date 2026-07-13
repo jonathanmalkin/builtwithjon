@@ -23,7 +23,11 @@ const request = async (name, url, init = {}) => {
 const rpc = async (method, params, id) => {
   const response = await request(method, endpoint, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'MCP-Protocol-Version': protocolVersion },
+    headers: {
+      'Content-Type': 'application/json',
+      'MCP-Protocol-Version': protocolVersion,
+      'Cache-Control': 'no-cache',
+    },
     body: JSON.stringify({ jsonrpc: '2.0', id, method, ...(params ? { params } : {}) }),
   });
   if (!response) return {};
@@ -71,10 +75,14 @@ const start = await rpc('tools/call', {
   arguments: {},
 }, 4);
 const startText = toolText(start);
-check('start_here maps the scorecard', startText.includes('run_scorecard'));
-check('start_here maps the calculators', startText.includes('calculate_leak'));
-check('start_here maps use cases', startText.includes('search_use_cases'));
-check('start_here explains privacy boundary', startText.includes('read-only') && startText.includes('not stored'));
+const startSucceeded = !start?.error && start?.result?.isError !== true;
+check('start_here call succeeds', startSucceeded,
+  start?.error?.message || (start?.result?.isError ? 'tool returned isError' : ''));
+check('start_here maps the scorecard', startSucceeded && startText.includes('run_scorecard'));
+check('start_here maps the calculators', startSucceeded && startText.includes('calculate_leak'));
+check('start_here maps use cases', startSucceeded && startText.includes('search_use_cases'));
+check('start_here explains privacy boundary', startSucceeded
+  && startText.includes('read-only') && startText.includes('not stored'));
 
 const leak = await rpc('tools/call', {
   name: 'calculate_leak',
