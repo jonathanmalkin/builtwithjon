@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jonathanmalkin/builtwithjon",
+  "title": "Built with Jon — Hidden Profit Tools",
+  "description": "Read-only tools for finding where a small business leaks deals, time, and cash.",
+  "version": "1.0.0",
+  "websiteUrl": "https://builtwithjon.com/mcp/",
+  "repository": {
+    "url": "https://github.com/jonathanmalkin/builtwithjon",
+    "source": "github",
+    "id": "1182658971"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://builtwithjon.com/mcp"
+    }
+  ]
+}

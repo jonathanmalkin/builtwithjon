@@ -7,9 +7,11 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "npm run validate:mcp-registry",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "validate:mcp-registry": "node scripts/validate-mcp-server.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",
@@ -18,5 +20,9 @@
     "@iconify-json/lucide": "^1.2.110",
     "astro": "^6.0.4",
     "astro-icon": "^1.1.5"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
   }
 }

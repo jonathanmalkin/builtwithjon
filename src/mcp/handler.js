@@ -8,8 +8,8 @@
 //   (a spec-legal alternative to SSE).
 // - No Mcp-Session-Id header is ever set — that is how clients detect a
 //   stateless server.
-// - GET with Accept: text/event-stream gets 405 (no server push). Other GETs
-//   fall through to the static /mcp/ docs page.
+// - GET /mcp with Accept: text/event-stream gets 405 (no server push).
+//   Browser-style GET /mcp redirects to the static /mcp/ docs page.
 
 import { toolList, callTool, ToolInputError } from "./tools";
 
@@ -45,8 +45,10 @@ const CORS_HEADERS = {
 export function isMcpRequest(url, request) {
   if (!MCP_PATHS.has(url.pathname)) return false;
   if (request.method === "OPTIONS" || request.method === "POST") return true;
-  // Only intercept GETs from MCP clients asking for a server event stream;
-  // plain browser GETs fall through to the static /mcp/ docs page.
+  // /mcp must reach the worker so browser GETs can redirect to the canonical
+  // trailing-slash docs URL. /mcp/ itself remains a static asset unless an MCP
+  // client asks for a server event stream.
+  if (request.method === "GET" && url.pathname === "/mcp") return true;
   const accept = request.headers.get("Accept") || "";
   return accept.includes("text/event-stream");
 }
@@ -57,6 +59,10 @@ export async function handleMcp(request, env) {
   }
 
   if (request.method === "GET") {
+    const accept = request.headers.get("Accept") || "";
+    if (!accept.includes("text/event-stream")) {
+      return Response.redirect(new URL("/mcp/", request.url), 307);
+    }
     return new Response(
       JSON.stringify({
         jsonrpc: "2.0",
