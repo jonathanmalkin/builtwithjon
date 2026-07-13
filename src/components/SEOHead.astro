@@ -23,17 +23,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 const siteName = 'Jonathan Malkin';
 const isDefaultImage = image === '/og-default.png';
+const metaDescription = description.length <= 160
+  ? description
+  : `${description.slice(0, 157).replace(/\s+\S*$/, '')}…`;
 ---
 
 <link rel="canonical" href={canonicalURL} />
-<meta name="description" content={description} />
+<meta name="description" content={metaDescription} />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 
 <!-- Open Graph -->
 <meta property="og:type" content={article ? 'article' : 'website'} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:description" content={metaDescription} />
 <meta property="og:site_name" content={siteName} />
 {image && <meta property="og:image" content={imageURL} />}
 {isDefaultImage && <meta property="og:image:width" content="1200" />}
@@ -45,5 +48,5 @@ const isDefaultImage = image === '/og-default.png';
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@builtwithjon" />
 <meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
+<meta name="twitter:description" content={metaDescription} />
 {image && <meta name="twitter:image" content={imageURL} />}

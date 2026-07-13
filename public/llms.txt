@@ -1,10 +1,10 @@
 # Jonathan Malkin
 
-> AI Workflow Consultant & Implementation Partner. I help small-business owners find and fix the workflow leaks, lost deals, lost time, and slow cash, costing them money, then build safe, human-approved AI pilots to fix them one workflow at a time.
+> Jonathan Malkin helps small-business owners find and fix workflow leaks costing deals, time, and cash, then builds or teaches safe, human-approved AI workflows one practical step at a time.
 
 ## About
 
-Jonathan Malkin is an AI Workflow Consultant & Implementation Partner based in Austin, Texas. After 20+ years in enterprise technology (presales, solutions engineering, business analysis), he now helps small-business owners diagnose where AI can actually save them money, then implements safe, narrow AI pilots with human approval gates. Clients own everything he builds.
+Jonathan Malkin is an Austin-based AI workflow consultant, implementation partner, and workshop facilitator. After 20+ years in enterprise technology, he helps owners diagnose where AI can save money, builds narrow pilots with human approval gates, and teaches teams to own what they build.
 
 His technical writing draws on Jules, a deeply customized Claude Code system with skills, rules, hooks, memory, and automated workflows that runs his own business. It's proof of the engineering rigor behind his consulting work, not the offer itself.
 
@@ -15,6 +15,7 @@ His technical writing draws on Jules, a deeply customized Claude Code system wit
 - Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
 - AI agents: autonomous workflows, model selection, team-based agent architectures
 - AI operations: workflow design, automation patterns, and operational systems
+- Fractional AI operator services and adjacent hands-on implementation models
 
 ## Offers
 
@@ -22,6 +23,7 @@ His technical writing draws on Jules, a deeply customized Claude Code system wit
 - Hidden Profit Review (paid, waitlist): https://builtwithjon.com/hidden-profit-review/
 - Hidden Profit Review sample: https://builtwithjon.com/hidden-profit-review/sample/
 - AI Assistant guides: https://builtwithjon.com/ai-assistant/
+- In-person AI workshops in Austin and private team workshops: https://builtwithjon.com/ai-assistant-workshop/
 - Use-case library (96 examples, 15 business types): https://builtwithjon.com/use-cases/
 
 ## Content

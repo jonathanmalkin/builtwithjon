@@ -15,6 +15,7 @@ interface Props {
   modifiedTime?: string;
   schema?: Record<string, unknown>;
   noindex?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
@@ -26,14 +27,13 @@ const {
   modifiedTime,
   schema,
   noindex,
+  hideFooter = false,
 } = Astro.props;
 
 const pageTitle = title === 'Jonathan Malkin'
   ? title
   : `${title} | Jonathan Malkin`;
 
-// Cloudflare Web Analytics token. Manage the site under the CF dashboard Web Analytics area.
-const CF_BEACON_TOKEN = 'c73b8b85712d47ddb347410bdb28443f';
 ---
 
 <!doctype html>
@@ -57,9 +57,7 @@ const CF_BEACON_TOKEN = 'c73b8b85712d47ddb347410bdb28443f';
       noindex={noindex}
     />
     {schema && <JsonLd schema={schema} />}
-    {CF_BEACON_TOKEN && (
-      <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })} is:inline></script>
-    )}
+    <!-- Cloudflare Web Analytics is injected at the edge through Automatic Setup. -->
   </head>
   <body>
     <script is:inline>
@@ -95,6 +93,6 @@ const CF_BEACON_TOKEN = 'c73b8b85712d47ddb347410bdb28443f';
       <slot />
     </main>
     {article && <EmailCapture />}
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>

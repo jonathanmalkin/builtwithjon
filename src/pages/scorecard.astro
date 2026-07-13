@@ -11,8 +11,9 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
 ---
 
 <Base
-  title="AI Workflow Scorecard"
+  title="Free AI Workflow Scorecard"
   description="A 3-minute scorecard. Find out where your business is leaking deals, time, and cash, and the one fix worth doing first."
+  hideFooter
 >
   <section class="sc-stage" aria-labelledby="sc-h">
     <div class="sc-card" id="sc-app">
@@ -195,8 +196,8 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
               <input type="hidden" name="answers" value='${JSON.stringify(Object.fromEntries(Object.entries(answers).map(([k,v]) => [k, v.label])))}' />
               <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="sc-hp" />
               <div class="sc-gate-fields">
-                <input type="text" name="name" placeholder="First name" autocomplete="given-name" class="sc-input" aria-label="First name" />
-                <input type="email" name="email" required placeholder="you@company.com" autocomplete="email" class="sc-input" aria-label="Email" />
+                <label class="sc-field"><span>First name</span><input type="text" name="name" autocomplete="given-name" class="sc-input" /></label>
+                <label class="sc-field"><span>Work email</span><input type="email" name="email" required autocomplete="email" inputmode="email" spellcheck="false" class="sc-input" /></label>
               </div>
               <button type="submit" class="sc-submit">Show me the breakdown</button>
               <p class="sc-privacy">Your email gets your breakdown and the occasional implementation note. Nothing else. <a href="/privacy">Privacy policy</a>.</p>
@@ -313,15 +314,17 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-options { display: flex; flex-direction: column; gap: clamp(0.35rem, 1vh, 0.5rem); margin-top: clamp(0.55rem, 1.5vh, 0.9rem); }
     .sc-option { display: flex; align-items: center; gap: 0.7rem; text-align: left; padding: clamp(0.45rem, 1.2vh, 0.7rem) 0.95rem; border: 1.5px solid var(--color-foam-line); border-radius: 12px; background: var(--color-bg); font-size: 0.95rem; color: var(--color-text); cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.08s; }
     .sc-opt-dot { width: 10px; height: 10px; border-radius: 999px; border: 2px solid var(--color-foam-line); flex: 0 0 auto; transition: border-color 0.15s, background 0.15s; }
-    .sc-option:hover, .sc-option:focus-visible { border-color: var(--axis); background: var(--color-surface); outline: none; }
+    .sc-option:hover { border-color: var(--axis); background: var(--color-surface); }
+    .sc-option:focus-visible { border-color: var(--axis); background: var(--color-surface); outline: 3px solid var(--axis); outline-offset: 2px; }
     .sc-option:hover .sc-opt-dot, .sc-option:focus-visible .sc-opt-dot { border-color: var(--axis); background: var(--axis); }
     .sc-option:active { transform: scale(0.99); }
     .sc-option.is-selected { border-color: var(--axis); background: var(--axis-soft); }
     .sc-option.is-selected .sc-opt-dot { border-color: var(--axis); background: var(--axis); }
 
     .sc-foot { display: flex; justify-content: space-between; align-items: center; padding: clamp(0.5rem, 1.3vh, 0.75rem) 1.4rem; border-top: 1px solid var(--color-foam-line); background: var(--color-surface); }
-    .sc-back { background: none; border: none; color: var(--color-text-muted); font-size: 0.85rem; cursor: pointer; padding: 0; }
+    .sc-back { min-height: 44px; background: none; border: none; border-radius: 6px; color: var(--color-text-muted); font-size: 0.85rem; cursor: pointer; padding: 0.45rem 0.6rem; }
     .sc-back:hover { color: var(--axis); }
+    .sc-back:focus-visible { color: var(--axis); outline: 3px solid var(--axis); outline-offset: 2px; }
     .sc-foot-note { font-size: 0.78rem; color: var(--color-text-muted); margin-left: auto; }
 
     /* ---- result ---- */
@@ -350,6 +353,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-gate-h { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.4rem; }
     .sc-gate-sub { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.45; margin: 0 0 0.9rem; }
     .sc-gate-fields { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+    .sc-field { display: grid; flex: 1 1 160px; gap: 0.3rem; color: var(--color-text); font-size: 0.78rem; font-weight: 700; }
     .sc-input { flex: 1 1 160px; padding: 0.65rem 0.85rem; border: 1.5px solid var(--color-foam-line); border-radius: 9px; background: var(--color-bg); font-size: 0.98rem; color: var(--color-text); }
     .sc-input:focus-visible { outline: 2px solid var(--exp-copper); outline-offset: 1px; border-color: var(--exp-copper); }
     .sc-hp { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
@@ -365,6 +369,15 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-cta { display: inline-block; padding: 0.8rem 1.4rem; background: var(--exp-copper); color: #fff; border-radius: 9px; font-weight: 700; text-decoration: none; }
     .sc-cta-soft { background: none; color: var(--exp-copper); padding: 0.4rem; }
     .sc-noscript { margin-top: 1.5rem; color: var(--color-text-muted); text-align: center; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sc-top,
+      .sc-progress-bar,
+      .sc-option,
+      .sc-opt-dot,
+      .sc-axis-fill,
+      .sc-submit { transition: none; }
+    }
 
     @media (max-width: 480px) {
       .sc-top { padding: 0.9rem 1.1rem 0.8rem; }

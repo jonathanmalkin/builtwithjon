@@ -8,10 +8,11 @@ const thanksUrl = '/ai-assistant-workshop/thanks';
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'Build Your Practical AI Assistant Waitlist',
+  '@type': 'Service',
+  name: 'In-Person AI Assistant Workshops',
+  serviceType: 'Hands-on AI workshop and team training',
   description:
-    'Join the waitlist for a small live cohort where owners build a practical AI assistant in Claude Cowork for meeting prep, follow-ups, and a daily brief.',
+    'Join the waitlist for the next public workshop in Austin or request a private hands-on AI assistant workshop for your team.',
   url: 'https://builtwithjon.com/ai-assistant-workshop/',
   provider: {
     '@type': 'Person',
@@ -22,8 +23,8 @@ const schema = {
 ---
 
 <Base
-  title="Build Your Practical AI Assistant Waitlist"
-  description="Join the waitlist for a small live cohort where owners build a practical AI assistant in Claude Cowork for meeting prep, follow-ups, and a daily brief."
+  title="In-Person AI Workshops in Austin"
+  description="Join the next public AI assistant workshop in Austin or request a private hands-on workshop for your team. Build a working system, not a demo."
   image="/home/workshop-room.jpg"
   schema={schema}
 >
@@ -31,13 +32,14 @@ const schema = {
 
   <section class="assistant-hero">
     <div class="assistant-hero-inner">
-      <p class="eyebrow assistant-kicker">Small live cohort waitlist</p>
+      <p class="eyebrow assistant-kicker">In-person workshops in Austin</p>
       <h1 class="assistant-h1"><span>An AI Personal Assistant</span> <span>that works <em>for you</em></span></h1>
-      <p class="assistant-subtitle">A small live cohort where you build a working assistant for meeting prep, follow-ups, and your daily brief. You leave with it running, and able to build the next one yourself. Two sessions. Free to join the waitlist.</p>
+      <p class="assistant-subtitle">Build a working assistant for meeting prep, follow-ups, and your daily brief with help in the room. Join the next public Austin workshop, or bring the same hands-on format to your team.</p>
       <div class="assistant-hero-actions">
-        <a href="#waitlist" class="hero-btn">Save my spot</a>
+        <a href="#waitlist" class="hero-btn">Join the public waitlist</a>
+        <a href="#private-workshop" class="hero-btn hero-btn-outline">Request a team workshop</a>
       </div>
-      <p class="assistant-hero-trust">Free to join the list &middot; 12 seats per cohort &middot; You leave with it working, and an AI-powered team</p>
+      <p class="assistant-hero-trust">Austin, Texas &middot; Hands-on, laptop open &middot; Leave with it working</p>
     </div>
   </section>
 
@@ -223,23 +225,23 @@ const schema = {
   </section>
 
   <div class="container-wide assistant-inline-cta">
-    <a href="#waitlist" class="hero-btn">Save my spot</a>
-    <p>Free to join. Waitlisters hear first when a cohort opens.</p>
+    <a href="#waitlist" class="hero-btn">Join the public waitlist</a>
+    <p>Free to join. Waitlisters hear first when the next Austin date opens.</p>
   </div>
 
   <section class="container-wide assistant-section">
     <div class="assistant-section-head">
       <p class="eyebrow">Format</p>
-      <h2>Two live sessions. Help in the room.</h2>
+      <h2>One in-person session. Help in the room.</h2>
       <p>
-        Two 90-minute online sessions, kept small so you can share your screen and
-        leave with a working assistant. Joining the waitlist is free.
+        A focused, hands-on session in Austin, kept small so you can open your laptop,
+        work through real setup friction, and leave with a working assistant.
       </p>
     </div>
 
     <div class="assistant-schedule">
       <article>
-        <p class="assistant-session-label">Session 1</p>
+        <p class="assistant-session-label">Part 1</p>
         <h3>Get it running</h3>
         <ul>
           <li>Set up your Claude Cowork project</li>
@@ -250,7 +252,7 @@ const schema = {
         </ul>
       </article>
       <article>
-        <p class="assistant-session-label">Session 2</p>
+        <p class="assistant-session-label">Part 2</p>
         <h3>Put it to work</h3>
         <ul>
           <li>Prep for a real upcoming meeting</li>
@@ -273,7 +275,7 @@ const schema = {
         <h3>Good fit</h3>
         <ul>
           <li>You have meetings, follow-ups, and client context to manage.</li>
-          <li>You can make two live sessions when a cohort opens.</li>
+          <li>You can attend an in-person session in Austin.</li>
           <li>You will connect Gmail and Calendar inside Claude.</li>
           <li>You want guided setup, not a self-paced course.</li>
         </ul>
@@ -292,13 +294,13 @@ const schema = {
 
   <section class="container-wide assistant-section assistant-proof-section" aria-label="What attendees say">
     <div class="assistant-section-head">
-      <p class="eyebrow">From the last cohort</p>
+      <p class="eyebrow">From recent workshops</p>
       <h2>People leave with it running.</h2>
     </div>
     <div class="assistant-proof-grid">
       <blockquote class="assistant-proof-card">
         <p>&ldquo;I have been using the personal assistant, and I have found it very useful! &hellip; Thanks again for the masterclass, it was a lot of fun.&rdquo;</p>
-        <footer>G.M., May 2026 cohort</footer>
+        <footer>G.M., May 2026 workshop</footer>
       </blockquote>
       <blockquote class="assistant-proof-card">
         <p>&ldquo;You are an incredible teacher!!!&rdquo;</p>
@@ -306,30 +308,30 @@ const schema = {
       </blockquote>
       <blockquote class="assistant-proof-card">
         <p>&ldquo;Super enjoyed your workshop, thanks.&rdquo;</p>
-        <footer>L.M., May 2026 cohort</footer>
+        <footer>L.M., May 2026 workshop</footer>
       </blockquote>
       <blockquote class="assistant-proof-card">
         <p>&ldquo;Wonderful. Thank you Jonathan!&rdquo;</p>
-        <footer>N.S., May 2026 cohort</footer>
+        <footer>N.S., May 2026 workshop</footer>
       </blockquote>
     </div>
   </section>
 
   <section class="container-wide assistant-apply-section" id="waitlist">
     <div class="assistant-apply-copy">
-      <p class="eyebrow">Join the waitlist</p>
+      <p class="eyebrow">Next public workshop</p>
       <h2>No charge to join. Waitlisters go first.</h2>
       <p>
-        Add your name. When the next cohort opens, Jonathan confirms timing and
-        sends details before your seat is held.
+        Add your name. When the next Austin date opens, Jonathan sends the
+        date, venue, price, and seat details before you decide.
       </p>
       <div class="assistant-apply-points">
         <span>No payment today</span>
-        <span>12 seats per cohort</span>
+        <span>Small room, hands-on help</span>
       </div>
       <p class="assistant-founder-note">
         Built and led by Jonathan Malkin, who runs his own AI assistant every day and builds new
-        ones for his own business constantly. The cohort teaches you the same method, so you leave
+        ones for his own business constantly. The workshop teaches you the same method, so you leave
         able to do it yourself, not just watch.
       </p>
       <p class="assistant-guarantee">
@@ -344,9 +346,10 @@ const schema = {
       method="POST"
       class="assistant-form"
       data-thanks={thanksUrl}
+      data-track-form="workshop-waitlist"
     >
-      <input type="hidden" name="_subject" value="AI assistant workshop waitlist" />
-      <input type="hidden" name="inquiry_type" value="ai-assistant-workshop-waitlist" />
+      <input type="hidden" name="_subject" value="Austin AI assistant workshop waitlist" />
+      <input type="hidden" name="inquiry_type" value="in-person-workshop-waitlist" />
       <input type="hidden" id="partner_context" name="partner_context" value="direct" />
 
       <div class="form-group">
@@ -368,16 +371,56 @@ const schema = {
         />
       </div>
 
-      <button type="submit" class="form-submit assistant-submit">Save my spot</button>
-      <p class="assistant-form-note">Takes 20 seconds. I email you when the next cohort opens, no payment to hold your spot on the list.</p>
+      <button type="submit" class="form-submit assistant-submit">Join the waitlist</button>
+      <p class="assistant-form-note">Takes 20 seconds. No payment and no obligation. You hear first when the next Austin date opens.</p>
       <p class="assistant-form-error" hidden role="alert" aria-live="polite">
         Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will help.
       </p>
     </form>
   </section>
 
+  <section class="container-wide assistant-apply-section assistant-private-section" id="private-workshop">
+    <div class="assistant-apply-copy">
+      <p class="eyebrow">Bring it to your team</p>
+      <h2>Request a private workshop.</h2>
+      <p>
+        Use your team&apos;s real workflows and tools. Tell Jonathan what your people
+        need to build, and he will reply with the right format, scope, and next step.
+      </p>
+      <div class="assistant-apply-points">
+        <span>Austin or your location</span>
+        <span>Built around real work</span>
+      </div>
+    </div>
+
+    <form id="private-workshop-form" action={formEndpoint} method="POST" class="assistant-form" data-track-form="private-workshop">
+      <input type="hidden" name="_subject" value="Private AI workshop request" />
+      <input type="hidden" name="inquiry_type" value="private-workshop-request" />
+      <div class="form-group">
+        <label for="private-name">Name</label>
+        <input type="text" id="private-name" name="name" required class="form-input" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label for="private-email">Work email</label>
+        <input type="email" id="private-email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
+      </div>
+      <div class="form-group">
+        <label for="private-company">Company and team size</label>
+        <input type="text" id="private-company" name="company" required class="form-input" autocomplete="organization" />
+      </div>
+      <div class="form-group">
+        <label for="private-goal">What should your team leave able to do?</label>
+        <textarea id="private-goal" name="workshop_goal" rows="4" required class="form-input"></textarea>
+      </div>
+      <button type="submit" class="form-submit private-workshop-submit">Request a workshop</button>
+      <p class="assistant-form-note">Jonathan reads every request and replies personally. This is a request, not a booking or commitment.</p>
+      <p class="private-workshop-success" hidden role="status" aria-live="polite">Received. Jonathan will review the request and reply personally.</p>
+      <p class="private-workshop-error" hidden role="alert" aria-live="polite">Something went wrong. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and Jonathan will help.</p>
+    </form>
+  </section>
+
   <div class="assistant-sticky-cta" id="assistant-sticky-cta" hidden>
-    <a href="#waitlist" class="hero-btn">Save my spot</a>
+    <a href="#waitlist" class="hero-btn">Join the public waitlist</a>
   </div>
 
   <script is:inline define:vars={{ thanksUrl }}>
@@ -385,11 +428,13 @@ const schema = {
     const stickyCta = document.getElementById('assistant-sticky-cta');
     const heroEl = document.querySelector('.assistant-hero');
     const waitlistEl = document.getElementById('waitlist');
-    if (stickyCta && heroEl && waitlistEl && 'IntersectionObserver' in window) {
+    const privateWorkshopEl = document.getElementById('private-workshop');
+    if (stickyCta && heroEl && waitlistEl && privateWorkshopEl && 'IntersectionObserver' in window) {
       let heroGone = false;
       let formVisible = false;
+      let privateWorkshopVisible = false;
       const sync = () => {
-        stickyCta.hidden = !(heroGone && !formVisible);
+        stickyCta.hidden = !(heroGone && !formVisible && !privateWorkshopVisible);
       };
       new IntersectionObserver((entries) => {
         heroGone = !entries[0].isIntersecting;
@@ -399,6 +444,10 @@ const schema = {
         formVisible = entries[0].isIntersecting;
         sync();
       }, { rootMargin: '0px 0px -20% 0px' }).observe(waitlistEl);
+      new IntersectionObserver((entries) => {
+        privateWorkshopVisible = entries[0].isIntersecting;
+        sync();
+      }, { rootMargin: '0px 0px -20% 0px' }).observe(privateWorkshopEl);
     }
 
     const form = document.getElementById('assistant-workshop-form');
@@ -423,7 +472,7 @@ const schema = {
         const ctx = form.querySelector('#partner_context');
         const subj = form.querySelector('input[name="_subject"]');
         if (ctx) ctx.value = label;
-        if (subj) subj.value = 'AI assistant workshop waitlist (' + label + ')';
+        if (subj) subj.value = 'Austin AI assistant workshop waitlist (' + label + ')';
       }
 
       form.addEventListener('submit', async (event) => {
@@ -431,7 +480,7 @@ const schema = {
         if (errorEl) errorEl.hidden = true;
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Saving your spot…';
+          submitBtn.textContent = 'Joining…';
         }
         try {
           const response = await fetch(form.action, {
@@ -440,6 +489,7 @@ const schema = {
             headers: { Accept: 'application/json' },
           });
           if (response.ok) {
+            if (window.bwjTrack) window.bwjTrack('workshop-waitlist:success');
             try {
               sessionStorage.setItem('waitlist_email', form.querySelector('#email').value);
               sessionStorage.setItem('waitlist_name', form.querySelector('#name').value);
@@ -455,7 +505,41 @@ const schema = {
           if (errorEl) errorEl.hidden = false;
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Save my spot';
+            submitBtn.textContent = 'Join the waitlist';
+          }
+        }
+      });
+    }
+
+    const privateForm = document.getElementById('private-workshop-form');
+    if (privateForm) {
+      const privateSubmit = privateForm.querySelector('.private-workshop-submit');
+      const privateSuccess = privateForm.querySelector('.private-workshop-success');
+      const privateError = privateForm.querySelector('.private-workshop-error');
+      privateForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (privateError) privateError.hidden = true;
+        if (privateSuccess) privateSuccess.hidden = true;
+        if (privateSubmit) {
+          privateSubmit.disabled = true;
+          privateSubmit.textContent = 'Sending…';
+        }
+        try {
+          const response = await fetch(privateForm.action, {
+            method: 'POST',
+            body: new FormData(privateForm),
+            headers: { Accept: 'application/json' },
+          });
+          if (!response.ok) throw new Error('Submission failed');
+          if (window.bwjTrack) window.bwjTrack('private-workshop:success');
+          privateForm.reset();
+          if (privateSuccess) privateSuccess.hidden = false;
+          if (privateSubmit) privateSubmit.textContent = 'Request received';
+        } catch (err) {
+          if (privateError) privateError.hidden = false;
+          if (privateSubmit) {
+            privateSubmit.disabled = false;
+            privateSubmit.textContent = 'Request a workshop';
           }
         }
       });
@@ -598,8 +682,20 @@ const schema = {
   }
 
   .assistant-hero-actions .hero-btn-outline {
+    background: transparent;
     border-color: #fffdf8;
     color: #fffdf8;
+  }
+
+  .assistant-hero-actions .hero-btn-outline:hover {
+    background: rgba(255, 253, 248, 0.14);
+    color: #fffdf8;
+  }
+
+  .assistant-hero-actions .hero-btn,
+  .assistant-inline-cta .hero-btn,
+  .assistant-form .form-submit {
+    min-height: 44px;
   }
 
   .assistant-apply-points span {

@@ -5,13 +5,19 @@ const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Jonathan Malkin',
-  jobTitle: 'AI Workflow Consultant & Implementation Partner',
+  jobTitle: 'AI Workflow Consultant and Workshop Facilitator',
   description: 'Jonathan Malkin audits one workflow at a time, finds where AI can safely help, and either builds it on your platform or runs a hands-on workshop so your team builds it themselves and becomes an AI-powered team.',
   url: 'https://builtwithjon.com',
   sameAs: [
     'https://github.com/jonathanmalkin',
     'https://x.com/builtwithjon',
     'https://linkedin.com/in/jonathanmalkin',
+  ],
+  knowsAbout: [
+    'AI workflow consulting',
+    'fractional AI operations',
+    'business process automation',
+    'AI workshops in Austin',
   ],
 };
 
@@ -28,7 +34,7 @@ const professionalServiceSchema = {
   '@type': 'ProfessionalService',
   name: 'Built with Jon',
   url: 'https://builtwithjon.com',
-  description: 'AI workflow consulting for small and mid-size businesses: find where a business is leaking deals, time, and cash, then fix one workflow at a time with a human at the gate.',
+  description: 'AI workflow consulting, implementation, and in-person workshops for small and mid-size businesses in Austin and across the United States.',
   founder: personSchema,
   address: {
     '@type': 'PostalAddress',
@@ -56,8 +62,8 @@ const professionalServiceSchema = {
 ---
 
 <Base
-  title="Jonathan Malkin"
-  description="Start with a free AI workflow scorecard: find where your business is leaking deals, time, and cash, then use the Hidden Profit Review to measure the best first pilot."
+  title="AI Workflow Consulting & Workshops in Austin"
+  description="Jonathan Malkin helps small and mid-size businesses find where deals, time, and cash leak, then builds or teaches the first practical AI workflow worth keeping."
   schema={personSchema}
 >
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />

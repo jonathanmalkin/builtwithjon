@@ -14,9 +14,9 @@ export default defineConfig({
     icon(),
   ],
   redirects: {
-    // Workshops page hidden 2026-05-28 while focusing on company workshops.
-    // Restore by moving src/_drafts/workshops-index.astro back to
-    // src/pages/workshops/index.astro and removing this redirect.
-    '/workshops': '/contact/',
+    // One evergreen in-person workshop page replaces the retired online cohort
+    // and the completed July 2026 Austin event while preserving inbound links.
+    '/workshops': '/ai-assistant-workshop/',
+    '/ai-assistant-workshop-austin': '/ai-assistant-workshop/',
   },
 });

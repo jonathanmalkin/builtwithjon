@@ -112,7 +112,13 @@ WHERE timestamp > NOW() - INTERVAL '7' DAY
     'contact:submit',
     'hpr-waitlist:start',
     'hpr-waitlist:submit',
-    'hpr-waitlist:success'
+    'hpr-waitlist:success',
+    'workshop-waitlist:start',
+    'workshop-waitlist:submit',
+    'workshop-waitlist:success',
+    'private-workshop:start',
+    'private-workshop:submit',
+    'private-workshop:success'
   )
 GROUP BY event, path
 ORDER BY path, event

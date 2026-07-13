@@ -5,6 +5,12 @@ const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
+const PERMANENT_REDIRECTS = new Map([
+  ["/workshops", "/ai-assistant-workshop/"],
+  ["/workshops/", "/ai-assistant-workshop/"],
+  ["/ai-assistant-workshop-austin", "/ai-assistant-workshop/"],
+  ["/ai-assistant-workshop-austin/", "/ai-assistant-workshop/"],
+]);
 
 const SEGMENTS = {
   gc: "General contracting",
@@ -84,6 +90,12 @@ export default {
 
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
       return Response.redirect(AGENT_DOWNLOAD_URL, 302);
+    }
+
+    const permanentTarget = PERMANENT_REDIRECTS.get(url.pathname);
+    if (permanentTarget) {
+      url.pathname = permanentTarget;
+      return Response.redirect(url.toString(), 301);
     }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {
