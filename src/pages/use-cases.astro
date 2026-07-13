@@ -1,40 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import { categories as categoryDefinitions } from '../data/use-cases/categories';
-import { useCases as adminUseCases } from '../data/use-cases/admin';
-import { useCases as salesUseCases } from '../data/use-cases/sales';
-import { useCases as marketingUseCases } from '../data/use-cases/marketing';
-import { useCases as gcUseCases } from '../data/use-cases/gc';
-import { useCases as coachesUseCases } from '../data/use-cases/coaches';
-import { useCases as homeServicesUseCases } from '../data/use-cases/home-services';
-import { useCases as realEstateUseCases } from '../data/use-cases/real-estate';
-import { useCases as propertyManagementUseCases } from '../data/use-cases/property-management';
-import { useCases as professionalServicesUseCases } from '../data/use-cases/professional-services';
-import { useCases as healthWellnessUseCases } from '../data/use-cases/health-wellness';
-import { useCases as financeUseCases } from '../data/use-cases/finance';
-import { useCases as customerServiceUseCases } from '../data/use-cases/customer-service';
-import { useCases as hiringHrUseCases } from '../data/use-cases/hiring-hr';
-import { useCases as operationsUseCases } from '../data/use-cases/operations';
-import { useCases as personalUseCases } from '../data/use-cases/personal';
+import { categories as categoryDefinitions, useCases as useCaseDefinitions } from '../data/use-cases/index';
 
 const description = 'A practical library of small-business AI and automation use cases, organized by workflow, frequency, and automation potential.';
-const useCaseDefinitions = [
-  ...adminUseCases,
-  ...salesUseCases,
-  ...marketingUseCases,
-  ...gcUseCases,
-  ...coachesUseCases,
-  ...homeServicesUseCases,
-  ...realEstateUseCases,
-  ...propertyManagementUseCases,
-  ...professionalServicesUseCases,
-  ...healthWellnessUseCases,
-  ...financeUseCases,
-  ...customerServiceUseCases,
-  ...hiringHrUseCases,
-  ...operationsUseCases,
-  ...personalUseCases
-];
 ---
 
 <Base title="Use Case Library" description={description}>

@@ -1,0 +1,14 @@
+{
+  "name": "builtwithjon",
+  "title": "Built with Jon — Hidden Profit tools",
+  "description": "Free, public, read-only MCP server from Jonathan Malkin (AI Workflow Consultant & Implementation Partner). Tools: run the 3-minute Hidden Profit scorecard, put a dollar figure on an operational leak (missed calls, slow bids, no-shows, invoice aging, and more), browse a 96-example small-business automation use case library, read the decide-before-you-automate frameworks, and search ~50 articles.",
+  "endpoint": "https://builtwithjon.com/mcp",
+  "transport": ["streamable-http"],
+  "authentication": "none",
+  "capabilities": ["tools"],
+  "documentation": "https://builtwithjon.com/mcp/",
+  "provider": {
+    "name": "Jonathan Malkin",
+    "url": "https://builtwithjon.com"
+  }
+}
