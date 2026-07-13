@@ -34,6 +34,17 @@ draft: boolean (default false)
 2. Build Where They Won't (taboo-to-mainstream thesis)
 3. Solo Founder + AI = Unfair Advantage
 
+## Design System
+
+builtwithjon.com explicitly uses the Built with Jon design language (Jonathan's directive, 2026-07-13), defined in two registers that share the same base tokens (warm paper, ink, fonts, spacing — mirrored in `src/styles/global.css`):
+
+- **Expressive Design System** (`Code/personal/expressive-design-system/`) — the default register for interactive and funnel surfaces: tools, quizzes, scorecards, calculators, signup and course pages. Per-axis brand color carries meaning, functional icons are permitted sparingly. Reference implementation: `src/pages/scorecard.astro`.
+- **Field Manual Design System** (`Code/personal/field-manual-design-system/`) — the dry register for reference content: articles, use-case library, documentation pages. Paper + ink chrome, no emoji, restraint earns authority.
+
+When adding a page, pick the register deliberately: interactive/funnel → Expressive; reference/reading → Field Manual. Do not invent new palettes; reach for the existing tokens.
+
+Two gotchas (learned 2026-07-13): the global `.panel` class has no padding by design, so every page using it must add its own (workshop pages use 1.5rem); and a Field Manual alignment `:root` block remaps all `--color-*` tokens to the drier UCL palette, so expressive pages must use the `--exp-*` tokens for true axis hues.
+
 ## Commands
 
 ```bash

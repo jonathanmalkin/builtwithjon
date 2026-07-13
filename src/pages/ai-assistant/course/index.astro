@@ -1,0 +1,349 @@
+---
+import Base from '../../../layouts/Base.astro';
+
+const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const thanksUrl = '/ai-assistant/course/thanks';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'Build Your Own AI Personal Assistant',
+  description:
+    'A free email course. One email a day for a week, each ending with your assistant doing something real: daily brief, meeting prep, email triage, your first custom skill.',
+  url: 'https://builtwithjon.com/ai-assistant/course/',
+  provider: {
+    '@type': 'Person',
+    name: 'Jonathan Malkin',
+    url: 'https://builtwithjon.com',
+  },
+  isAccessibleForFree: true,
+};
+
+// Expressive register nod: each day pill carries one brand axis hue as a
+// week-progression marker; chrome stays ink and paper per the design system.
+const days = [
+  {
+    num: '1',
+    hue: 'var(--exp-deals)',
+    title: 'Build it and ask it things',
+    detail:
+      'Create the project, install the assistant, connect Gmail and Calendar, and ask real questions about your week. You run your first brief before the day is out.',
+  },
+  {
+    num: '2',
+    hue: 'var(--exp-time)',
+    title: 'The brief runs itself',
+    detail:
+      'Approve the schedule so tomorrow’s brief shows up without you. iPhone users add the morning text.',
+  },
+  {
+    num: '3',
+    hue: 'var(--exp-segment)',
+    title: 'Walk into a meeting briefed',
+    detail:
+      'Your assistant researches the people on your calendar. You read the prep, then coach it on the angle you want.',
+  },
+  {
+    num: '4',
+    hue: 'var(--exp-cash)',
+    title: 'Clear your inbox',
+    detail:
+      'Run the triage prompt. It pulls what you owe replies on and drafts them in your voice. You review and send.',
+  },
+  {
+    num: '5',
+    hue: 'var(--exp-copper)',
+    title: 'Put it in your pocket',
+    detail:
+      'Connect your phone, capture ideas from the road, and tell me whether the morning brief earned its spot.',
+  },
+  {
+    num: '6',
+    hue: 'var(--exp-deals)',
+    title: 'Teach it your work',
+    detail:
+      'Correct the brief, point it at your files, and turn one repeatable task into a skill it reuses forever.',
+  },
+  {
+    num: '7',
+    hue: 'var(--exp-time)',
+    title: 'Make it stick',
+    detail:
+      'A one-week challenge that turns the setup into a habit, and where to take it from here.',
+  },
+];
+---
+
+<Base
+  title="Build Your Own AI Personal Assistant"
+  description="A free email course. One email a day for a week, each ending with your assistant doing something real: daily brief, meeting prep, email triage, your first custom skill."
+  schema={schema}
+>
+  <section class="container course-hero">
+    <p class="eyebrow">Free email course</p>
+    <h1>Build Your Own AI Personal Assistant</h1>
+    <p class="course-sub">
+      Seven short emails. Each one ends with something working: a morning brief that
+      shows up on its own, prep for the meetings on your calendar, replies drafted in
+      your voice. Built in Claude Cowork. No code.
+    </p>
+    <div class="course-hero-actions">
+      <a href="#signup" class="hero-btn">Save my spot</a>
+      <p class="course-hero-trust">First cohort starts Monday, July 20. Free.</p>
+    </div>
+  </section>
+
+  <section class="container course-outcomes panel">
+    <p class="eyebrow">By the end of the week</p>
+    <h2>Your assistant is doing real work.</h2>
+    <ul class="course-outcome-list">
+      <li>A daily brief in your inbox every morning, without you asking</li>
+      <li>Meeting prep on the actual people you meet: who they are, what to walk in with</li>
+      <li>Email triage that drafts replies in your voice, ready for you to review and send</li>
+      <li>Your assistant on your phone for capture and quick questions</li>
+      <li>Your first custom skill, built from work you already repeat</li>
+    </ul>
+  </section>
+
+  <section class="container course-days">
+    <p class="eyebrow">How it works</p>
+    <h2>One email a day. Ten to twenty minutes each.</h2>
+    <p class="course-days-note">
+      Every email ends with your assistant doing something for you, not homework about
+      concepts. Miss a day and nothing breaks. The next email catches you.
+    </p>
+    <ol class="course-day-list">
+      {
+        days.map((day) => (
+          <li style={`--day-hue: ${day.hue}`}>
+            <span class="course-day-num">Day {day.num}</span>
+            <div>
+              <h3>{day.title}</h3>
+              <p>{day.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="container course-origin panel">
+    <p class="eyebrow">Where this comes from</p>
+    <h2>The same class I teach in person in Austin.</h2>
+    <p>
+      The last room built their assistants in one afternoon at Antler. This course is
+      that class rebuilt for email: the same build, one piece a day, with the exact
+      prompts I use on my own assistant every morning.
+    </p>
+  </section>
+
+  <section class="container course-signup" id="signup">
+    <p class="eyebrow">Save your spot</p>
+    <h2>The first cohort starts Monday, July 20.</h2>
+    <p class="course-signup-note">
+      Sign up now and the prep checklist arrives immediately, so Day 1 is a build day,
+      not a setup day.
+    </p>
+    <form
+      id="course-waitlist-form"
+      action={formEndpoint}
+      method="POST"
+      class="assistant-form course-form"
+      data-thanks={thanksUrl}
+      data-track-form="course-waitlist"
+    >
+      <input type="hidden" name="_subject" value="AI assistant email course waitlist" />
+      <input type="hidden" name="inquiry_type" value="email-course-waitlist" />
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required class="form-input" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="form-input"
+          autocomplete="email"
+          inputmode="email"
+          spellcheck="false"
+        />
+      </div>
+
+      <button type="submit" class="form-submit course-submit">Save my spot</button>
+      <p class="course-form-note">
+        Seven emails and you are done. Unsubscribe anytime.
+      </p>
+      <p class="course-form-error" hidden role="alert" aria-live="polite">
+        Something went wrong. Email
+        <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will
+        add you myself.
+      </p>
+    </form>
+  </section>
+</Base>
+
+<style>
+  .course-hero {
+    padding-top: 4.5rem;
+    padding-bottom: 1rem;
+    text-align: left;
+  }
+
+  .course-hero h1 {
+    font-size: clamp(2.1rem, 5vw, 3rem);
+    line-height: 1.12;
+    margin: 0.4rem 0 1rem;
+  }
+
+  .course-sub {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    max-width: 38rem;
+    margin: 0 0 1.6rem;
+  }
+
+  .course-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .course-hero-trust {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .course-outcomes,
+  .course-origin {
+    margin-top: 2.5rem;
+    padding: 1.75rem;
+  }
+
+  .course-outcome-list {
+    margin: 1rem 0 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .course-days {
+    margin-top: 3rem;
+  }
+
+  .course-days-note {
+    color: var(--color-text-muted);
+    max-width: 38rem;
+  }
+
+  .course-day-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.6rem 0 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .course-day-list li {
+    --day-hue: var(--exp-time);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+  }
+
+  .course-day-num {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--day-hue);
+    background: color-mix(in srgb, var(--day-hue) 9%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--day-hue) 35%, var(--color-border));
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    margin-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .course-day-list h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+  }
+
+  .course-day-list p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.98rem;
+  }
+
+  .course-signup {
+    margin-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .course-signup-note {
+    color: var(--color-text-muted);
+    max-width: 36rem;
+  }
+
+  .course-form {
+    margin-top: 1.4rem;
+    max-width: 30rem;
+  }
+
+  .course-form-note {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+  }
+
+  .course-form-error {
+    margin-top: 0.8rem;
+    color: var(--color-copper);
+  }
+</style>
+
+<script>
+  const form = document.getElementById('course-waitlist-form');
+  if (form instanceof HTMLFormElement) {
+    const errorEl = form.querySelector('.course-form-error');
+    const submitBtn = form.querySelector('.course-submit');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (errorEl) errorEl.hidden = true;
+      if (submitBtn instanceof HTMLButtonElement) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Saving…';
+      }
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (response.ok) {
+          if (window.bwjTrack) window.bwjTrack('course-waitlist:success');
+          window.location.assign(form.dataset.thanks || '/ai-assistant/course/thanks');
+          return;
+        }
+        throw new Error('Submission failed');
+      } catch (err) {
+        if (errorEl) errorEl.hidden = false;
+        if (submitBtn instanceof HTMLButtonElement) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Save my spot';
+        }
+      }
+    });
+  }
+</script>

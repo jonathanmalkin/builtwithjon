@@ -1,0 +1,147 @@
+---
+import Base from '../../../layouts/Base.astro';
+---
+
+<Base
+  title="You're in. Here's your prep."
+  description="Your spot in the Build Your Own AI Personal Assistant email course is saved. Do this ten-minute prep and Day 1 becomes a build day."
+  noindex
+>
+  <section class="container course-thanks panel">
+    <p class="eyebrow">You're in</p>
+    <h1>Saved. Day 1 lands Monday morning.</h1>
+    <p>
+      One email a day for a week, each ending with your assistant doing something real.
+      Do the prep below today and Day 1 is a build day, not a setup day.
+    </p>
+  </section>
+
+  <section class="container course-prep">
+    <p class="eyebrow">Day 0: ten minutes of prep</p>
+    <h2>Three things before Monday.</h2>
+    <ol class="course-prep-list">
+      <li>
+        <h3>Install the Claude desktop app</h3>
+        <p>
+          Download it at <a href="https://claude.ai/download" rel="noopener">claude.ai/download</a>
+          and sign in on a paid plan. The course uses the Cowork tab, which handles the
+          setup work for you.
+        </p>
+      </li>
+      <li>
+        <h3>Pick your Google account</h3>
+        <p>
+          Know which account holds the calendar and email you actually live in. You
+          connect both on Day 1, and the same account for each keeps it simple.
+        </p>
+      </li>
+      <li>
+        <h3>Decide what it gets to see</h3>
+        <p>
+          Your assistant reads what you connect, and anything it reads goes to Anthropic
+          to be processed. The working rule from the class: if you would not want it
+          known, do not give it the information. Email stays draft-only. Claude does not
+          send mail on your behalf, so you review every reply before it goes anywhere.
+        </p>
+      </li>
+    </ol>
+    <p class="course-prep-extra">
+      iPhone optional: on Day 2 you can have the morning brief texted to you. Nothing to
+      do yet.
+    </p>
+  </section>
+
+  <section class="container course-headstart panel">
+    <p class="eyebrow">Want a head start</p>
+    <h2>The written walkthrough is already public.</h2>
+    <p>
+      The course walks you through it one day at a time with the exact prompts. If you
+      would rather see the whole build now, it lives at
+      <a href="/ai-assistant/cowork/">the Claude Cowork walkthrough</a>. Day 1 brings
+      you right back to it.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .course-thanks {
+    margin-top: 4rem;
+    padding: 1.75rem;
+  }
+
+  .course-thanks h1 {
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    margin: 0.4rem 0 0.8rem;
+  }
+
+  .course-thanks p {
+    color: var(--color-text-muted);
+    max-width: 38rem;
+  }
+
+  .course-prep {
+    margin-top: 2.5rem;
+  }
+
+  .course-prep-list {
+    list-style: none;
+    counter-reset: prep;
+    padding: 0;
+    margin: 1.4rem 0 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .course-prep-list li {
+    counter-increment: prep;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem 1.1rem 3.4rem;
+    position: relative;
+  }
+
+  .course-prep-list li::before {
+    content: counter(prep);
+    position: absolute;
+    left: 1.1rem;
+    top: 1.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .course-prep-list h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.02rem;
+  }
+
+  .course-prep-list p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.97rem;
+  }
+
+  .course-prep-extra {
+    margin-top: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .course-headstart {
+    margin-top: 2.5rem;
+    margin-bottom: 4rem;
+    padding: 1.75rem;
+  }
+
+  .course-headstart p {
+    color: var(--color-text-muted);
+    max-width: 38rem;
+  }
+</style>
