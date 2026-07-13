@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.jonathanmalkin/builtwithjon",
+  "name": "com.builtwithjon/builtwithjon",
   "title": "Built with Jon — Hidden Profit Tools",
   "description": "Read-only tools for finding where a small business leaks deals, time, and cash.",
   "version": "1.0.0",
