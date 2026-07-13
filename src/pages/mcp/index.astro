@@ -1,0 +1,143 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const endpoint = 'https://builtwithjon.com/mcp';
+const description =
+  'Connect your AI assistant to builtwithjon.com over MCP: run the Hidden Profit scorecard, price an operational leak, and browse 96 worked automation use cases from inside Claude, ChatGPT, Cursor, or any MCP client.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebAPI',
+      name: 'Built with Jon MCP Server',
+      description,
+      url: 'https://builtwithjon.com/mcp/',
+      documentation: 'https://builtwithjon.com/mcp/',
+      termsOfService: 'https://builtwithjon.com/terms/',
+      provider: {
+        '@type': 'Person',
+        name: 'Jonathan Malkin',
+        jobTitle: 'AI Workflow Consultant & Implementation Partner',
+        url: 'https://builtwithjon.com',
+      },
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://builtwithjon.com/' },
+        { '@type': 'ListItem', position: 2, name: 'MCP Server', item: 'https://builtwithjon.com/mcp/' },
+      ],
+    },
+  ],
+};
+
+const tools = [
+  ['run_scorecard', 'The 3-minute diagnostic, administered by your AI: where the business is leaking deals, time, and cash, and the first fix worth making.'],
+  ['calculate_leak', 'Put a monthly and annual dollar figure on one leak: missed calls, slow bids, no-shows, unbilled change orders, invoice aging, and six more.'],
+  ['list_leak_calculators', 'The ten calculators, their inputs, and their defaults.'],
+  ['search_use_cases', 'Search 96 worked small-business automation examples by pain, category, frequency, or verdict.'],
+  ['get_use_case', 'One use case in full: the workflow, per-step verdicts, where AI genuinely fits, and the after state.'],
+  ['list_use_case_categories', 'The 15 categories of the library, with counts and key stats.'],
+  ['get_frameworks', 'The Five Dispositions and the 5-phase process — how to decide what to automate before automating it.'],
+  ['get_hidden_profit_review_info', 'What the paid review is, what you get, and how the waitlist works.'],
+  ['search_articles', 'Search the articles on workflow leaks, Claude Code infrastructure, and AI operations.'],
+  ['get_article', 'Read any article in full.'],
+];
+---
+
+<Base title="MCP Server" description={description} schema={schema}>
+  <section class="mcp-hero">
+    <p class="eyebrow">For AI agents</p>
+    <h1>Connect your AI to this site.</h1>
+    <p class="lede">
+      This site runs a free, public <a href="https://modelcontextprotocol.io">Model Context Protocol</a> server.
+      Add it to Claude, ChatGPT, Cursor, or any MCP client, and your assistant can run the Hidden Profit
+      scorecard with you, put a dollar figure on an operational leak, and pull from the
+      <a href="/use-cases/">96-example use case library</a> — mid-conversation, with sources.
+    </p>
+    <p class="mcp-endpoint"><code>{endpoint}</code></p>
+    <p class="mcp-endpoint-meta">Streamable HTTP · no authentication · read-only · nothing you send is stored</p>
+  </section>
+
+  <section class="mcp-section">
+    <h2>What your assistant can do with it</h2>
+    <dl class="mcp-tools">
+      {tools.map(([name, desc]) => (
+        <div class="mcp-tool">
+          <dt><code>{name}</code></dt>
+          <dd>{desc}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mcp-note">
+      Every diagnostic runs the same deterministic math as the tools on this site — the
+      <a href="/scorecard/">scorecard</a> and the <a href="/tools/leak-calculator/">Leak Calculator</a> — so
+      the numbers your AI quotes are the numbers you'd get here.
+    </p>
+  </section>
+
+  <section class="mcp-section">
+    <h2>How to connect</h2>
+
+    <h3>Claude (claude.ai or the apps)</h3>
+    <p>Settings → Connectors → <strong>Add custom connector</strong>, then paste the endpoint URL. No login or key needed.</p>
+
+    <h3>Claude Code</h3>
+    <pre><code>claude mcp add --transport http builtwithjon https://builtwithjon.com/mcp</code></pre>
+
+    <h3>Cursor, VS Code, ChatGPT (developer mode), and other MCP clients</h3>
+    <p>Add a remote MCP server of type <strong>Streamable HTTP</strong> with the URL <code>{endpoint}</code> and no authentication.</p>
+
+    <h3>Try it from the terminal</h3>
+    <pre><code>{`curl -s ${endpoint} \\
+  -H 'Content-Type: application/json' \\
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{
+        "name":"calculate_leak",
+        "arguments":{"calculator_id":"missed-calls",
+                     "inputs":{"calls":30,"per":3,"ticket":450}}}}'`}</code></pre>
+  </section>
+
+  <section class="mcp-section">
+    <h2>The fine print</h2>
+    <p>
+      The server is read-only and serves only content already public on this site. It never asks for your
+      email or business data beyond the numbers you choose to run through a calculator, and it stores nothing.
+      When a diagnostic points at a real leak, the next step is human:
+      the <a href="/scorecard/">free scorecard</a> for the full emailed breakdown, or the
+      <a href="/hidden-profit-review/#waitlist">Hidden Profit Review waitlist</a> to have it measured with your real data.
+    </p>
+  </section>
+
+  <style is:global>
+    .mcp-hero { margin: 0 0 2rem; }
+    .mcp-hero h1 { margin: 0.2rem 0 0.6rem; }
+    .mcp-endpoint code {
+      display: inline-block;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0.55rem 0.8rem;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-surface, #fff);
+    }
+    .mcp-endpoint { margin: 1.2rem 0 0.3rem; }
+    .mcp-endpoint-meta { color: var(--color-text-muted); font-size: 0.85rem; margin: 0; }
+    .mcp-section { margin: 0 0 2.2rem; }
+    .mcp-tools { margin: 0; }
+    .mcp-tool { margin: 0 0 0.7rem; }
+    .mcp-tool dt code { font-weight: 700; }
+    .mcp-tool dd { margin: 0.1rem 0 0; color: var(--color-text-muted); }
+    .mcp-note { font-size: 0.9rem; }
+    .mcp-section pre {
+      overflow-x: auto;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-surface, #fff);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+  </style>
+</Base>

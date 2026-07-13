@@ -1,3 +1,14 @@
+import {
+  SEGMENTS,
+  LINES,
+  TIER_VERDICTS,
+  FIRST_MOVES,
+  AXIS_LABELS,
+  tierFor,
+  compositeScore,
+} from "./data/scorecard";
+import { isMcpRequest, handleMcp } from "./mcp/handler";
+
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const MAX_SCORECARD_BODY_BYTES = 32_000;
@@ -6,81 +17,15 @@ const MAX_EVENT_BODY_BYTES = 2048;
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 
-const SEGMENTS = {
-  gc: "General contracting",
-  re: "Real estate",
-  hs: "Home services & trades",
-  pm: "Property management",
-  ps: "Professional services",
-  hw: "Health & wellness",
-  cc: "Coaching or creator",
-  general: "Something else / general business",
-};
-
-const LINES = {
-  gc: {
-    deals: "Bids and follow-ups are slipping between the field and the office.",
-    time: "Too much of the week goes to chasing information instead of building.",
-    cash: "Slow invoicing and rework are eating margin you already earned.",
-  },
-  re: {
-    deals: "The first agent to respond usually wins, and you are not always first.",
-    time: "Non-revenue admin and document wrangling are eating hours that should be in front of clients.",
-    cash: "Deals fall through in the gaps in follow-through, not in pricing.",
-  },
-  hs: {
-    deals: "Calls that hit voicemail go straight to the next contractor on the list.",
-    time: "Intake and quoting are getting squeezed between jobs, so follow-up slips.",
-    cash: "Jobs are done but the invoice chase drags, and some of it never gets chased.",
-  },
-  pm: {
-    deals: "Leasing inquiries are slipping before anyone follows up.",
-    time: "The same handful of recurring problems eat the week on a loop.",
-    cash: "Rent chasing and late payments are a standing drain on the month.",
-  },
-  ps: {
-    deals: "Inquiries are going unanswered, and prospects book whoever replied first.",
-    time: "Too much expert time is non-billable, reconstructing and re-drafting from scratch.",
-    cash: "Invoices and engagement letters drag, so earned fees collect slowly.",
-  },
-  hw: {
-    deals: "New callers who reach voicemail do not call back, they book elsewhere.",
-    time: "Insurance and intake admin are eating clinical hours.",
-    cash: "No-shows and unfilled slots are leaving revenue in empty chairs.",
-  },
-  cc: {
-    deals: "Leads that found you are going unanswered while you are heads-down creating.",
-    time: "Packaging and posting are eating the hours that should go to the work only you can do.",
-    cash: "Churn and refunds are leaking revenue you already won.",
-  },
-  general: {
-    deals: "Leads are going cold before anyone answers. Odds of even qualifying a lead drop sharply between a 5-minute and a 30-minute reply.",
-    time: "Too much of the week goes to status-chasing and re-typing the same thing between disconnected tools.",
-    cash: "Invoices and collections are slipping, and money you earned is sitting uncollected.",
-  },
-};
-
-const TIER_VERDICTS = {
-  Holding: "Your systems are mostly holding. The leaks here are small, and most of the win is sharpening what already works.",
-  Leaking: "There are real, fixable losses here. A couple of spots are quietly costing you, and they are the kind of thing that is fixable without ripping anything out.",
-  "Wide open": "A lot is getting through the gaps. Deals, hours, and cash are leaking in more than one place. The good news: that also means the first fix pays for itself fast.",
-};
-
-const FIRST_MOVES = {
-  deals: "Start with the first-response and follow-up path. Make one owner, one trigger, and one reviewed follow-up loop clear before adding any fancy automation.",
-  time: "Start with the repeated admin handoff. Pick the status chase or copy-paste loop that happens every week and turn it into one reviewed workflow.",
-  cash: "Start with the invoice and collection moment. Make the handoff from work complete to invoice sent visible, timed, and reviewed.",
-};
-
-const AXIS_LABELS = {
-  deals: "Deals",
-  time: "Time",
-  cash: "Cash",
-};
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // MCP server (POST /mcp + preflight + SSE-GET rejection); plain browser
+    // GETs on /mcp fall through to the static docs page.
+    if (isMcpRequest(url, request)) {
+      return handleMcp(request, env);
+    }
 
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
       return Response.redirect(AGENT_DOWNLOAD_URL, 302);
@@ -463,16 +408,6 @@ function estimateFor(axis, payload) {
     return `With monthly revenue in the ${answers.q9} range, this is worth measuring with real invoice timing before assigning a dollar number.`;
   }
   return `Because revenue was skipped, keep this as a timing and collections leak for now. The audit is where the dollar number gets measured.`;
-}
-
-function tierFor(score) {
-  if (score >= 60) return "Wide open";
-  if (score >= 30) return "Leaking";
-  return "Holding";
-}
-
-function compositeScore(scores) {
-  return Math.round((scores.deals + scores.time + scores.cash) / 3);
 }
 
 function firstNameOf(name) {

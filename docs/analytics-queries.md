@@ -20,6 +20,12 @@ Dataset: `site_events`
 - `double1`: event count, normally `1`
 - `index1`: event category, the text before the colon
 
+MCP server events (written directly by the worker, not via `/api/event`) use
+the same shape with `index1 = 'mcp'`: `blob1` is `mcp:<tool>` (hyphenated,
+e.g. `mcp:run-scorecard`, plus `mcp:initialize` and `mcp:tools-list`),
+`blob2` is `/mcp`, and `blob3` carries the MCP client name from `initialize`
+or the User-Agent instead of a referrer host.
+
 Rows can take a few minutes to appear after the first writes.
 
 ## Production Smoke Test
@@ -116,6 +122,34 @@ WHERE timestamp > NOW() - INTERVAL '7' DAY
   )
 GROUP BY event, path
 ORDER BY path, event
+```
+
+## MCP Tool Calls
+
+```sql
+SELECT
+  blob1 AS tool,
+  SUM(double1 * _sample_interval) AS calls
+FROM site_events
+WHERE timestamp > NOW() - INTERVAL '7' DAY
+  AND index1 = 'mcp'
+GROUP BY tool
+ORDER BY calls DESC
+LIMIT 50
+```
+
+## MCP Clients
+
+```sql
+SELECT
+  blob3 AS client,
+  SUM(double1 * _sample_interval) AS calls
+FROM site_events
+WHERE timestamp > NOW() - INTERVAL '7' DAY
+  AND index1 = 'mcp'
+GROUP BY client
+ORDER BY calls DESC
+LIMIT 50
 ```
 
 ## Referrer Hosts

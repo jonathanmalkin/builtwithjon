@@ -5,7 +5,12 @@
   "compatibility_date": "2026-03-18",
   "assets": {
     "binding": "ASSETS",
-    "directory": "dist"
+    "directory": "dist",
+    // /mcp serves both the static docs page (GET) and the MCP JSON-RPC
+    // endpoint (POST). Assets are served before the worker by default, so
+    // route these paths through the worker first; it falls through to
+    // ASSETS for plain browser GETs.
+    "run_worker_first": ["/mcp", "/mcp/"]
   },
   "vars": {
     "SITE_ORIGIN": "https://builtwithjon.com",
