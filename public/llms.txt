@@ -24,6 +24,14 @@ His technical writing draws on Jules, a deeply customized Claude Code system wit
 - AI Assistant guides: https://builtwithjon.com/ai-assistant/
 - Use-case library (96 examples, 15 business types): https://builtwithjon.com/use-cases/
 
+## MCP Server
+
+This site runs a free, public, read-only Model Context Protocol server. AI agents can connect to it directly (Streamable HTTP, no authentication) to run the Hidden Profit scorecard conversationally, put a dollar figure on an operational leak with the ten leak calculators, search the 96-example use case library, read the decide-before-you-automate frameworks, and search the articles.
+
+- Endpoint: https://builtwithjon.com/mcp
+- Documentation and connect instructions: https://builtwithjon.com/mcp/
+- Server metadata: https://builtwithjon.com/.well-known/mcp.json
+
 ## Content
 
 - Articles: https://builtwithjon.com/articles/

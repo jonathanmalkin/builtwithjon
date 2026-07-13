@@ -62,9 +62,27 @@ src/
   layouts/         — Base.astro (HTML shell), Article.astro (article layout)
   components/      — Header, Footer, ArticleCard, SEOHead, JsonLd, StoryBadge
   content/articles/ — Markdown articles
+  data/            — Shared data modules (use cases, scorecard, leak calculators, frameworks)
+  mcp/             — MCP server (handler.js transport, tools.js tool definitions)
+  worker.js        — Cloudflare Worker: /api routes + MCP server + assets
   styles/global.css — All styles (< 5KB)
-public/            — Static assets (robots.txt, llms.txt, favicon.svg)
+public/            — Static assets (robots.txt, llms.txt, favicon.svg, .well-known/mcp.json)
 ```
+
+## MCP Server
+
+The Worker serves a public, read-only MCP server at `POST /mcp` (Streamable
+HTTP, stateless, no auth). Docs page: `/mcp/`. Ten tools expose the use case
+library, scorecard, leak calculators, frameworks, the Hidden Profit Review
+offer, and article search (via the build-time index `dist/mcp/articles.json`).
+Tool calls log to the `site_events` Analytics Engine dataset with
+`index1='mcp'` (queries in `docs/analytics-queries.md`).
+
+**Shared-data rule:** anything both a page and the worker/MCP present —
+calculator math, scorecard questions/scoring, use-case data — lives in
+`src/data/` and is imported by both. Never fork a second copy. Exception:
+`scorecard.astro`'s inline quiz script (needs `define:vars`) keeps a copy;
+keep it in sync with `src/data/scorecard.ts`.
 
 ## Code Style
 
