@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "analytics:report": "node scripts/cloudflare-analytics-report.mjs",
+    "verify:mcp-production": "node scripts/verify-mcp-production.mjs",
     "validate:mcp-registry": "node scripts/validate-mcp-server.mjs"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1"
+    "ajv-formats": "^3.0.1",
+    "wrangler": "^4.110.0"
   }
 }

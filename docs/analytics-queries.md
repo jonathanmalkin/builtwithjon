@@ -144,6 +144,26 @@ ORDER BY calls DESC
 LIMIT 50
 ```
 
+## Owner Tools Hub
+
+```sql
+SELECT
+  blob1 AS event,
+  SUM(double1 * _sample_interval) AS hits
+FROM site_events
+WHERE timestamp > NOW() - INTERVAL '7' DAY
+  AND blob1 IN (
+    'tools:view',
+    'tools:start:scorecard',
+    'tools:start:calculator',
+    'tools:start:use-cases',
+    'tools:copy-prompt',
+    'tools:hpr-click'
+  )
+GROUP BY event
+ORDER BY hits DESC
+```
+
 ## MCP Clients
 
 ```sql

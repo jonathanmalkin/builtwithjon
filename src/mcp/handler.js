@@ -13,7 +13,7 @@
 
 import { toolList, callTool, ToolInputError } from "./tools";
 
-const MCP_PATHS = new Set(["/mcp", "/mcp/"]);
+const MCP_PATH = "/mcp";
 const MAX_BODY_BYTES = 64_000;
 const MAX_BATCH = 10;
 const SUPPORTED_PROTOCOL_VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"];
@@ -43,12 +43,11 @@ const CORS_HEADERS = {
 };
 
 export function isMcpRequest(url, request) {
-  if (!MCP_PATHS.has(url.pathname)) return false;
+  if (url.pathname !== MCP_PATH) return false;
   if (request.method === "OPTIONS" || request.method === "POST") return true;
   // /mcp must reach the worker so browser GETs can redirect to the canonical
-  // trailing-slash docs URL. /mcp/ itself remains a static asset unless an MCP
-  // client asks for a server event stream.
-  if (request.method === "GET" && url.pathname === "/mcp") return true;
+  // trailing-slash docs URL. /mcp/ is always the static documentation page.
+  if (request.method === "GET") return true;
   const accept = request.headers.get("Accept") || "";
   return accept.includes("text/event-stream");
 }

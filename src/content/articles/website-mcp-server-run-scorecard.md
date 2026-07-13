@@ -13,6 +13,15 @@ The endpoint is simple:
 
 `https://builtwithjon.com/mcp`
 
+If you just want to look around, there is a no-install path: open the [tools hub](/tools/). It links to the normal scorecard, all ten leak calculators, the 96-example use case library, the frameworks and articles, and the Hidden Profit Review. Those are ordinary webpages — no MCP connection, setup command, or AI client required.
+
+The tools hub and the MCP server are two different ways to reach the same public work:
+
+- **Normal webpage:** you click through the scorecard and calculators yourself in a browser.
+- **MCP connection:** a compatible AI client discovers documented tools and runs them as part of a conversation.
+
+The MCP path is read-only. The normal webpages can also offer clearly labeled optional email forms or a review waitlist. Choose the webpage when you want to explore on your own; connect MCP when you want your AI to ask the questions and keep the thread for you.
+
 MCP stands for Model Context Protocol. The useful version of that definition is shorter: it gives an AI a documented set of tools it can call instead of making the AI guess from a webpage.
 
 ## The scorecard works better as a conversation
@@ -63,7 +72,7 @@ Claude will discover the tool schema, ask for the required answers, call `run_sc
 
 In Claude's web or desktop apps, open Settings, go to Connectors, choose **Add custom connector**, and paste the endpoint. Cursor, VS Code, ChatGPT developer mode, and other MCP clients can add the same URL as a remote Streamable HTTP server with no authentication.
 
-The full tool list and copy-paste instructions live on the [MCP server page](/mcp/).
+The full tool list and copy-paste instructions live on the [MCP server page](/mcp/). If you do not want to connect anything, use the [no-install tools hub](/tools/) instead.
 
 ## Why put this on the website?
 
@@ -81,4 +90,4 @@ That's the part I care about. Not "my website has ten AI tools." The useful thin
 
 Connect it, run the scorecard, and pull the actual records before believing the estimate.
 
-*Full source: [github.com/jonathanmalkin/jules](https://github.com/jonathanmalkin/jules)*
+*Full source: [github.com/jonathanmalkin/builtwithjon](https://github.com/jonathanmalkin/builtwithjon)*

@@ -21,8 +21,12 @@ Live deploys require both steps:
 git push origin main
 npm run build
 find dist -name .DS_Store -delete
-wrangler deploy --name jonathanmalkin-site --assets dist --compatibility-date 2026-03-18
+wrangler deploy
 ```
+
+Do not pass `--assets` or `--name`. `wrangler.jsonc` owns the Worker and asset
+routing, including `run_worker_first` for the MCP endpoint. CLI asset flags can
+replace that configuration and cause static assets to intercept `POST /mcp`.
 
 In the broader `Active-Work` workspace, use `Scripts/deploy-website.sh` to run the push, build, cleanup, and Wrangler deploy sequence.
 

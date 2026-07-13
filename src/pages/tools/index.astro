@@ -1,0 +1,313 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const description =
+  'Free, no-install tools for small-business owners: find the leak in your deals, time, or cash, price it, and choose the next useful move.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: 'Tools for finding hidden profit',
+      description,
+      url: 'https://builtwithjon.com/tools/',
+      isPartOf: { '@type': 'WebSite', name: 'Built with Jon', url: 'https://builtwithjon.com/' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://builtwithjon.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Tools', item: 'https://builtwithjon.com/tools/' },
+      ],
+    },
+  ],
+};
+
+const paths = [
+  {
+    eyebrow: 'Hidden Profit Scorecard',
+    title: 'Find your biggest leak',
+    body: 'A three-minute scorecard shows whether deals, time, or cash is slipping away first.',
+    meta: '9 questions · free',
+    href: '/scorecard/',
+    action: 'Take the scorecard',
+    event: 'tools:start:scorecard',
+    tone: 'blue',
+  },
+  {
+    eyebrow: '10 leak calculators',
+    title: 'Price one leak',
+    body: 'Ten calculators turn missed calls, slow bids, no-shows, and invoice drag into a monthly number.',
+    meta: '10 calculators · free',
+    href: '/tools/leak-calculator/',
+    action: 'Open the calculators',
+    event: 'tools:start:calculator',
+    tone: 'orange',
+  },
+  {
+    eyebrow: 'Use Case Library',
+    title: 'Browse 96 real use cases',
+    body: 'Find the small, repeatable workflows other owners are cleaning up — and what is actually worth automating.',
+    meta: '15 categories · 96 examples',
+    href: '/use-cases/',
+    action: 'Browse use cases',
+    event: 'tools:start:use-cases',
+    tone: 'sage',
+  },
+  {
+    eyebrow: 'Frameworks + articles',
+    title: 'Frameworks and field notes',
+    body: 'Learn how to decide what to fix before you add another tool, then read the stories behind the numbers.',
+    meta: '5 dispositions · 50+ articles',
+    links: [
+      { href: '/dispositions/', label: 'See the frameworks' },
+      { href: '/articles/', label: 'Read the articles' },
+    ],
+    tone: 'plum',
+  },
+  {
+    eyebrow: 'Hidden Profit Review',
+    title: 'Have me measure it',
+    body: 'Bring one recurring workflow. The Hidden Profit Review maps it with your real data and names the safest first move.',
+    meta: 'Limited monthly capacity',
+    href: '/hidden-profit-review/#waitlist',
+    action: 'Join the review waitlist',
+    event: 'tools:hpr-click',
+    tone: 'copper',
+  },
+];
+
+const prompt = 'Open this page and help me find the biggest leak in my business.';
+---
+
+<Base title="Tools for finding hidden profit" description={description} schema={schema}>
+  <div class="tools-page">
+    <section class="tools-hero" aria-labelledby="tools-title">
+      <div class="tools-hero-copy">
+        <p class="tools-eyebrow">Free tools for owners</p>
+        <h1 id="tools-title">Find the leak before you buy another tool.</h1>
+        <p class="tools-lede">
+          A practical starting point for the work that keeps getting dropped, delayed, or done twice.
+          Find the leak, put a number on it, and choose a useful next move — no install required.
+        </p>
+        <div class="tools-hero-actions">
+          <a class="tools-button tools-button-primary" href="/scorecard/" data-track="tools:start:scorecard">
+            Start with the scorecard <span aria-hidden="true">→</span>
+          </a>
+          <a class="tools-text-link" href="#paths">See all five paths <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <aside class="tools-hero-note" aria-label="How to use these tools">
+        <p class="tools-note-label">The short version</p>
+        <p>Most “AI problems” are really a missed handoff, a slow reply, or money that never gets chased.</p>
+        <span class="tools-note-rule" aria-hidden="true"></span>
+        <p class="tools-note-small">Start with the part of the week that makes you mutter, “Why am I still doing this?”</p>
+      </aside>
+    </section>
+
+    <section class="tools-paths" id="paths" aria-labelledby="paths-title">
+      <div class="tools-section-head">
+        <p class="tools-eyebrow">Choose your next move</p>
+        <h2 id="paths-title">One page. Five useful ways in.</h2>
+      </div>
+      <div class="tools-grid">
+        {paths.map((path) => (
+          <article class={`tools-card tools-card-${path.tone}`}>
+            <div class="tools-card-top">
+              <span class="tools-card-eyebrow">{path.eyebrow}</span>
+            </div>
+            <h3>{path.title}</h3>
+            <p>{path.body}</p>
+            <div class="tools-card-foot">
+              <span class="tools-card-meta">{path.meta}</span>
+              {path.links ? (
+                <div class="tools-card-links">
+                  {path.links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true">→</span></a>)}
+                </div>
+              ) : (
+                <a class="tools-card-link" href={path.href} data-track={path.event}>
+                  {path.action} <span aria-hidden="true">→</span>
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="tools-prompt" aria-labelledby="prompt-title">
+      <div>
+        <p class="tools-eyebrow">Want to use your AI?</p>
+        <h2 id="prompt-title">Give it this one sentence.</h2>
+        <p class="tools-prompt-help">If your assistant can browse the web, send it <a href="https://builtwithjon.com/tools/">builtwithjon.com/tools/</a>, then paste this prompt. It will help you start with the business problem, not a shiny new tool.</p>
+      </div>
+      <div class="tools-prompt-box">
+        <p class="tools-prompt-text" id="tools-prompt-text">{prompt}</p>
+        <button type="button" class="tools-copy" data-copy-prompt aria-describedby="copy-status">
+          <span aria-hidden="true">▣</span> Copy prompt
+        </button>
+        <p class="tools-copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <p class="tools-footnote">No account, install, or connection is needed to use the normal webpages above. The <a href="/mcp/">MCP server</a> is an optional way to let a compatible AI client call the same public tools.</p>
+  </div>
+
+  <script is:inline>
+    if (window.bwjTrack) window.bwjTrack('tools:view');
+
+    const copyButton = document.querySelector('[data-copy-prompt]');
+    const promptText = document.getElementById('tools-prompt-text');
+    const copyStatus = document.getElementById('copy-status');
+
+    copyButton?.addEventListener('click', async () => {
+      const text = promptText?.textContent?.trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        if (copyStatus) copyStatus.textContent = 'Copied.';
+      } catch {
+        // Clipboard permissions can be unavailable in private or older browsers.
+        const selection = window.getSelection();
+        const range = document.createRange();
+        if (promptText && selection) {
+          selection.removeAllRanges();
+          range.selectNodeContents(promptText);
+          selection.addRange(range);
+          if (copyStatus) copyStatus.textContent = 'Select the sentence above to copy it.';
+        }
+      }
+      if (window.bwjTrack) window.bwjTrack('tools:copy-prompt');
+    });
+  </script>
+
+  <style is:global>
+    .tools-page {
+      --tools-ink: #1f1713;
+      --tools-muted: #5e5047;
+      --tools-paper: #fffdf8;
+      --tools-line: #e5d7c3;
+      margin: 0 auto 4rem;
+      max-width: var(--max-width-wide);
+    }
+
+    .tools-hero {
+      display: grid;
+      gap: 1.5rem;
+      padding: 0.5rem 0 2.5rem;
+    }
+
+    .tools-hero-copy { min-width: 0; }
+    .tools-eyebrow,
+    .tools-note-label,
+    .tools-card-eyebrow,
+    .tools-card-meta {
+      color: var(--color-copper);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .tools-hero h1 {
+      font-size: clamp(2.35rem, 8vw, 4.6rem);
+      letter-spacing: -0.04em;
+      line-height: 0.99;
+      margin: 0.65rem 0 1rem;
+      max-width: 12ch;
+      text-wrap: balance;
+    }
+
+    .tools-lede {
+      color: var(--tools-muted);
+      font-size: clamp(1rem, 2.8vw, 1.18rem);
+      line-height: 1.55;
+      max-width: 40rem;
+    }
+
+    .tools-hero-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 1.1rem; margin-top: 1.35rem; }
+    .tools-button {
+      align-items: center;
+      border-radius: 5px;
+      display: inline-flex;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      gap: 0.65rem;
+      justify-content: center;
+      padding: 0.82rem 1rem;
+      text-decoration: none;
+    }
+    .tools-button-primary { background: var(--color-ink); color: var(--color-paper); }
+    .tools-button-primary:hover { background: #000; color: var(--color-paper); text-decoration: none; }
+    .tools-text-link { color: var(--tools-ink); font-family: var(--font-mono); font-size: 0.72rem; text-decoration: underline; text-underline-offset: 0.2em; }
+
+    .tools-hero-note {
+      align-self: end;
+      background: var(--tools-paper);
+      border: 1px solid var(--tools-line);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .tools-note-label { color: var(--color-blue-mug); margin-bottom: 0.7rem; }
+    .tools-hero-note p { margin-bottom: 0; }
+    .tools-hero-note > p:nth-of-type(2) { font-family: Newsreader, Georgia, serif; font-size: 1.4rem; line-height: 1.2; }
+    .tools-note-rule { background: var(--color-jules-orange); display: block; height: 3px; margin: 1.1rem 0; width: 2.5rem; }
+    .tools-note-small { color: var(--tools-muted); font-size: 0.82rem; line-height: 1.45; }
+
+    .tools-paths { border-top: 1px solid var(--tools-line); padding-top: 1.65rem; }
+    .tools-section-head h2,
+    .tools-prompt h2 { font-family: Newsreader, Georgia, serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; margin: 0.55rem 0 1.3rem; text-wrap: balance; }
+    .tools-grid { display: grid; gap: 0.8rem; }
+    .tools-card { background: var(--tools-paper); border: 1px solid var(--tools-line); border-radius: 10px; display: flex; flex-direction: column; min-height: 16rem; padding: 1.1rem; transition: box-shadow 0.18s ease, transform 0.18s ease; }
+    .tools-card:hover { box-shadow: 0 4px 8px rgba(31, 23, 19, 0.1); transform: translateY(-2px); }
+    .tools-card-top { align-items: center; display: flex; gap: 0.7rem; }
+    .tools-card-eyebrow { color: var(--tools-muted); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: none; }
+    .tools-card h3 { font-size: 1.35rem; line-height: 1.1; margin: 1.15rem 0 0.55rem; }
+    .tools-card p { color: var(--tools-muted); font-size: 0.9rem; line-height: 1.48; margin-bottom: 1rem; }
+    .tools-card-foot { border-top: 1px solid var(--tools-line); display: flex; flex: 1; flex-direction: column; gap: 0.75rem; justify-content: flex-end; padding-top: 0.9rem; }
+    .tools-card-meta { color: var(--tools-muted); font-size: 0.61rem; }
+    .tools-card-link,
+    .tools-card-links a { color: var(--tools-ink); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
+    .tools-card-link span, .tools-card-links a span { text-decoration: none; }
+    .tools-card-links { display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; }
+    .tools-card-blue { border-top: 4px solid var(--color-blue-mug); }
+    .tools-card-orange { border-top: 4px solid var(--color-jules-orange); }
+    .tools-card-sage { border-top: 4px solid var(--color-sage); }
+    .tools-card-plum { border-top: 4px solid var(--color-plum); }
+    .tools-card-copper { border-top: 4px solid var(--color-copper); }
+
+    .tools-prompt { align-items: start; background: #f2e7d6; border: 1px solid var(--tools-line); border-radius: 12px; display: grid; gap: 1.3rem; margin-top: 2.8rem; padding: 1.25rem; }
+    .tools-prompt h2 { margin-bottom: 0.6rem; }
+    .tools-prompt-help { color: var(--tools-muted); font-size: 0.86rem; line-height: 1.5; margin: 0; max-width: 34rem; }
+    .tools-prompt-box { background: var(--tools-paper); border: 1px solid var(--tools-ink); border-radius: 8px; padding: 1rem; }
+    .tools-prompt-text { font-family: Newsreader, Georgia, serif; font-size: 1.4rem; line-height: 1.15; margin: 0 0 1rem; }
+    .tools-copy { background: var(--tools-ink); border: 0; border-radius: 4px; color: var(--tools-paper); cursor: pointer; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; padding: 0.7rem 0.85rem; }
+    .tools-copy:hover { background: #000; }
+    .tools-copy-status { color: var(--tools-muted); font-size: 0.72rem; margin: 0.65rem 0 0; min-height: 1.1em; }
+    .tools-footnote { color: var(--tools-muted); font-size: 0.75rem; line-height: 1.45; margin: 1.25rem 0 0; text-align: center; }
+    .tools-footnote a { color: var(--tools-ink); text-decoration: underline; text-underline-offset: 0.15em; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tools-card { transition: none; }
+      .tools-card:hover { transform: none; }
+    }
+
+    @media (min-width: 640px) {
+      .tools-hero { grid-template-columns: minmax(0, 1.3fr) minmax(250px, 0.7fr); padding-top: 1.2rem; }
+      .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tools-card:last-child { grid-column: span 2; }
+      .tools-prompt { grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr); padding: 1.6rem; }
+    }
+
+    @media (min-width: 900px) {
+      .tools-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tools-card:last-child { grid-column: auto; }
+      .tools-card { min-height: 18rem; padding: 1.3rem; }
+      .tools-prompt { align-items: center; padding: 1.9rem; }
+    }
+  </style>
+</Base>

@@ -19,12 +19,13 @@ His technical writing draws on Jules, a deeply customized Claude Code system wit
 
 ## Offers
 
+- Tools hub (no install; scorecard, calculators, use cases, and frameworks): https://builtwithjon.com/tools/
 - Scorecard (free, 3 minutes): https://builtwithjon.com/scorecard/
 - Hidden Profit Review (paid, waitlist): https://builtwithjon.com/hidden-profit-review/
 - Hidden Profit Review sample: https://builtwithjon.com/hidden-profit-review/sample/
 - AI Assistant guides: https://builtwithjon.com/ai-assistant/
 - In-person AI workshops in Austin and private team workshops: https://builtwithjon.com/ai-assistant-workshop/
-- Use-case library (96 examples, 15 business types): https://builtwithjon.com/use-cases/
+- Use-case library (96 examples, 15 categories): https://builtwithjon.com/use-cases/
 
 ## MCP Server
 

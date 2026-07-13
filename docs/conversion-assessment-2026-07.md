@@ -151,5 +151,5 @@ The $24M contractor sample is the strongest asset on the site. Consider a one-pa
 - [ ] Set `monthlyCapacity` in `src/pages/hidden-profit-review.astro` to the honest number (currently 4).
 - [ ] Cloudflare dashboard → Web Analytics → create site → paste token into `CF_BEACON_TOKEN` in `src/layouts/Base.astro` → deploy.
 - [ ] Adopt the waitlist rhythm: read entries ≤ 2 business days, invite in order, calendar link goes in the invite email only.
-- [ ] Deploy: `npm run build && wrangler deploy --name jonathanmalkin-site --assets dist` (first deploy creates the `site_events` dataset).
+- [ ] Deploy: `npm run build && find dist -name .DS_Store -delete && wrangler deploy` (first deploy creates the `site_events` dataset). Do not pass CLI asset or Worker-name flags; `wrangler.jsonc` owns MCP routing.
 - [ ] Optional: create a Cloudflare API token with Analytics read access for the SQL queries in §3.

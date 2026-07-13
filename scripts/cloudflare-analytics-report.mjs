@@ -55,6 +55,11 @@ const gateSuccess = count('scorecard:gate-success');
 const reviewSuccess = count('hpr-waitlist:success');
 const workshopSuccess = count('workshop-waitlist:success');
 const privateSuccess = count('private-workshop:success');
+const toolsView = count('tools:view');
+const toolsScorecard = count('tools:start:scorecard');
+const toolsCalculator = count('tools:start:calculator');
+const toolsUseCases = count('tools:start:use-cases');
+const toolsReview = count('tools:hpr-click');
 
 console.log(`Built with Jon funnel — last ${days} day${days === 1 ? '' : 's'}`);
 console.log('');
@@ -66,6 +71,24 @@ console.table([
   { stage: 'Public workshop waitlist', events: workshopSuccess, conversion: '—' },
   { stage: 'Private workshop request', events: privateSuccess, conversion: '—' },
 ]);
+
+console.log('');
+console.log('Owner tools hub');
+console.table([
+  { stage: 'Tools hub viewed', events: toolsView, conversion: '—' },
+  { stage: 'Scorecard started', events: toolsScorecard, conversion: rate(toolsScorecard, toolsView) },
+  { stage: 'Calculator started', events: toolsCalculator, conversion: rate(toolsCalculator, toolsView) },
+  { stage: 'Use cases opened', events: toolsUseCases, conversion: rate(toolsUseCases, toolsView) },
+  { stage: 'Review clicked', events: toolsReview, conversion: rate(toolsReview, toolsView) },
+]);
+
+const mcpEvents = [...totals.entries()]
+  .filter(([event]) => event.startsWith('mcp:'))
+  .sort((a, b) => b[1] - a[1]);
+
+console.log('');
+console.log('MCP usage');
+console.table(mcpEvents.map(([event, hits]) => ({ event, hits })));
 
 console.log('Top events');
 console.table(

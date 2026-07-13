@@ -7,6 +7,7 @@ import {
   tierFor,
   compositeScore,
 } from "./data/scorecard";
+import { CALCS } from "./data/leak-calculators";
 import { isMcpRequest, handleMcp } from "./mcp/handler";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
@@ -25,10 +26,35 @@ const PERMANENT_REDIRECTS = new Map([
 const MCP_REGISTRY_AUTH_PATH = "/.well-known/mcp-registry-auth";
 const MCP_REGISTRY_AUTH_PROOF =
   "v=MCPv1; k=ecdsap384; p=AvUGKTlupoWJNtt1rtl5R5SD9Z3yK59b7dTHmdbt53BWO/EqQARKJm+V22+awwN/HA==";
+const ALLOWED_EVENT_NAMES = new Set([
+  "contact:start", "contact:submit",
+  "cta:scorecard-article", "cta:scorecard-article-s2", "cta:scorecard-article-s3",
+  "cta:scorecard-contact", "cta:scorecard-final", "cta:scorecard-footer",
+  "cta:scorecard-frontdoor", "cta:scorecard-hero", "cta:scorecard-nav",
+  "cta:scorecard-waitlist", "cta:usecases-article", "cta:waitlist-article",
+  "cta:waitlist-contact", "cta:waitlist-final", "cta:waitlist-scorecard",
+  "hpr-waitlist:start", "hpr-waitlist:submit", "hpr-waitlist:success", "hpr:sample-click",
+  "lead-magnet:start", "lead-magnet:submit", "leakcalc:unlock",
+  "newsletter:start", "newsletter:submit",
+  "private-workshop:start", "private-workshop:submit", "private-workshop:success",
+  "scorecard:result", "scorecard:gate-success", "scorecard-gate:start", "scorecard-gate:submit",
+  "starter-kit:start", "starter-kit:submit",
+  "tools:view", "tools:start:scorecard", "tools:start:calculator",
+  "tools:start:use-cases", "tools:copy-prompt", "tools:hpr-click",
+  "waitlist:sample-click", "waitlist:usecases-click",
+  "workshop-waitlist:start", "workshop-waitlist:submit", "workshop-waitlist:success",
+]);
+const ALLOWED_CALCULATOR_EVENTS = new Set(CALCS.map((calculator) => `leakcalc:pick:${calculator.id}`));
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // The slash path is documentation only. Keeping every protocol method on
+    // exact /mcp prevents alternate-path bypasses of the exact-path WAF rule.
+    if (url.pathname === "/mcp/" && request.method !== "GET") {
+      return new Response(null, { status: 405, headers: { Allow: "GET" } });
+    }
 
     // MCP server (POST /mcp + preflight + SSE-GET rejection); plain browser
     // GETs on /mcp fall through to the static docs page.
@@ -142,15 +168,24 @@ async function handleEvent(request, env) {
   }
 
   const event = String(body?.e || "");
-  if (!/^[a-z0-9-]+:[a-z0-9-]+$/.test(event) || event.length > 64) {
+  const eventAllowed = ALLOWED_EVENT_NAMES.has(event)
+    || ALLOWED_CALCULATOR_EVENTS.has(event)
+    || /^scorecard:q[1-9]$/.test(event);
+  if (!eventAllowed) {
     return json({ ok: false, error: "invalid_event" }, 400);
   }
 
-  const path = String(body?.p || "").slice(0, 200);
+  const path = String(body?.p || "");
+  if (path.length > 200 || !/^\/[a-z0-9/_-]*$/.test(path) || path.includes("//")) {
+    return json({ ok: false, error: "invalid_path" }, 400);
+  }
 
   let referrerHost = "";
   try {
-    referrerHost = new URL(body?.r || "").hostname;
+    const hostname = new URL(body?.r || "").hostname.toLowerCase();
+    if (/^[a-z0-9.-]{1,253}$/.test(hostname) && !hostname.includes("..")) {
+      referrerHost = hostname;
+    }
   } catch {
     referrerHost = "";
   }
