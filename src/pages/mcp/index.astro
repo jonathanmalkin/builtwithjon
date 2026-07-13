@@ -34,6 +34,7 @@ const schema = {
 };
 
 const tools = [
+  ['start_here', 'New here? Start with a guided map of every tool: why to use it, what it returns, how the tools fit together, and three useful first prompts.'],
   ['run_scorecard', 'The 3-minute diagnostic, administered by your AI: where the business is leaking deals, time, and cash, and the first fix worth making.'],
   ['calculate_leak', 'Put a monthly and annual dollar figure on one leak: missed calls, slow bids, no-shows, unbilled change orders, invoice aging, and six more.'],
   ['list_leak_calculators', 'The ten calculators, their inputs, and their defaults.'],
@@ -43,7 +44,7 @@ const tools = [
   ['get_frameworks', 'The Five Dispositions and the 5-phase process — how to decide what to automate before automating it.'],
   ['get_hidden_profit_review_info', 'What the paid review is, what you get, and how the waitlist works.'],
   ['search_articles', 'Search the articles on workflow leaks, Claude Code infrastructure, and AI operations.'],
-  ['get_article', 'Read any article in full.'],
+  ['get_article', 'Open an article, with its full text when available and canonical webpage.'],
 ];
 ---
 
@@ -63,6 +64,12 @@ const tools = [
 
   <section class="mcp-section">
     <h2>What your assistant can do with it</h2>
+    <div class="mcp-start">
+      <p class="eyebrow">New here?</p>
+      <h3>Ask your assistant to call <code>start_here</code>.</h3>
+      <p>It explains which tool to use, why it fits, what it returns, and the order the tools work best in. If you are not sure what your problem is yet, it points you to the scorecard first.</p>
+      <p><strong>Try:</strong> “Use Built with Jon's <code>start_here</code> tool and help me choose where to begin.”</p>
+    </div>
     <dl class="mcp-tools">
       {tools.map(([name, desc]) => (
         <div class="mcp-tool">
@@ -126,6 +133,15 @@ const tools = [
     .mcp-endpoint { margin: 1.2rem 0 0.3rem; }
     .mcp-endpoint-meta { color: var(--color-text-muted); font-size: 0.85rem; margin: 0; }
     .mcp-section { margin: 0 0 2.2rem; }
+    .mcp-start {
+      margin: 0 0 1.4rem;
+      padding: 1rem 1.1rem;
+      border: 2px solid var(--color-copper);
+      border-radius: 10px;
+      background: var(--color-surface, #fff);
+    }
+    .mcp-start h3 { margin: 0.25rem 0 0.45rem; }
+    .mcp-start p:last-child { margin-bottom: 0; }
     .mcp-tools { margin: 0; }
     .mcp-tool { margin: 0 0 0.7rem; }
     .mcp-tool dt code { font-weight: 700; }

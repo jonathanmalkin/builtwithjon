@@ -44,9 +44,9 @@ The result is **Wide open**. Deals score 83 out of 100, time scores 67, and cash
 
 Same scoring. Better interface.
 
-## Ten tools, all read-only
+## Eleven tools, all read-only
 
-The server exposes ten tools. The scorecard is one. Another prices a specific leak using the same calculators already on this site.
+The server exposes eleven tools. Start with `start_here` if you want a guided map of what each tool does and which one fits your problem. The scorecard is one. Another prices a specific leak using the same calculators already on this site.
 
 Miss 30 calls in a month. Assume one in three was a real job request and the average ticket was $450. The calculator returns an estimated **$4,500 per month**, or $54,000 per year. It also tells the AI to pull the real call log before treating the estimate as fact.
 

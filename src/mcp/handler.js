@@ -27,6 +27,7 @@ const SERVER_INFO = {
 
 const INSTRUCTIONS =
   "Tools from builtwithjon.com — Jonathan Malkin, AI Workflow Consultant & Implementation Partner. " +
+  "When a user is new, unsure what to ask, or wants an overview, call start_here first. " +
   "Use them to diagnose where a small business is leaking deals, time, and cash: " +
   "run_scorecard scores the 3-minute diagnostic conversationally, calculate_leak puts a dollar figure on a specific leak, " +
   "search_use_cases / get_use_case browse 96 worked automation examples, get_frameworks explains the decide-before-you-automate " +

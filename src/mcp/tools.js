@@ -84,6 +84,28 @@ function requireEnum(args, key, allowed, { required = false } = {}) {
   return value;
 }
 
+// ---------- New user entrypoint ----------
+
+function startHere(args, ctx) {
+  const o = origin(ctx.env);
+  const body = [
+    `# Start here: find the business problem before choosing a tool`,
+    `If you are not sure what to use, begin with \`run_scorecard\`. Your assistant asks the required questions one at a time, then returns a deterministic verdict showing whether deals, time, or cash is leaking most — plus the first useful move.`,
+    `## Choose a path`,
+    `### 1. I do not know where to start → \`run_scorecard\`\n**Why:** Rank the whole problem before fixing one symptom.\n**What it does:** Scores deals, time, and cash and identifies the biggest leak.\n**How:** Tell your assistant what kind of business you run. It will ask six required questions conversationally, then call the tool with your answers.`,
+    `### 2. I already know the problem and want the cost → \`list_leak_calculators\` then \`calculate_leak\`\n**Why:** Turn a recurring leak into a monthly and annual estimate.\n**What they do:** Cover ten problems including missed calls, slow bids, no-shows, unbilled change orders, slow replies, and aging invoices.\n**How:** List the calculators, choose one, then replace the illustrative defaults with numbers from your own records.`,
+    `### 3. I want examples from businesses like mine → \`list_use_case_categories\`, \`search_use_cases\`, then \`get_use_case\`\n**Why:** See how a similar workflow actually breaks and what is worth changing.\n**What they do:** Search 96 worked examples across 15 categories, then return one workflow with per-step verdicts and the role AI should — or should not — play.\n**How:** Browse categories or describe the pain in plain language, then open the most relevant result by id.`,
+    `### 4. I need a way to decide what should be automated → \`get_frameworks\`\n**Why:** Automation is not the right treatment for every step.\n**What it does:** Explains the Five Dispositions — eliminate, simplify, automate, optimize, report — and the five-phase implementation process.\n**How:** Ask for \`dispositions\`, \`process\`, or \`all\`.`,
+    `### 5. I want to research a topic → \`search_articles\` then \`get_article\`\n**Why:** Get the underlying explanation, evidence, and implementation lessons.\n**What they do:** Search Jonathan's field notes, then return the article's text when available plus its canonical webpage.\n**How:** Search by a problem, keyword, or tag; use the returned slug to open one result.`,
+    `### 6. I want Jonathan to measure one workflow with real data → \`get_hidden_profit_review_info\`\n**Why:** The public tools diagnose and estimate; a review measures the actual workflow.\n**What it does:** Explains the deliverables, worked sample, capacity, and waitlist for the Hidden Profit Review.\n**How:** Call it with no arguments, then decide whether the measured review is the right next step.`,
+    `## Three good first prompts`,
+    `- “Run the scorecard with me. Ask one question at a time.”\n- “I think missed calls are costing us work. Help me calculate it with real numbers.”\n- “Find use cases for a home-service business that struggles with lead follow-up.”`,
+    `Everything in this MCP server is read-only. Scorecard answers and calculator inputs are not stored. Calculator results are always estimates; defaults are illustrative until you replace them with real business inputs.`,
+    `Prefer a normal webpage? The no-install tools hub is ${o}/tools/.`,
+  ].join("\n\n");
+  return text(body);
+}
+
 // ---------- Use Case Library ----------
 
 function categoryById(id) {
@@ -424,6 +446,13 @@ const SCORECARD_PROPERTIES = (() => {
 
 export const TOOLS = [
   {
+    name: "start_here",
+    description:
+      "START HERE if you are new to Built with Jon. Explains every tool, why to use it, what it returns, how the tools work together, and the best first prompt for finding a leak in deals, time, or cash.",
+    inputSchema: { type: "object", properties: {}, additionalProperties: false },
+    handler: startHere,
+  },
+  {
     name: "list_use_case_categories",
     description:
       "List the 15 categories of the Built with Jon Use Case Library (96 worked small-business AI/automation examples), grouped by business function, industry, and personal, with counts and key stats. Call this first to orient before searching.",
@@ -532,7 +561,7 @@ export const TOOLS = [
   },
   {
     name: "get_article",
-    description: "Get the full markdown text of one article by slug (from search_articles), with canonical URL.",
+    description: "Get one article by slug (from search_articles), including its canonical URL and full markdown text when available.",
     inputSchema: {
       type: "object",
       properties: { slug: { type: "string", description: "Article slug, e.g. 'missed-call-math-home-services'" } },
