@@ -54,6 +54,10 @@ export function isMcpRequest(url, request) {
 }
 
 export async function handleMcp(request, env) {
+  if (!originAllowed(request, env)) {
+    return jsonResponse(errorFor(null, -32600, "Origin not allowed"), 403);
+  }
+
   if (request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
   }
@@ -75,6 +79,11 @@ export async function handleMcp(request, env) {
 
   if (request.method !== "POST") {
     return new Response(null, { status: 405, headers: { ...CORS_HEADERS, Allow: "POST, OPTIONS" } });
+  }
+
+  const protocolVersion = request.headers.get("MCP-Protocol-Version");
+  if (protocolVersion && !SUPPORTED_PROTOCOL_VERSIONS.includes(protocolVersion)) {
+    return jsonResponse(errorFor(null, -32600, `Unsupported MCP-Protocol-Version: ${protocolVersion}`), 400);
   }
 
   const contentLength = Number(request.headers.get("content-length") || "0");
@@ -179,8 +188,25 @@ async function handleMessage(message, request, env) {
 
 function clientName(params, request) {
   const fromInit = params?.clientInfo?.name;
-  const value = typeof fromInit === "string" && fromInit ? fromInit : request.headers.get("User-Agent") || "";
-  return value.slice(0, 80);
+  const value = `${typeof fromInit === "string" ? fromInit : ""} ${request.headers.get("User-Agent") || ""}`.toLowerCase();
+  const knownClients = [
+    ["claude", "claude"],
+    ["cursor", "cursor"],
+    ["smithery", "smithery"],
+    ["inspector", "mcp-inspector"],
+    ["curl", "curl"],
+  ];
+  return knownClients.find(([needle]) => value.includes(needle))?.[1] || "other";
+}
+
+function originAllowed(request, env) {
+  const origin = request.headers.get("Origin");
+  if (!origin) return true;
+  try {
+    return new URL(origin).origin === new URL(env.SITE_ORIGIN || "https://builtwithjon.com").origin;
+  } catch {
+    return false;
+  }
 }
 
 // Folded into the site's existing Analytics Engine events (same shape as the
