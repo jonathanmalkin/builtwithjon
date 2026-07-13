@@ -39,6 +39,9 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
 
   <script is:inline define:vars={{ reportEndpoint }}>
     // ---- Data model (mirrors the spec). Pure data + deterministic scoring. No model. ----
+    // KEEP IN SYNC with src/data/scorecard.ts (shared by the email report and the
+    // MCP run_scorecard tool). This script uses define:vars, so it stays inline
+    // and keeps its own copy of the questions, weights, and lines.
     // Q1 is INDUSTRY only. The deals/time/cash axes already capture the functional
     // dimension (sales, admin, finance, etc.), so those are NOT segment choices.
     // 'general' is the universal-benchmark fallback for owners outside the verticals.
