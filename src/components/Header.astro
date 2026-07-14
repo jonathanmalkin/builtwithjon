@@ -1,7 +1,7 @@
 ---
 const pathname = Astro.url.pathname;
 
-const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWith('/hidden-profit-review') || pathname.startsWith('/use-cases') || pathname.startsWith('/articles') || pathname.startsWith('/workshops');
+const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWith('/hidden-profit-review') || pathname.startsWith('/use-cases') || pathname.startsWith('/articles');
 ---
 
 <header class="site-header">
@@ -18,8 +18,7 @@ const servicesActive = pathname.startsWith('/ai-assistant') || pathname.startsWi
           <svg class="nav-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
         </button>
         <div class="nav-submenu" id="nav-services" role="menu">
-          <a role="menuitem" href="/ai-assistant/" aria-current={pathname === '/ai-assistant/' || pathname.startsWith('/ai-assistant/cowork') || pathname.startsWith('/ai-assistant/claude-code') ? 'page' : undefined}>AI Assistant</a>
-          <a role="menuitem" href="/ai-assistant-workshop/" aria-current={pathname.startsWith('/ai-assistant-workshop') || pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
+          <a role="menuitem" href="/ai-assistant/" aria-current={pathname.startsWith('/ai-assistant') ? 'page' : undefined}>AI Assistant</a>
           <a role="menuitem" href="/hidden-profit-review/" aria-current={pathname.startsWith('/hidden-profit-review') ? 'page' : undefined}>Hidden Profit</a>
           <a role="menuitem" href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use Cases</a>
           <a role="menuitem" href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>

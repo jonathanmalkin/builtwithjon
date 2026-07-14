@@ -20,10 +20,16 @@ const MAX_EVENT_BODY_BYTES = 2048;
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
-  ["/workshops", "/ai-assistant-workshop/"],
-  ["/workshops/", "/ai-assistant-workshop/"],
-  ["/ai-assistant-workshop-austin", "/ai-assistant-workshop/"],
-  ["/ai-assistant-workshop-austin/", "/ai-assistant-workshop/"],
+  ["/workshops", "/ai-assistant/"],
+  ["/workshops/", "/ai-assistant/"],
+  ["/ai-assistant-workshop", "/ai-assistant/"],
+  ["/ai-assistant-workshop/", "/ai-assistant/"],
+  ["/ai-assistant-workshop/thanks", "/ai-assistant/"],
+  ["/ai-assistant-workshop/thanks/", "/ai-assistant/"],
+  ["/ai-assistant-workshop-austin", "/ai-assistant/"],
+  ["/ai-assistant-workshop-austin/", "/ai-assistant/"],
+  ["/ai-assistant/claude-code", "/ai-assistant/course/"],
+  ["/ai-assistant/claude-code/", "/ai-assistant/course/"],
 ]);
 const MCP_REGISTRY_AUTH_PATH = "/.well-known/mcp-registry-auth";
 const MCP_REGISTRY_AUTH_PROOF =

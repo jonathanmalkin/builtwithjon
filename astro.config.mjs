@@ -14,9 +14,11 @@ export default defineConfig({
     icon(),
   ],
   redirects: {
-    // One evergreen in-person workshop page replaces the retired online cohort
-    // and the completed July 2026 Austin event while preserving inbound links.
-    '/workshops': '/ai-assistant-workshop/',
-    '/ai-assistant-workshop-austin': '/ai-assistant-workshop/',
+    // Retired workshop URLs now lead to the current AI assistant offer.
+    '/workshops': '/ai-assistant/',
+    '/ai-assistant-workshop': '/ai-assistant/',
+    '/ai-assistant-workshop/thanks': '/ai-assistant/',
+    '/ai-assistant-workshop-austin': '/ai-assistant/',
+    '/ai-assistant/claude-code': '/ai-assistant/course/',
   },
 });

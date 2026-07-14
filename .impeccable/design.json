@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-13T18:30:00-05:00",
+  "title": "Design System: Built with Jon",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Workshop Paper", "canonical": "#F6F2E9" },
+      "surface": { "role": "neutral", "displayName": "Working Surface", "canonical": "#FFFDF8" },
+      "ink": { "role": "primary", "displayName": "Working Ink", "canonical": "#1B1813" },
+      "deals": { "role": "secondary", "displayName": "Deals Orange", "canonical": "#E8752B" },
+      "time": { "role": "secondary", "displayName": "Time Blue", "canonical": "#3B6E8F" },
+      "cash": { "role": "secondary", "displayName": "Cash Sage", "canonical": "#6E8B6F" },
+      "segment": { "role": "secondary", "displayName": "Segment Plum", "canonical": "#7A4E68" },
+      "payoff": { "role": "secondary", "displayName": "Payoff Copper", "canonical": "#8F4E24" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Primary page idea and major section headlines." },
+      "body": { "displayName": "Body", "purpose": "Plain-language instructions and operating explanations." },
+      "label": { "displayName": "Classified Label", "purpose": "Short labels, metadata, buttons, counts, and framework tags." }
+    },
+    "shadows": [
+      { "name": "soft-separation", "value": "0 6px 18px -12px rgba(31, 23, 19, 0.22)", "purpose": "Compact forms and surfaces needing separation from paper." },
+      { "name": "focused-surface", "value": "0 10px 30px -18px rgba(31, 23, 19, 0.30)", "purpose": "One important instrument, result, or conversion surface." }
+    ],
+    "motion": [
+      { "name": "state-fast", "value": "140ms ease-out", "purpose": "Button, border, and compact selection feedback." },
+      { "name": "panel-enter", "value": "260ms cubic-bezier(.2,.7,.2,1)", "purpose": "Detail panels and purposeful screen-level transitions." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "480px" },
+      { "name": "mobile-nav", "value": "640px" },
+      { "name": "content-grid", "value": "1000px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The dominant action on a page.",
+      "html": "<button class=\"ds-btn-primary\">START HERE</button>",
+      "css": ".ds-btn-primary { background:#1B1813; color:#FFFDF8; border:1px solid #1B1813; border-radius:4px; padding:12px 18px; font:500 13px/1.2 'IBM Plex Mono',monospace; letter-spacing:.04em; cursor:pointer; transition:background 140ms ease-out,transform 140ms ease-out; } .ds-btn-primary:hover { background:#000; transform:translateY(-1px); } .ds-btn-primary:focus-visible { outline:3px solid #E8752B; outline-offset:4px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A visibly subordinate action.",
+      "html": "<button class=\"ds-btn-secondary\">SEE DETAILS</button>",
+      "css": ".ds-btn-secondary { background:#FFFDF8; color:#1B1813; border:1px solid #D2C9B5; border-radius:4px; padding:11px 17px; font:500 13px/1.2 'IBM Plex Mono',monospace; letter-spacing:.04em; cursor:pointer; } .ds-btn-secondary:hover { border-color:#1B1813; } .ds-btn-secondary:focus-visible { outline:3px solid #E8752B; outline-offset:4px; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labeled, high-contrast form control.",
+      "html": "<label class=\"ds-field\">EMAIL<input class=\"ds-input\" type=\"email\" value=\"you@example.com\"></label>",
+      "css": ".ds-field { display:grid; gap:7px; color:#1B1813; font:500 11px/1.2 'IBM Plex Mono',monospace; letter-spacing:.08em; } .ds-input { background:#FFFDF8; color:#1B1813; border:1px solid #D2C9B5; border-radius:7px; padding:12px 14px; font:400 16px/1.5 Archivo,system-ui,sans-serif; } .ds-input:focus { border-color:#3B6E8F; outline:3px solid rgba(59,110,143,.2); outline-offset:1px; }"
+    },
+    {
+      "name": "Reading Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A flat repeated surface for articles, use cases, and explanations.",
+      "html": "<article class=\"ds-reading-card\"><h3>A practical first move</h3><p>Start with the work that is already leaking time, deals, or cash.</p></article>",
+      "css": ".ds-reading-card { background:#FFFDF8; color:#1B1813; border:1px solid #D2C9B5; border-radius:7px; padding:20px; max-width:420px; } .ds-reading-card h3 { margin:0 0 8px; font:500 24px/1.12 Newsreader,Georgia,serif; letter-spacing:-.02em; } .ds-reading-card p { margin:0; color:#5A5347; font:400 16px/1.5 Archivo,system-ui,sans-serif; } .ds-reading-card:hover { border-color:#1B1813; }"
+    },
+    {
+      "name": "Semantic Axis Chip",
+      "kind": "chip",
+      "refersTo": "card",
+      "description": "Meaning-bearing state for a business axis; never decorative.",
+      "html": "<span class=\"ds-axis-chip\">TIME</span>",
+      "css": ".ds-axis-chip { display:inline-flex; align-items:center; background:#DFEAF1; color:#3B6E8F; border:1px solid #3B6E8F; border-radius:4px; padding:5px 8px; font:600 11px/1.2 'IBM Plex Mono',monospace; letter-spacing:.08em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Working Session",
+    "overview": "One practical visual system for reading, interactive tools, and funnels. Paper and ink establish trust; semantic colors communicate business axes, dispositions, status, and outcomes.",
+    "keyCharacteristics": [
+      "Warm paper and near-black ink foundation",
+      "Three-role typography",
+      "Meaning-bearing color",
+      "Real evidence over decorative AI imagery",
+      "One dominant action per page"
+    ],
+    "rules": [
+      { "name": "Meaning Before Decoration", "body": "Every saturated color must communicate axis, disposition, status, or outcome.", "section": "colors" },
+      { "name": "Three Voices", "body": "Newsreader speaks authority, Archivo explains, and IBM Plex Mono classifies short data.", "section": "typography" },
+      { "name": "Flat by Default", "body": "Repeated reading surfaces use borders without decorative shadows.", "section": "elevation" }
+    ],
+    "dos": [
+      "Lead with the business leak and one useful next action.",
+      "Use the shared paper, surface, and ink foundation across every route.",
+      "Use real screenshots, tools, demonstrations, and event photography as evidence."
+    ],
+    "donts": [
+      "Do not force a new page to choose between Field Manual and Expressive registers.",
+      "Do not use generic blue-gradient SaaS styling or dark hacker-terminal decoration.",
+      "Do not use saturated color without a named semantic meaning."
+    ]
+  }
+}

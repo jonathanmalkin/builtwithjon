@@ -1,393 +1,294 @@
 ---
 import Base from '../layouts/Base.astro';
-import PathSwitch from '../components/PathSwitch.astro';
 import { Icon } from 'astro-icon/components';
 
-const hubSchema = {
+const pageSchema = {
   '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'Build Your AI Personal Assistant',
+  '@type': 'Course',
+  name: 'Build Your Own AI Personal Assistant',
   description:
-    'Choose the right path to build a practical AI personal assistant: a Claude Cowork DIY guide, a Claude Code DIY guide, or an in-person workshop.',
+    'A free, practical mini-course for building an AI personal assistant with the current Claude Cowork plugin workflow.',
   url: 'https://builtwithjon.com/ai-assistant/',
   provider: {
     '@type': 'Person',
     name: 'Jonathan Malkin',
     url: 'https://builtwithjon.com',
   },
+  isAccessibleForFree: true,
 };
+
+const outcomes = [
+  {
+    icon: 'lucide:sun',
+    tone: 'blue',
+    title: 'A useful morning brief',
+    copy: 'Your schedule, priorities, waiting items, and drafts in one place.',
+  },
+  {
+    icon: 'lucide:users',
+    tone: 'sage',
+    title: 'Meeting prep that knows the room',
+    copy: 'The people, context, open loops, and questions worth asking before you walk in.',
+  },
+  {
+    icon: 'lucide:mail-check',
+    tone: 'orange',
+    title: 'Replies drafted for review',
+    copy: 'Your assistant prepares the work. You stay in control of every send.',
+  },
+];
 ---
 
 <Base
-  title="Build Your AI Personal Assistant"
-  description="Build a practical AI personal assistant with a Claude Cowork DIY guide, a Claude Code DIY guide, or an in-person workshop."
-  schema={hubSchema}
+  title="Build Your Own AI Personal Assistant"
+  description="A free mini-course that walks you through the current Claude Cowork plugin setup. Build a daily brief, meeting prep, and drafted replies without code."
+  schema={pageSchema}
 >
-  <PathSwitch current="hub" />
-
-  <section class="assistant-hub-hero container-wide">
-    <div class="assistant-hub-copy">
+  <section class="assistant-course-hero container-wide">
+    <div class="assistant-course-copy">
+      <p class="eyebrow">Free Claude Cowork mini-course</p>
       <h1>Build the AI assistant you will actually use.</h1>
       <p class="subtitle">
-        Three paths to the same assistant: your meetings, follow-ups, and daily
-        brief, always under your review. Pick the one that fits how you work.
+        Follow the current Cowork plugin setup one practical step at a time. No
+        terminal and no pile of disconnected prompts. You finish with an assistant
+        that helps run your real day.
       </p>
-      <div class="hero-links">
-        <a href="#choose-path" class="hero-btn">Choose your path</a>
-        <a href="/ai-assistant-workshop/" class="hero-btn hero-btn-outline">See in-person workshops</a>
+      <div class="assistant-course-actions">
+        <a href="/ai-assistant/course/" class="hero-btn">Join the free mini-course</a>
+        <span>One prep email, then seven short daily lessons.</span>
       </div>
     </div>
-    <figure class="assistant-hub-media">
-      <img
-        src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png"
-        width="2080"
-        height="2176"
-        alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
-        loading="eager"
-        decoding="async"
-      />
-      <figcaption>The working surface: one Daily Brief for your day.</figcaption>
+
+    <figure class="assistant-course-media">
+      <div class="assistant-course-frame">
+        <img
+          src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png"
+          width="2080"
+          height="2176"
+          alt="Example Daily Brief showing meetings, goals, to-dos, and waiting items."
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      <figcaption>This is the destination: one working brief for your day.</figcaption>
     </figure>
   </section>
 
-  <section class="container-wide assistant-hub-paths" aria-labelledby="choose-path">
-    <div class="assistant-hub-head">
-      <h2 id="choose-path">Choose the path that matches how you work.</h2>
+  <section class="container-wide assistant-course-outcomes" aria-labelledby="course-outcomes-heading">
+    <div class="assistant-course-intro">
+      <p class="eyebrow">What you build</p>
+      <h2 id="course-outcomes-heading">Something useful by Day 1. Better by Day 7.</h2>
       <p>
-        Same assistant, three ways to get there. Most people should start with
-        Cowork. Pick Claude Code if you are a builder who wants file-level
-        control. Choose an in-person workshop if you want help in the room while you set
-        it up.
+        Each lesson ends with the assistant doing real work. The longer written
+        walkthrough remains available as a reference inside the course.
       </p>
     </div>
 
-    <div class="assistant-path-grid">
-      <article class="assistant-path-card featured">
-        <span class="assistant-path-badge">Most people start here</span>
-        <span class="assistant-path-icon"><Icon name="lucide:mouse-pointer-click" /></span>
-        <h3>Cowork DIY</h3>
-        <p>
-          Build your assistant in Claude Cowork with a downloadable plugin, a
-          setup skill, Dispatch for phone use, and a live Daily Brief. No
-          terminal, about 30 minutes.
-        </p>
-        <ul>
-          <li>Best first choice for most people</li>
-          <li>No terminal work</li>
-          <li>Readable reports instead of Markdown</li>
-        </ul>
-        <a href="/ai-assistant/cowork/" class="hero-btn">Open the Cowork guide</a>
-      </article>
-
-      <article class="assistant-path-card">
-        <span class="assistant-path-icon sage"><Icon name="lucide:terminal-square" /></span>
-        <h3>Claude Code DIY</h3>
-        <p>
-          Set up the file-based version if you want the assistant in plain local
-          files you can inspect and are comfortable installing local tools and
-          running a command or two.
-        </p>
-        <ul>
-          <li>Best for builders and technical operators</li>
-          <li>Uses a local resource pack</li>
-          <li>More control over files and skills</li>
-        </ul>
-        <a href="/ai-assistant/claude-code/" class="hero-btn hero-btn-outline">Open the Claude Code guide</a>
-      </article>
-
-      <article class="assistant-path-card">
-        <span class="assistant-path-icon plum"><Icon name="lucide:users" /></span>
-        <h3>In-person workshops</h3>
-        <p>
-          Join the next public workshop in Austin, or request a private session
-          for your team, if you want hands-on help in the room.
-        </p>
-        <ul>
-          <li>Best if you want hands-on help</li>
-          <li>Public Austin sessions and private team workshops</li>
-          <li>Leave with a working assistant and the skill to extend it</li>
-        </ul>
-        <a href="/ai-assistant-workshop/" class="hero-btn hero-btn-outline">See workshop options</a>
-      </article>
+    <div class="assistant-outcome-grid">
+      {
+        outcomes.map((outcome) => (
+          <article>
+            <span class={`assistant-outcome-icon ${outcome.tone}`}>
+              <Icon name={outcome.icon} />
+            </span>
+            <h3>{outcome.title}</h3>
+            <p>{outcome.copy}</p>
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  <section class="container-wide assistant-hub-proof">
-    <div>
-      <h2>What all three paths build.</h2>
-      <p>
-        This is not a prompt collection. Each path is about getting a practical
-        assistant running against the day-to-day work that usually stays in your
-        head.
-      </p>
-    </div>
-    <div class="assistant-outcome-list">
-      <div class="assistant-outcome">
-        <span class="assistant-outcome-icon blue"><Icon name="lucide:sun" /></span>
-        <div class="assistant-outcome-copy">
-          <strong>Daily Brief</strong>
-          <span>Schedule, priorities, waiting items, and drafts in one place.</span>
-        </div>
-      </div>
-      <div class="assistant-outcome">
-        <span class="assistant-outcome-icon sage"><Icon name="lucide:users" /></span>
-        <div class="assistant-outcome-copy">
-          <strong>Meeting Prep</strong>
-          <span>People, company context, open loops, and next questions before you walk in.</span>
-        </div>
-      </div>
-      <div class="assistant-outcome">
-        <span class="assistant-outcome-icon orange"><Icon name="lucide:mail" /></span>
-        <div class="assistant-outcome-copy">
-          <strong>Email Drafts</strong>
-          <span>Replies drafted for review, never sent automatically.</span>
-        </div>
-      </div>
-      <div class="assistant-outcome">
-        <span class="assistant-outcome-icon plum"><Icon name="lucide:database" /></span>
-        <div class="assistant-outcome-copy">
-          <strong>Business Memory</strong>
-          <span>Notes, decisions, goals, contacts, and follow-ups saved in plain files.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="container home-final-cta assistant-hub-final">
-    <h2>Not sure where to start?</h2>
+  <section class="container assistant-course-final">
+    <p class="eyebrow">Start here</p>
+    <h2>Want to build your own assistant?</h2>
     <p>
-      Use Cowork first. It is the clearest public DIY path. Claude Code is there
-      if you want file-level control, and the in-person workshop is there when
-      you want live help.
+      Sign up for the free mini-course. I will walk you through the Cowork plugin,
+      the setup, and the exact workflows I use myself.
     </p>
-    <div class="hero-links" style="justify-content: center;">
-      <a href="/ai-assistant/cowork/" class="hero-btn">Start with Cowork</a>
-      <a href="/ai-assistant/claude-code/" class="hero-btn hero-btn-outline">Claude Code path</a>
-      <a href="/ai-assistant-workshop/" class="hero-btn hero-btn-outline">In-person workshops</a>
-    </div>
+    <a href="/ai-assistant/course/" class="hero-btn">Save my spot</a>
   </section>
 
   <style>
-    .assistant-hub-hero {
+    .assistant-course-hero {
       display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
-      gap: 2rem;
+      grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
       align-items: center;
-      margin-bottom: 3rem;
+      padding-top: clamp(2.5rem, 6vw, 5.5rem);
+      padding-bottom: clamp(3rem, 7vw, 6rem);
     }
 
-    .assistant-hub-copy h1 {
+    .assistant-course-copy h1 {
       max-width: 760px;
-      margin-top: 0;
-      font-size: clamp(2.2rem, 6vw, 4.6rem);
-      line-height: 0.98;
+      margin: 0.45rem 0 1.15rem;
+      font-size: clamp(2.55rem, 6vw, 5rem);
+      line-height: 0.97;
+      letter-spacing: -0.045em;
     }
 
-    .assistant-hub-copy .subtitle {
-      color: var(--color-text-muted);
-      font-size: 1.1rem;
-      line-height: 1.55;
+    .assistant-course-copy .subtitle {
       max-width: 640px;
+      margin: 0;
+      color: var(--color-text-muted);
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      line-height: 1.55;
     }
 
-    .assistant-hub-media {
+    .assistant-course-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem 1rem;
+      margin-top: 1.7rem;
+    }
+
+    .assistant-course-actions span {
+      max-width: 15rem;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .assistant-course-media {
       margin: 0;
     }
 
-    .assistant-hub-media img {
+    .assistant-course-frame {
+      position: relative;
+      padding: clamp(0.7rem, 2vw, 1.15rem);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(229, 133, 47, 0.24), transparent 34%),
+        radial-gradient(circle at 88% 92%, rgba(59, 110, 143, 0.22), transparent 38%),
+        var(--color-surface);
+      box-shadow: var(--shadow-card);
+      transform: rotate(1.25deg);
+    }
+
+    .assistant-course-frame img {
       display: block;
       width: 100%;
+      max-height: 620px;
+      object-fit: cover;
+      object-position: top;
       border: 1px solid var(--color-border);
-      border-radius: 8px;
-      box-shadow: var(--shadow-card);
+      border-radius: 10px;
       background: var(--color-surface);
     }
 
-    .assistant-hub-media figcaption {
-      margin-top: 0.65rem;
+    .assistant-course-media figcaption {
+      margin-top: 0.9rem;
       color: var(--color-text-muted);
-      font-size: 0.82rem;
-    }
-
-    .assistant-hub-head {
-      max-width: 720px;
-      margin-bottom: 1.25rem;
-    }
-
-    .assistant-hub-head h2,
-    .assistant-hub-proof h2,
-    .assistant-hub-final h2 {
-      margin-top: 0;
-    }
-
-    .assistant-hub-head p,
-    .assistant-hub-proof p {
-      color: var(--color-text-muted);
-    }
-
-    .assistant-path-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .assistant-path-card {
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-      padding: 1.25rem;
-      background: rgba(255, 253, 248, 0.96);
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .assistant-path-card.featured {
-      border-top: 6px solid var(--color-jules-orange);
-    }
-
-    .assistant-path-badge {
-      align-self: flex-start;
-      margin-bottom: 0.65rem;
-      padding: 0.3rem 0.55rem;
-      border-radius: 999px;
-      background: var(--color-jules-orange);
-      color: var(--color-ink);
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .assistant-path-card h3 {
-      margin-top: 0.8rem;
-    }
-
-    .assistant-path-card p,
-    .assistant-path-card li {
-      color: var(--color-text-muted);
-      font-size: 0.95rem;
-    }
-
-    .assistant-path-card ul {
-      margin: 0 0 1rem;
-      padding-left: 1.1rem;
-    }
-
-    .assistant-path-card .hero-btn {
-      margin-top: auto;
-      width: 100%;
-      justify-content: center;
+      font-size: 0.84rem;
       text-align: center;
     }
 
-    .assistant-path-icon {
-      display: inline-grid;
-      width: 42px;
-      height: 42px;
-      place-items: center;
-      color: #fff;
-      background: var(--color-blue-mug);
-      border-radius: 8px;
+    .assistant-course-outcomes {
+      padding-top: clamp(2.5rem, 5vw, 4.5rem);
+      padding-bottom: clamp(3rem, 6vw, 5rem);
+      border-top: 1px solid var(--color-border);
     }
 
-    .assistant-path-icon svg {
-      width: 22px;
-      height: 22px;
+    .assistant-course-intro {
+      max-width: 720px;
+      margin-bottom: 1.5rem;
     }
 
-    .assistant-path-icon.sage {
-      background: var(--color-sage);
-      color: var(--color-ink);
+    .assistant-course-intro h2,
+    .assistant-course-final h2 {
+      margin: 0.35rem 0 0.7rem;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.08;
     }
 
-    .assistant-path-icon.plum {
-      background: var(--color-plum);
+    .assistant-course-intro p:last-child,
+    .assistant-course-final p {
+      color: var(--color-text-muted);
     }
 
-    .assistant-hub-proof {
+    .assistant-outcome-grid {
       display: grid;
-      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-      gap: 1.5rem;
-      align-items: start;
-      margin-bottom: 3rem;
-      padding: 1.25rem;
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      background: rgba(255, 253, 248, 0.82);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
     }
 
-    .assistant-outcome-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.75rem;
-    }
-
-    .assistant-outcome {
-      display: flex;
-      gap: 0.8rem;
-      align-items: flex-start;
-      padding: 0.95rem;
+    .assistant-outcome-grid article {
+      padding: 1.4rem;
       border: 1px solid var(--color-border);
-      border-radius: 8px;
+      border-radius: 12px;
       background: var(--color-surface);
+      box-shadow: var(--shadow-soft);
     }
 
     .assistant-outcome-icon {
-      display: inline-grid;
-      flex: 0 0 auto;
-      width: 36px;
-      height: 36px;
+      display: grid;
+      width: 2.45rem;
+      height: 2.45rem;
       place-items: center;
-      color: #fff;
-      background: var(--color-blue-mug);
-      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-radius: 9px;
+      color: white;
     }
 
-    .assistant-outcome-icon svg {
-      width: 19px;
-      height: 19px;
+    .assistant-outcome-icon :global(svg) {
+      width: 1.25rem;
+      height: 1.25rem;
     }
 
-    .assistant-outcome-icon.sage {
-      background: var(--color-sage);
-      color: var(--color-ink);
+    .assistant-outcome-icon.blue { background: var(--color-jules-blue); }
+    .assistant-outcome-icon.sage { background: var(--color-jules-sage); }
+    .assistant-outcome-icon.orange { background: var(--color-jules-orange-dark); }
+
+    .assistant-outcome-grid h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.08rem;
     }
 
-    .assistant-outcome-icon.orange {
-      background: var(--color-jules-orange);
-      color: var(--color-ink);
-    }
-
-    .assistant-outcome-icon.plum {
-      background: var(--color-plum);
-    }
-
-    .assistant-outcome-copy {
-      min-width: 0;
-    }
-
-    .assistant-outcome-copy strong,
-    .assistant-outcome-copy span {
-      display: block;
-    }
-
-    .assistant-outcome-copy span {
-      margin-top: 0.15rem;
+    .assistant-outcome-grid p {
+      margin: 0;
       color: var(--color-text-muted);
-      font-size: 0.92rem;
-      line-height: 1.45;
     }
 
-    @media (max-width: 880px) {
-      .assistant-hub-hero,
-      .assistant-path-grid,
-      .assistant-hub-proof,
-      .assistant-outcome-list {
+    .assistant-course-final {
+      margin-top: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: clamp(3.5rem, 8vw, 7rem);
+      padding: clamp(1.6rem, 4vw, 3rem);
+      border: 1px solid var(--color-border);
+      border-left: 7px solid var(--color-jules-orange);
+      border-radius: 14px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-card);
+    }
+
+    .assistant-course-final p {
+      max-width: 620px;
+      margin-bottom: 1.4rem;
+    }
+
+    @media (max-width: 800px) {
+      .assistant-course-hero,
+      .assistant-outcome-grid {
         grid-template-columns: 1fr;
       }
+
+      .assistant-course-hero {
+        padding-top: 2rem;
+      }
+
+      .assistant-course-media {
+        max-width: 620px;
+      }
+
+      .assistant-course-frame {
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .assistant-course-frame { transform: none; }
     }
   </style>
 </Base>

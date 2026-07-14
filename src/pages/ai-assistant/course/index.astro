@@ -9,7 +9,7 @@ const schema = {
   '@type': 'Course',
   name: 'Build Your Own AI Personal Assistant',
   description:
-    'A free email course. One email a day for a week, each ending with your assistant doing something real: daily brief, meeting prep, email triage, your first custom skill.',
+    'A free email course with one preparation email and seven daily lessons, each ending with your assistant doing something real: daily brief, meeting prep, email triage, and your first custom skill.',
   url: 'https://builtwithjon.com/ai-assistant/course/',
   provider: {
     '@type': 'Person',
@@ -19,8 +19,8 @@ const schema = {
   isAccessibleForFree: true,
 };
 
-// Expressive register nod: each day pill carries one brand axis hue as a
-// week-progression marker; chrome stays ink and paper per the design system.
+// Each day pill carries one semantic brand hue as a week-progression marker;
+// the surrounding page stays on the shared paper-and-ink foundation.
 const days = [
   {
     num: '1',
@@ -83,13 +83,14 @@ const days = [
     <p class="eyebrow">Free email course</p>
     <h1>Build Your Own AI Personal Assistant</h1>
     <p class="course-sub">
-      Seven short emails. Each one ends with something working: a morning brief that
-      shows up on its own, prep for the meetings on your calendar, replies drafted in
-      your voice. Built in Claude Cowork. No code.
+      One prep email, then seven short daily lessons. Each lesson ends with something
+      working: a morning brief that shows up on its own, prep for the meetings on your
+      calendar, or replies drafted in your voice. Built with the current Claude Cowork
+      plugin. No code.
     </p>
     <div class="course-hero-actions">
       <a href="#signup" class="hero-btn">Save my spot</a>
-      <p class="course-hero-trust">First cohort starts Monday, July 20. Free.</p>
+      <p class="course-hero-trust">Free first cohort. Start date confirmed by email.</p>
     </div>
   </section>
 
@@ -97,7 +98,7 @@ const days = [
     <p class="eyebrow">By the end of the week</p>
     <h2>Your assistant is doing real work.</h2>
     <ul class="course-outcome-list">
-      <li>A daily brief in your inbox every morning, without you asking</li>
+      <li>A daily brief that appears every weekday morning, without you asking</li>
       <li>Meeting prep on the actual people you meet: who they are, what to walk in with</li>
       <li>Email triage that drafts replies in your voice, ready for you to review and send</li>
       <li>Your assistant on your phone for capture and quick questions</li>
@@ -129,20 +130,20 @@ const days = [
 
   <section class="container course-origin panel">
     <p class="eyebrow">Where this comes from</p>
-    <h2>The same class I teach in person in Austin.</h2>
+    <h2>The clean walkthrough, rebuilt for learning at home.</h2>
     <p>
-      The last room built their assistants in one afternoon at Antler. This course is
-      that class rebuilt for email: the same build, one piece a day, with the exact
-      prompts I use on my own assistant every morning.
+      The course follows the current Cowork plugin walkthrough, split into short jobs
+      you can finish at your own desk. It also includes the exact prompts I use on my
+      own assistant every morning.
     </p>
   </section>
 
   <section class="container course-signup" id="signup">
     <p class="eyebrow">Save your spot</p>
-    <h2>The first cohort starts Monday, July 20.</h2>
+    <h2>Join the first free cohort.</h2>
     <p class="course-signup-note">
-      Sign up now and the prep checklist arrives immediately, so Day 1 is a build day,
-      not a setup day.
+      If at least five people join by Friday, July 17, we start Monday, July 20. If not,
+      I will email you the next start date. Either way, you will know before Day 1.
     </p>
     <form
       id="course-waitlist-form"
@@ -176,7 +177,8 @@ const days = [
 
       <button type="submit" class="form-submit course-submit">Save my spot</button>
       <p class="course-form-note">
-        Seven emails and you are done. Unsubscribe anytime.
+        One prep email, then seven daily lessons. Your email is used only for this
+        course. Unsubscribe anytime.
       </p>
       <p class="course-form-error" hidden role="alert" aria-live="polite">
         Something went wrong. Email

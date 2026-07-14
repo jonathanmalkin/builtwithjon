@@ -36,14 +36,13 @@ draft: boolean (default false)
 
 ## Design System
 
-builtwithjon.com explicitly uses the Built with Jon design language (Jonathan's directive, 2026-07-13), defined in two registers that share the same base tokens (warm paper, ink, fonts, spacing — mirrored in `src/styles/global.css`):
+One website, one visual system (Jonathan's directive, 2026-07-13). `PRODUCT.md` holds the product principles, `DESIGN.md` and `.impeccable/design.json` hold the tokens and components, and `src/styles/global.css` implements everything. Page types vary by density, components, and semantic color — not by choosing between named registers. Reading pages (articles, use cases, documentation) stay paper-and-ink with restraint; interactive and funnel pages (tools, scorecard, calculators, signup, course) may additionally use the semantic business-axis, result, and status colors. Reference implementation for the semantic-color end: `src/pages/scorecard.astro`. Do not invent new palettes; reach for the existing tokens.
 
-- **Expressive Design System** (`Code/personal/expressive-design-system/`) — the default register for interactive and funnel surfaces: tools, quizzes, scorecards, calculators, signup and course pages. Per-axis brand color carries meaning, functional icons are permitted sparingly. Reference implementation: `src/pages/scorecard.astro`.
-- **Field Manual Design System** (`Code/personal/field-manual-design-system/`) — the dry register for reference content: articles, use-case library, documentation pages. Paper + ink chrome, no emoji, restraint earns authority.
+Token layers in `global.css`: shared foundations under `--ucl-*` (paper, ink, lines, type, spacing) with generic `--color-*` aliases, and semantic axis/status hues under `--exp-*`.
 
-When adding a page, pick the register deliberately: interactive/funnel → Expressive; reference/reading → Field Manual. Do not invent new palettes; reach for the existing tokens.
+Two gotchas (learned 2026-07-13): the global `.panel` class has no padding by design, so every page using it must add its own (1.5rem is the common choice); and a foundations `:root` block remaps all `--color-*` tokens to the drier paper palette, so meaning-bearing color must use the `--exp-*` tokens for true axis hues.
 
-Two gotchas (learned 2026-07-13): the global `.panel` class has no padding by design, so every page using it must add its own (workshop pages use 1.5rem); and a Field Manual alignment `:root` block remaps all `--color-*` tokens to the drier UCL palette, so expressive pages must use the `--exp-*` tokens for true axis hues.
+The standalone packages `Code/personal/field-manual-design-system/` and `Code/personal/expressive-design-system/` are historical source archives, not competing registers; do not pick between them for new pages.
 
 ## Commands
 
@@ -78,7 +77,7 @@ src/
   data/            — Shared data modules (use cases, scorecard, leak calculators, frameworks)
   mcp/             — MCP server (handler.js transport, tools.js tool definitions)
   worker.js        — Cloudflare Worker: /api routes + MCP server + assets
-  styles/global.css — All styles (< 5KB)
+  styles/global.css — All styles, single file
 public/            — Static assets (robots.txt, llms.txt, favicon.svg, .well-known/mcp.json)
 ```
 
@@ -101,4 +100,4 @@ keep it in sync with `src/data/scorecard.ts`.
 
 - Minimal. No CSS framework. No JavaScript unless absolutely necessary.
 - Astro components use `.astro` format (HTML-first, zero JS by default).
-- Keep the CSS in one file. If it grows past 300 lines, reconsider.
+- Keep the CSS in one file (`src/styles/global.css`); reach for existing tokens before adding new rules.

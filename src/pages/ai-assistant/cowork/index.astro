@@ -1,6 +1,5 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import PathSwitch from '../../../components/PathSwitch.astro';
 
 const metaDescription =
   'A self-serve guide to build a practical AI personal assistant in Claude Cowork: downloadable plugin, setup skill, live Daily Brief, and safe review boundaries.';
@@ -39,17 +38,14 @@ const schema = {
   description={metaDescription}
   schema={schema}
 >
-  <PathSwitch current="cowork" />
-
   <section class="cw-hero">
     <div>
       <p class="eyebrow">Non-technical DIY path</p>
       <h1>Build your personal assistant in Claude Cowork</h1>
       <p class="lede">Use this self-serve guide to set up a practical assistant in Claude Cowork on your computer, with Dispatch for your phone. You get a downloadable add-on, a setup skill, a live Daily Brief, and readable reports instead of technical files.</p>
-      <div class="cw-hero-links" aria-label="Related AI assistant paths">
+      <div class="cw-hero-links" aria-label="Cowork assistant actions">
         <a class="hero-btn" href="#setup">Start the Cowork setup</a>
-        <a class="hero-btn hero-btn-outline" href="/ai-assistant/">Compare all paths</a>
-        <a class="hero-btn hero-btn-outline" href="/ai-assistant-workshop/">Get guided help</a>
+        <a class="hero-btn hero-btn-outline" href="/ai-assistant/course/">Take the free mini-course</a>
       </div>
     </div>
     <aside class="cw-hero-panel" aria-labelledby="what-you-get">
@@ -96,51 +92,6 @@ const schema = {
       </table>
     </div>
 
-    <h2 class="cw-subhead">Cowork DIY vs. Claude Code DIY</h2>
-    <p class="cw-muted">Same assistant pattern, two homes. Cowork is the easier daily driver; <a href="/ai-assistant/claude-code/">Claude Code</a> gives technical users more file-level control.</p>
-    <div class="cw-table-wrap">
-      <table class="cw-table cw-compare">
-        <thead>
-          <tr>
-            <th scope="col">What matters</th>
-            <th scope="col">Cowork (this guide)</th>
-            <th scope="col">Claude Code DIY</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Getting set up</td>
-            <td>One plugin</td>
-            <td>Multiple skills</td>
-          </tr>
-          <tr>
-            <td>Folder location</td>
-            <td>Anywhere</td>
-            <td>Local project folder</td>
-          </tr>
-          <tr>
-            <td>Reports</td>
-            <td>Readable HTML</td>
-            <td>Markdown files</td>
-          </tr>
-          <tr>
-            <td>Phone use</td>
-            <td>Dispatch (two-way)</td>
-            <td>Claude Mobile / Remote</td>
-          </tr>
-          <tr>
-            <td>Phone notifications</td>
-            <td>Optional one-way iMessage brief to your own number</td>
-            <td>iMessage or Telegram</td>
-          </tr>
-          <tr>
-            <td>Live dashboard</td>
-            <td>Daily Brief artifact, refreshed each morning</td>
-            <td>Local Markdown brief file</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </section>
 
   <section id="setup" class="cw-section">
@@ -596,12 +547,11 @@ user can approve a draft or change; silence is not approval.</code></pre>
   </section>
 
   <section class="cw-final-cta">
-    <h2>Ready to keep going?</h2>
-    <p class="cw-muted">If you would rather build it live with help in the room, join the next in-person workshop waitlist or request a private team session. If you are a builder who wants file-level control, the Claude Code path covers the same assistant in plain local files.</p>
+    <h2>Want this one step at a time?</h2>
+    <p class="cw-muted">The free mini-course breaks this walkthrough into one practical job a day, with the exact prompts and a clear finish line.</p>
     <div class="cw-final-actions">
-      <a class="hero-btn" href="#setup">Back to setup</a>
-      <a class="hero-btn hero-btn-outline" href="/ai-assistant-workshop/">See in-person workshops</a>
-      <a class="hero-btn hero-btn-outline" href="/ai-assistant/claude-code/">See the Claude Code path</a>
+      <a class="hero-btn" href="/ai-assistant/course/">Take the free mini-course</a>
+      <a class="hero-btn hero-btn-outline" href="#setup">Back to setup</a>
     </div>
   </section>
 

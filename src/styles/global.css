@@ -1,4 +1,4 @@
-/* builtwithjon.com, Field Manual aligned */
+/* Built with Jon website design system */
 
 :root {
   --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -3506,7 +3506,7 @@ textarea.form-input {
   }
 }
 
-/* Field Manual site alignment */
+/* Shared website foundations */
 :root {
   --ucl-paper: #F6F2E9;
   --ucl-paper-card: #FFFDF8;
@@ -3567,9 +3567,9 @@ textarea.form-input {
   --max-width-wide: var(--ucl-max-width);
 }
 
-/* Expressive register, true axis hues. Declared after the Field Manual
-   alignment :root so they win, and immune to the disposition remap of
-   --color-* above. Interactive tools (scorecard, calculators) read --exp-*. */
+/* Semantic business-axis, result, and status hues. Declared after the shared
+   foundations so interactive tools can use meaning-bearing color without
+   remapping the site's paper-and-ink chrome. */
 :root {
   --exp-deals: #e8752b;    --exp-deals-soft: #fbe6d6;
   --exp-time: #3b6e8f;     --exp-time-soft: #dfeaf1;

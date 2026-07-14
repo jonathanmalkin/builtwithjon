@@ -1,6 +1,5 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import PathSwitch from '../../../components/PathSwitch.astro';
 
 const metaDescription =
   'A technical DIY checklist to build a file-based AI personal assistant with Claude Code: a local resource pack, Google context, and safe approval boundaries.';
@@ -44,8 +43,6 @@ const schema = {
   description={metaDescription}
   schema={schema}
 >
-  <PathSwitch current="claude-code" />
-
   <section class="cc-hero">
     <p class="eyebrow">Technical DIY path</p>
     <h1>Set up the Claude Code personal assistant starter kit</h1>
@@ -53,7 +50,6 @@ const schema = {
     <div class="cc-hero-actions" aria-label="Related AI assistant paths">
       <a class="hero-btn" href="#setup-steps">Start the setup checklist</a>
       <a class="hero-btn hero-btn-outline" href="/ai-assistant/cowork/">Prefer no terminal? Use Cowork</a>
-      <a class="hero-btn hero-btn-outline" href="/ai-assistant-workshop/">Get guided help</a>
     </div>
     <p class="cc-hero-time">About 30 to 60 minutes from a clean machine. One <code>/setup</code> command writes your profile and schedules the morning run. Optional phone notifications and a two-way phone channel are extras you can add later.</p>
   </section>
@@ -582,11 +578,10 @@ const schema = {
 
   <section class="cc-final-cta">
     <h2>Got it running, or hit a wall?</h2>
-    <p class="cc-muted">If the local setup is more than you want to manage, the no-terminal Cowork path covers the same ground. If you would rather build it live with help in the room, join the next in-person workshop waitlist or request a private team session.</p>
+    <p class="cc-muted">If the local setup is more than you want to manage, the no-terminal Cowork path and free mini-course cover the same practical ground.</p>
     <div class="cc-final-actions">
       <a class="hero-btn" href="/ai-assistant/cowork/">Use the Cowork path instead</a>
-      <a class="hero-btn hero-btn-outline" href="/ai-assistant-workshop/">See in-person workshops</a>
-      <a class="hero-btn hero-btn-outline" href="/ai-assistant/">Compare all paths</a>
+      <a class="hero-btn hero-btn-outline" href="/ai-assistant/course/">Take the free mini-course</a>
     </div>
   </section>
 
