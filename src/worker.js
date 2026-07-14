@@ -6,6 +6,8 @@ import {
   AXIS_LABELS,
   tierFor,
   compositeScore,
+  segmentBusinessPhrase,
+  segmentBusinessPlural,
 } from "./data/scorecard";
 import { CALCS } from "./data/leak-calculators";
 import { isMcpRequest, handleMcp } from "./mcp/handler";
@@ -40,7 +42,8 @@ const ALLOWED_EVENT_NAMES = new Set([
   "scorecard:result", "scorecard:gate-success", "scorecard-gate:start", "scorecard-gate:submit",
   "starter-kit:start", "starter-kit:submit",
   "tools:view", "tools:start:scorecard", "tools:start:calculator",
-  "tools:start:use-cases", "tools:copy-prompt", "tools:hpr-click",
+  "tools:start:use-cases", "tools:copy-prompt", "tools:copy:chatgpt",
+  "tools:open:claude", "tools:hpr-click",
   "waitlist:sample-click", "waitlist:usecases-click",
   "workshop-waitlist:start", "workshop-waitlist:submit", "workshop-waitlist:success",
 ]);
@@ -220,6 +223,8 @@ function normalizePayload(form, request) {
     inquiry_type: "scorecard-lead",
     segment,
     segmentLabel: SEGMENTS[segment],
+    businessPhrase: segmentBusinessPhrase(segment),
+    businessPlural: segmentBusinessPlural(segment),
     tier,
     scores,
     answers,
@@ -268,7 +273,7 @@ function buildReport(payload, env) {
     ...payload,
     firstName,
     subject,
-    preheader: `Where deals, time, and cash are slipping in a ${payload.segmentLabel.toLowerCase()} business, and the one fix worth doing first.`,
+    preheader: `Where deals, time, and cash are slipping in ${payload.businessPhrase}, and the one fix worth doing first.`,
     verdict: TIER_VERDICTS[payload.tier],
     axisReports,
     worst,
@@ -377,7 +382,7 @@ function renderHtmlEmail(model) {
           <p style="margin:0 0 10px;font:700 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#8F4E24;">Built with Jon scorecard</p>
           <h1 style="margin:0 0 16px;font:750 28px/1.12 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Your workflow leak report</h1>
           <p style="margin:0 0 18px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Hi${model.firstName ? ` ${escapeHtml(model.firstName)}` : ""},</p>
-          <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">You just ran the scorecard for a ${escapeHtml(model.segmentLabel.toLowerCase())} business and came out <strong>${escapeHtml(model.tier)}</strong>. Here is what that means, in plain numbers.</p>
+          <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">You just ran the scorecard for ${escapeHtml(model.businessPhrase)} and came out <strong>${escapeHtml(model.tier)}</strong>. Here is what that means, in plain numbers.</p>
           <p style="margin:0 0 18px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">Quick honesty up front: these are estimates, built from your answers and benchmarks for businesses like yours. They describe the size of the problem. They are not a promise. The audit is how you turn them into measured numbers with your real data.</p>
         </td>
       </tr>
@@ -403,7 +408,7 @@ function renderHtmlEmail(model) {
           <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Everything above is the assumption version. The Hidden Profit Review is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the review measures."}</p>
           <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">I run every review personally, so I take on a handful each month. The waitlist holds your spot, and invites go out in order.</p>
           <p style="margin:0 0 18px;"><a href="${escapeAttribute(model.ctaUrl)}" style="display:inline-block;background:#8F4E24;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:12px 16px;font:700 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Join the review waitlist</a></p>
-          <p style="margin:0;font:400 14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">Not ready to talk? Fair. Here is <a href="${escapeAttribute(model.sampleUrl)}" style="color:#1D4ED8;">a complete worked example</a>. Or browse <a href="${escapeAttribute(model.useCasesUrl)}" style="color:#1D4ED8;">use cases</a> other ${escapeHtml(model.segmentLabel.toLowerCase())} businesses started with.</p>
+          <p style="margin:0;font:400 14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">Not ready to talk? Fair. Here is <a href="${escapeAttribute(model.sampleUrl)}" style="color:#1D4ED8;">a complete worked example</a>. Or browse <a href="${escapeAttribute(model.useCasesUrl)}" style="color:#1D4ED8;">use cases</a> other ${escapeHtml(model.businessPlural)} started with.</p>
         </td>
       </tr>
       <tr>
@@ -422,7 +427,7 @@ function renderTextEmail(model) {
   const lines = [
     `Hi${model.firstName ? ` ${model.firstName}` : ""},`,
     "",
-    `You just ran the scorecard for a ${model.segmentLabel.toLowerCase()} business and came out ${model.tier}.`,
+    `You just ran the scorecard for ${model.businessPhrase} and came out ${model.tier}.`,
     "",
     "Quick honesty up front: these are estimates, built from your answers and benchmarks for businesses like yours. They describe the size of the problem. They are not a promise. The audit is how you turn them into measured numbers with your real data.",
     "",

@@ -18,6 +18,20 @@ export const SEGMENTS: Record<string, string> = {
   general: 'Something else / general business',
 };
 
+/** Sentence-ready segment wording. Keep grammar here so every scorecard
+ * surface describes the general fallback without producing “business business.” */
+export function segmentBusinessPhrase(segment: string): string {
+  if (segment === 'general') return 'a general business';
+  const label = SEGMENTS[segment] || SEGMENTS.general;
+  return `a ${label.toLowerCase()} business`;
+}
+
+export function segmentBusinessPlural(segment: string): string {
+  if (segment === 'general') return 'general businesses';
+  const label = SEGMENTS[segment] || SEGMENTS.general;
+  return `${label.toLowerCase()} businesses`;
+}
+
 export type Axis = 'deals' | 'time' | 'cash';
 
 export interface ScorecardQuestion {

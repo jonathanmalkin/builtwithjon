@@ -2,7 +2,10 @@
 import Base from '../../layouts/Base.astro';
 
 const description =
-  'Free, no-install tools for small-business owners: find the leak in your deals, time, or cash, price it, and choose the next useful move.';
+  'A guided, no-install path for small-business owners: find the leak in deals, time, or cash, price it, and see what to fix first.';
+
+const guidedPrompt = `Visit https://builtwithjon.com/tools/. Start with the Hidden Profit Scorecard unless I already know the leak. Ask me one question at a time, run the scorecard using the site's public tools, and explain the result in plain language. Then help me choose and run the matching leak calculator with my real numbers. Finish by showing me one relevant use case and the next practical step. Do not ask for sensitive personal information.`;
+const claudeUrl = `claude://claude.ai/new?q=${encodeURIComponent(guidedPrompt)}`;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -15,6 +18,17 @@ const schema = {
       isPartOf: { '@type': 'WebSite', name: 'Built with Jon', url: 'https://builtwithjon.com/' },
     },
     {
+      '@type': 'HowTo',
+      name: 'Find and price an operational profit leak',
+      description: 'Use the scorecard, calculator, and use-case library in sequence.',
+      totalTime: 'PT10M',
+      step: [
+        { '@type': 'HowToStep', position: 1, name: 'Find the leak', text: 'Run the Hidden Profit Scorecard to compare deals, time, and cash.', url: 'https://builtwithjon.com/scorecard/' },
+        { '@type': 'HowToStep', position: 2, name: 'Price the leak', text: 'Use the matching calculator with real business inputs.', url: 'https://builtwithjon.com/tools/leak-calculator/' },
+        { '@type': 'HowToStep', position: 3, name: 'See the fix', text: 'Open a relevant worked use case and choose one practical next move.', url: 'https://builtwithjon.com/use-cases/' },
+      ],
+    },
+    {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://builtwithjon.com/' },
@@ -24,135 +38,145 @@ const schema = {
   ],
 };
 
-const paths = [
+const steps = [
   {
-    eyebrow: 'Hidden Profit Scorecard',
-    title: 'Find your biggest leak',
-    body: 'A three-minute scorecard shows whether deals, time, or cash is slipping away first.',
-    meta: '9 questions · free',
+    number: '1',
+    label: 'Diagnose',
+    title: 'Find the leak',
+    body: 'Answer nine short questions. The scorecard compares deals, time, and cash and names the one worth investigating first.',
+    detail: 'Start here when you are not sure what is costing you most.',
     href: '/scorecard/',
     action: 'Take the scorecard',
     event: 'tools:start:scorecard',
-    tone: 'blue',
   },
   {
-    eyebrow: '10 leak calculators',
-    title: 'Price one leak',
-    body: 'Ten calculators turn missed calls, slow bids, no-shows, and invoice drag into a monthly number.',
-    meta: '10 calculators · free',
+    number: '2',
+    label: 'Estimate',
+    title: 'Put a number on it',
+    body: 'Choose the calculator that matches the result, then replace the example inputs with numbers from your own business.',
+    detail: 'Ten calculators cover missed calls, slow replies, bids, no-shows, invoices, and more.',
     href: '/tools/leak-calculator/',
-    action: 'Open the calculators',
+    action: 'Choose a calculator',
     event: 'tools:start:calculator',
-    tone: 'orange',
   },
   {
-    eyebrow: 'Use Case Library',
-    title: 'Browse 96 real use cases',
-    body: 'Find the small, repeatable workflows other owners are cleaning up — and what is actually worth automating.',
-    meta: '15 categories · 96 examples',
+    number: '3',
+    label: 'Decide',
+    title: 'See what a fix looks like',
+    body: 'Open a similar workflow, see where AI fits and where it does not, then choose one small move instead of a transformation project.',
+    detail: '96 worked examples across 15 business and industry categories.',
     href: '/use-cases/',
-    action: 'Browse use cases',
+    action: 'Find a similar use case',
     event: 'tools:start:use-cases',
-    tone: 'sage',
-  },
-  {
-    eyebrow: 'Frameworks + articles',
-    title: 'Frameworks and field notes',
-    body: 'Learn how to decide what to fix before you add another tool, then read the stories behind the numbers.',
-    meta: '5 dispositions · 50+ articles',
-    links: [
-      { href: '/dispositions/', label: 'See the frameworks' },
-      { href: '/articles/', label: 'Read the articles' },
-    ],
-    tone: 'plum',
-  },
-  {
-    eyebrow: 'Hidden Profit Review',
-    title: 'Have me measure it',
-    body: 'Bring one recurring workflow. The Hidden Profit Review maps it with your real data and names the safest first move.',
-    meta: 'Limited monthly capacity',
-    href: '/hidden-profit-review/#waitlist',
-    action: 'Join the review waitlist',
-    event: 'tools:hpr-click',
-    tone: 'copper',
   },
 ];
-
-const prompt = 'Open this page and help me find the biggest leak in my business.';
 ---
 
 <Base title="Tools for finding hidden profit" description={description} schema={schema}>
-  <div class="tools-page">
+  <main class="tools-page">
     <section class="tools-hero" aria-labelledby="tools-title">
       <div class="tools-hero-copy">
-        <p class="tools-eyebrow">Free tools for owners</p>
-        <h1 id="tools-title">Find the leak before you buy another tool.</h1>
+        <p class="tools-kicker">A ten-minute working session</p>
+        <h1 id="tools-title">Find the leak. Price it. Fix the right thing.</h1>
         <p class="tools-lede">
-          A practical starting point for the work that keeps getting dropped, delayed, or done twice.
-          Find the leak, put a number on it, and choose a useful next move — no install required.
+          These free tools turn a vague operational headache into a practical next move.
+          Start with the scorecard, follow the result to the right calculator, then see how a similar workflow can improve.
         </p>
         <div class="tools-hero-actions">
           <a class="tools-button tools-button-primary" href="/scorecard/" data-track="tools:start:scorecard">
-            Start with the scorecard <span aria-hidden="true">→</span>
+            Start the guided path <span aria-hidden="true">→</span>
           </a>
-          <a class="tools-text-link" href="#paths">See all five paths <span aria-hidden="true">↓</span></a>
+          <a class="tools-text-link" href="#use-with-ai">Use it with your AI</a>
         </div>
       </div>
-      <aside class="tools-hero-note" aria-label="How to use these tools">
-        <p class="tools-note-label">The short version</p>
-        <p>Most “AI problems” are really a missed handoff, a slow reply, or money that never gets chased.</p>
-        <span class="tools-note-rule" aria-hidden="true"></span>
-        <p class="tools-note-small">Start with the part of the week that makes you mutter, “Why am I still doing this?”</p>
+
+      <aside class="tools-route" aria-label="The recommended path">
+        <p class="tools-route-title">The recommended path</p>
+        <ol>
+          <li><span>1</span><strong>Score</strong><small>Deals · time · cash</small></li>
+          <li><span>2</span><strong>Calculate</strong><small>Monthly · annual</small></li>
+          <li><span>3</span><strong>Choose</strong><small>One useful move</small></li>
+        </ol>
+        <p class="tools-route-note">Already know the exact leak? You can <a href="/tools/leak-calculator/">go straight to a calculator</a>.</p>
       </aside>
     </section>
 
-    <section class="tools-paths" id="paths" aria-labelledby="paths-title">
-      <div class="tools-section-head">
-        <p class="tools-eyebrow">Choose your next move</p>
-        <h2 id="paths-title">One page. Five useful ways in.</h2>
-      </div>
-      <div class="tools-grid">
-        {paths.map((path) => (
-          <article class={`tools-card tools-card-${path.tone}`}>
-            <div class="tools-card-top">
-              <span class="tools-card-eyebrow">{path.eyebrow}</span>
+    <section class="tools-sequence" aria-labelledby="sequence-title">
+      <header class="tools-section-head">
+        <h2 id="sequence-title">One path, three decisions.</h2>
+        <p>Each step makes the next one narrower. You do not need to understand AI or install anything.</p>
+      </header>
+
+      <ol class="tools-steps">
+        {steps.map((step) => (
+          <li class="tools-step">
+            <div class="tools-step-number" aria-hidden="true">{step.number}</div>
+            <div class="tools-step-copy">
+              <p class="tools-step-label">{step.label}</p>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+              <small>{step.detail}</small>
             </div>
-            <h3>{path.title}</h3>
-            <p>{path.body}</p>
-            <div class="tools-card-foot">
-              <span class="tools-card-meta">{path.meta}</span>
-              {path.links ? (
-                <div class="tools-card-links">
-                  {path.links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true">→</span></a>)}
-                </div>
-              ) : (
-                <a class="tools-card-link" href={path.href} data-track={path.event}>
-                  {path.action} <span aria-hidden="true">→</span>
-                </a>
-              )}
-            </div>
-          </article>
+            <a class="tools-step-link" href={step.href} data-track={step.event}>
+              {step.action} <span aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
 
-    <section class="tools-prompt" aria-labelledby="prompt-title">
-      <div>
-        <p class="tools-eyebrow">Want to use your AI?</p>
-        <h2 id="prompt-title">Give it this one sentence.</h2>
-        <p class="tools-prompt-help">If your assistant can browse the web, send it <a href="https://builtwithjon.com/tools/">builtwithjon.com/tools/</a>, then paste this prompt. It will help you start with the business problem, not a shiny new tool.</p>
+    <section class="tools-ai" id="use-with-ai" aria-labelledby="ai-title">
+      <div class="tools-ai-intro">
+        <div class="tools-ai-proof" aria-label="Tested with AI assistants">
+          <span>Tested with Claude</span>
+          <span>Tested with ChatGPT</span>
+        </div>
+        <h2 id="ai-title">Let your AI run the session with you.</h2>
+        <p>
+          Send it this page and the prompt below. A browser-capable assistant can ask the questions,
+          use the public tools, explain the result, and guide you into the appropriate calculator.
+        </p>
+        <p class="tools-ai-boundary">No account or MCP setup is required. The tools are read-only, and scorecard answers and calculator inputs are not stored by the MCP server.</p>
       </div>
+
       <div class="tools-prompt-box">
-        <p class="tools-prompt-text" id="tools-prompt-text">{prompt}</p>
-        <button type="button" class="tools-copy" data-copy-prompt aria-describedby="copy-status">
-          <span aria-hidden="true">▣</span> Copy prompt
-        </button>
+        <p class="tools-prompt-label">Guided-session prompt</p>
+        <p class="tools-prompt-text" id="tools-prompt-text">{guidedPrompt}</p>
+        <div class="tools-prompt-actions">
+          <button type="button" class="tools-copy" data-copy-prompt aria-describedby="copy-status">
+            Copy for ChatGPT
+          </button>
+          <a class="tools-open-claude" href={claudeUrl} data-track="tools:open:claude">Open in Claude <span aria-hidden="true">↗</span></a>
+        </div>
         <p class="tools-copy-status" id="copy-status" role="status" aria-live="polite"></p>
       </div>
     </section>
 
-    <p class="tools-footnote">No account, install, or connection is needed to use the normal webpages above. The <a href="/mcp/">MCP server</a> is an optional way to let a compatible AI client call the same public tools.</p>
-  </div>
+    <section class="tools-more" aria-labelledby="more-title">
+      <div>
+        <h2 id="more-title">Go deeper when the first answer is not enough.</h2>
+        <p>The diagnostic path is the front door. These resources help with the decision that follows.</p>
+      </div>
+      <nav class="tools-more-links" aria-label="More Built with Jon resources">
+        <a href="/dispositions/">
+          <strong>Decision frameworks</strong>
+          <span>Decide whether to eliminate, simplify, automate, optimize, or report.</span>
+        </a>
+        <a href="/articles/">
+          <strong>Field notes</strong>
+          <span>Read the evidence and implementation lessons behind the tools.</span>
+        </a>
+        <a href="/hidden-profit-review/#waitlist" data-track="tools:hpr-click">
+          <strong>Hidden Profit Review</strong>
+          <span>Have Jonathan measure one recurring workflow with your real data.</span>
+        </a>
+      </nav>
+    </section>
+
+    <p class="tools-footnote">
+      Prefer a configured connection? The optional <a href="/mcp/">public MCP server</a> gives compatible clients direct access to the same read-only tools.
+    </p>
+  </main>
 
   <script is:inline>
     if (window.bwjTrack) window.bwjTrack('tools:view');
@@ -166,19 +190,18 @@ const prompt = 'Open this page and help me find the biggest leak in my business.
       if (!text) return;
       try {
         await navigator.clipboard.writeText(text);
-        if (copyStatus) copyStatus.textContent = 'Copied.';
+        if (copyStatus) copyStatus.textContent = 'Copied. Paste it into Claude or ChatGPT.';
       } catch {
-        // Clipboard permissions can be unavailable in private or older browsers.
         const selection = window.getSelection();
         const range = document.createRange();
         if (promptText && selection) {
           selection.removeAllRanges();
           range.selectNodeContents(promptText);
           selection.addRange(range);
-          if (copyStatus) copyStatus.textContent = 'Select the sentence above to copy it.';
+          if (copyStatus) copyStatus.textContent = 'The prompt is selected. Copy it, then paste it into your assistant.';
         }
       }
-      if (window.bwjTrack) window.bwjTrack('tools:copy-prompt');
+      if (window.bwjTrack) window.bwjTrack('tools:copy:chatgpt');
     });
   </script>
 
@@ -187,127 +210,153 @@ const prompt = 'Open this page and help me find the biggest leak in my business.
       --tools-ink: #1f1713;
       --tools-muted: #5e5047;
       --tools-paper: #fffdf8;
-      --tools-line: #e5d7c3;
+      --tools-line: #d8c8b2;
+      --tools-blue: #315f7c;
       margin: 0 auto 4rem;
       max-width: var(--max-width-wide);
     }
 
     .tools-hero {
       display: grid;
-      gap: 1.5rem;
-      padding: 0.5rem 0 2.5rem;
+      gap: 2rem;
+      padding: 1rem 0 clamp(3rem, 8vw, 5.5rem);
     }
 
-    .tools-hero-copy { min-width: 0; }
-    .tools-eyebrow,
-    .tools-note-label,
-    .tools-card-eyebrow,
-    .tools-card-meta {
+    .tools-kicker,
+    .tools-route-title,
+    .tools-step-label,
+    .tools-prompt-label {
       color: var(--color-copper);
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
-      line-height: 1.2;
+      letter-spacing: 0.06em;
+      line-height: 1.25;
+      margin: 0;
       text-transform: uppercase;
     }
 
     .tools-hero h1 {
-      font-size: clamp(2.35rem, 8vw, 4.6rem);
+      font-size: clamp(2.55rem, 8vw, 5.25rem);
       letter-spacing: -0.04em;
-      line-height: 0.99;
-      margin: 0.65rem 0 1rem;
-      max-width: 12ch;
+      line-height: 0.94;
+      margin: 0.75rem 0 1.2rem;
+      max-width: 11ch;
       text-wrap: balance;
     }
 
     .tools-lede {
       color: var(--tools-muted);
-      font-size: clamp(1rem, 2.8vw, 1.18rem);
-      line-height: 1.55;
-      max-width: 40rem;
+      font-size: clamp(1rem, 2.6vw, 1.2rem);
+      line-height: 1.6;
+      max-width: 41rem;
+      text-wrap: pretty;
     }
 
-    .tools-hero-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 1.1rem; margin-top: 1.35rem; }
-    .tools-button {
+    .tools-hero-actions,
+    .tools-prompt-actions {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.1rem;
+      margin-top: 1.5rem;
+    }
+
+    .tools-button,
+    .tools-copy,
+    .tools-open-claude {
       align-items: center;
       border-radius: 5px;
       display: inline-flex;
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      gap: 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 750;
+      gap: 0.6rem;
       justify-content: center;
       padding: 0.82rem 1rem;
       text-decoration: none;
     }
-    .tools-button-primary { background: var(--color-ink); color: var(--color-paper); }
-    .tools-button-primary:hover { background: #000; color: var(--color-paper); text-decoration: none; }
-    .tools-text-link { color: var(--tools-ink); font-family: var(--font-mono); font-size: 0.72rem; text-decoration: underline; text-underline-offset: 0.2em; }
 
-    .tools-hero-note {
-      align-self: end;
-      background: var(--tools-paper);
-      border: 1px solid var(--tools-line);
-      border-radius: 12px;
-      padding: 1.25rem;
+    .tools-button-primary,
+    .tools-copy {
+      background: var(--tools-ink);
+      border: 1px solid var(--tools-ink);
+      color: var(--tools-paper);
     }
-    .tools-note-label { color: var(--color-blue-mug); margin-bottom: 0.7rem; }
-    .tools-hero-note p { margin-bottom: 0; }
-    .tools-hero-note > p:nth-of-type(2) { font-family: Newsreader, Georgia, serif; font-size: 1.4rem; line-height: 1.2; }
-    .tools-note-rule { background: var(--color-jules-orange); display: block; height: 3px; margin: 1.1rem 0; width: 2.5rem; }
-    .tools-note-small { color: var(--tools-muted); font-size: 0.82rem; line-height: 1.45; }
 
-    .tools-paths { border-top: 1px solid var(--tools-line); padding-top: 1.65rem; }
+    .tools-button-primary:hover,
+    .tools-copy:hover { background: #000; color: #fff; text-decoration: none; }
+    .tools-text-link { color: var(--tools-ink); font-family: var(--font-mono); font-size: 0.73rem; text-decoration: underline; text-underline-offset: 0.2em; }
+
+    .tools-route {
+      align-self: end;
+      background: var(--tools-blue);
+      color: #fff;
+      padding: 1.4rem;
+    }
+
+    .tools-route-title { color: #fff; opacity: 0.82; }
+    .tools-route ol { list-style: none; margin: 1.2rem 0 1.3rem; padding: 0; }
+    .tools-route li { align-items: center; border-bottom: 1px solid rgba(255,255,255,0.25); display: grid; gap: 0 0.8rem; grid-template-columns: 2rem 1fr; padding: 0.7rem 0; }
+    .tools-route li > span { align-items: center; border: 1px solid rgba(255,255,255,0.55); border-radius: 50%; display: inline-flex; font-family: var(--font-mono); font-size: 0.65rem; height: 1.55rem; justify-content: center; width: 1.55rem; }
+    .tools-route strong { font-size: 0.9rem; }
+    .tools-route small { color: rgba(255,255,255,0.78); font-size: 0.7rem; grid-column: 2; }
+    .tools-route-note { color: rgba(255,255,255,0.85); font-size: 0.76rem; line-height: 1.5; margin: 0; }
+    .tools-route a { color: #fff; text-decoration: underline; text-underline-offset: 0.18em; }
+
+    .tools-sequence { border-top: 1px solid var(--tools-line); padding: clamp(2.5rem, 7vw, 4.5rem) 0; }
+    .tools-section-head { display: grid; gap: 0.8rem; margin-bottom: 2rem; }
     .tools-section-head h2,
-    .tools-prompt h2 { font-family: Newsreader, Georgia, serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; margin: 0.55rem 0 1.3rem; text-wrap: balance; }
-    .tools-grid { display: grid; gap: 0.8rem; }
-    .tools-card { background: var(--tools-paper); border: 1px solid var(--tools-line); border-radius: 10px; display: flex; flex-direction: column; min-height: 16rem; padding: 1.1rem; transition: box-shadow 0.18s ease, transform 0.18s ease; }
-    .tools-card:hover { box-shadow: 0 4px 8px rgba(31, 23, 19, 0.1); transform: translateY(-2px); }
-    .tools-card-top { align-items: center; display: flex; gap: 0.7rem; }
-    .tools-card-eyebrow { color: var(--tools-muted); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: none; }
-    .tools-card h3 { font-size: 1.35rem; line-height: 1.1; margin: 1.15rem 0 0.55rem; }
-    .tools-card p { color: var(--tools-muted); font-size: 0.9rem; line-height: 1.48; margin-bottom: 1rem; }
-    .tools-card-foot { border-top: 1px solid var(--tools-line); display: flex; flex: 1; flex-direction: column; gap: 0.75rem; justify-content: flex-end; padding-top: 0.9rem; }
-    .tools-card-meta { color: var(--tools-muted); font-size: 0.61rem; }
-    .tools-card-link,
-    .tools-card-links a { color: var(--tools-ink); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
-    .tools-card-link span, .tools-card-links a span { text-decoration: none; }
-    .tools-card-links { display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; }
-    .tools-card-blue { border-top: 4px solid var(--color-blue-mug); }
-    .tools-card-orange { border-top: 4px solid var(--color-jules-orange); }
-    .tools-card-sage { border-top: 4px solid var(--color-sage); }
-    .tools-card-plum { border-top: 4px solid var(--color-plum); }
-    .tools-card-copper { border-top: 4px solid var(--color-copper); }
+    .tools-ai h2,
+    .tools-more h2 { font-family: Newsreader, Georgia, serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.02; margin: 0; text-wrap: balance; }
+    .tools-section-head p { color: var(--tools-muted); line-height: 1.55; margin: 0; max-width: 35rem; }
 
-    .tools-prompt { align-items: start; background: #f2e7d6; border: 1px solid var(--tools-line); border-radius: 12px; display: grid; gap: 1.3rem; margin-top: 2.8rem; padding: 1.25rem; }
-    .tools-prompt h2 { margin-bottom: 0.6rem; }
-    .tools-prompt-help { color: var(--tools-muted); font-size: 0.86rem; line-height: 1.5; margin: 0; max-width: 34rem; }
-    .tools-prompt-box { background: var(--tools-paper); border: 1px solid var(--tools-ink); border-radius: 8px; padding: 1rem; }
-    .tools-prompt-text { font-family: Newsreader, Georgia, serif; font-size: 1.4rem; line-height: 1.15; margin: 0 0 1rem; }
-    .tools-copy { background: var(--tools-ink); border: 0; border-radius: 4px; color: var(--tools-paper); cursor: pointer; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; padding: 0.7rem 0.85rem; }
-    .tools-copy:hover { background: #000; }
-    .tools-copy-status { color: var(--tools-muted); font-size: 0.72rem; margin: 0.65rem 0 0; min-height: 1.1em; }
-    .tools-footnote { color: var(--tools-muted); font-size: 0.75rem; line-height: 1.45; margin: 1.25rem 0 0; text-align: center; }
-    .tools-footnote a { color: var(--tools-ink); text-decoration: underline; text-underline-offset: 0.15em; }
+    .tools-steps { border-top: 2px solid var(--tools-ink); list-style: none; margin: 0; padding: 0; }
+    .tools-step { align-items: start; border-bottom: 1px solid var(--tools-line); display: grid; gap: 1rem; margin: 0; padding: 1.5rem 0; }
+    .tools-step-number { color: var(--tools-blue); font-family: Newsreader, Georgia, serif; font-size: 2.6rem; line-height: 0.9; }
+    .tools-step-copy h3 { font-size: clamp(1.35rem, 3vw, 1.8rem); margin: 0.3rem 0 0.55rem; }
+    .tools-step-copy > p:not(.tools-step-label) { color: var(--tools-muted); font-size: 0.9rem; line-height: 1.55; margin: 0 0 0.5rem; max-width: 36rem; }
+    .tools-step-copy small { color: var(--tools-muted); display: block; font-size: 0.72rem; line-height: 1.45; }
+    .tools-step-link { align-self: center; color: var(--tools-ink); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 750; text-decoration: underline; text-underline-offset: 0.22em; }
+
+    .tools-ai { background: #f2e7d6; display: grid; gap: 1.8rem; margin: 1rem 0 clamp(3.5rem, 8vw, 5.5rem); padding: clamp(1.4rem, 4vw, 2.5rem); }
+    .tools-ai-proof { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.15rem; }
+    .tools-ai-proof span { background: var(--tools-paper); border: 1px solid var(--tools-line); border-radius: 3px; color: var(--tools-muted); font-family: var(--font-mono); font-size: 0.61rem; font-weight: 750; padding: 0.35rem 0.48rem; text-transform: uppercase; }
+    .tools-ai-intro > p { color: var(--tools-muted); font-size: 0.88rem; line-height: 1.55; margin: 1rem 0 0; max-width: 38rem; }
+    .tools-ai-intro .tools-ai-boundary { font-size: 0.72rem; }
+    .tools-prompt-box { background: var(--tools-paper); border: 2px solid var(--tools-ink); padding: clamp(1rem, 3vw, 1.5rem); }
+    .tools-prompt-text { font-family: Newsreader, Georgia, serif; font-size: clamp(1.15rem, 3vw, 1.5rem); line-height: 1.3; margin: 0.75rem 0 0; }
+    .tools-copy { cursor: pointer; }
+    .tools-open-claude { border: 1px solid var(--tools-ink); color: var(--tools-ink); }
+    .tools-open-claude:hover { background: #f7efe2; color: #000; text-decoration: none; }
+    .tools-copy-status { color: var(--tools-muted); font-size: 0.7rem; margin: 0.7rem 0 0; min-height: 1.1em; }
+
+    .tools-more { border-top: 2px solid var(--tools-ink); display: grid; gap: 2rem; padding-top: 2rem; }
+    .tools-more > div > p { color: var(--tools-muted); font-size: 0.85rem; line-height: 1.5; margin: 0.8rem 0 0; }
+    .tools-more-links { display: flex; flex-direction: column; }
+    .tools-more-links a { border-top: 1px solid var(--tools-line); color: var(--tools-ink); display: grid; gap: 0.25rem; padding: 1rem 0; text-decoration: none; }
+    .tools-more-links a:last-child { border-bottom: 1px solid var(--tools-line); }
+    .tools-more-links a:hover strong { color: var(--tools-blue); text-decoration: underline; text-underline-offset: 0.2em; }
+    .tools-more-links strong { font-size: 0.9rem; }
+    .tools-more-links span { color: var(--tools-muted); font-size: 0.75rem; line-height: 1.45; }
+    .tools-footnote { color: var(--tools-muted); font-size: 0.72rem; line-height: 1.5; margin: 2rem auto 0; max-width: 42rem; text-align: center; }
+    .tools-footnote a { color: var(--tools-ink); text-decoration: underline; text-underline-offset: 0.18em; }
+
+    @media (min-width: 680px) {
+      .tools-hero { grid-template-columns: minmax(0, 1.4fr) minmax(250px, 0.6fr); padding-top: 1.5rem; }
+      .tools-section-head { align-items: end; grid-template-columns: minmax(0, 1fr) minmax(260px, 0.7fr); }
+      .tools-step { grid-template-columns: 3rem minmax(0, 1fr) minmax(150px, 0.35fr); }
+      .tools-ai { grid-template-columns: minmax(0, 0.85fr) minmax(330px, 1.15fr); }
+      .tools-more { grid-template-columns: minmax(0, 0.8fr) minmax(350px, 1.2fr); }
+    }
+
+    @media (max-width: 679px) {
+      .tools-step { grid-template-columns: 2.5rem 1fr; }
+      .tools-step-link { grid-column: 2; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      .tools-card { transition: none; }
-      .tools-card:hover { transform: none; }
-    }
-
-    @media (min-width: 640px) {
-      .tools-hero { grid-template-columns: minmax(0, 1.3fr) minmax(250px, 0.7fr); padding-top: 1.2rem; }
-      .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .tools-card:last-child { grid-column: span 2; }
-      .tools-prompt { grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr); padding: 1.6rem; }
-    }
-
-    @media (min-width: 900px) {
-      .tools-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .tools-card:last-child { grid-column: auto; }
-      .tools-card { min-height: 18rem; padding: 1.3rem; }
-      .tools-prompt { align-items: center; padding: 1.9rem; }
+      *, *::before, *::after { scroll-behavior: auto !important; }
     }
   </style>
 </Base>

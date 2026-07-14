@@ -12,6 +12,7 @@ import {
   TIER_VERDICTS,
   FIRST_MOVES,
   AXIS_LABELS,
+  segmentBusinessPhrase,
   tierFor,
   compositeScore,
   axisScores,
@@ -90,7 +91,12 @@ function startHere(args, ctx) {
   const o = origin(ctx.env);
   const body = [
     `# Start here: find the business problem before choosing a tool`,
-    `If you are not sure what to use, begin with \`run_scorecard\`. Your assistant asks the required questions one at a time, then returns a deterministic verdict showing whether deals, time, or cash is leaking most — plus the first useful move.`,
+    `If you are not sure what to use, follow the guided path: \`run_scorecard\` to find the biggest leak, \`list_leak_calculators\` and \`calculate_leak\` to price it with real inputs, then \`search_use_cases\` and \`get_use_case\` to see one relevant fix. Your assistant should ask one question at a time and explain each result in plain language.`,
+    `## Recommended guided session`,
+    `1. Ask the scorecard questions conversationally and call \`run_scorecard\`.
+2. Use the worst-scoring axis and the user's specific pain to choose a calculator. Ask for real inputs before calling \`calculate_leak\`.
+3. Search the use-case library for the same leak and open one strong match.
+4. Finish with one small practical next move. Do not turn the session into a broad transformation plan.`,
     `## Choose a path`,
     `### 1. I do not know where to start → \`run_scorecard\`\n**Why:** Rank the whole problem before fixing one symptom.\n**What it does:** Scores deals, time, and cash and identifies the biggest leak.\n**How:** Tell your assistant what kind of business you run. It will ask six required questions conversationally, then call the tool with your answers.`,
     `### 2. I already know the problem and want the cost → \`list_leak_calculators\` then \`calculate_leak\`\n**Why:** Turn a recurring leak into a monthly and annual estimate.\n**What they do:** Cover ten problems including missed calls, slow bids, no-shows, unbilled change orders, slow replies, and aging invoices.\n**How:** List the calculators, choose one, then replace the illustrative defaults with numbers from your own records.`,
@@ -227,7 +233,7 @@ function runScorecard(args, ctx) {
   const lines = LINES[segment] || LINES.general;
   const axes = ["deals", "time", "cash"];
   const worst = axes.slice().sort((a, b) => scores[b] - scores[a])[0];
-  const segmentLabel = SEGMENTS[segment];
+  const businessPhrase = segmentBusinessPhrase(segment);
 
   const axisRows = axes
     .map((a) => `- **${AXIS_LABELS[a]} — ${tierFor(scores[a])}** (${scores[a]}/100): ${lines[a]}`)
@@ -236,16 +242,17 @@ function runScorecard(args, ctx) {
   const body = [
     `# Scorecard result: ${tier}`,
     TIER_VERDICTS[tier],
-    `For a ${segmentLabel.toLowerCase()} business, here is where it is leaking:`,
+    `For ${businessPhrase}, here is where it is leaking:`,
     axisRows,
-    `**Your biggest leak right now:** ${lines[worst].replace(/\.$/, "")}. For a ${segmentLabel.toLowerCase()} business, that is usually the most expensive one to leave alone.`,
+    `**Your biggest leak right now:** ${lines[worst].replace(/\.$/, "")}. For ${businessPhrase}, that is usually the most expensive one to leave alone.`,
     `**Where I would start:** ${FIRST_MOVES[worst]} One working thing beats a grand plan.`,
     `_Quick honesty: this is an estimate built from your answers and benchmarks for businesses like yours, scored exactly the way the scorecard at builtwithjon.com scores it. It describes the size of the problem; the Hidden Profit Review measures it with your real data._`,
   ].join("\n\n");
 
   return text(body + nextSteps(ctx.env, [
-    "Put a dollar figure on the worst leak with `calculate_leak`, or browse fixes with `search_use_cases`.",
-    ...FUNNEL_LINKS.slice(1),
+    "Next, call `list_leak_calculators`, choose the closest match to the worst leak, ask for the user's real inputs, then call `calculate_leak`.",
+    "After pricing it, call `search_use_cases` for the same problem and open one strong match with `get_use_case`.",
+    ...FUNNEL_LINKS.slice(1, 2),
   ]));
 }
 
@@ -309,7 +316,8 @@ function calculateLeak(args, ctx) {
   ].filter(Boolean).join("\n\n");
 
   return text(body + nextSteps(ctx.env, [
-    "This prices one leak. `run_scorecard` ranks all three axes: deals, time, and cash.",
+    "Now call `search_use_cases` for this same leak and open one strong match with `get_use_case` so the user can see what a practical fix looks like.",
+    "If this was a known problem and the user has not ranked deals, time, and cash, offer `run_scorecard` next.",
     ...FUNNEL_LINKS.slice(1, 2),
   ]));
 }

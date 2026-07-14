@@ -52,6 +52,10 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
       ['cc','Coaching or creator'],['general','Something else / general business'],
     ];
 
+    const businessPhrase = (answer) => answer?.value === 'general'
+      ? 'a general business'
+      : `a ${answer?.label?.toLowerCase() || 'general'} business`;
+
     // Each scored option carries a leak weight 0..3 (higher = more leak) on its axis.
     const QUESTIONS = [
       { id:'segment', axis:null, q:'What kind of business is this?', help:'Pick the closest. It changes how we read your answers.',
@@ -185,11 +189,11 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
           <p class="sc-verdict">${tier.verdict}</p>
           <div class="sc-axes">${axes.map(axisRow).join('')}</div>
           <div class="sc-biggest">
-            <strong>Your biggest leak right now:</strong> ${lines[worst].replace(/\.$/, '')}. For a ${answers.segment.label.toLowerCase()} business, that's usually the most expensive one to leave alone.
+            <strong>Your biggest leak right now:</strong> ${lines[worst].replace(/\.$/, '')}. For ${businessPhrase(answers.segment)}, that's usually the most expensive one to leave alone.
           </div>
           <div class="sc-gate">
             <p class="sc-gate-h">Want the full breakdown?</p>
-            <p class="sc-gate-sub">I'll show the rough size of each leak, and where to start. It's an estimate from your answers and ${answers.segment.label.toLowerCase()} benchmarks. The Hidden Profit Review measures it for real.</p>
+            <p class="sc-gate-sub">I'll show the rough size of each leak, and where to start. It's an estimate from your answers and benchmarks for businesses like yours. The Hidden Profit Review measures it for real.</p>
             <form id="sc-gate-form" action="${reportEndpoint}" method="POST" novalidate data-track-form="scorecard-gate">
               <input type="hidden" name="_subject" value="Scorecard lead" />
               <input type="hidden" name="inquiry_type" value="scorecard-lead" />
