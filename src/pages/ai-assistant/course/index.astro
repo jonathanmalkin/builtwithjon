@@ -175,6 +175,38 @@ const days = [
         />
       </div>
 
+      <div class="form-group">
+        <label for="role">Which best describes you?</label>
+        <select id="role" name="role" required class="form-input">
+          <option value="" disabled selected>Choose one</option>
+          <option value="owner">I own or run a business</option>
+          <option value="team-lead">I lead a team or operations at a company</option>
+          <option value="personal">I'm exploring this for myself</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="team_size">How many people work in the business?</label>
+        <select id="team_size" name="team_size" required class="form-input">
+          <option value="" disabled selected>Choose one</option>
+          <option value="solo">Just me</option>
+          <option value="2-10">2–10</option>
+          <option value="11-50">11–50</option>
+          <option value="50+">More than 50</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="company">Company or website <span class="form-optional">(optional)</span></label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          class="form-input"
+          autocomplete="organization"
+        />
+      </div>
+
       <button type="submit" class="form-submit course-submit">Save my spot</button>
       <p class="course-form-note">
         One prep email, then seven daily lessons. Your email is used only for this

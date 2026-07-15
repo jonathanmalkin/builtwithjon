@@ -2821,6 +2821,16 @@ textarea.form-input {
   min-height: 120px;
 }
 
+select.form-input {
+  height: 2.4rem;
+  cursor: pointer;
+}
+
+.form-optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
 .form-submit {
   width: 100%;
   padding: 0.85rem 1.5rem;
