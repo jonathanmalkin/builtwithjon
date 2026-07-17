@@ -261,7 +261,12 @@ user can approve a draft or change; silence is not approval.</code></pre>
             <li>Find <strong>Gmail</strong>, click <strong>Connect</strong>, and sign in to the email account you want your assistant to use.</li>
             <li>Find <strong>Google Calendar</strong>, click <strong>Connect</strong>, and sign in to that same account.</li>
           </ol>
-          <p>Your assistant reads your inbox and calendar for context only. It writes email drafts for you to review, and it never sends mail or changes a calendar event without your say-so.</p>
+          <p>Your assistant reads your inbox and calendar for context. Email is draft-only by design: the Gmail connection has no send permission, so every reply waits in your Drafts folder for you. For Calendar, Google's sign-in screen asks what to allow when you connect. You choose, and read-only is enough for this course.</p>
+          <div class="cw-cancant">
+            <p><strong>What it can do:</strong> read the email and calendar you connect, write replies into your Gmail Drafts folder, and write notes and reports into your Project folder.</p>
+            <p><strong>What it can't do:</strong> send email (no such permission exists), change your calendar beyond what you allowed when you connected, message anyone but you, or delete anything.</p>
+            <p>Connecting an account means Anthropic has access to what you connect. That's the real decision, and you can disconnect anytime in Connectors.</p>
+          </div>
         </div>
       </article>
 
@@ -946,6 +951,24 @@ user can approve a draft or change; silence is not approval.</code></pre>
     .cw-warn p {
       margin: 0;
       color: var(--color-text-muted);
+    }
+
+    .cw-cancant {
+      margin-top: 0.9rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--color-border);
+      border-left: 6px solid var(--color-copper);
+      border-radius: 8px;
+      background: var(--color-surface);
+    }
+
+    .cw-cancant p {
+      margin: 0 0 0.5rem;
+      color: var(--color-text-muted);
+    }
+
+    .cw-cancant p:last-child {
+      margin-bottom: 0;
     }
 
     /* Panels */
