@@ -1469,6 +1469,35 @@ a.method-card:hover {
   align-items: stretch;
 }
 
+.form-consent {
+  align-items: flex-start;
+  color: var(--color-text-muted);
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 400;
+  gap: 0.45rem;
+  line-height: 1.35;
+}
+
+.form-consent input {
+  accent-color: var(--color-blue-mug);
+  flex: 0 0 auto;
+  margin: 0.16rem 0 0;
+}
+
+.form-consent-gate {
+  flex-basis: 100%;
+}
+
+.form-honeypot {
+  height: 1px;
+  left: -10000px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 1px;
+}
+
 .starter-gate-input {
   flex: 1 1 230px;
   min-width: 0;

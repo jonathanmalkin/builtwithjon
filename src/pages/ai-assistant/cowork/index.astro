@@ -122,17 +122,19 @@ const schema = {
         data-filename="personal-assistant-cowork-plugin.zip"
       >
         <p class="starter-gate-label">Free Starter Kit</p>
-        <p class="starter-gate-lede">Enter your email and I will unlock the Cowork assistant add-on. I send the occasional note on building assistants. No spam, unsubscribe anytime.</p>
+        <p class="starter-gate-lede">Enter your email and I will unlock the Cowork assistant add-on. If you want occasional practical AI notes too, opt in below.</p>
         <form
           class="starter-gate-form"
           id="starter-gate-form"
-          action="https://formspree.io/f/xdapgpae"
+          action="/api/subscribe"
           method="POST"
           data-track-form="starter-kit"
         >
           <input type="hidden" name="_subject" value="Starter Kit download" />
           <input type="hidden" name="inquiry_type" value="starter-kit-download" />
           <input type="hidden" name="which_kit" value="cowork" />
+          <input type="hidden" name="form_id" value="starter-kit-cowork" />
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
           <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
           <input
             type="email"
@@ -145,6 +147,7 @@ const schema = {
             inputmode="email"
             spellcheck="false"
           />
+          <label class="form-consent form-consent-gate"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
           <button type="submit" class="starter-gate-btn">Unlock the add-on</button>
         </form>
         <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite">

@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /api/
+
+# API responses carry X-Robots-Tag: noindex. Keep them crawlable so search
+# engines can read that indexing directive instead of reporting a robots block.
 
 User-agent: GPTBot
 Allow: /

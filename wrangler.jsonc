@@ -6,17 +6,32 @@
   "assets": {
     "binding": "ASSETS",
     "directory": "dist",
-    // /mcp serves both the static docs page (GET) and the MCP JSON-RPC
-    // endpoint (POST). Assets are served before the worker by default, so
-    // route these paths through the worker first; it falls through to
-    // ASSETS for plain browser GETs.
-    "run_worker_first": ["/mcp", "/mcp/"]
+    // Route only protocol/API paths through the worker before static assets.
+    "run_worker_first": [
+      "/mcp",
+      "/mcp/",
+      "/api/subscribe",
+      "/api/contact",
+      "/api/scorecard-report",
+      "/api/event"
+    ]
   },
   "vars": {
     "SITE_ORIGIN": "https://builtwithjon.com",
     "RESEND_FROM": "Built with Jon <jonathan@builtwithjon.com>",
-    "RESEND_REPLY_TO": "jonathan@builtwithjon.com"
+    "RESEND_REPLY_TO": "jonathan@builtwithjon.com",
+    "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
+    "EMAIL_PROVIDER": "sender",
+    "SENDER_SENDS_ENABLED": "true",
+    "FORM_RATE_LIMITS_ENABLED": "true",
+    "FORM_RATE_LIMIT_IP_HOURLY": "20",
+    "FORM_RATE_LIMIT_EMAIL_DAILY": "5",
+    "FORM_RATE_LIMIT_GLOBAL_DAILY": "100",
+    "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\"}"
   },
+  "kv_namespaces": [
+    { "binding": "SUBSCRIBE_DEDUPE", "id": "8707fb62aa5147b68f6fae18b437a26a" }
+  ],
   "analytics_engine_datasets": [
     { "binding": "SITE_EVENTS", "dataset": "site_events" }
   ]

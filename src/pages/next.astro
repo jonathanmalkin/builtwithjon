@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 
 const bookingUrl = 'https://calendar.app.google/rC9Kz37aZANXAUgt5';
-const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const formEndpoint = '/api/subscribe';
 const thanksUrl = '/next/thanks';
 ---
 
@@ -26,6 +26,10 @@ const thanksUrl = '/next/thanks';
       >
       <input type="hidden" name="_subject" value="Cowork workshop — What's Next" />
       <input type="hidden" name="inquiry_type" value="cowork-workshop-next" />
+      <input type="hidden" name="form_id" value="workshop-next" />
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+
+      <label class="form-consent"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
 
       <div class="form-group next-email">
         <label for="email">Your email</label>

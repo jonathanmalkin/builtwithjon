@@ -47,17 +47,19 @@ const schema = {
     data-kit="leak-calculator"
   >
     <p class="starter-gate-label">Free tool, unlocked by email</p>
-    <p class="starter-gate-lede">Enter your email and the calculator opens right here. I send the occasional note on fixing operational leaks. No spam, unsubscribe anytime.</p>
+    <p class="starter-gate-lede">Enter your email and the calculator opens right here. If you want occasional practical AI notes too, opt in below.</p>
     <form
       class="starter-gate-form"
       id="starter-gate-form"
-      action="https://formspree.io/f/xdapgpae"
+      action="/api/subscribe"
       method="POST"
       data-track-form="lead-magnet"
     >
       <input type="hidden" name="_subject" value="Lead magnet unlock: Leak Calculator" />
       <input type="hidden" name="inquiry_type" value="lead-magnet" />
       <input type="hidden" name="which_kit" value="leak-calculator" />
+      <input type="hidden" name="form_id" value="tool-leak-calculator" />
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
       <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
       <input
         type="email"
@@ -70,6 +72,7 @@ const schema = {
         inputmode="email"
         spellcheck="false"
       />
+      <label class="form-consent form-consent-gate"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
       <button type="submit" class="starter-gate-btn">Open the calculator</button>
     </form>
     <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite">

@@ -1,7 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 
-const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const formEndpoint = '/api/subscribe';
 const thanksUrl = '/ai-assistant/course/thanks';
 
 const schema = {
@@ -155,6 +155,8 @@ const days = [
     >
       <input type="hidden" name="_subject" value="AI assistant email course waitlist" />
       <input type="hidden" name="inquiry_type" value="email-course-waitlist" />
+      <input type="hidden" name="form_id" value="course-waitlist" />
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
 
       <div class="form-group">
         <label for="name">Name</label>
@@ -207,10 +209,12 @@ const days = [
         />
       </div>
 
+      <label class="form-consent"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
+
       <button type="submit" class="form-submit course-submit">Save my spot</button>
       <p class="course-form-note">
-        One prep email, then seven daily lessons. Your email is used only for this
-        course. Unsubscribe anytime.
+        One prep email, then seven daily lessons. Check the optional box above only
+        if you also want practical AI tips. Unsubscribe anytime.
       </p>
       <p class="course-form-error" hidden role="alert" aria-live="polite">
         Something went wrong. Email

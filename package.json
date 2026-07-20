@@ -13,7 +13,8 @@
     "astro": "astro",
     "analytics:report": "node scripts/cloudflare-analytics-report.mjs",
     "verify:mcp-production": "node scripts/verify-mcp-production.mjs",
-    "validate:mcp-registry": "node scripts/validate-mcp-server.mjs"
+    "validate:mcp-registry": "node scripts/validate-mcp-server.mjs",
+    "test:email-migration": "node scripts/test-email-migration.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",

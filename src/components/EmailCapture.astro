@@ -1,5 +1,5 @@
 ---
-const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const formEndpoint = '/api/subscribe';
 ---
 
 <section class="email-capture" id="subscribe">
@@ -14,6 +14,8 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
     <input type="hidden" name="_subject" value="Newsletter interest" />
     <input type="hidden" name="inquiry_type" value="newsletter-interest" />
     <input type="hidden" name="source" value="email-capture" />
+    <input type="hidden" name="form_id" value="newsletter" />
+    <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
     <input
       type="email"
       name="email"
@@ -24,12 +26,17 @@ const formEndpoint = 'https://formspree.io/f/xdapgpae';
     />
     <button type="submit" class="email-submit">Get notes</button>
   </form>
+  <p class="email-consent-hint">You're subscribing to occasional emails. Unsubscribe anytime.</p>
   <p class="email-status" data-email-capture-status hidden role="status"></p>
   <p class="email-disclosure">
     Occasional write-ups on AI operations, Claude Code, and implementation lessons.
     <a href="/privacy"> Privacy policy</a>.
   </p>
 </section>
+
+<style>
+  .email-consent-hint { color: var(--color-text-muted); font-size: 0.76rem; margin: 0.5rem 0 0; }
+</style>
 
 <script>
   document.querySelectorAll('[data-email-capture]').forEach((form) => {

@@ -11,9 +11,18 @@ import {
 } from "./data/scorecard";
 import { CALCS } from "./data/leak-calculators";
 import { isMcpRequest, handleMcp } from "./mcp/handler";
+import {
+  parseSenderFrom,
+  senderAssertTransactionalDeliverable,
+  senderTransactionalSend,
+  senderUpsertSubscriber,
+} from "./lib/sender";
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
+const DEFAULT_FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
+const SUBSCRIBE_PATH = "/api/subscribe";
+const CONTACT_PATH = "/api/contact";
+const MAX_FORM_BODY_BYTES = 32_000;
 const MAX_SCORECARD_BODY_BYTES = 32_000;
 const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
@@ -54,6 +63,28 @@ const ALLOWED_EVENT_NAMES = new Set([
   "workshop-waitlist:start", "workshop-waitlist:submit", "workshop-waitlist:success",
 ]);
 const ALLOWED_CALCULATOR_EVENTS = new Set(CALCS.map((calculator) => `leakcalc:pick:${calculator.id}`));
+const FORM_MAP = {
+  newsletter: { groups: [], fields: {}, allowed: ["source", "source_url"] },
+  "workshop-next": { groups: [], fields: {}, allowed: ["comments"] },
+  "hpr-waitlist": {
+    groups: ["offer:hidden-profit-review"],
+    fields: { company: "company", biggest_leak: "biggest_leak" },
+    allowed: ["company", "biggest_leak"],
+    required: ["name", "biggest_leak"],
+    enums: { biggest_leak: ["Losing deals", "Losing time", "Cash coming in slow", "Not sure yet"] },
+  },
+  "kit-invoice-chase": { groups: ["asset:invoice-chase-kit"], fields: {}, allowed: ["which_kit"] },
+  "kit-follow-up-swipe-file": { groups: ["asset:follow-up-swipe-file"], fields: {}, allowed: ["which_kit"] },
+  "tool-leak-calculator": { groups: ["asset:leak-calculator"], fields: {}, allowed: ["which_kit"] },
+  "starter-kit-cowork": { groups: ["asset:starter-kit-cowork"], fields: {}, allowed: ["which_kit"] },
+  "course-waitlist": {
+    groups: ["offer:email-course"],
+    fields: { role: "role", team_size: "team_size", company: "company", cohort: "cohort" },
+    allowed: ["role", "team_size", "company", "cohort"],
+    required: ["name", "role", "team_size"],
+    enums: { role: ["owner", "team-lead", "personal"], team_size: ["solo", "2-10", "11-50", "50+"] },
+  },
+};
 
 export default {
   async fetch(request, env) {
@@ -91,6 +122,14 @@ export default {
       return handleScorecardReport(request, env);
     }
 
+    if (url.pathname === SUBSCRIBE_PATH) {
+      return handleSubscribe(request, env);
+    }
+
+    if (url.pathname === CONTACT_PATH) {
+      return handleContact(request, env);
+    }
+
     if (url.pathname === EVENT_PATH) {
       return handleEvent(request, env);
     }
@@ -108,17 +147,10 @@ async function handleScorecardReport(request, env) {
     return json({ ok: false, error: "origin_not_allowed" }, 403);
   }
 
-  const contentLength = Number(request.headers.get("content-length") || "0");
-  if (contentLength > MAX_SCORECARD_BODY_BYTES) {
-    return json({ ok: false, error: "payload_too_large" }, 413);
-  }
-
-  let form;
-  try {
-    form = await request.formData();
-  } catch {
-    return json({ ok: false, error: "invalid_form" }, 400);
-  }
+  const parsed = await boundedRequestData(request, MAX_SCORECARD_BODY_BYTES);
+  if (parsed.tooLarge) return json({ ok: false, error: "payload_too_large" }, 413);
+  const form = parsed.form;
+  if (!form) return json({ ok: false, error: "invalid_form" }, 400);
 
   if (String(form.get("company_website") || "").trim()) {
     return json({ ok: true, ignored: true });
@@ -128,34 +160,287 @@ async function handleScorecardReport(request, env) {
   if (!payload.email) {
     return json({ ok: false, error: "valid_email_required" }, 400);
   }
-
-  if (!env.RESEND_API_KEY) {
-    return json({ ok: false, error: "resend_not_configured" }, 503);
-  }
-
-  if (!env.RESEND_FROM) {
-    return json({ ok: false, error: "resend_sender_not_configured" }, 503);
-  }
+  const rate = await enforceRateLimits(env, request, payload.email, "scorecard");
+  if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
 
   const report = buildReport(payload, env);
   const idempotencyKey = await stableKey(payload);
+  const provider = env.EMAIL_PROVIDER || "resend";
+  const senderConfigured = provider === "sender" && senderEnabled(env);
+  const senderBudgetAvailable = !senderConfigured || (await consumeSenderBudget(env)).ok;
+  const useSender = senderConfigured && senderBudgetAvailable;
+  if (senderConfigured && !senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "scorecard" });
 
-  const formspree = await submitLeadToFormspree(payload);
-  if (!formspree.ok) {
-    console.error("scorecard formspree failed", JSON.stringify(formspree.publicError));
-    return json({ ok: false, error: "lead_capture_failed" }, 502);
+  const formspreeKey = `scorecard:formspree:${idempotencyKey}`;
+  const formspreeDuplicate = await dedupeHit(env, formspreeKey);
+  if (shouldDualWriteFormspree(env) && !formspreeDuplicate) {
+    const formspree = await submitLeadToFormspree(payload, env);
+    if (!formspree.ok) {
+      logOperational("scorecard_formspree_failed", { status: formspree.status });
+      return json({ ok: false, error: "lead_capture_failed" }, 502);
+    }
+    await markDedupe(env, formspreeKey);
   }
 
-  const resend = await sendReportEmail(report, env, idempotencyKey);
-  if (!resend.ok) {
-    console.error("scorecard resend failed", JSON.stringify(resend.publicError));
+  const deliveryKey = `scorecard:delivery:${idempotencyKey}`;
+  const deliveryDuplicate = await dedupeHit(env, deliveryKey);
+  let delivery = { ok: true, id: null };
+  let senderSuppressed = false;
+  let senderStatusInconclusive = false;
+  if (!deliveryDuplicate && useSender) {
+    try {
+      validateSenderConfig(env);
+      delivery = await sendReportEmailSender(report, env);
+    } catch (error) {
+      logOperational("scorecard_sender_failed", { operation: error?.operation, status: error?.status });
+      senderSuppressed = error?.suppressed === true;
+      senderStatusInconclusive = error?.inconclusiveStatus === true;
+      delivery = { ok: false };
+    }
+  }
+  if (senderSuppressed) return json({ ok: false, error: "recipient_suppressed" }, 502);
+  if (senderStatusInconclusive) return json({ ok: false, error: "recipient_status_unavailable" }, 502);
+  if (!deliveryDuplicate && (!useSender || !delivery.ok)) {
+    if (senderConfigured && !senderBudgetAvailable) {
+      try {
+        await senderAssertTransactionalDeliverable(env, report.to);
+      } catch (error) {
+        return json({
+          ok: false,
+          error: error?.suppressed ? "recipient_suppressed" : "recipient_status_unavailable",
+        }, 502);
+      }
+    }
+    if (!env.RESEND_API_KEY || !env.RESEND_FROM) {
+      return useSender
+        ? json({ ok: false, error: "report_send_failed" }, 502)
+        : json({ ok: false, error: "resend_not_configured" }, 503);
+    }
+    delivery = await sendReportEmailResend(report, env, idempotencyKey);
+  }
+
+  if (!delivery.ok) {
+    logOperational("scorecard_report_failed", { status: delivery.status, provider });
     return json({ ok: false, error: "report_send_failed" }, 502);
   }
+  if (!deliveryDuplicate) await markDedupe(env, deliveryKey);
 
-  return json({ ok: true, report_id: resend.id || null });
+  if (useSender) {
+    const leadKey = `scorecard:lead:${idempotencyKey}`;
+    const consentKey = `scorecard:consent:${payload.email}`;
+    const leadDuplicate = await dedupeHit(env, leadKey);
+    const consentDuplicate = !payload.marketing_opt_in || await dedupeHit(env, consentKey);
+    if (!leadDuplicate || !consentDuplicate) {
+      try {
+        const upsert = await upsertScorecardLead(payload, env);
+        if (!upsert.suppressed) {
+          await markDedupe(env, leadKey);
+          if (payload.marketing_opt_in) await markDedupe(env, consentKey);
+        }
+      } catch (error) {
+        logOperational("scorecard_subscriber_failed", { operation: error?.operation, status: error?.status });
+      }
+    }
+  }
+
+  return json({ ok: true, duplicate: deliveryDuplicate, report_id: delivery.id || null });
+}
+
+async function handleSubscribe(request, env) {
+  if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405);
+  if (!originAllowed(request)) return json({ ok: false, error: "origin_not_allowed" }, 403);
+  const parsed = await boundedRequestData(request, MAX_FORM_BODY_BYTES);
+  if (parsed.tooLarge) return json({ ok: false, error: "payload_too_large" }, 413);
+  const form = parsed.form;
+  if (!form) return json({ ok: false, error: "invalid_form" }, 400);
+  if (safeText(form.get("company_website"), 200)) return json({ ok: true, ignored: true });
+  const formId = safeText(form.get("form_id"), 80);
+  const config = FORM_MAP[formId];
+  if (!config) return json({ ok: false, error: "unknown_form_id" }, 400);
+  if (!validateMappedForm(form, config)) return json({ ok: false, error: "invalid_form_fields" }, 400);
+  const email = normalizeEmail(form.get("email"));
+  if (!email) return json({ ok: false, error: "valid_email_required" }, 400);
+  const rate = await enforceRateLimits(env, request, email, `subscribe:${formId}`);
+  if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
+
+  const name = safeText(form.get("name"), 120);
+  const extras = Object.fromEntries(config.allowed.map((key) => [key, safeText(form.get(key), 240)]).filter(([, value]) => value));
+  const optIn = isTrue(form.get("marketing_opt_in"));
+  const wantsMarketing = formId === "newsletter" || optIn;
+  const senderCaptureKey = `sender-capture:${email}:${formId}`;
+  const senderNotificationKey = `sender-notification:${email}:${formId}`;
+  const formspreeKey = `formspree:${email}:${formId}`;
+  const consentKey = `consent:${email}:${formId}`;
+  const senderCaptureDuplicate = await dedupeHit(env, senderCaptureKey);
+  const senderNotificationDuplicate = await dedupeHit(env, senderNotificationKey);
+  const formspreeDuplicate = await dedupeHit(env, formspreeKey);
+  const consentDuplicate = !wantsMarketing || await dedupeHit(env, consentKey);
+  const senderIsEnabled = senderEnabled(env);
+  const needsSenderNotification = senderIsEnabled && formId === "workshop-next" && !senderNotificationDuplicate;
+  const needsSenderCapture = senderIsEnabled
+    && (((formId !== "workshop-next") && !senderCaptureDuplicate) || !consentDuplicate);
+  const needsFormspree = shouldDualWriteFormspree(env) && !formspreeDuplicate;
+  if (!needsSenderNotification && !needsSenderCapture && !needsFormspree) {
+    if (!senderIsEnabled && !shouldDualWriteFormspree(env)) {
+      return json({ ok: false, error: "submission_not_configured" }, 503);
+    }
+    return json({ ok: true, duplicate: true });
+  }
+  const senderBudgetAvailable = (!needsSenderNotification && !needsSenderCapture)
+    || (await consumeSenderBudget(env)).ok;
+  if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "subscribe" });
+
+  let senderCaptureSucceeded = senderCaptureDuplicate;
+  let senderNotificationSucceeded = senderNotificationDuplicate;
+  let consentSucceeded = false;
+  let senderAttempted = false;
+  if (senderBudgetAvailable && (needsSenderNotification || needsSenderCapture)) {
+    senderAttempted = true;
+    try {
+      validateSenderConfig(env);
+      if (needsSenderNotification) {
+        await senderTransactionalSend(env, {
+          to: "jonathan@builtwithjon.com",
+          subject: "Cowork workshop: What's Next",
+          replyTo: email,
+          text: `Email: ${email}\n\n${extras.comments || "(No comments provided)"}`,
+          html: `<p><strong>Email:</strong> ${escapeHtml(email)}</p><p>${escapeHtml(extras.comments || "(No comments provided)").replace(/\n/g, "<br>")}</p>`,
+          checkRecipientStatus: true,
+        });
+        senderNotificationSucceeded = true;
+        await markDedupe(env, senderNotificationKey);
+      }
+      if (needsSenderCapture) {
+        const fields = !senderCaptureDuplicate ? { ...mapFields(config.fields, extras) } : {};
+        if (!consentDuplicate) {
+          fields.consent_requested_at = new Date().toISOString();
+          fields.consent_source = formId;
+        }
+        const groupSlugs = [
+          ...(!senderCaptureDuplicate ? config.groups : []),
+          ...(!consentDuplicate ? ["consent:pending"] : []),
+        ];
+        const groups = resolveGroupIds(env, groupSlugs);
+        const automationGroupIds = !consentDuplicate
+          ? resolveGroupIds(env, ["consent:pending"])
+          : [];
+        const upsert = await senderUpsertSubscriber(env, {
+          ...splitName(name),
+          email,
+          groups,
+          fields,
+          automationGroupIds,
+        });
+        senderCaptureSucceeded = !upsert.suppressed;
+        consentSucceeded = !consentDuplicate && !upsert.suppressed;
+        if (upsert.suppressed) logOperational("subscriber_suppressed", { formId });
+        if (senderCaptureSucceeded) await markDedupe(env, senderCaptureKey);
+        if (consentSucceeded) await markDedupe(env, consentKey);
+      }
+    } catch (error) {
+      logOperational("subscribe_sender_failed", { operation: error?.operation, status: error?.status, formId });
+    }
+  }
+
+  let formspreeSucceeded = false;
+  if (shouldDualWriteFormspree(env)) {
+    if (formspreeDuplicate) {
+      formspreeSucceeded = true;
+    } else {
+      const forward = await submitFormToFormspree(
+        form,
+        env,
+        `Website form: ${formId}`,
+        new Set(["form_id", "email", "name", "marketing_opt_in", ...config.allowed]),
+      );
+      formspreeSucceeded = forward.ok;
+      if (formspreeSucceeded) await markDedupe(env, formspreeKey);
+    }
+  }
+
+  const senderPathSucceeded = formId === "workshop-next"
+    ? senderNotificationSucceeded && (!wantsMarketing || senderCaptureSucceeded)
+    : senderCaptureSucceeded;
+  if (!senderPathSucceeded && !formspreeSucceeded) return json({ ok: false, error: "submission_failed" }, 502);
+  if (formId === "newsletter" && senderAttempted && !senderCaptureSucceeded) {
+    return json({ ok: false, error: "subscription_temporarily_unavailable" }, 503);
+  }
+  return json({
+    ok: true,
+    marketing_pending: consentSucceeded,
+    marketing_captured: !wantsMarketing || consentSucceeded,
+  });
+}
+
+async function handleContact(request, env) {
+  if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405);
+  if (!originAllowed(request)) return json({ ok: false, error: "origin_not_allowed" }, 403);
+  const parsed = await boundedRequestData(request, MAX_FORM_BODY_BYTES);
+  if (parsed.tooLarge) return json({ ok: false, error: "payload_too_large" }, 413);
+  const form = parsed.form;
+  if (!form) return json({ ok: false, error: "invalid_form" }, 400);
+  if (safeText(form.get("company_website"), 200)) return json({ ok: true, ignored: true });
+  if (!validateContactForm(form)) return json({ ok: false, error: "invalid_form_fields" }, 400);
+
+  const name = safeText(form.get("name"), 120);
+  const email = normalizeEmail(form.get("email"));
+  const message = safeText(form.get("message"), 8_000);
+  if (!name || !email || !message) return json({ ok: false, error: "required_fields_missing" }, 400);
+  const rate = await enforceRateLimits(env, request, email, "contact");
+  if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
+  const contactId = await stableContactKey(name, email, message);
+  const senderKey = `contact:sender:${contactId}`;
+  const formspreeKey = `contact:formspree:${contactId}`;
+  const senderDuplicate = await dedupeHit(env, senderKey);
+  const formspreeDuplicate = await dedupeHit(env, formspreeKey);
+  const senderBudgetAvailable = !senderEnabled(env) || senderDuplicate || (await consumeSenderBudget(env)).ok;
+  if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "contact" });
+
+  let senderSucceeded = senderDuplicate;
+  if (env.EMAIL_PROVIDER === "sender" && senderEnabled(env) && senderBudgetAvailable && !senderDuplicate) {
+    try {
+      validateSenderConfig(env);
+      await senderTransactionalSend(env, {
+        to: "jonathan@builtwithjon.com",
+        subject: `Contact inquiry from ${name}`,
+        replyTo: email,
+        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+        html: `<p><strong>Name:</strong> ${escapeHtml(name)}</p><p><strong>Email:</strong> ${escapeHtml(email)}</p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`,
+        checkRecipientStatus: true,
+      });
+      senderSucceeded = true;
+      await markDedupe(env, senderKey);
+    } catch (error) {
+      logOperational("contact_sender_failed", { operation: error?.operation, status: error?.status });
+    }
+  }
+
+  let formspreeSucceeded = formspreeDuplicate;
+  if (shouldDualWriteFormspree(env) && !formspreeDuplicate) {
+    const forward = await submitFormToFormspree(
+      form,
+      env,
+      "Contact inquiry from builtwithjon.com",
+      new Set(["name", "email", "message", "inquiry_type"]),
+    );
+    formspreeSucceeded = forward.ok;
+    if (formspreeSucceeded) await markDedupe(env, formspreeKey);
+  }
+  if (!senderSucceeded && !formspreeSucceeded) return json({ ok: false, error: "contact_send_failed" }, 502);
+  return json({ ok: true, notified: senderSucceeded || formspreeSucceeded });
+}
+
+async function stableContactKey(name, email, message) {
+  const basis = JSON.stringify({ name, email, message });
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(basis));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 async function handleEvent(request, env) {
+  if (request.method === "GET" || request.method === "HEAD") {
+    return json({ ok: true, endpoint: "event", methods: ["POST"] });
+  }
+
   if (request.method !== "POST") {
     return json({ ok: false, error: "method_not_allowed" }, 405);
   }
@@ -164,14 +449,11 @@ async function handleEvent(request, env) {
     return json({ ok: false, error: "origin_not_allowed" }, 403);
   }
 
-  const contentLength = Number(request.headers.get("content-length") || "0");
-  if (contentLength > MAX_EVENT_BODY_BYTES) {
-    return json({ ok: false, error: "payload_too_large" }, 413);
-  }
-
   let body;
   try {
-    body = await request.json();
+    const bytes = await readBoundedBody(request, MAX_EVENT_BODY_BYTES);
+    if (!bytes) return json({ ok: false, error: "payload_too_large" }, 413);
+    body = JSON.parse(new TextDecoder().decode(bytes));
   } catch {
     return json({ ok: false, error: "invalid_body" }, 400);
   }
@@ -235,6 +517,7 @@ function normalizePayload(form, request) {
     scores,
     answers,
     source_url: safeUrl(form.get("source_url")) || `${url.origin}/scorecard/`,
+    marketing_opt_in: isTrue(form.get("marketing_opt_in")),
     submitted_at: new Date().toISOString(),
   };
 }
@@ -305,34 +588,71 @@ function buildReport(payload, env) {
   };
 }
 
-async function sendReportEmail(report, env, idempotencyKey) {
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": idempotencyKey,
-      "User-Agent": "builtwithjon-scorecard/1.0",
-    },
-    body: JSON.stringify(report),
-  });
+async function sendReportEmailResend(report, env, idempotencyKey) {
+  let response;
+  try {
+    response = await providerFetch(env, `${String(env.RESEND_API_BASE || "https://api.resend.com").replace(/\/$/, "")}/emails`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+        "Idempotency-Key": idempotencyKey,
+        "User-Agent": "builtwithjon-scorecard/1.0",
+      },
+      body: JSON.stringify(report),
+    });
+  } catch {
+    return { ok: false, status: 0 };
+  }
 
   const body = await readJson(response);
   if (!response.ok) {
     return {
       ok: false,
-      publicError: {
-        status: response.status,
-        name: body?.name || body?.error?.name || "resend_error",
-        message: body?.message || body?.error?.message || "Resend request failed",
-      },
+      status: response.status,
     };
   }
 
   return { ok: true, id: body?.id || body?.data?.id || null };
 }
 
-async function submitLeadToFormspree(payload) {
+async function sendReportEmailSender(report, env) {
+  const variables = Object.fromEntries((report.tags || []).map((tag) => [tag.name, tag.value]));
+  return senderTransactionalSend(env, {
+    to: report.to,
+    subject: report.subject,
+    html: report.html,
+    text: report.text,
+    replyTo: report.reply_to,
+    variables,
+    checkRecipientStatus: true,
+  });
+}
+
+async function upsertScorecardLead(payload, env) {
+  const slugs = ["source:scorecard", ...(payload.marketing_opt_in ? ["consent:pending"] : [])];
+  const groups = resolveGroupIds(env, slugs);
+  const automationGroupIds = payload.marketing_opt_in
+    ? resolveGroupIds(env, ["consent:pending"])
+    : [];
+  return senderUpsertSubscriber(env, {
+    ...splitName(payload.name),
+    email: payload.email,
+    groups,
+    automationGroupIds,
+    fields: {
+      scorecard_tier: payload.tier,
+      scorecard_segment: payload.segment,
+      source: "scorecard",
+      ...(payload.marketing_opt_in ? {
+        consent_requested_at: new Date().toISOString(),
+        consent_source: "scorecard",
+      } : {}),
+    },
+  });
+}
+
+async function submitLeadToFormspree(payload, env) {
   const body = new URLSearchParams();
   body.set("_subject", "Scorecard lead");
   body.set("inquiry_type", "scorecard-lead");
@@ -345,27 +665,326 @@ async function submitLeadToFormspree(payload) {
   body.set("source_url", payload.source_url);
   body.set("submitted_at", payload.submitted_at);
 
-  const response = await fetch(FORMSPREE_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      "User-Agent": "builtwithjon-scorecard/1.0",
-    },
-    body,
-  });
+  let response;
+  try {
+    response = await providerFetch(env, formspreeEndpoint(env), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "User-Agent": "builtwithjon-scorecard/1.0",
+      },
+      body,
+    });
+  } catch {
+    return { ok: false, status: 0 };
+  }
 
   const data = await readJson(response);
   if (!response.ok || data?.ok === false) {
     return {
       ok: false,
-      publicError: {
-        status: response.status,
-        message: data?.error || data?.message || "Formspree request failed",
-      },
+      status: response.status,
     };
   }
   return { ok: true };
+}
+
+async function submitFormToFormspree(form, env, subject, allowedKeys = null) {
+  const body = new URLSearchParams();
+  body.set("_subject", subject);
+  for (const [key, value] of form.entries()) {
+    if (key === "company_website" || key === "_subject") continue;
+    if (allowedKeys && !allowedKeys.has(key)) continue;
+    body.set(key, safeText(value, 8_000));
+  }
+  try {
+    const response = await providerFetch(env, formspreeEndpoint(env), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "User-Agent": "builtwithjon-forms/1.0",
+      },
+      body,
+    });
+    const data = await readJson(response);
+    if (!response.ok || data?.ok === false) return { ok: false };
+    return { ok: true };
+  } catch {
+    logOperational("formspree_forward_failed");
+    return { ok: false };
+  }
+}
+
+function providerFetch(env, url, init) {
+  const timeout = Number(env.EMAIL_PROVIDER_TIMEOUT_MS || 8_000);
+  return fetch(url, {
+    ...init,
+    signal: init.signal || AbortSignal.timeout(Number.isFinite(timeout) ? timeout : 8_000),
+  });
+}
+
+function validateMappedForm(form, config) {
+  if ([...form.keys()].length > 24) return false;
+  const allowed = new Set([
+    "form_id", "email", "name", "marketing_opt_in", "company_website",
+    "_subject", "_next", "inquiry_type", ...config.allowed,
+  ]);
+  for (const [key, value] of form.entries()) {
+    if (!allowed.has(key) || typeof value !== "string") return false;
+    const limit = key === "email" ? 254 : key === "name" ? 120 : 240;
+    if (value.length > limit) return false;
+  }
+  for (const field of config.required || []) {
+    if (!safeText(form.get(field), 240)) return false;
+  }
+  for (const [field, values] of Object.entries(config.enums || {})) {
+    if (!values.includes(safeText(form.get(field), 240))) return false;
+  }
+  return true;
+}
+
+function validateContactForm(form) {
+  const limits = {
+    name: 120,
+    email: 254,
+    message: 8_000,
+    company_website: 200,
+    _subject: 240,
+    inquiry_type: 80,
+  };
+  if ([...form.keys()].length > 8) return false;
+  for (const [key, value] of form.entries()) {
+    if (!(key in limits) || typeof value !== "string" || value.length > limits[key]) return false;
+  }
+  return true;
+}
+
+async function requestData(request) {
+  const contentType = request.headers.get("content-type") || "";
+  try {
+    if (contentType.includes("application/json")) {
+      const body = await request.json();
+      const form = new FormData();
+      for (const [key, value] of Object.entries(body || {})) {
+        if (value != null) form.set(key, String(value));
+      }
+      return form;
+    }
+    return await request.formData();
+  } catch {
+    return null;
+  }
+}
+
+async function boundedRequestData(request, maxBytes) {
+  try {
+    const bytes = await readBoundedBody(request, maxBytes);
+    if (!bytes) return { form: null, tooLarge: true };
+    const bounded = new Request(request.url, {
+      method: request.method,
+      headers: request.headers,
+      body: bytes,
+    });
+    return { form: await requestData(bounded), tooLarge: false };
+  } catch {
+    return { form: null, tooLarge: false };
+  }
+}
+
+async function readBoundedBody(request, maxBytes) {
+  const declared = request.headers.get("content-length");
+  if (declared != null) {
+    const length = Number(declared);
+    if (!Number.isFinite(length) || length < 0 || length > maxBytes) return null;
+  }
+  if (!request.body) return new Uint8Array();
+  const reader = request.body.getReader();
+  const chunks = [];
+  let total = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > maxBytes) {
+      await reader.cancel("payload_too_large");
+      return null;
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
+}
+
+function senderEnabled(env) {
+  return env.EMAIL_PROVIDER === "sender"
+    && env.SENDER_SENDS_ENABLED !== "false"
+    && Boolean(env.SENDER_API_TOKEN)
+    && Boolean(env.SUBSCRIBE_DEDUPE)
+    && String(env.FORM_HASH_SALT || "").length >= 16;
+}
+
+function shouldDualWriteFormspree(env) {
+  return env.FORMSPREE_DUAL_WRITE !== "false";
+}
+
+function formspreeEndpoint(env) {
+  return env.FORMSPREE_ENDPOINT || DEFAULT_FORMSPREE_ENDPOINT;
+}
+
+function isTrue(value) {
+  return value === true || ["true", "1", "on", "yes"].includes(String(value || "").toLowerCase());
+}
+
+function splitName(name) {
+  const parts = safeText(name, 120).split(/\s+/).filter(Boolean);
+  return { firstname: parts.shift() || "", lastname: parts.join(" ") };
+}
+
+function mapFields(map, values) {
+  return Object.fromEntries(Object.entries(map).map(([field, source]) => [field, values[source]]).filter(([, value]) => value));
+}
+
+function validateSenderConfig(env) {
+  if (!env.SUBSCRIBE_DEDUPE) throw new Error("sender_dedupe_not_configured");
+  if (String(env.FORM_HASH_SALT || "").length < 16) throw new Error("form_hash_salt_not_configured");
+  parseSenderFrom(env.SENDER_FROM);
+  const required = new Set([
+    "consent:pending",
+    "consent:confirmed",
+    "source:newsletter",
+    "offer:hidden-profit-review",
+    "asset:invoice-chase-kit",
+    "asset:follow-up-swipe-file",
+    "asset:leak-calculator",
+    "asset:starter-kit-cowork",
+    "offer:email-course",
+    "source:scorecard",
+  ]);
+  const ids = parseGroupIds(env);
+  const missing = [...required].filter((slug) => !ids[slug]);
+  if (missing.length) {
+    const error = new Error("sender_group_mapping_incomplete");
+    error.operation = "validate_config";
+    error.missingCount = missing.length;
+    throw error;
+  }
+}
+
+function resolveGroupIds(env, slugs) {
+  const ids = parseGroupIds(env);
+  return [...new Set(slugs)].map((slug) => {
+    if (ids[slug]) return String(ids[slug]);
+    const error = new Error("sender_group_mapping_missing");
+    error.operation = "resolve_group";
+    throw error;
+  });
+}
+
+function parseGroupIds(env) {
+  let ids;
+  try {
+    ids = JSON.parse(env.SENDER_GROUP_IDS || "{}");
+  } catch {
+    const error = new Error("sender_group_mapping_invalid");
+    error.operation = "parse_group_config";
+    throw error;
+  }
+  if (!ids || typeof ids !== "object" || Array.isArray(ids)) {
+    const error = new Error("sender_group_mapping_invalid");
+    error.operation = "parse_group_config";
+    throw error;
+  }
+  return ids;
+}
+
+async function dedupeHit(env, key) {
+  if (!env.SUBSCRIBE_DEDUPE) return false;
+  try {
+    return Boolean(await env.SUBSCRIBE_DEDUPE.get(await privateKey(env, "dedupe", key)));
+  } catch {
+    logOperational("dedupe_read_failed");
+    return false;
+  }
+}
+
+async function markDedupe(env, key) {
+  if (env.SUBSCRIBE_DEDUPE) {
+    try {
+      await env.SUBSCRIBE_DEDUPE.put(await privateKey(env, "dedupe", key), "1", { expirationTtl: 86_400 });
+    } catch {
+      logOperational("dedupe_write_failed");
+    }
+  }
+}
+
+async function enforceRateLimits(env, request, email, route) {
+  if (!env.SUBSCRIBE_DEDUPE || env.FORM_RATE_LIMITS_ENABLED === "false") return { ok: true };
+  try {
+    const ip = safeText(request.headers.get("CF-Connecting-IP") || "local", 80);
+    const now = new Date();
+    const hour = now.toISOString().slice(0, 13);
+    const day = now.toISOString().slice(0, 10);
+    const ipLimit = positiveInt(env.FORM_RATE_LIMIT_IP_HOURLY, 20);
+    const emailLimit = positiveInt(env.FORM_RATE_LIMIT_EMAIL_DAILY, 5);
+    const checks = [
+      [await privateKey(env, "limit", `ip:${ip}:${hour}`), ipLimit, 3_600],
+      [await privateKey(env, "limit", `email:${email}:${route}:${day}`), emailLimit, 86_400],
+    ];
+    for (const [key, limit, ttl] of checks) {
+      const current = Number(await env.SUBSCRIBE_DEDUPE.get(key) || "0");
+      if (current >= limit) return { ok: false };
+      await env.SUBSCRIBE_DEDUPE.put(key, String(current + 1), { expirationTtl: ttl });
+    }
+  } catch {
+    logOperational("rate_limit_storage_failed");
+  }
+  return { ok: true };
+}
+
+async function consumeSenderBudget(env) {
+  if (!senderEnabled(env) || !env.SUBSCRIBE_DEDUPE || env.FORM_RATE_LIMITS_ENABLED === "false") {
+    return { ok: true };
+  }
+  try {
+    const day = new Date().toISOString().slice(0, 10);
+    const key = await privateKey(env, "limit", `sender-budget:${day}`);
+    const limit = positiveInt(env.FORM_RATE_LIMIT_GLOBAL_DAILY, 100);
+    const current = Number(await env.SUBSCRIBE_DEDUPE.get(key) || "0");
+    if (current >= limit) return { ok: false };
+    await env.SUBSCRIBE_DEDUPE.put(key, String(current + 1), { expirationTtl: 86_400 });
+  } catch {
+    logOperational("sender_budget_storage_failed");
+    return { ok: false };
+  }
+  return { ok: true };
+}
+
+function positiveInt(value, fallback) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+async function privateKey(env, namespace, value) {
+  const salt = String(env.FORM_HASH_SALT || "");
+  if (salt.length < 16) throw new Error("form_hash_salt_not_configured");
+  const basis = `${salt}:${namespace}:${value}`;
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(basis));
+  const hex = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `${namespace}:${hex}`;
+}
+
+function logOperational(event, details = {}) {
+  const safe = Object.fromEntries(Object.entries(details).filter(([, value]) =>
+    typeof value === "number" || (typeof value === "string" && /^[a-z0-9:_-]{1,100}$/i.test(value))
+  ));
+  console.error(event, JSON.stringify(safe));
 }
 
 function renderHtmlEmail(model) {
@@ -526,6 +1145,7 @@ function json(body, status = 200) {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store",
+      "X-Robots-Tag": "noindex",
     },
   });
 }
@@ -535,13 +1155,11 @@ function originAllowed(request) {
   if (!origin) return false;
   try {
     const url = new URL(origin);
-    return [
-      "builtwithjon.com",
-      "www.builtwithjon.com",
-      "127.0.0.1",
-      "localhost",
-      "jonathanmalkin-site.jonathan-d-malkin.workers.dev",
-    ].includes(url.hostname);
+    if (["https://builtwithjon.com", "https://www.builtwithjon.com",
+      "https://jonathanmalkin-site.jonathan-d-malkin.workers.dev"].includes(url.origin)) return true;
+    return url.protocol === "http:"
+      && ["127.0.0.1", "localhost"].includes(url.hostname)
+      && (!url.port || /^\d{2,5}$/.test(url.port));
   } catch {
     return false;
   }

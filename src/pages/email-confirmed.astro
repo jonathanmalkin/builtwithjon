@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Email subscription confirmed"
+  description="Your Built with Jon email subscription is confirmed."
+  noindex
+>
+  <section class="container confirmation-card panel">
+    <p class="eyebrow">Email confirmed</p>
+    <h1>You're on the list.</h1>
+    <p>
+      I will send occasional practical notes on AI systems, implementation, and what
+      is working in the real world. You can unsubscribe from any email.
+    </p>
+    <a class="button" href="/">Back to Built with Jon</a>
+  </section>
+</Base>
+
+<style>
+  .confirmation-card {
+    margin: 4rem auto;
+    max-width: 44rem;
+    padding: 2rem;
+  }
+
+  .confirmation-card h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 0.4rem 0 0.8rem;
+  }
+
+  .confirmation-card p:not(.eyebrow) {
+    color: var(--color-text-muted);
+    max-width: 38rem;
+  }
+
+  .confirmation-card .button {
+    display: inline-flex;
+    margin-top: 1rem;
+  }
+</style>

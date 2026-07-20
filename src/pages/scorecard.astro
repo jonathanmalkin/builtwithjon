@@ -206,8 +206,9 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
                 <label class="sc-field"><span>First name</span><input type="text" name="name" autocomplete="given-name" class="sc-input" /></label>
                 <label class="sc-field"><span>Work email</span><input type="email" name="email" required autocomplete="email" inputmode="email" spellcheck="false" class="sc-input" /></label>
               </div>
+              <label class="form-consent sc-consent"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
               <button type="submit" class="sc-submit">Show me the breakdown</button>
-              <p class="sc-privacy">Your email gets your breakdown and the occasional implementation note. Nothing else. <a href="/privacy">Privacy policy</a>.</p>
+              <p class="sc-privacy">Your email gets your breakdown. Practical AI tips are optional and only sent if you check the box. <a href="/privacy">Privacy policy</a>.</p>
               <p class="sc-gate-error" hidden role="alert">That didn't go through. Try again, or email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I'll send your breakdown myself.</p>
             </form>
           </div>
@@ -368,6 +369,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     .sc-submit:hover { background: #7a3f1c; }
     .sc-submit:active { transform: scale(0.99); }
     .sc-submit:disabled { opacity: 0.6; cursor: default; }
+    .sc-consent { margin: 0 0 0.65rem; }
     .sc-privacy { font-size: 0.78rem; color: var(--color-text-muted); margin-top: 0.6rem; }
     .sc-gate-error { font-size: 0.88rem; color: #9a3412; margin-top: 0.5rem; }
 

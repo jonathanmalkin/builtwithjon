@@ -39,13 +39,14 @@ import Base from '../layouts/Base.astro';
     </div>
 
     <form
-      action="https://formspree.io/f/xdapgpae"
+      action="/api/contact"
       method="POST"
       class="contact-form"
       data-track-form="contact"
     >
       <input type="hidden" name="_subject" value="Contact inquiry from builtwithjon.com" />
       <input type="hidden" name="inquiry_type" value="contact" />
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
       <div class="contact-form-head">
         <p class="eyebrow">Send a note</p>
         <h2>For anything that needs context.</h2>
@@ -70,6 +71,7 @@ import Base from '../layouts/Base.astro';
         ></textarea>
       </div>
       <button type="submit" class="form-submit">Send</button>
+      <p class="contact-form-status" hidden role="status"></p>
     </form>
   </div>
 
@@ -177,6 +179,9 @@ import Base from '../layouts/Base.astro';
       min-height: 150px;
     }
 
+    .form-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .contact-form-status { color: var(--color-text-muted); margin: 0.75rem 0 0; }
+
     @media (max-width: 760px) {
       .contact-layout {
         grid-template-columns: 1fr;
@@ -189,3 +194,24 @@ import Base from '../layouts/Base.astro';
     }
   </style>
 </Base>
+
+<script>
+  const contactForm = document.querySelector('.contact-form');
+  const contactStatus = contactForm?.querySelector('.contact-form-status');
+  contactForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!contactForm.checkValidity()) return contactForm.reportValidity();
+    const button = contactForm.querySelector('button[type="submit"]');
+    if (button) button.disabled = true;
+    try {
+      const response = await fetch(contactForm.action, { method: 'POST', body: new FormData(contactForm), headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('contact_failed');
+      contactForm.reset();
+      if (contactStatus) { contactStatus.textContent = 'Thanks. I will read this and get back to you.'; contactStatus.hidden = false; }
+    } catch {
+      if (contactStatus) { contactStatus.textContent = 'That did not go through. Email jonathan@builtwithjon.com and I will help.'; contactStatus.hidden = false; }
+    } finally {
+      if (button) button.disabled = false;
+    }
+  });
+</script>

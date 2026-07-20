@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const formEndpoint = 'https://formspree.io/f/xdapgpae';
+const formEndpoint = '/api/subscribe';
 const thanksUrl = '/hidden-profit-review/thanks';
 const sampleUrl = '/hidden-profit-review/sample/';
 // Set this to the number of reviews you can genuinely run per month.
@@ -57,6 +57,8 @@ const serviceSchema = {
       >
         <input type="hidden" name="_subject" value="Hidden Profit Review waitlist" />
         <input type="hidden" name="inquiry_type" value="hpr-waitlist" />
+        <input type="hidden" name="form_id" value="hpr-waitlist" />
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
 
         <p class="audit-capacity">Waitlist open &middot; {monthlyCapacity} reviews a month</p>
         <p class="audit-form-intro">
@@ -90,6 +92,7 @@ const serviceSchema = {
           </select>
         </div>
 
+        <label class="form-consent"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
         <button type="submit" class="form-submit audit-submit">Join the waitlist</button>
         <p class="audit-note">I read every entry personally. Invites go out in order &mdash; no skipping the line. Your spot holds with no obligation.</p>
         <p class="audit-error" hidden role="alert" aria-live="polite">
