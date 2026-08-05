@@ -4,6 +4,13 @@
 /articles/what-i-actually-do-with-claude-code/ / 301
 /knowledge-os-product/ /knowledge-os-proof/ 301
 
+# /scan/* existed for part of 2026-08-05 and edges cached 301s into it. Catch
+# those so a stale redirect still lands on the scan card instead of a 404.
+/scan/card /card/ 301
+/scan/card/ /card/ 301
+/scan/meetup /claude-meetup/ 301
+/scan/meetup/ /claude-meetup/ 301
+
 # Short installer link for the Cowork personal assistant plugin.
 /agent https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip 302
 /agent/ https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip 302
