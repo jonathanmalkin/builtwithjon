@@ -4,13 +4,6 @@
 /articles/what-i-actually-do-with-claude-code/ / 301
 /knowledge-os-product/ /knowledge-os-proof/ 301
 
-# QR scan targets consolidated under /scan/<origin> 2026-08-05, so the printed
-# URL names where the scan came from.
-/card /scan/card/ 301
-/card/ /scan/card/ 301
-/claude-meetup /scan/meetup/ 301
-/claude-meetup/ /scan/meetup/ 301
-
 # Short installer link for the Cowork personal assistant plugin.
 /agent https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip 302
 /agent/ https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip 302

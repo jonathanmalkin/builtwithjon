@@ -1,0 +1,15 @@
+---
+// Scan target for the printed business card QR.
+import Base from '../layouts/Base.astro';
+import ScanCard from '../components/ScanCard.astro';
+import { CARD_ORIGIN } from '../data/scan-origins';
+---
+
+<Base
+  title="Jonathan Malkin"
+  description="Message Jonathan Malkin or connect on LinkedIn."
+  noindex
+  bare
+>
+  <ScanCard {...CARD_ORIGIN} />
+</Base>

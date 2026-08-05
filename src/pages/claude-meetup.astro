@@ -1,0 +1,15 @@
+---
+// Scan target for the Aug 10 Claude Meetup deck QR. Same page as /card.
+import Base from '../layouts/Base.astro';
+import ScanCard from '../components/ScanCard.astro';
+import { MEETUP_ORIGIN } from '../data/scan-origins';
+---
+
+<Base
+  title="Jonathan Malkin"
+  description="Message Jonathan Malkin or connect on LinkedIn."
+  noindex
+  bare
+>
+  <ScanCard {...MEETUP_ORIGIN} />
+</Base>

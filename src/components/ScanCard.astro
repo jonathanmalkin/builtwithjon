@@ -1,26 +1,18 @@
 ---
 // One-screen QR scan target: who I am, a LinkedIn tap, and a short message.
 // Everything fits a phone without scrolling — see the short-viewport and
-// landscape blocks below. Rendered by /scan/<origin> for every QR code.
+// landscape blocks below. Rendered identically at /card and /claude-meetup,
+// the two URLs the QR codes in circulation already encode.
 interface Props {
-  /** Mono kicker above the name, e.g. the event or topic they scanned from. */
-  context?: string;
   /** Hidden _subject on the inbound email, so you can tell scan sources apart. */
   subject: string;
   /** inquiry_type field value, same purpose. */
   inquiryType: string;
-  messagePlaceholder?: string;
   /** Named in the sender label, e.g. "sam (business card)". */
-  originLabel?: string;
+  label?: string;
 }
 
-const {
-  context,
-  subject,
-  inquiryType,
-  messagePlaceholder = 'Where we met, and what you want to talk about.',
-  originLabel = 'scan',
-} = Astro.props;
+const { subject, inquiryType, label = 'scan' } = Astro.props;
 ---
 
 <div class="card-page">
@@ -34,7 +26,7 @@ const {
     />
     <div>
       <p class="card-name">Jonathan Malkin</p>
-      {context && <p class="card-context">{context}</p>}
+      <p class="card-context">Company Brain 🧠</p>
       <p class="card-role">AI Operator &middot; Workshop Facilitator</p>
       <p class="card-city">Austin, Texas</p>
     </div>
@@ -55,7 +47,7 @@ const {
     method="POST"
     class="card-form"
     data-track-form="contact"
-    data-origin-label={originLabel}
+    data-origin-label={label}
   >
     <input type="hidden" name="_subject" value={subject} />
     <input type="hidden" name="inquiry_type" value={inquiryType} />
@@ -84,7 +76,7 @@ const {
         name="message"
         required
         class="form-input"
-        placeholder={messagePlaceholder}
+        placeholder="What question would your company brain answer first?"
       ></textarea>
     </div>
 
