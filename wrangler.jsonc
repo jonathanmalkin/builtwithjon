@@ -22,6 +22,8 @@
     "RESEND_REPLY_TO": "jonathan@builtwithjon.com",
     "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
     "EMAIL_PROVIDER": "resend",
+    // Pre-deploy gate: only enable after the Sender consent automation exists.
+    "SENDER_CAPTURE_ENABLED": "false",
     "SENDER_SENDS_ENABLED": "false",
     "FORM_RATE_LIMITS_ENABLED": "true",
     "FORM_RATE_LIMIT_IP_HOURLY": "20",
@@ -30,7 +32,9 @@
     "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\"}"
   },
   "kv_namespaces": [
-    { "binding": "SUBSCRIBE_DEDUPE", "id": "8707fb62aa5147b68f6fae18b437a26a" }
+    { "binding": "SUBSCRIBE_DEDUPE", "id": "8707fb62aa5147b68f6fae18b437a26a" },
+    // Pre-deploy gate: provision this namespace and replace the placeholder id.
+    { "binding": "LEADS", "id": "REPLACE_WITH_PROVISIONED_ID" }
   ],
   "analytics_engine_datasets": [
     { "binding": "SITE_EVENTS", "dataset": "site_events" }

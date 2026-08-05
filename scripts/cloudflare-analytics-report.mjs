@@ -49,12 +49,14 @@ const rate = (numerator, denominator) => denominator > 0
   ? `${((numerator / denominator) * 100).toFixed(1)}%`
   : 'n/a';
 
-const q1 = count('scorecard:q1');
+const scorecardView = count('scorecard:view');
+const scorecardStart = count('scorecard:start');
 const result = count('scorecard:result');
 const gateSuccess = count('scorecard:gate-success');
+const reviewCta = count('cta:waitlist-scorecard');
+const reviewStart = count('hpr-waitlist:start');
+const reviewSubmit = count('hpr-waitlist:submit');
 const reviewSuccess = count('hpr-waitlist:success');
-const workshopSuccess = count('workshop-waitlist:success');
-const privateSuccess = count('private-workshop:success');
 const toolsView = count('tools:view');
 const toolsScorecard = count('tools:start:scorecard');
 const toolsCalculator = count('tools:start:calculator');
@@ -63,13 +65,21 @@ const toolsReview = count('tools:hpr-click');
 
 console.log(`Built with Jon funnel — last ${days} day${days === 1 ? '' : 's'}`);
 console.log('');
+console.log('Scorecard');
 console.table([
-  { stage: 'Scorecard loaded', events: q1, conversion: '—' },
-  { stage: 'Scorecard result', events: result, conversion: rate(result, q1) },
-  { stage: 'Report delivered', events: gateSuccess, conversion: rate(gateSuccess, q1) },
-  { stage: 'Review waitlist', events: reviewSuccess, conversion: rate(reviewSuccess, gateSuccess) },
-  { stage: 'Public workshop waitlist', events: workshopSuccess, conversion: '—' },
-  { stage: 'Private workshop request', events: privateSuccess, conversion: '—' },
+  { stage: 'Scorecard viewed', events: scorecardView, conversion: '—', end_to_end: '—' },
+  { stage: 'Scorecard started', events: scorecardStart, conversion: rate(scorecardStart, scorecardView), end_to_end: '—' },
+  { stage: 'Scorecard result', events: result, conversion: rate(result, scorecardStart), end_to_end: '—' },
+  { stage: 'Report delivered', events: gateSuccess, conversion: rate(gateSuccess, result), end_to_end: rate(gateSuccess, scorecardView) },
+]);
+
+console.log('');
+console.log('Hidden Profit Review');
+console.table([
+  { stage: 'Scorecard waitlist CTA', events: reviewCta, conversion: '—' },
+  { stage: 'Waitlist started', events: reviewStart, conversion: rate(reviewStart, reviewCta) },
+  { stage: 'Waitlist submitted', events: reviewSubmit, conversion: rate(reviewSubmit, reviewStart) },
+  { stage: 'Waitlist success', events: reviewSuccess, conversion: rate(reviewSuccess, reviewSubmit) },
 ]);
 
 console.log('');
@@ -82,13 +92,17 @@ console.table([
   { stage: 'Review clicked', events: toolsReview, conversion: rate(toolsReview, toolsView) },
 ]);
 
-const mcpEvents = [...totals.entries()]
-  .filter(([event]) => event.startsWith('mcp:'))
+const mcpHandshakes = count('mcp:initialize') + count('mcp:tools-list');
+const mcpToolCalls = [...totals.entries()]
+  .filter(([event]) => event.startsWith('mcp:') && !['mcp:initialize', 'mcp:tools-list'].includes(event))
   .sort((a, b) => b[1] - a[1]);
 
 console.log('');
 console.log('MCP usage');
-console.table(mcpEvents.map(([event, hits]) => ({ event, hits })));
+console.table([
+  { event: 'Discovery/crawler handshakes', hits: mcpHandshakes },
+  ...mcpToolCalls.map(([event, hits]) => ({ event, hits })),
+]);
 
 console.log('Top events');
 console.table(

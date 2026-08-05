@@ -64,14 +64,63 @@ const pageTitle = title === 'Jonathan Malkin'
   <body class={bare ? 'bare' : undefined}>
     <script is:inline>
 (function () {
+  var attribution = '';
+  var storageKey = 'bwj_attribution';
+  var maxAge = 30 * 24 * 60 * 60 * 1000;
+  var fields = [
+    ['utm_source', 's'], ['utm_medium', 'm'], ['utm_campaign', 'c'],
+    ['utm_content', 'ct'], ['utm_term', 't'], ['src', 'src'],
+    ['ref', 'ref'], ['gclid', 'g']
+  ];
+
+  function clean(value) {
+    return String(value || '').replace(/[^A-Za-z0-9_\-|=.%+ ]/g, '').trim();
+  }
+
+  try {
+    var stored = localStorage.getItem(storageKey) || '';
+    var separator = stored.indexOf('|');
+    var expiresAt = separator > 0 ? Number(stored.slice(0, separator)) : 0;
+    if (expiresAt > Date.now()) attribution = clean(stored.slice(separator + 1)).slice(0, 240);
+    else if (stored) localStorage.removeItem(storageKey);
+
+    var params = new URLSearchParams(location.search);
+    var parts = [];
+    fields.forEach(function (field) {
+      var value = clean(params.get(field[0]));
+      if (value) parts.push(field[1] + '=' + value);
+    });
+    if (parts.length && !attribution) {
+      attribution = parts.join('|').slice(0, 240);
+      localStorage.setItem(storageKey, String(Date.now() + maxAge) + '|' + attribution);
+    }
+  } catch (err) {}
+
+  function injectAttribution(root) {
+    var scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll('form[action^="/api/"]').forEach(function (form) {
+      var input = form.querySelector('input[name="attribution"]');
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'attribution';
+        form.appendChild(input);
+      }
+      input.value = attribution;
+    });
+  }
+
   function track(name) {
     try {
       if (!navigator.sendBeacon) return;
-      var body = new Blob([JSON.stringify({ e: name, p: location.pathname, r: document.referrer })], { type: 'application/json' });
+      var body = new Blob([JSON.stringify({ e: name, p: location.pathname, r: document.referrer, a: attribution })], { type: 'application/json' });
       navigator.sendBeacon('/api/event', body);
     } catch (err) {}
   }
   window.bwjTrack = track;
+  window.bwjInjectAttribution = injectAttribution;
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { injectAttribution(document); });
+  else injectAttribution(document);
   document.addEventListener('click', function (ev) {
     var el = ev.target && ev.target.closest ? ev.target.closest('[data-track]') : null;
     if (el) track(el.getAttribute('data-track'));

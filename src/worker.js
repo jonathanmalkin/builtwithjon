@@ -54,7 +54,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "lead-magnet:start", "lead-magnet:submit", "leakcalc:unlock",
   "newsletter:start", "newsletter:submit",
   "private-workshop:start", "private-workshop:submit", "private-workshop:success",
-  "scorecard:result", "scorecard:gate-success", "scorecard-gate:start", "scorecard-gate:submit",
+  "scorecard:view", "scorecard:start", "scorecard:result", "scorecard:gate-success", "scorecard-gate:start", "scorecard-gate:submit",
   "starter-kit:start", "starter-kit:submit",
   "tools:view", "tools:start:scorecard", "tools:start:calculator",
   "tools:start:use-cases", "tools:copy-prompt", "tools:copy:chatgpt",
@@ -163,23 +163,53 @@ async function handleScorecardReport(request, env) {
   const rate = await enforceRateLimits(env, request, payload.email, "scorecard");
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
 
+  let leadStored = false;
+  try {
+    leadStored = await storeLead(env, {
+      email: payload.email,
+      name: payload.name,
+      form_id: "scorecard",
+      segment: payload.segment,
+      tier: payload.tier,
+      scores: payload.scores,
+      answers: payload.answers,
+      marketing_opt_in: payload.marketing_opt_in,
+      source_url: payload.source_url,
+      attribution: payload.attribution,
+      submitted_at: payload.submitted_at,
+    });
+  } catch (error) {
+    logOperational("lead_store_failed", { route: "scorecard" });
+    return json({ ok: false, error: "lead_store_failed" }, 502);
+  }
+
   const report = buildReport(payload, env);
   const idempotencyKey = await stableKey(payload);
   const provider = env.EMAIL_PROVIDER || "resend";
   const senderConfigured = provider === "sender" && senderEnabled(env);
-  const senderBudgetAvailable = !senderConfigured || (await consumeSenderBudget(env)).ok;
+  const senderBudgetAvailable = !senderEnabled(env) || (await consumeSenderBudget(env)).ok;
   const useSender = senderConfigured && senderBudgetAvailable;
   if (senderConfigured && !senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "scorecard" });
 
   const formspreeKey = `scorecard:formspree:${idempotencyKey}`;
   const formspreeDuplicate = await dedupeHit(env, formspreeKey);
+  let formspreeSucceeded = formspreeDuplicate;
   if (shouldDualWriteFormspree(env) && !formspreeDuplicate) {
     const formspree = await submitLeadToFormspree(payload, env);
     if (!formspree.ok) {
       logOperational("scorecard_formspree_failed", { status: formspree.status });
-      return json({ ok: false, error: "lead_capture_failed" }, 502);
+    } else {
+      formspreeSucceeded = true;
+      await markDedupe(env, formspreeKey);
     }
-    await markDedupe(env, formspreeKey);
+  }
+
+  // Tolerating a Formspree failure is only safe while the lead is durably
+  // first-party. With no sink at all the lead is gone, so fail loudly rather
+  // than return success. Matches handleSubscribe and handleContact.
+  if (!leadStored && !formspreeSucceeded) {
+    logOperational("lead_capture_failed", { route: "scorecard" });
+    return json({ ok: false, error: "lead_capture_failed" }, 502);
   }
 
   const deliveryKey = `scorecard:delivery:${idempotencyKey}`;
@@ -225,7 +255,7 @@ async function handleScorecardReport(request, env) {
   }
   if (!deliveryDuplicate) await markDedupe(env, deliveryKey);
 
-  if (useSender) {
+  if (senderEnabled(env) && senderBudgetAvailable) {
     const leadKey = `scorecard:lead:${idempotencyKey}`;
     const consentKey = `scorecard:consent:${payload.email}`;
     const leadDuplicate = await dedupeHit(env, leadKey);
@@ -265,6 +295,22 @@ async function handleSubscribe(request, env) {
 
   const name = safeText(form.get("name"), 120);
   const extras = Object.fromEntries(config.allowed.map((key) => [key, safeText(form.get(key), 240)]).filter(([, value]) => value));
+  let leadStored = false;
+  try {
+    leadStored = await storeLead(env, {
+      email,
+      name,
+      form_id: formId,
+      ...extras,
+      source_url: safeUrl(form.get("source_url")) || safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/`,
+      attribution: safeText(form.get("attribution"), 240),
+      marketing_opt_in: isTrue(form.get("marketing_opt_in")),
+      submitted_at: new Date().toISOString(),
+    });
+  } catch (error) {
+    logOperational("lead_store_failed", { route: "subscribe", formId });
+    return json({ ok: false, error: "lead_store_failed" }, 502);
+  }
   const optIn = isTrue(form.get("marketing_opt_in"));
   const wantsMarketing = formId === "newsletter" || optIn;
   const senderCaptureKey = `sender-capture:${email}:${formId}`;
@@ -281,7 +327,7 @@ async function handleSubscribe(request, env) {
     && (((formId !== "workshop-next") && !senderCaptureDuplicate) || !consentDuplicate);
   const needsFormspree = shouldDualWriteFormspree(env) && !formspreeDuplicate;
   if (!needsSenderNotification && !needsSenderCapture && !needsFormspree) {
-    if (!senderIsEnabled && !shouldDualWriteFormspree(env)) {
+    if (!leadStored && !senderIsEnabled && !shouldDualWriteFormspree(env)) {
       return json({ ok: false, error: "submission_not_configured" }, 503);
     }
     return json({ ok: true, duplicate: true });
@@ -351,7 +397,7 @@ async function handleSubscribe(request, env) {
         form,
         env,
         `Website form: ${formId}`,
-        new Set(["form_id", "email", "name", "marketing_opt_in", ...config.allowed]),
+        new Set(["form_id", "email", "name", "marketing_opt_in", "attribution", ...config.allowed]),
       );
       formspreeSucceeded = forward.ok;
       if (formspreeSucceeded) await markDedupe(env, formspreeKey);
@@ -361,8 +407,8 @@ async function handleSubscribe(request, env) {
   const senderPathSucceeded = formId === "workshop-next"
     ? senderNotificationSucceeded && (!wantsMarketing || senderCaptureSucceeded)
     : senderCaptureSucceeded;
-  if (!senderPathSucceeded && !formspreeSucceeded) return json({ ok: false, error: "submission_failed" }, 502);
-  if (formId === "newsletter" && senderAttempted && !senderCaptureSucceeded) {
+  if (!leadStored && !senderPathSucceeded && !formspreeSucceeded) return json({ ok: false, error: "submission_failed" }, 502);
+  if (!leadStored && formId === "newsletter" && senderAttempted && !senderCaptureSucceeded) {
     return json({ ok: false, error: "subscription_temporarily_unavailable" }, 503);
   }
   return json({
@@ -388,16 +434,33 @@ async function handleContact(request, env) {
   if (!name || !email || !message) return json({ ok: false, error: "required_fields_missing" }, 400);
   const rate = await enforceRateLimits(env, request, email, "contact");
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
+  let leadStored = false;
+  try {
+    leadStored = await storeLead(env, {
+      email,
+      name,
+      form_id: "contact",
+      inquiry_type: safeText(form.get("inquiry_type"), 80),
+      message,
+      source_url: safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/contact/`,
+      attribution: safeText(form.get("attribution"), 240),
+      submitted_at: new Date().toISOString(),
+    });
+  } catch (error) {
+    logOperational("lead_store_failed", { route: "contact" });
+    return json({ ok: false, error: "lead_store_failed" }, 502);
+  }
   const contactId = await stableContactKey(name, email, message);
   const senderKey = `contact:sender:${contactId}`;
   const formspreeKey = `contact:formspree:${contactId}`;
   const senderDuplicate = await dedupeHit(env, senderKey);
   const formspreeDuplicate = await dedupeHit(env, formspreeKey);
-  const senderBudgetAvailable = !senderEnabled(env) || senderDuplicate || (await consumeSenderBudget(env)).ok;
+  const contactSenderEnabled = env.EMAIL_PROVIDER === "sender" && senderEnabled(env);
+  const senderBudgetAvailable = !contactSenderEnabled || senderDuplicate || (await consumeSenderBudget(env)).ok;
   if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "contact" });
 
   let senderSucceeded = senderDuplicate;
-  if (env.EMAIL_PROVIDER === "sender" && senderEnabled(env) && senderBudgetAvailable && !senderDuplicate) {
+  if (contactSenderEnabled && senderBudgetAvailable && !senderDuplicate) {
     try {
       validateSenderConfig(env);
       await senderTransactionalSend(env, {
@@ -434,7 +497,7 @@ async function handleContact(request, env) {
       form,
       env,
       "Contact inquiry from builtwithjon.com",
-      new Set(["name", "email", "message", "inquiry_type"]),
+      new Set(["name", "email", "message", "inquiry_type", "attribution"]),
     );
     formspreeSucceeded = forward.ok;
     if (formspreeSucceeded) await markDedupe(env, formspreeKey);
@@ -442,10 +505,12 @@ async function handleContact(request, env) {
 
   // `notified` means an email actually went out. Formspree is an archive that
   // can accept and then drop a submission, so it cannot stand in for delivery.
+  // The first-party store is another archive: it keeps the submission, but it
+  // does not tell anyone, so it cannot stand in for delivery either.
   const notified = senderSucceeded || resendSucceeded;
-  if (!notified && !formspreeSucceeded) return json({ ok: false, error: "contact_send_failed" }, 502);
+  if (!notified && !formspreeSucceeded && !leadStored) return json({ ok: false, error: "contact_send_failed" }, 502);
   if (!notified) logOperational("contact_archived_not_notified", { route: "contact" });
-  return json({ ok: true, notified, archived: formspreeSucceeded });
+  return json({ ok: true, notified, archived: formspreeSucceeded, stored: leadStored });
 }
 
 function buildContactEmail({ name, email, message, form }, env) {
@@ -501,6 +566,11 @@ async function handleEvent(request, env) {
     return json({ ok: false, error: "invalid_path" }, 400);
   }
 
+  const attribution = String(body?.a || "");
+  if (!/^[A-Za-z0-9_\-|=.%+ ]{0,240}$/.test(attribution)) {
+    return json({ ok: false, error: "invalid_attribution" }, 400);
+  }
+
   let referrerHost = "";
   try {
     const hostname = new URL(body?.r || "").hostname.toLowerCase();
@@ -517,7 +587,7 @@ async function handleEvent(request, env) {
 
   const category = event.split(":")[0];
   try {
-    env.SITE_EVENTS.writeDataPoint({ blobs: [event, path, referrerHost], doubles: [1], indexes: [category] });
+    env.SITE_EVENTS.writeDataPoint({ blobs: [event, path, referrerHost, attribution], doubles: [1], indexes: [category] });
   } catch (err) {
     console.error("site event write failed", err);
   }
@@ -547,6 +617,7 @@ function normalizePayload(form, request) {
     scores,
     answers,
     source_url: safeUrl(form.get("source_url")) || `${url.origin}/scorecard/`,
+    attribution: safeText(form.get("attribution"), 240),
     marketing_opt_in: isTrue(form.get("marketing_opt_in")),
     submitted_at: new Date().toISOString(),
   };
@@ -693,6 +764,7 @@ async function submitLeadToFormspree(payload, env) {
   body.set("name", payload.name);
   body.set("email", payload.email);
   body.set("source_url", payload.source_url);
+  body.set("attribution", payload.attribution);
   body.set("submitted_at", payload.submitted_at);
 
   let response;
@@ -759,7 +831,7 @@ function validateMappedForm(form, config) {
   if ([...form.keys()].length > 24) return false;
   const allowed = new Set([
     "form_id", "email", "name", "marketing_opt_in", "company_website",
-    "_subject", "_next", "inquiry_type", ...config.allowed,
+    "_subject", "_next", "inquiry_type", "attribution", ...config.allowed,
   ]);
   for (const [key, value] of form.entries()) {
     if (!allowed.has(key) || typeof value !== "string") return false;
@@ -783,6 +855,7 @@ function validateContactForm(form) {
     company_website: 200,
     _subject: 240,
     inquiry_type: 80,
+    attribution: 240,
   };
   if ([...form.keys()].length > 8) return false;
   for (const [key, value] of form.entries()) {
@@ -853,11 +926,29 @@ async function readBoundedBody(request, maxBytes) {
 }
 
 function senderEnabled(env) {
-  return env.EMAIL_PROVIDER === "sender"
+  return env.SENDER_CAPTURE_ENABLED === "true"
     && env.SENDER_SENDS_ENABLED !== "false"
     && Boolean(env.SENDER_API_TOKEN)
     && Boolean(env.SUBSCRIBE_DEDUPE)
     && String(env.FORM_HASH_SALT || "").length >= 16;
+}
+
+async function storeLead(env, record) {
+  if (!env.LEADS) {
+    logOperational("lead_store_unavailable", { formId: record.form_id || "unknown" });
+    return false;
+  }
+  const submittedAt = record.submitted_at || new Date().toISOString();
+  const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
+  const suffix = [...crypto.getRandomValues(new Uint8Array(6))]
+    .map((value) => alphabet[value % alphabet.length])
+    .join("");
+  await env.LEADS.put(
+    `lead:${submittedAt}:${suffix}`,
+    JSON.stringify({ ...record, submitted_at: submittedAt }),
+    { expirationTtl: 63_072_000 },
+  );
+  return true;
 }
 
 function shouldDualWriteFormspree(env) {

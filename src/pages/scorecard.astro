@@ -21,7 +21,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
         <p class="sc-eyebrow"><span class="sc-spark" aria-hidden="true"></span> The 3-minute scorecard</p>
         <h1 id="sc-h" class="sc-title">Where is your business leaking <em class="sc-w-deals">deals</em>, <em class="sc-w-time">time</em>, and <em class="sc-w-cash">cash</em>?</h1>
         <div class="sc-progress" aria-hidden="true"><span class="sc-progress-bar" id="sc-bar"></span></div>
-        <p class="sc-step-meta"><span id="sc-step-n">Question 1 of 9</span><span id="sc-step-axis" class="sc-axis"></span></p>
+        <p class="sc-step-meta"><span id="sc-step-n">1 of 9 · ~3 min</span><span id="sc-step-axis" class="sc-axis"></span></p>
       </header>
 
       <div id="sc-question" class="sc-body" aria-live="polite"></div>
@@ -43,7 +43,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     // KEEP IN SYNC with src/data/scorecard.ts (shared by the email report and the
     // MCP run_scorecard tool). This script uses define:vars, so it stays inline
     // and keeps its own copy of the questions, weights, and lines.
-    // Q1 is INDUSTRY only. The deals/time/cash axes already capture the functional
+    // The final question is INDUSTRY only. The deals/time/cash axes already capture the functional
     // dimension (sales, admin, finance, etc.), so those are NOT segment choices.
     // 'general' is the universal-benchmark fallback for owners outside the verticals.
     const SEGMENTS = [
@@ -58,8 +58,6 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
 
     // Each scored option carries a leak weight 0..3 (higher = more leak) on its axis.
     const QUESTIONS = [
-      { id:'segment', axis:null, q:'What kind of business is this?', help:'Pick the closest. It changes how we read your answers.',
-        options: SEGMENTS.map(([v,l]) => ({ v, l, w:0 })) },
       { id:'q2', axis:'deals', q:'A new lead comes in. How fast does someone respond?',
         options:[['Within minutes',0],['Same day',1],['A day or two',2],["Honestly, it's inconsistent",3]] },
       { id:'q3', axis:'deals', q:"A lead doesn't buy right away. Then what?",
@@ -74,8 +72,10 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
         options:[['Rarely',0],['A few times a month',1],['Most weeks',2],['Constantly',3]] },
       { id:'q8', axis:'cash', q:'After work is done, how fast do you invoice and get paid?',
         options:[['Right away, mostly automated',0],['Within a week',1],['Slow and manual',2],['It slips, and some of it never gets chased',3]] },
-      { id:'q9', axis:'cash', q:"Last one, and you can skip it. Roughly, what's monthly revenue?", help:"Skip it and we'll show your leaks as percentages instead of dollars.", mag:'revenue', optional:true,
+      { id:'q9', axis:'cash', q:"Optional: roughly, what's monthly revenue?", help:"Skip it and we'll show your leaks as percentages instead of dollars.", mag:'revenue', optional:true,
         options:[['Under $25k',0],['$25k to $100k',1],['$100k to $500k',1],['More than $500k',1],['Skip',0]] },
+      { id:'segment', axis:null, q:'Last one: what kind of business is this?', help:'Pick the closest. It only changes how we phrase your report.',
+        options: SEGMENTS.map(([v,l]) => ({ v, l, w:0 })) },
     ];
 
     // Industry one-liners (deals/time/cash). 'general' is the universal fallback
@@ -99,6 +99,8 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
 
     const answers = {};
     let idx = 0;
+    let started = false;
+    const seen = new Set();
 
     const el = (id) => document.getElementById(id);
     const qEl = el('sc-question'), bar = el('sc-bar'), stepN = el('sc-step-n'),
@@ -109,12 +111,11 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     const card = document.getElementById('sc-app');
 
     function renderQuestion() {
-      if (window.bwjTrack) window.bwjTrack('scorecard:q' + (idx + 1));
       const item = QUESTIONS[idx];
       const axisKey = item.axis || 'segment';
       card.setAttribute('data-axis', axisKey);
       bar.style.width = Math.round(((idx) / QUESTIONS.length) * 100) + '%';
-      stepN.textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+      stepN.textContent = `${idx + 1} of ${QUESTIONS.length} · ~3 min`;
       stepAxis.innerHTML = item.axis ? `<span class="sc-chip-ico">${AXIS_ICON[item.axis]}</span> ${AXIS_LABEL[item.axis]}` : '';
       backBtn.hidden = idx === 0;
 
@@ -132,6 +133,14 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
 
       qEl.querySelectorAll('.sc-option').forEach((btn) => {
         btn.addEventListener('click', () => {
+          if (!started) {
+            started = true;
+            if (window.bwjTrack) window.bwjTrack('scorecard:start');
+          }
+          if (!seen.has(idx)) {
+            seen.add(idx);
+            if (window.bwjTrack) window.bwjTrack('scorecard:q' + (idx + 1));
+          }
           const o = opts[Number(btn.dataset.i)];
           answers[item.id] = { value: o.v || o.l, w: o.w, label: o.l };
           next();
@@ -220,6 +229,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
     function wireGate() {
       const form = el('sc-gate-form');
       if (!form) return;
+      if (window.bwjInjectAttribution) window.bwjInjectAttribution(document);
       const btn = form.querySelector('.sc-submit');
       const errEl = form.querySelector('.sc-gate-error');
       form.addEventListener('submit', async (e) => {
@@ -256,6 +266,7 @@ const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + F
       </div>`;
     }
 
+    if (window.bwjTrack) window.bwjTrack('scorecard:view');
     renderQuestion();
   </script>
 

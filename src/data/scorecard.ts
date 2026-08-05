@@ -78,7 +78,7 @@ export const QUESTIONS: ScorecardQuestion[] = [
     options: [['Right away, mostly automated', 0], ['Within a week', 1], ['Slow and manual', 2], ['It slips, and some of it never gets chased', 3]],
   },
   {
-    id: 'q9', axis: 'cash', q: "Last one, and you can skip it. Roughly, what's monthly revenue?", mag: 'revenue', optional: true,
+    id: 'q9', axis: 'cash', q: "Optional: roughly, what's monthly revenue?", mag: 'revenue', optional: true,
     help: "Skip it and we'll show your leaks as percentages instead of dollars.",
     options: [['Under $25k', 0], ['$25k to $100k', 1], ['$100k to $500k', 1], ['More than $500k', 1], ['Skip', 0]],
   },

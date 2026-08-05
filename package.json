@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "analytics:report": "node scripts/cloudflare-analytics-report.mjs",
+    "leads:export": "node scripts/export-leads.mjs",
     "verify:mcp-production": "node scripts/verify-mcp-production.mjs",
     "validate:mcp-registry": "node scripts/validate-mcp-server.mjs",
     "test:email-migration": "node scripts/test-email-migration.mjs"

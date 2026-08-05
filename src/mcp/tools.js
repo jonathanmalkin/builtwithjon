@@ -33,6 +33,12 @@ function origin(env) {
   return env.SITE_ORIGIN || "https://builtwithjon.com";
 }
 
+function link(path) {
+  const url = new URL(path, "https://builtwithjon.com");
+  url.searchParams.set("src", "mcp");
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 // Thrown for schema-shaped problems; the handler maps it to JSON-RPC -32602.
 export class ToolInputError extends Error {}
 
@@ -52,9 +58,9 @@ function nextSteps(env, lines) {
 }
 
 const FUNNEL_LINKS = [
-  "Run the free 3-minute scorecard (full emailed breakdown): {origin}/scorecard/",
-  "The Hidden Profit Review measures your leak with real data (waitlist, 4/month): {origin}/hidden-profit-review/#waitlist",
-  "See a complete worked review sample: {origin}/hidden-profit-review/sample/",
+  `Run the free 3-minute scorecard (full emailed breakdown): {origin}${link("/scorecard/")}`,
+  `The Hidden Profit Review measures your leak with real data (waitlist, 4/month): {origin}${link("/hidden-profit-review/#waitlist")}`,
+  `See a complete worked review sample: {origin}${link("/hidden-profit-review/sample/")}`,
 ];
 
 function text(value) {
@@ -174,7 +180,7 @@ function searchUseCases(args, ctx) {
   if (!matches.length) {
     return text(
       `No use cases matched. Try a broader keyword, or call \`list_use_case_categories\` to see what's in the library.` +
-        nextSteps(ctx.env, [`Browse all ${useCases.length} use cases: {origin}/use-cases/`])
+        nextSteps(ctx.env, [`Browse all ${useCases.length} use cases: {origin}${link("/use-cases/")}`])
     );
   }
 

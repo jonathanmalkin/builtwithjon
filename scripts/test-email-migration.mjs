@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
 import { request as httpRequest } from "node:http";
 import { tmpdir } from "node:os";
@@ -66,6 +66,7 @@ async function startWorker({
   hashSalt = "local-test-only-secret",
   dualWrite = true,
   senderSendsEnabled = true,
+  senderCaptureEnabled = sender,
   timeoutMs = 8_000,
 } = {}) {
   const args = [
@@ -77,6 +78,7 @@ async function startWorker({
     "--var", `SENDER_GROUP_IDS:${groupIds}`,
     "--var", "SENDER_FROM:Built with Jon <jonathan@builtwithjon.com>",
     "--var", `SENDER_SENDS_ENABLED:${senderSendsEnabled}`,
+    "--var", `SENDER_CAPTURE_ENABLED:${senderCaptureEnabled}`,
     "--var", `FORMSPREE_DUAL_WRITE:${dualWrite}`,
     "--var", "FORM_RATE_LIMITS_ENABLED:true",
     "--var", "FORM_RATE_LIMIT_IP_HOURLY:1000",
@@ -102,6 +104,20 @@ async function stop(process) {
 
 async function reset() {
   await fetch(`${mockBase}/__reset`, { method: "POST" });
+}
+
+// Reads the durable first-party lead store the same way scripts/export-leads.mjs
+// does. The worker must be stopped first so Miniflare is not holding the state.
+function readStoredLeads() {
+  const wrangler = "./node_modules/.bin/wrangler";
+  const target = ["--local", "--persist-to", stateDir];
+  const run = (args) => {
+    const result = spawnSync(wrangler, args, { encoding: "utf8" });
+    if (result.status !== 0) throw new Error(`${args.join(" ")} failed: ${result.stderr || result.stdout}`);
+    return result.stdout;
+  };
+  const keys = JSON.parse(run(["kv", "key", "list", "--binding=LEADS", "--prefix=lead:", ...target]));
+  return keys.map((item) => JSON.parse(run(["kv", "key", "get", item.name, "--binding=LEADS", "--text", ...target])));
 }
 
 async function configure(failures = {}) {
@@ -382,7 +398,8 @@ async function run() {
 
       await reset();
       await configure({ "/v2/subscribers": 500, "/f/xdapgpae": 500 });
-      assert((await form("/api/subscribe", { email: "both-fail@example.test", form_id: "kit-invoice-chase" })).status === 502, "combined provider failure returned success");
+      const storedFallback = await form("/api/subscribe", { email: "both-fail@example.test", form_id: "kit-invoice-chase" });
+      assert(storedFallback.ok, "stored lead did not survive combined provider failure");
 
       await reset();
       await configure({ "/v2/message/send": 500 });
@@ -402,10 +419,11 @@ async function run() {
 
     await stop(worker);
     worker = await startWorker({ provider: "sender", sender: true, groupIds: "{}" });
-    await test("18. Incomplete Sender group configuration fails closed", async () => {
+    await test("18. Incomplete Sender group configuration does not claim marketing capture", async () => {
       await reset();
       const response = await form("/api/subscribe", { email: "missing-groups@example.test", form_id: "newsletter" });
-      assert(response.status === 503, "missing groups did not fail closed");
+      const body = await response.json();
+      assert(response.ok && body.marketing_captured === false, "missing groups falsely reported marketing capture");
       assert((await requests()).filter((request) => request.path.startsWith("/v2/")).length === 0, "Sender was called with incomplete groups");
     });
 
@@ -432,10 +450,10 @@ async function run() {
 
     await stop(worker);
     worker = await startWorker({ dualWrite: false });
-    await test("21. Disabled providers never report false success", async () => {
+    await test("21. First-party storage preserves submissions when providers are disabled", async () => {
       await reset();
-      assert((await form("/api/subscribe", { email: "no-provider@example.test", form_id: "kit-invoice-chase" })).status === 503, "subscribe returned false success");
-      assert((await form("/api/contact", { name: "No Provider", email: "contact-no-provider@example.test", message: "Hello" })).status === 502, "contact returned false success");
+      assert((await form("/api/subscribe", { email: "no-provider@example.test", form_id: "kit-invoice-chase" })).ok, "stored subscribe failed");
+      assert((await form("/api/contact", { name: "No Provider", email: "contact-no-provider@example.test", message: "Hello" })).ok, "stored contact failed");
       assert((await requests()).filter((request) => !request.path.startsWith("/__")).length === 0, "disabled providers received a request");
     });
 
@@ -525,6 +543,27 @@ async function run() {
       assert((await chunkedForm("/api/contact", { name: "A", email: "chunked@example.test", message: "x".repeat(33_000) })).status === 413, "chunked oversized body accepted");
       assert((await requests()).filter((request) => !request.path.startsWith("/__")).length === 0, "chunked oversized request wrote upstream");
     });
+
+    await stop(worker);
+    worker = await startWorker({ provider: "resend", resend: true });
+    await test("30. Formspree failure still delivers the report", async () => {
+      await reset();
+      assert((await scorecard("durable-lead@example.test")).ok, "baseline scorecard failed");
+      await configure({ "/f/xdapgpae": 500 });
+      assert((await scorecard("formspree-down@example.test")).ok, "scorecard failed while Formspree was down");
+      // Baseline plus the Formspree-down submission: both must still deliver.
+      assert(pathRequests(await requests(), "/emails", "POST").length === 2, "report was not sent while Formspree was down");
+    });
+
+    await test("31. Leads survive in the first-party store", async () => {
+      await stop(worker);
+      const emails = readStoredLeads().map((record) => record.email);
+      assert(emails.includes("durable-lead@example.test"), "baseline lead was not persisted");
+      assert(emails.includes("formspree-down@example.test"), "lead was lost when Formspree failed");
+      const record = readStoredLeads().find((item) => item.email === "formspree-down@example.test");
+      assert(record.form_id === "scorecard", "stored lead lost its form id");
+      assert(typeof record.submitted_at === "string" && record.submitted_at.length > 0, "stored lead lost its timestamp");
+    });
   } finally {
     await stop(worker);
     await stop(mock);
@@ -532,7 +571,7 @@ async function run() {
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 29 && results.every(([, result]) => result === "PASS"), "not all migration tests passed");
+  assert(results.length === 31 && results.every(([, result]) => result === "PASS"), "not all migration tests passed");
 }
 
 run().catch((error) => {

@@ -17,6 +17,7 @@ Dataset: `site_events`
 - `blob1`: event name, such as `cta:scorecard-nav`
 - `blob2`: page path
 - `blob3`: referrer host
+- `blob4`: compact first-touch attribution (when present)
 - `double1`: event count, normally `1`
 - `index1`: event category, the text before the colon
 
@@ -118,13 +119,7 @@ WHERE timestamp > NOW() - INTERVAL '7' DAY
     'contact:submit',
     'hpr-waitlist:start',
     'hpr-waitlist:submit',
-    'hpr-waitlist:success',
-    'workshop-waitlist:start',
-    'workshop-waitlist:submit',
-    'workshop-waitlist:success',
-    'private-workshop:start',
-    'private-workshop:submit',
-    'private-workshop:success'
+    'hpr-waitlist:success'
   )
 GROUP BY event, path
 ORDER BY path, event
