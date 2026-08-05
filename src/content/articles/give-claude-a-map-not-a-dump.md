@@ -99,6 +99,6 @@ Then ask the question.
 
 If it takes noticeably less setup than it did yesterday, the pattern is working. If it doesn't, the route or the preparation is the problem, not the idea.
 
-The framework and starting points are at [builtwithjon.com/claude-meetup](https://builtwithjon.com/claude-meetup).
+If you want help picking the question or building the first route, [get in touch](/contact/).
 
 *Full source: [github.com/jonathanmalkin/jules](https://github.com/jonathanmalkin/jules)*
