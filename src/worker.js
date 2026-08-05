@@ -415,6 +415,19 @@ async function handleContact(request, env) {
     }
   }
 
+  // Resend is the primary notifier. Formspree silently classified Worker-origin
+  // submissions as spam for weeks while still returning 2xx (found 2026-08-05),
+  // so form delivery must not depend on it.
+  const resendKey = `contact:resend:${contactId}`;
+  const resendDuplicate = await dedupeHit(env, resendKey);
+  let resendSucceeded = resendDuplicate;
+  if (!resendDuplicate && env.RESEND_API_KEY && env.RESEND_FROM) {
+    const delivery = await sendReportEmailResend(buildContactEmail({ name, email, message, form }, env), env, contactId);
+    resendSucceeded = delivery.ok;
+    if (resendSucceeded) await markDedupe(env, resendKey);
+    else logOperational("contact_resend_failed", { status: delivery.status });
+  }
+
   let formspreeSucceeded = formspreeDuplicate;
   if (shouldDualWriteFormspree(env) && !formspreeDuplicate) {
     const forward = await submitFormToFormspree(
@@ -426,8 +439,25 @@ async function handleContact(request, env) {
     formspreeSucceeded = forward.ok;
     if (formspreeSucceeded) await markDedupe(env, formspreeKey);
   }
-  if (!senderSucceeded && !formspreeSucceeded) return json({ ok: false, error: "contact_send_failed" }, 502);
-  return json({ ok: true, notified: senderSucceeded || formspreeSucceeded });
+
+  // `notified` means an email actually went out. Formspree is an archive that
+  // can accept and then drop a submission, so it cannot stand in for delivery.
+  const notified = senderSucceeded || resendSucceeded;
+  if (!notified && !formspreeSucceeded) return json({ ok: false, error: "contact_send_failed" }, 502);
+  if (!notified) logOperational("contact_archived_not_notified", { route: "contact" });
+  return json({ ok: true, notified, archived: formspreeSucceeded });
+}
+
+function buildContactEmail({ name, email, message, form }, env) {
+  const origin = safeText(form.get("inquiry_type"), 80);
+  return {
+    to: "jonathan@builtwithjon.com",
+    from: env.RESEND_FROM,
+    reply_to: email,
+    subject: `Contact inquiry from ${name}`,
+    text: `Name: ${name}\nEmail: ${email}${origin ? `\nSource: ${origin}` : ""}\n\n${message}`,
+    html: `<p><strong>Name:</strong> ${escapeHtml(name)}</p><p><strong>Email:</strong> ${escapeHtml(email)}</p>${origin ? `<p><strong>Source:</strong> ${escapeHtml(origin)}</p>` : ""}<p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`,
+  };
 }
 
 async function stableContactKey(name, email, message) {
