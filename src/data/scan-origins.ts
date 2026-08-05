@@ -16,12 +16,12 @@ export const SCAN_ORIGINS: ScanOrigin[] = [
   {
     slug: 'card',
     label: 'business card',
-    subject: 'Business card scan — builtwithjon.com/scan/card',
+    subject: 'Business card scan: builtwithjon.com/scan/card',
   },
   {
     slug: 'meetup',
     label: 'Claude Meetup',
-    subject: 'Claude Meetup scan — builtwithjon.com/scan/meetup',
+    subject: 'Claude Meetup scan: builtwithjon.com/scan/meetup',
     context: 'Company Brain 🧠',
     messagePlaceholder: 'What question would your company brain answer first?',
   },
