@@ -16,6 +16,7 @@ interface Props {
   schema?: Record<string, unknown>;
   noindex?: boolean;
   hideFooter?: boolean;
+  bare?: boolean;
 }
 
 const {
@@ -28,6 +29,7 @@ const {
   schema,
   noindex,
   hideFooter = false,
+  bare = false,
 } = Astro.props;
 
 const pageTitle = title === 'Jonathan Malkin'
@@ -59,7 +61,7 @@ const pageTitle = title === 'Jonathan Malkin'
     {schema && <JsonLd schema={schema} />}
     <!-- Cloudflare Web Analytics is injected at the edge through Automatic Setup. -->
   </head>
-  <body>
+  <body class={bare ? 'bare' : undefined}>
     <script is:inline>
 (function () {
   function track(name) {
@@ -87,12 +89,12 @@ const pageTitle = title === 'Jonathan Malkin'
   });
 })();
 </script>
-    <a href="#main" class="skip-link">Skip to content</a>
-    <Header />
+    {!bare && <a href="#main" class="skip-link">Skip to content</a>}
+    {!bare && <Header />}
     <main id="main">
       <slot />
     </main>
     {article && <EmailCapture />}
-    {!hideFooter && <Footer />}
+    {!bare && !hideFooter && <Footer />}
   </body>
 </html>
