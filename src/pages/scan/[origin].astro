@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import ScanCard from '../../components/ScanCard.astro';
+import { SCAN_ORIGINS } from '../../data/scan-origins';
+
+// One page for every QR code. The path segment names where the scan came FROM.
+export function getStaticPaths() {
+  return SCAN_ORIGINS.map((origin) => ({
+    params: { origin: origin.slug },
+    props: origin,
+  }));
+}
+
+const { label, subject, context, messagePlaceholder } = Astro.props;
+---
+
+<Base
+  title="Jonathan Malkin"
+  description="Message Jonathan Malkin or connect on LinkedIn."
+  noindex
+  bare
+>
+  <ScanCard
+    context={context}
+    subject={subject}
+    inquiryType={`scan:${Astro.params.origin}`}
+    messagePlaceholder={messagePlaceholder}
+    originLabel={label}
+  />
+</Base>

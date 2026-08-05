@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !page.endsWith('/thanks/') && !page.endsWith('/card/'),
+      filter: (page) => !page.endsWith('/thanks/') && !page.includes('/scan/'),
     }),
     icon(),
   ],
