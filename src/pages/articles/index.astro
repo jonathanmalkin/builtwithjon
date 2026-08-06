@@ -2,7 +2,6 @@
 import Base from '../../layouts/Base.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
-import { customArticles } from '../../data/customArticles';
 import multipleEmailHero from '../../assets/articles/multiple-email-accounts-with-claude/option-c-whiteboard-v3.png';
 
 const contentArticles = (await getCollection('articles', ({ data }) => !data.draft))
@@ -12,16 +11,13 @@ const contentArticles = (await getCollection('articles', ({ data }) => !data.dra
     date: article.data.date,
     description: article.data.description,
     story: article.data.story,
-    image: undefined,
-    imageAlt: undefined,
+    image: article.id === 'multiple-email-accounts-with-claude' ? multipleEmailHero : undefined,
+    imageAlt: article.id === 'multiple-email-accounts-with-claude'
+      ? 'Hand-drawn whiteboard sketch showing three numbered groups of options for connecting multiple email accounts to Claude.'
+      : undefined,
   }));
 
-const designedArticles = customArticles.map((article) => ({
-  ...article,
-  image: article.slug === 'multiple-email-accounts-with-claude' ? multipleEmailHero : undefined,
-}));
-
-const articles = [...designedArticles, ...contentArticles]
+const articles = contentArticles
   .sort((a, b) => b.date.valueOf() - a.date.valueOf());
 ---
 

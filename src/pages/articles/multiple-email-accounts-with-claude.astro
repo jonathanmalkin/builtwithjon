@@ -1,11 +1,13 @@
 ---
 import { Image, getImage } from 'astro:assets';
+import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { customArticles } from '../../data/customArticles';
 import heroImage from '../../assets/articles/multiple-email-accounts-with-claude/option-c-whiteboard-v3.png';
 
-const article = customArticles.find((item) => item.slug === 'multiple-email-accounts-with-claude')!;
-const publishedTime = article.date.toISOString();
+const article = await getEntry('articles', 'multiple-email-accounts-with-claude');
+if (!article) throw new Error('Missing content entry for multiple-email-accounts-with-claude');
+
+const publishedTime = article.data.date.toISOString();
 const shareImage = await getImage({
   src: heroImage,
   width: 1200,
@@ -13,7 +15,7 @@ const shareImage = await getImage({
   quality: 88,
 });
 
-const canonicalUrl = new URL(`/articles/${article.slug}/`, Astro.site).href;
+const canonicalUrl = new URL(`/articles/${article.id}/`, Astro.site).href;
 const shareImageUrl = new URL(shareImage.src, Astro.site).href;
 
 const authorSchema = {
@@ -36,8 +38,8 @@ const authorSchema = {
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: article.title,
-  description: article.description,
+  headline: article.data.title,
+  description: article.data.description,
   datePublished: publishedTime,
   dateModified: publishedTime,
   mainEntityOfPage: canonicalUrl,
@@ -48,8 +50,8 @@ const articleSchema = {
 ---
 
 <Base
-  title={article.title}
-  description={article.description}
+  title={article.data.title}
+  description={article.data.description}
   image={shareImage.src}
   article={true}
   publishedTime={publishedTime}

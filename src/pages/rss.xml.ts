@@ -1,7 +1,6 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
-import { customArticles } from '../data/customArticles';
 
 export async function GET(context: APIContext) {
   const contentArticles = (await getCollection('articles', ({ data }) => !data.draft))
@@ -12,15 +11,7 @@ export async function GET(context: APIContext) {
       link: `/articles/${article.id}/`,
     }));
 
-  const articles = [
-    ...customArticles.map((article) => ({
-      title: article.title,
-      pubDate: article.date,
-      description: article.description,
-      link: `/articles/${article.slug}/`,
-    })),
-    ...contentArticles,
-  ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+  const articles = contentArticles.sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 
   return rss({
     title: 'Jonathan Malkin',
