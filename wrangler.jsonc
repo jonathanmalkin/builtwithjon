@@ -33,8 +33,9 @@
   },
   "kv_namespaces": [
     { "binding": "SUBSCRIBE_DEDUPE", "id": "8707fb62aa5147b68f6fae18b437a26a" },
-    // Pre-deploy gate: provision this namespace and replace the placeholder id.
-    { "binding": "LEADS", "id": "REPLACE_WITH_PROVISIONED_ID" }
+    // Durable first-party lead store. Records carry PII and a 2-year TTL, so it
+    // stays separate from the salted-hash, 24h-TTL SUBSCRIBE_DEDUPE namespace.
+    { "binding": "LEADS", "id": "1c1200a02c9045539e7abcce0a4f74eb" }
   ],
   "analytics_engine_datasets": [
     { "binding": "SITE_EVENTS", "dataset": "site_events" }
