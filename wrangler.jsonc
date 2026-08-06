@@ -21,10 +21,12 @@
     "RESEND_FROM": "Built with Jon <jonathan@builtwithjon.com>",
     "RESEND_REPLY_TO": "jonathan@builtwithjon.com",
     "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
-    "EMAIL_PROVIDER": "resend",
-    // Pre-deploy gate: only enable after the Sender consent automation exists.
-    "SENDER_CAPTURE_ENABLED": "false",
-    "SENDER_SENDS_ENABLED": "false",
+    "EMAIL_PROVIDER": "sender",
+    // Enabled 2026-08-05 (account approved 2026-07-21; Sender is now primary).
+    // Open item: the consent:pending confirmation automation is not yet built in
+    // the Sender dashboard, so marketing opt-ins pool unconfirmed until it exists.
+    "SENDER_CAPTURE_ENABLED": "true",
+    "SENDER_SENDS_ENABLED": "true",
     "FORM_RATE_LIMITS_ENABLED": "true",
     "FORM_RATE_LIMIT_IP_HOURLY": "20",
     "FORM_RATE_LIMIT_EMAIL_DAILY": "5",
