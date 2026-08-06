@@ -2,12 +2,12 @@
 import Base from '../layouts/Base.astro';
 
 // The free front door: a 9-question, segmented "leak score" (deals/time/cash).
-// On-screen result is the teaser; the email (Resend, deterministic template,
-// approval-gated) is the deliverable. Lead also routes to Formspree -> CRM.
+// On-screen result is the teaser; the Sender email (deterministic template)
+// is the deliverable. The lead is retained in first-party Cloudflare storage.
 // Spec: Workspace/01-Strategy/Active/2026-06-12-builtwithjon-scorecard-spec.md
 // Copy: ...-builtwithjon-scorecard-copy.md  Email: ...-scorecard-email-report-spec.md
 
-const reportEndpoint = '/api/scorecard-report'; // Worker fans out to Resend + Formspree -> CRM.
+const reportEndpoint = '/api/scorecard-report';
 ---
 
 <Base

@@ -160,18 +160,7 @@ const server = http.createServer(async (request, response) => {
     }
     return send(response, 200, { success: true, emailId: "sender-message-1" });
   }
-  if (request.method === "POST" && url.pathname === "/emails") return send(response, 200, { id: "resend-message-1" });
-  if (request.method === "POST" && url.pathname === "/f/xdapgpae") {
-    const contentType = request.headers["content-type"] || "";
-    if (!contentType.includes("application/x-www-form-urlencoded")
-      || !body || typeof body !== "object" || Array.isArray(body)
-      || !body._subject || !body.email) {
-      return send(response, 422, { ok: false, message: "invalid Formspree contract" });
-    }
-    return send(response, 200, { ok: true });
-  }
-
   return send(response, 404, { message: "mock route not found" });
 });
 
-server.listen(port, "127.0.0.1", () => console.log(`Mock email APIs listening on http://127.0.0.1:${port}`));
+server.listen(port, "127.0.0.1", () => console.log(`Mock Sender API listening on http://127.0.0.1:${port}`));

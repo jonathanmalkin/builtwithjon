@@ -15,7 +15,7 @@
     "leads:export": "node scripts/export-leads.mjs",
     "verify:mcp-production": "node scripts/verify-mcp-production.mjs",
     "validate:mcp-registry": "node scripts/validate-mcp-server.mjs",
-    "test:email-migration": "node scripts/test-email-migration.mjs"
+    "test:email": "node scripts/test-sender-email.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",

@@ -13,12 +13,10 @@ import { CALCS } from "./data/leak-calculators";
 import { isMcpRequest, handleMcp } from "./mcp/handler";
 import {
   parseSenderFrom,
-  senderAssertTransactionalDeliverable,
   senderTransactionalSend,
   senderUpsertSubscriber,
 } from "./lib/sender";
 
-const DEFAULT_FORMSPREE_ENDPOINT = "https://formspree.io/f/xdapgpae";
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const SUBSCRIBE_PATH = "/api/subscribe";
 const CONTACT_PATH = "/api/contact";
@@ -182,42 +180,22 @@ async function handleScorecardReport(request, env) {
     logOperational("lead_store_failed", { route: "scorecard" });
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
+  if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
 
   const report = buildReport(payload, env);
   const idempotencyKey = await stableKey(payload);
-  const provider = env.EMAIL_PROVIDER || "resend";
-  const senderConfigured = provider === "sender" && senderEnabled(env);
-  const senderBudgetAvailable = !senderEnabled(env) || (await consumeSenderBudget(env)).ok;
-  const useSender = senderConfigured && senderBudgetAvailable;
+  const senderConfigured = senderEnabled(env);
+  if (!senderConfigured) return json({ ok: false, error: "sender_not_configured" }, 503);
+  const senderBudgetAvailable = (await consumeSenderBudget(env)).ok;
   if (senderConfigured && !senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "scorecard" });
-
-  const formspreeKey = `scorecard:formspree:${idempotencyKey}`;
-  const formspreeDuplicate = await dedupeHit(env, formspreeKey);
-  let formspreeSucceeded = formspreeDuplicate;
-  if (shouldDualWriteFormspree(env) && !formspreeDuplicate) {
-    const formspree = await submitLeadToFormspree(payload, env);
-    if (!formspree.ok) {
-      logOperational("scorecard_formspree_failed", { status: formspree.status });
-    } else {
-      formspreeSucceeded = true;
-      await markDedupe(env, formspreeKey);
-    }
-  }
-
-  // Tolerating a Formspree failure is only safe while the lead is durably
-  // first-party. With no sink at all the lead is gone, so fail loudly rather
-  // than return success. Matches handleSubscribe and handleContact.
-  if (!leadStored && !formspreeSucceeded) {
-    logOperational("lead_capture_failed", { route: "scorecard" });
-    return json({ ok: false, error: "lead_capture_failed" }, 502);
-  }
+  if (!senderBudgetAvailable) return json({ ok: false, error: "sender_temporarily_unavailable" }, 503);
 
   const deliveryKey = `scorecard:delivery:${idempotencyKey}`;
   const deliveryDuplicate = await dedupeHit(env, deliveryKey);
   let delivery = { ok: true, id: null };
   let senderSuppressed = false;
   let senderStatusInconclusive = false;
-  if (!deliveryDuplicate && useSender) {
+  if (!deliveryDuplicate) {
     try {
       validateSenderConfig(env);
       delivery = await sendReportEmailSender(report, env);
@@ -230,27 +208,8 @@ async function handleScorecardReport(request, env) {
   }
   if (senderSuppressed) return json({ ok: false, error: "recipient_suppressed" }, 502);
   if (senderStatusInconclusive) return json({ ok: false, error: "recipient_status_unavailable" }, 502);
-  if (!deliveryDuplicate && (!useSender || !delivery.ok)) {
-    if (senderConfigured && !senderBudgetAvailable) {
-      try {
-        await senderAssertTransactionalDeliverable(env, report.to);
-      } catch (error) {
-        return json({
-          ok: false,
-          error: error?.suppressed ? "recipient_suppressed" : "recipient_status_unavailable",
-        }, 502);
-      }
-    }
-    if (!env.RESEND_API_KEY || !env.RESEND_FROM) {
-      return useSender
-        ? json({ ok: false, error: "report_send_failed" }, 502)
-        : json({ ok: false, error: "resend_not_configured" }, 503);
-    }
-    delivery = await sendReportEmailResend(report, env, idempotencyKey);
-  }
-
   if (!delivery.ok) {
-    logOperational("scorecard_report_failed", { status: delivery.status, provider });
+    logOperational("scorecard_report_failed", { status: delivery.status, provider: "sender" });
     return json({ ok: false, error: "report_send_failed" }, 502);
   }
   if (!deliveryDuplicate) await markDedupe(env, deliveryKey);
@@ -311,37 +270,28 @@ async function handleSubscribe(request, env) {
     logOperational("lead_store_failed", { route: "subscribe", formId });
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
+  if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
   const optIn = isTrue(form.get("marketing_opt_in"));
   const wantsMarketing = formId === "newsletter" || optIn;
   const senderCaptureKey = `sender-capture:${email}:${formId}`;
   const senderNotificationKey = `sender-notification:${email}:${formId}`;
-  const formspreeKey = `formspree:${email}:${formId}`;
   const consentKey = `consent:${email}:${formId}`;
   const senderCaptureDuplicate = await dedupeHit(env, senderCaptureKey);
   const senderNotificationDuplicate = await dedupeHit(env, senderNotificationKey);
-  const formspreeDuplicate = await dedupeHit(env, formspreeKey);
   const consentDuplicate = !wantsMarketing || await dedupeHit(env, consentKey);
-  const senderIsEnabled = senderEnabled(env);
-  const needsSenderNotification = senderIsEnabled && formId === "workshop-next" && !senderNotificationDuplicate;
-  const needsSenderCapture = senderIsEnabled
-    && (((formId !== "workshop-next") && !senderCaptureDuplicate) || !consentDuplicate);
-  const needsFormspree = shouldDualWriteFormspree(env) && !formspreeDuplicate;
-  if (!needsSenderNotification && !needsSenderCapture && !needsFormspree) {
-    if (!leadStored && !senderIsEnabled && !shouldDualWriteFormspree(env)) {
-      return json({ ok: false, error: "submission_not_configured" }, 503);
-    }
+  const needsSenderNotification = formId === "workshop-next" && !senderNotificationDuplicate;
+  const needsSenderCapture = ((formId !== "workshop-next") && !senderCaptureDuplicate) || !consentDuplicate;
+  if (!needsSenderNotification && !needsSenderCapture) {
     return json({ ok: true, duplicate: true });
   }
-  const senderBudgetAvailable = (!needsSenderNotification && !needsSenderCapture)
-    || (await consumeSenderBudget(env)).ok;
+  const senderBudgetAvailable = senderEnabled(env)
+    && ((!needsSenderNotification && !needsSenderCapture) || (await consumeSenderBudget(env)).ok);
   if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "subscribe" });
 
   let senderCaptureSucceeded = senderCaptureDuplicate;
   let senderNotificationSucceeded = senderNotificationDuplicate;
   let consentSucceeded = false;
-  let senderAttempted = false;
   if (senderBudgetAvailable && (needsSenderNotification || needsSenderCapture)) {
-    senderAttempted = true;
     try {
       validateSenderConfig(env);
       if (needsSenderNotification) {
@@ -388,27 +338,7 @@ async function handleSubscribe(request, env) {
     }
   }
 
-  let formspreeSucceeded = false;
-  if (shouldDualWriteFormspree(env)) {
-    if (formspreeDuplicate) {
-      formspreeSucceeded = true;
-    } else {
-      const forward = await submitFormToFormspree(
-        form,
-        env,
-        `Website form: ${formId}`,
-        new Set(["form_id", "email", "name", "marketing_opt_in", "attribution", ...config.allowed]),
-      );
-      formspreeSucceeded = forward.ok;
-      if (formspreeSucceeded) await markDedupe(env, formspreeKey);
-    }
-  }
-
-  const senderPathSucceeded = formId === "workshop-next"
-    ? senderNotificationSucceeded && (!wantsMarketing || senderCaptureSucceeded)
-    : senderCaptureSucceeded;
-  if (!leadStored && !senderPathSucceeded && !formspreeSucceeded) return json({ ok: false, error: "submission_failed" }, 502);
-  if (!leadStored && formId === "newsletter" && senderAttempted && !senderCaptureSucceeded) {
+  if (formId === "newsletter" && !senderCaptureSucceeded) {
     return json({ ok: false, error: "subscription_temporarily_unavailable" }, 503);
   }
   return json({
@@ -450,12 +380,11 @@ async function handleContact(request, env) {
     logOperational("lead_store_failed", { route: "contact" });
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
+  if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
   const contactId = await stableContactKey(name, email, message);
   const senderKey = `contact:sender:${contactId}`;
-  const formspreeKey = `contact:formspree:${contactId}`;
   const senderDuplicate = await dedupeHit(env, senderKey);
-  const formspreeDuplicate = await dedupeHit(env, formspreeKey);
-  const contactSenderEnabled = env.EMAIL_PROVIDER === "sender" && senderEnabled(env);
+  const contactSenderEnabled = senderEnabled(env);
   const senderBudgetAvailable = !contactSenderEnabled || senderDuplicate || (await consumeSenderBudget(env)).ok;
   if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "contact" });
 
@@ -478,51 +407,9 @@ async function handleContact(request, env) {
     }
   }
 
-  // Resend is the primary notifier. Formspree silently classified Worker-origin
-  // submissions as spam for weeks while still returning 2xx (found 2026-08-05),
-  // so form delivery must not depend on it.
-  const resendKey = `contact:resend:${contactId}`;
-  const resendDuplicate = await dedupeHit(env, resendKey);
-  let resendSucceeded = resendDuplicate;
-  if (!resendDuplicate && env.RESEND_API_KEY && env.RESEND_FROM) {
-    const delivery = await sendReportEmailResend(buildContactEmail({ name, email, message, form }, env), env, contactId);
-    resendSucceeded = delivery.ok;
-    if (resendSucceeded) await markDedupe(env, resendKey);
-    else logOperational("contact_resend_failed", { status: delivery.status });
-  }
-
-  let formspreeSucceeded = formspreeDuplicate;
-  if (shouldDualWriteFormspree(env) && !formspreeDuplicate) {
-    const forward = await submitFormToFormspree(
-      form,
-      env,
-      "Contact inquiry from builtwithjon.com",
-      new Set(["name", "email", "message", "inquiry_type", "attribution"]),
-    );
-    formspreeSucceeded = forward.ok;
-    if (formspreeSucceeded) await markDedupe(env, formspreeKey);
-  }
-
-  // `notified` means an email actually went out. Formspree is an archive that
-  // can accept and then drop a submission, so it cannot stand in for delivery.
-  // The first-party store is another archive: it keeps the submission, but it
-  // does not tell anyone, so it cannot stand in for delivery either.
-  const notified = senderSucceeded || resendSucceeded;
-  if (!notified && !formspreeSucceeded && !leadStored) return json({ ok: false, error: "contact_send_failed" }, 502);
+  const notified = senderSucceeded;
   if (!notified) logOperational("contact_archived_not_notified", { route: "contact" });
-  return json({ ok: true, notified, archived: formspreeSucceeded, stored: leadStored });
-}
-
-function buildContactEmail({ name, email, message, form }, env) {
-  const origin = safeText(form.get("inquiry_type"), 80);
-  return {
-    to: "jonathan@builtwithjon.com",
-    from: env.RESEND_FROM,
-    reply_to: email,
-    subject: `Contact inquiry from ${name}`,
-    text: `Name: ${name}\nEmail: ${email}${origin ? `\nSource: ${origin}` : ""}\n\n${message}`,
-    html: `<p><strong>Name:</strong> ${escapeHtml(name)}</p><p><strong>Email:</strong> ${escapeHtml(email)}</p>${origin ? `<p><strong>Source:</strong> ${escapeHtml(origin)}</p>` : ""}<p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`,
-  };
+  return json({ ok: true, notified, archived: leadStored, stored: leadStored });
 }
 
 async function stableContactKey(name, email, message) {
@@ -676,8 +563,7 @@ function buildReport(payload, env) {
 
   return {
     to: payload.email,
-    from: env.RESEND_FROM,
-    reply_to: env.RESEND_REPLY_TO || "jonathan@builtwithjon.com",
+    reply_to: "jonathan@builtwithjon.com",
     subject,
     html: renderHtmlEmail(model),
     text: renderTextEmail(model),
@@ -687,34 +573,6 @@ function buildReport(payload, env) {
       { name: "segment", value: payload.segment },
     ],
   };
-}
-
-async function sendReportEmailResend(report, env, idempotencyKey) {
-  let response;
-  try {
-    response = await providerFetch(env, `${String(env.RESEND_API_BASE || "https://api.resend.com").replace(/\/$/, "")}/emails`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": idempotencyKey,
-        "User-Agent": "builtwithjon-scorecard/1.0",
-      },
-      body: JSON.stringify(report),
-    });
-  } catch {
-    return { ok: false, status: 0 };
-  }
-
-  const body = await readJson(response);
-  if (!response.ok) {
-    return {
-      ok: false,
-      status: response.status,
-    };
-  }
-
-  return { ok: true, id: body?.id || body?.data?.id || null };
 }
 
 async function sendReportEmailSender(report, env) {
@@ -750,80 +608,6 @@ async function upsertScorecardLead(payload, env) {
         consent_source: "scorecard",
       } : {}),
     },
-  });
-}
-
-async function submitLeadToFormspree(payload, env) {
-  const body = new URLSearchParams();
-  body.set("_subject", "Scorecard lead");
-  body.set("inquiry_type", "scorecard-lead");
-  body.set("segment", payload.segment);
-  body.set("tier", payload.tier);
-  body.set("scores", JSON.stringify(payload.scores));
-  body.set("answers", JSON.stringify(payload.answers));
-  body.set("name", payload.name);
-  body.set("email", payload.email);
-  body.set("source_url", payload.source_url);
-  body.set("attribution", payload.attribution);
-  body.set("submitted_at", payload.submitted_at);
-
-  let response;
-  try {
-    response = await providerFetch(env, formspreeEndpoint(env), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "User-Agent": "builtwithjon-scorecard/1.0",
-      },
-      body,
-    });
-  } catch {
-    return { ok: false, status: 0 };
-  }
-
-  const data = await readJson(response);
-  if (!response.ok || data?.ok === false) {
-    return {
-      ok: false,
-      status: response.status,
-    };
-  }
-  return { ok: true };
-}
-
-async function submitFormToFormspree(form, env, subject, allowedKeys = null) {
-  const body = new URLSearchParams();
-  body.set("_subject", subject);
-  for (const [key, value] of form.entries()) {
-    if (key === "company_website" || key === "_subject") continue;
-    if (allowedKeys && !allowedKeys.has(key)) continue;
-    body.set(key, safeText(value, 8_000));
-  }
-  try {
-    const response = await providerFetch(env, formspreeEndpoint(env), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "User-Agent": "builtwithjon-forms/1.0",
-      },
-      body,
-    });
-    const data = await readJson(response);
-    if (!response.ok || data?.ok === false) return { ok: false };
-    return { ok: true };
-  } catch {
-    logOperational("formspree_forward_failed");
-    return { ok: false };
-  }
-}
-
-function providerFetch(env, url, init) {
-  const timeout = Number(env.EMAIL_PROVIDER_TIMEOUT_MS || 8_000);
-  return fetch(url, {
-    ...init,
-    signal: init.signal || AbortSignal.timeout(Number.isFinite(timeout) ? timeout : 8_000),
   });
 }
 
@@ -949,14 +733,6 @@ async function storeLead(env, record) {
     { expirationTtl: 63_072_000 },
   );
   return true;
-}
-
-function shouldDualWriteFormspree(env) {
-  return env.FORMSPREE_DUAL_WRITE !== "false";
-}
-
-function formspreeEndpoint(env) {
-  return env.FORMSPREE_ENDPOINT || DEFAULT_FORMSPREE_ENDPOINT;
 }
 
 function isTrue(value) {
@@ -1249,14 +1025,6 @@ function parseJsonField(value, fallback) {
     return JSON.parse(String(value || ""));
   } catch {
     return fallback;
-  }
-}
-
-async function readJson(response) {
-  try {
-    return await response.json();
-  } catch {
-    return null;
   }
 }
 
