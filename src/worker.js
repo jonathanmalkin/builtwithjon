@@ -83,6 +83,18 @@ const FORM_MAP = {
     enums: { role: ["owner", "team-lead", "personal"], team_size: ["solo", "2-10", "11-50", "50+"] },
   },
 };
+const FORM_LABELS = {
+  newsletter: "Newsletter",
+  "workshop-next": "Cowork workshop: What's Next",
+  "hpr-waitlist": "Hidden Profit Review waitlist",
+  "kit-invoice-chase": "Invoice Chase Kit",
+  "kit-follow-up-swipe-file": "Follow-up Swipe File",
+  "tool-leak-calculator": "Leak Calculator",
+  "starter-kit-cowork": "Cowork Starter Kit",
+  "course-waitlist": "AI Assistant email course waitlist",
+  contact: "Contact inquiry",
+  scorecard: "AI Readiness Scorecard",
+};
 
 export default {
   async fetch(request, env) {
@@ -161,21 +173,22 @@ async function handleScorecardReport(request, env) {
   const rate = await enforceRateLimits(env, request, payload.email, "scorecard");
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
 
+  const lead = {
+    email: payload.email,
+    name: payload.name,
+    form_id: "scorecard",
+    segment: payload.segment,
+    tier: payload.tier,
+    scores: payload.scores,
+    answers: payload.answers,
+    marketing_opt_in: payload.marketing_opt_in,
+    source_url: payload.source_url,
+    attribution: payload.attribution,
+    submitted_at: payload.submitted_at,
+  };
   let leadStored = false;
   try {
-    leadStored = await storeLead(env, {
-      email: payload.email,
-      name: payload.name,
-      form_id: "scorecard",
-      segment: payload.segment,
-      tier: payload.tier,
-      scores: payload.scores,
-      answers: payload.answers,
-      marketing_opt_in: payload.marketing_opt_in,
-      source_url: payload.source_url,
-      attribution: payload.attribution,
-      submitted_at: payload.submitted_at,
-    });
+    leadStored = await storeLead(env, lead);
   } catch (error) {
     logOperational("lead_store_failed", { route: "scorecard" });
     return json({ ok: false, error: "lead_store_failed" }, 502);
@@ -214,6 +227,19 @@ async function handleScorecardReport(request, env) {
   }
   if (!deliveryDuplicate) await markDedupe(env, deliveryKey);
 
+  const notificationKey = `scorecard:notification:${idempotencyKey}`;
+  const notificationDuplicate = await dedupeHit(env, notificationKey);
+  let notified = notificationDuplicate;
+  if (!notificationDuplicate) {
+    try {
+      await sendOwnerLeadNotification(env, lead);
+      notified = true;
+      await markDedupe(env, notificationKey);
+    } catch (error) {
+      logOperational("scorecard_notification_failed", { operation: error?.operation, status: error?.status });
+    }
+  }
+
   if (senderEnabled(env) && senderBudgetAvailable) {
     const leadKey = `scorecard:lead:${idempotencyKey}`;
     const consentKey = `scorecard:consent:${payload.email}`;
@@ -232,7 +258,7 @@ async function handleScorecardReport(request, env) {
     }
   }
 
-  return json({ ok: true, duplicate: deliveryDuplicate, report_id: delivery.id || null });
+  return json({ ok: true, duplicate: deliveryDuplicate, notified, report_id: delivery.id || null });
 }
 
 async function handleSubscribe(request, env) {
@@ -254,32 +280,49 @@ async function handleSubscribe(request, env) {
 
   const name = safeText(form.get("name"), 120);
   const extras = Object.fromEntries(config.allowed.map((key) => [key, safeText(form.get(key), 240)]).filter(([, value]) => value));
+  const sourceUrl = safeUrl(form.get("source_url")) || safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/`;
+  const attribution = safeText(form.get("attribution"), 240);
+  const inquiryType = safeText(form.get("inquiry_type"), 80);
+  const marketingOptIn = isTrue(form.get("marketing_opt_in"));
+  const submittedAt = new Date().toISOString();
+  const lead = {
+    email,
+    name,
+    form_id: formId,
+    inquiry_type: inquiryType,
+    ...extras,
+    source_url: sourceUrl,
+    attribution,
+    marketing_opt_in: marketingOptIn,
+    submitted_at: submittedAt,
+  };
   let leadStored = false;
   try {
-    leadStored = await storeLead(env, {
-      email,
-      name,
-      form_id: formId,
-      ...extras,
-      source_url: safeUrl(form.get("source_url")) || safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/`,
-      attribution: safeText(form.get("attribution"), 240),
-      marketing_opt_in: isTrue(form.get("marketing_opt_in")),
-      submitted_at: new Date().toISOString(),
-    });
+    leadStored = await storeLead(env, lead);
   } catch (error) {
     logOperational("lead_store_failed", { route: "subscribe", formId });
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
   if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
-  const optIn = isTrue(form.get("marketing_opt_in"));
+  const optIn = marketingOptIn;
   const wantsMarketing = formId === "newsletter" || optIn;
+  const submissionId = await stableLeadKey({
+    email,
+    name,
+    form_id: formId,
+    inquiry_type: inquiryType,
+    ...extras,
+    source_url: sourceUrl,
+    attribution,
+    marketing_opt_in: marketingOptIn,
+  });
   const senderCaptureKey = `sender-capture:${email}:${formId}`;
-  const senderNotificationKey = `sender-notification:${email}:${formId}`;
+  const senderNotificationKey = `sender-notification:${submissionId}`;
   const consentKey = `consent:${email}:${formId}`;
   const senderCaptureDuplicate = await dedupeHit(env, senderCaptureKey);
   const senderNotificationDuplicate = await dedupeHit(env, senderNotificationKey);
   const consentDuplicate = !wantsMarketing || await dedupeHit(env, consentKey);
-  const needsSenderNotification = formId === "workshop-next" && !senderNotificationDuplicate;
+  const needsSenderNotification = !senderNotificationDuplicate;
   const needsSenderCapture = ((formId !== "workshop-next") && !senderCaptureDuplicate) || !consentDuplicate;
   if (!needsSenderNotification && !needsSenderCapture) {
     return json({ ok: true, duplicate: true });
@@ -295,14 +338,7 @@ async function handleSubscribe(request, env) {
     try {
       validateSenderConfig(env);
       if (needsSenderNotification) {
-        await senderTransactionalSend(env, {
-          to: "jonathan@builtwithjon.com",
-          subject: "Cowork workshop: What's Next",
-          replyTo: email,
-          text: `Email: ${email}\n\n${extras.comments || "(No comments provided)"}`,
-          html: `<p><strong>Email:</strong> ${escapeHtml(email)}</p><p>${escapeHtml(extras.comments || "(No comments provided)").replace(/\n/g, "<br>")}</p>`,
-          checkRecipientStatus: true,
-        });
+        await sendOwnerLeadNotification(env, lead);
         senderNotificationSucceeded = true;
         await markDedupe(env, senderNotificationKey);
       }
@@ -343,6 +379,7 @@ async function handleSubscribe(request, env) {
   }
   return json({
     ok: true,
+    notified: senderNotificationSucceeded,
     marketing_pending: consentSucceeded,
     marketing_captured: !wantsMarketing || consentSucceeded,
   });
@@ -364,18 +401,23 @@ async function handleContact(request, env) {
   if (!name || !email || !message) return json({ ok: false, error: "required_fields_missing" }, 400);
   const rate = await enforceRateLimits(env, request, email, "contact");
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
+  const submittedAt = new Date().toISOString();
+  const sourceUrl = safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/contact/`;
+  const attribution = safeText(form.get("attribution"), 240);
+  const inquiryType = safeText(form.get("inquiry_type"), 80);
+  const lead = {
+    email,
+    name,
+    form_id: "contact",
+    inquiry_type: inquiryType,
+    message,
+    source_url: sourceUrl,
+    attribution,
+    submitted_at: submittedAt,
+  };
   let leadStored = false;
   try {
-    leadStored = await storeLead(env, {
-      email,
-      name,
-      form_id: "contact",
-      inquiry_type: safeText(form.get("inquiry_type"), 80),
-      message,
-      source_url: safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/contact/`,
-      attribution: safeText(form.get("attribution"), 240),
-      submitted_at: new Date().toISOString(),
-    });
+    leadStored = await storeLead(env, lead);
   } catch (error) {
     logOperational("lead_store_failed", { route: "contact" });
     return json({ ok: false, error: "lead_store_failed" }, 502);
@@ -392,14 +434,7 @@ async function handleContact(request, env) {
   if (contactSenderEnabled && senderBudgetAvailable && !senderDuplicate) {
     try {
       validateSenderConfig(env);
-      await senderTransactionalSend(env, {
-        to: "jonathan@builtwithjon.com",
-        subject: `Contact inquiry from ${name}`,
-        replyTo: email,
-        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-        html: `<p><strong>Name:</strong> ${escapeHtml(name)}</p><p><strong>Email:</strong> ${escapeHtml(email)}</p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`,
-        checkRecipientStatus: true,
-      });
+      await sendOwnerLeadNotification(env, lead);
       senderSucceeded = true;
       await markDedupe(env, senderKey);
     } catch (error) {
@@ -413,7 +448,11 @@ async function handleContact(request, env) {
 }
 
 async function stableContactKey(name, email, message) {
-  const basis = JSON.stringify({ name, email, message });
+  return stableLeadKey({ name, email, message });
+}
+
+async function stableLeadKey(value) {
+  const basis = JSON.stringify(value);
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(basis));
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
@@ -586,6 +625,59 @@ async function sendReportEmailSender(report, env) {
     variables,
     checkRecipientStatus: true,
   });
+}
+
+async function sendOwnerLeadNotification(env, lead) {
+  const formId = safeText(lead.form_id, 80) || "website-form";
+  const formLabel = FORM_LABELS[formId] || formId;
+  const rows = Object.entries(lead).filter(([, value]) =>
+    value !== "" && value !== null && value !== undefined
+  );
+  const text = [
+    `New website lead: ${formLabel}`,
+    "",
+    ...rows.map(([key, value]) => `${leadFieldLabel(key)}: ${leadFieldValue(value)}`),
+  ].join("\n");
+  const htmlRows = rows.map(([key, value]) => `
+    <tr>
+      <th align="left" valign="top" style="padding:8px 12px 8px 0;color:#5E5047;font:600 13px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;white-space:nowrap;">${escapeHtml(leadFieldLabel(key))}</th>
+      <td valign="top" style="padding:8px 0;color:#1F1713;font:400 14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-wrap:anywhere;">${escapeHtml(leadFieldValue(value)).replace(/\n/g, "<br>")}</td>
+    </tr>`).join("");
+  const html = `
+    <div style="max-width:680px;margin:0 auto;padding:24px;background:#fff;color:#1F1713;">
+      <p style="margin:0 0 8px;color:#8F4E24;font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;">Built with Jon website</p>
+      <h1 style="margin:0 0 20px;font:700 24px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">New lead: ${escapeHtml(formLabel)}</h1>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:1px solid #E5D7C3;">${htmlRows}</table>
+    </div>`;
+  return senderTransactionalSend(env, {
+    to: "jonathan@builtwithjon.com",
+    subject: `New website lead: ${formLabel}`,
+    replyTo: normalizeEmail(lead.email) || undefined,
+    text,
+    html,
+    variables: { source: formId },
+    checkRecipientStatus: true,
+  });
+}
+
+function leadFieldLabel(key) {
+  const labels = {
+    form_id: "Signed up for",
+    email: "Email",
+    name: "Name",
+    source_url: "Source page",
+    attribution: "Attribution",
+    marketing_opt_in: "Marketing opt-in",
+    submitted_at: "Submitted at",
+    inquiry_type: "Inquiry type",
+  };
+  return labels[key] || key.replace(/_/g, " ").replace(/^./, (character) => character.toUpperCase());
+}
+
+function leadFieldValue(value) {
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (value && typeof value === "object") return JSON.stringify(value, null, 2);
+  return String(value);
 }
 
 async function upsertScorecardLead(payload, env) {

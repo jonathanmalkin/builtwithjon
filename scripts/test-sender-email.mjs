@@ -177,7 +177,7 @@ async function run() {
     await waitFor(`${mockBase}/__requests`, mock, "Mock server");
     worker = await startWorker();
 
-    await test("1. New asset signup creates a safe Sender subscriber", async () => {
+    await test("1. New asset signup creates a safe subscriber and owner notification", async () => {
       await reset();
       const response = await form("/api/subscribe", { email: "asset@example.test", form_id: "kit-invoice-chase" });
       assert(response.ok, "request failed");
@@ -186,6 +186,7 @@ async function run() {
       assert(created.length === 1 && created[0].body.groups.includes("invoice"), "asset group missing");
       assert(created[0].body.trigger_automation === false, "asset signup triggered consent automation");
       assert(!containsStatusField(created[0].body), "status field was written");
+      assert(pathRequests(all, "/v2/message/send", "POST").length === 1, "asset lead notification missing");
     });
 
     await test("2. Explicit opt-in enters pending and triggers confirmation", async () => {
@@ -223,14 +224,18 @@ async function run() {
       const fields = { email: "duplicate@example.test", form_id: "kit-invoice-chase" };
       assert((await form("/api/subscribe", fields)).ok, "first request failed");
       assert((await form("/api/subscribe", fields)).ok, "second request failed");
-      assert(pathRequests(await requests(), "/v2/subscribers", "POST").length === 1, "subscriber created twice");
+      const all = await requests();
+      assert(pathRequests(all, "/v2/subscribers", "POST").length === 1, "subscriber created twice");
+      assert(pathRequests(all, "/v2/message/send", "POST").length === 1, "identical retry notified twice");
     });
 
     await test("6. Same-day opt-in escalation is not swallowed", async () => {
       await reset();
       await form("/api/subscribe", { email: "escalate@example.test", form_id: "kit-invoice-chase" });
       assert((await form("/api/subscribe", { email: "escalate@example.test", form_id: "kit-invoice-chase", marketing_opt_in: "true" })).ok, "escalation failed");
-      assert(pathRequests(await requests(), "/v2/subscribers/groups/pending", "POST").length === 1, "pending group missing");
+      const all = await requests();
+      assert(pathRequests(all, "/v2/subscribers/groups/pending", "POST").length === 1, "pending group missing");
+      assert(pathRequests(all, "/v2/message/send", "POST").length === 2, "distinct second submission was not notified");
     });
 
     await test("7. Contact notifications are escaped and deduplicated", async () => {
@@ -256,12 +261,12 @@ async function run() {
       assert(pathRequests(all, "/v2/subscribers/groups/pending", "POST").length === 1, "opt-in did not enter pending");
     });
 
-    await test("9. Scorecard sends once and keeps marketing permission separate", async () => {
+    await test("9. Scorecard sends its report and one owner notification", async () => {
       await reset();
       assert((await scorecard("scorecard@example.test")).ok, "scorecard failed");
       assert((await scorecard("scorecard@example.test", { marketing_opt_in: "true" })).ok, "opt-in escalation failed");
       const all = await requests();
-      assert(pathRequests(all, "/v2/message/send", "POST").length === 1, "report sent twice");
+      assert(pathRequests(all, "/v2/message/send", "POST").length === 2, "scorecard report or owner notification missing");
       assert(pathRequests(all, "/v2/subscribers/groups/pending", "POST").length === 1, "scorecard opt-in missing");
     });
 
