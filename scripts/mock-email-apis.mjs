@@ -104,6 +104,18 @@ const server = http.createServer(async (request, response) => {
   if (request.method === "GET" && url.pathname === "/__state") {
     return send(response, 200, { subscribers: [...subscribers.values()] });
   }
+  if (request.method === "POST" && url.pathname === "/turnstile/siteverify") {
+    const valid = body.secret === "dummy-turnstile-secret"
+      && String(body.response || "").startsWith("valid-token-");
+    return send(response, 200, valid ? {
+      success: true,
+      hostname: "127.0.0.1",
+      action: "lead-form",
+    } : {
+      success: false,
+      "error-codes": ["invalid-input-response"],
+    });
+  }
 
   const failure = failures.get(url.pathname);
   if (failure?.delayMs) await new Promise((resolve) => setTimeout(resolve, Number(failure.delayMs)));

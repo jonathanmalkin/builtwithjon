@@ -24,6 +24,8 @@ const MAX_FORM_BODY_BYTES = 32_000;
 const MAX_SCORECARD_BODY_BYTES = 32_000;
 const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const TURNSTILE_ACTION = "lead-form";
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
@@ -165,6 +167,9 @@ async function handleScorecardReport(request, env) {
   if (String(form.get("company_website") || "").trim()) {
     return json({ ok: true, ignored: true });
   }
+  if (!(await validateTurnstile(request, form, env))) {
+    return json({ ok: false, error: "verification_failed" }, 403);
+  }
 
   const payload = normalizePayload(form, request);
   if (!payload.email) {
@@ -269,6 +274,9 @@ async function handleSubscribe(request, env) {
   const form = parsed.form;
   if (!form) return json({ ok: false, error: "invalid_form" }, 400);
   if (safeText(form.get("company_website"), 200)) return json({ ok: true, ignored: true });
+  if (!(await validateTurnstile(request, form, env))) {
+    return json({ ok: false, error: "verification_failed" }, 403);
+  }
   const formId = safeText(form.get("form_id"), 80);
   const config = FORM_MAP[formId];
   if (!config) return json({ ok: false, error: "unknown_form_id" }, 400);
@@ -393,6 +401,9 @@ async function handleContact(request, env) {
   const form = parsed.form;
   if (!form) return json({ ok: false, error: "invalid_form" }, 400);
   if (safeText(form.get("company_website"), 200)) return json({ ok: true, ignored: true });
+  if (!(await validateTurnstile(request, form, env))) {
+    return json({ ok: false, error: "verification_failed" }, 403);
+  }
   if (!validateContactForm(form)) return json({ ok: false, error: "invalid_form_fields" }, 400);
 
   const name = safeText(form.get("name"), 120);
@@ -707,11 +718,11 @@ function validateMappedForm(form, config) {
   if ([...form.keys()].length > 24) return false;
   const allowed = new Set([
     "form_id", "email", "name", "marketing_opt_in", "company_website",
-    "_subject", "_next", "inquiry_type", "attribution", ...config.allowed,
+    "_subject", "_next", "inquiry_type", "attribution", "cf-turnstile-response", ...config.allowed,
   ]);
   for (const [key, value] of form.entries()) {
     if (!allowed.has(key) || typeof value !== "string") return false;
-    const limit = key === "email" ? 254 : key === "name" ? 120 : 240;
+    const limit = key === "cf-turnstile-response" ? 2048 : key === "email" ? 254 : key === "name" ? 120 : 240;
     if (value.length > limit) return false;
   }
   for (const field of config.required || []) {
@@ -732,12 +743,58 @@ function validateContactForm(form) {
     _subject: 240,
     inquiry_type: 80,
     attribution: 240,
+    "cf-turnstile-response": 2048,
   };
-  if ([...form.keys()].length > 8) return false;
+  if ([...form.keys()].length > 9) return false;
   for (const [key, value] of form.entries()) {
     if (!(key in limits) || typeof value !== "string" || value.length > limits[key]) return false;
   }
   return true;
+}
+
+async function validateTurnstile(request, form, env) {
+  if (env.TURNSTILE_ENABLED !== "true") return true;
+  const secret = String(env.TURNSTILE_SECRET_KEY || "");
+  const token = safeText(form.get("cf-turnstile-response"), 2048);
+  if (!secret || !token) {
+    logOperational("turnstile_missing", { secretConfigured: Boolean(secret), tokenPresent: Boolean(token) });
+    return false;
+  }
+
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+    remoteip: request.headers.get("CF-Connecting-IP") || "",
+    idempotency_key: crypto.randomUUID(),
+  });
+  try {
+    const response = await fetch(env.TURNSTILE_SITEVERIFY_URL || TURNSTILE_VERIFY_URL, {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body,
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (!response.ok) {
+      logOperational("turnstile_http_failed", { status: response.status });
+      return false;
+    }
+    const result = await response.json();
+    const expectedHostname = new URL(env.SITE_ORIGIN || "https://builtwithjon.com").hostname;
+    const valid = result.success === true
+      && result.action === TURNSTILE_ACTION
+      && result.hostname === expectedHostname;
+    if (!valid) {
+      logOperational("turnstile_rejected", {
+        actionMatches: result.action === TURNSTILE_ACTION,
+        hostnameMatches: result.hostname === expectedHostname,
+        errorCount: Array.isArray(result["error-codes"]) ? result["error-codes"].length : 0,
+      });
+    }
+    return valid;
+  } catch {
+    logOperational("turnstile_unavailable", {});
+    return false;
+  }
 }
 
 async function requestData(request) {

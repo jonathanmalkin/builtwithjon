@@ -18,6 +18,8 @@
   },
   "vars": {
     "SITE_ORIGIN": "https://builtwithjon.com",
+    "TURNSTILE_ENABLED": "true",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEJkiadExu7m9ULG",
     "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
     // Sender is the sole website email provider. Marketing campaigns must target
     // consent:confirmed, never All Subscribers or a source/offer group alone.

@@ -61,6 +61,7 @@ async function startWorker({
   groupIds = defaultGroupIds,
   hashSalt = "local-test-only-secret",
   timeoutMs = 8_000,
+  turnstile = false,
 } = {}) {
   const args = [
     "dev", "--local", "--port", String(workerPort),
@@ -77,6 +78,16 @@ async function startWorker({
     "--var", `FORM_HASH_SALT:${hashSalt}`,
     "--var", `SENDER_TIMEOUT_MS:${timeoutMs}`,
   ];
+  if (turnstile) {
+    args.push(
+      "--var", "TURNSTILE_ENABLED:true",
+      "--var", "TURNSTILE_SECRET_KEY:dummy-turnstile-secret",
+      "--var", `TURNSTILE_SITEVERIFY_URL:${mockBase}/turnstile/siteverify`,
+      "--var", `SITE_ORIGIN:${workerBase}`,
+    );
+  } else {
+    args.push("--var", "TURNSTILE_ENABLED:false");
+  }
   if (sender) args.push("--var", "SENDER_API_TOKEN:dummy-local-token");
   const process = start("./node_modules/.bin/wrangler", args);
   await waitFor(`${workerBase}/api/event`, process, "Worker");
@@ -304,6 +315,19 @@ async function run() {
       assert((await scorecard("disabled-scorecard@example.test")).status === 503, "scorecard failed open");
       assert((await requests()).filter((request) => request.path.startsWith("/v2/")).length === 0, "Sender was called without configuration");
     });
+
+    await stop(worker);
+    worker = await startWorker({ turnstile: true });
+    await test("14. Turnstile blocks missing or invalid tokens before lead processing", async () => {
+      await reset();
+      assert((await form("/api/subscribe", { email: "missing-token@example.test", form_id: "newsletter" })).status === 403, "missing token accepted");
+      assert((await form("/api/contact", { name: "Test", email: "invalid-token@example.test", message: "Hello", "cf-turnstile-response": "invalid-token" })).status === 403, "invalid token accepted");
+      assert((await scorecard("valid-scorecard@example.test", { "cf-turnstile-response": "valid-token-scorecard" })).ok, "valid scorecard token rejected");
+      assert((await form("/api/subscribe", { email: "valid-token@example.test", form_id: "kit-invoice-chase", "cf-turnstile-response": "valid-token-subscribe" })).ok, "valid subscribe token rejected");
+      const all = await requests();
+      assert(pathRequests(all, "/turnstile/siteverify", "POST").length === 3, "unexpected verification call count");
+      assert(pathRequests(all, "/v2/subscribers", "POST").length === 2, "blocked leads reached Sender or valid leads did not");
+    });
   } finally {
     await stop(worker);
     await stop(mock);
@@ -311,7 +335,7 @@ async function run() {
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 13 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
+  assert(results.length === 14 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
 }
 
 run().catch((error) => {

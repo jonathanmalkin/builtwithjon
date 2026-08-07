@@ -138,6 +138,100 @@ const pageTitle = title === 'Jonathan Malkin'
   });
 })();
 </script>
+    <script is:inline>
+(function () {
+  var siteKey = '0x4AAAAAAEJkiadExu7m9ULG';
+  var protectedActions = ['/api/subscribe', '/api/contact', '/api/scorecard-report'];
+  var scriptRequested = false;
+  var scanQueued = false;
+
+  function eligible(form) {
+    if (!form || form.dataset.turnstileProtected) return false;
+    try { return protectedActions.indexOf(new URL(form.action, location.href).pathname) !== -1; }
+    catch (err) { return false; }
+  }
+
+  function setSubmitState(form, ready) {
+    form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(function (button) {
+      button.disabled = !ready;
+    });
+    var status = form.querySelector('.bwj-security-status');
+    if (status) status.textContent = ready ? 'Security check complete.' : 'Completing security check…';
+  }
+
+  function protect(form) {
+    if (!eligible(form) || !window.turnstile) return;
+    form.dataset.turnstileProtected = '1';
+    var container = document.createElement('div');
+    container.className = 'bwj-turnstile';
+    var status = document.createElement('span');
+    status.className = 'bwj-security-status';
+    status.textContent = 'Completing security check…';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    container.appendChild(status);
+    var submit = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (submit) submit.insertAdjacentElement('beforebegin', container);
+    else form.appendChild(container);
+    setSubmitState(form, false);
+
+    var widgetId = window.turnstile.render(container, {
+      sitekey: siteKey,
+      action: 'lead-form',
+      appearance: 'interaction-only',
+      size: 'flexible',
+      callback: function () { setSubmitState(form, true); },
+      'expired-callback': function () { setSubmitState(form, false); },
+      'timeout-callback': function () { setSubmitState(form, false); },
+      'error-callback': function () { setSubmitState(form, false); },
+    });
+    form.dataset.turnstileWidget = String(widgetId);
+    form.addEventListener('submit', function (event) {
+      if (!form.querySelector('input[name="cf-turnstile-response"]')?.value) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        setSubmitState(form, false);
+      }
+    }, true);
+  }
+
+  function scan() {
+    scanQueued = false;
+    if (!window.turnstile) return;
+    document.querySelectorAll('form').forEach(protect);
+  }
+
+  function queueScan() {
+    if (scanQueued) return;
+    scanQueued = true;
+    requestAnimationFrame(scan);
+  }
+
+  function load() {
+    if (!document.querySelector('form') || scriptRequested) return;
+    if (![...document.querySelectorAll('form')].some(eligible)) return;
+    scriptRequested = true;
+    var script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    script.onload = scan;
+    document.head.appendChild(script);
+  }
+
+  var observer = new MutationObserver(function () {
+    if (!scriptRequested) load();
+    else queueScan();
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load);
+  else load();
+})();
+</script>
+    <style is:inline>
+      .bwj-security-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+      .bwj-turnstile { margin-block: .5rem; max-width: 100%; }
+    </style>
     {!bare && <a href="#main" class="skip-link">Skip to content</a>}
     {!bare && <Header />}
     <main id="main">
