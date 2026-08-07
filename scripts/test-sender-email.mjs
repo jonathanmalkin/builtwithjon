@@ -324,8 +324,9 @@ async function run() {
       assert((await form("/api/contact", { name: "Test", email: "invalid-token@example.test", message: "Hello", "cf-turnstile-response": "invalid-token" })).status === 403, "invalid token accepted");
       assert((await scorecard("valid-scorecard@example.test", { "cf-turnstile-response": "valid-token-scorecard" })).ok, "valid scorecard token rejected");
       assert((await form("/api/subscribe", { email: "valid-token@example.test", form_id: "kit-invoice-chase", "cf-turnstile-response": "valid-token-subscribe" })).ok, "valid subscribe token rejected");
+      assert((await form("/api/contact", { name: "Valid Contact", email: "valid-contact@example.test", message: "Hello", "cf-turnstile-response": "valid-token-contact" })).ok, "valid contact token rejected");
       const all = await requests();
-      assert(pathRequests(all, "/turnstile/siteverify", "POST").length === 3, "unexpected verification call count");
+      assert(pathRequests(all, "/turnstile/siteverify", "POST").length === 4, "unexpected verification call count");
       assert(pathRequests(all, "/v2/subscribers", "POST").length === 2, "blocked leads reached Sender or valid leads did not");
     });
   } finally {
