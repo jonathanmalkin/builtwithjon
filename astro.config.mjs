@@ -46,10 +46,24 @@ export default defineConfig({
   ],
   redirects: {
     // Retired workshop URLs now lead to the current AI assistant offer.
-    '/workshops': '/ai-assistant/',
+    // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,
+    // 2026-08-15 revamp), so it is intentionally not in this map.
     '/ai-assistant-workshop': '/ai-assistant/',
     '/ai-assistant-workshop/thanks': '/ai-assistant/',
     '/ai-assistant-workshop-austin': '/ai-assistant/',
     '/ai-assistant/claude-code': '/ai-assistant/course/',
+    // Old funnel retired for the Business Map front door, 2026-08-15.
+    // These pages were removed from src/pages/ so they don't shadow the
+    // 301s below (or the matching entries in src/worker.js and
+    // public/_redirects). See src/data/{scorecard,use-cases,leak-calculators},
+    // still imported by src/worker.js and src/mcp/tools.js, kept in place.
+    '/scorecard': '/',
+    '/hidden-profit-review': '/business-map/',
+    '/hidden-profit-review/thanks': '/business-map/',
+    '/tools': '/',
+    '/tools/leak-calculator': '/',
+    '/kits/invoice-chase-kit': '/',
+    '/kits/follow-up-swipe-file': '/',
+    '/use-cases': '/business-map/',
   },
 });

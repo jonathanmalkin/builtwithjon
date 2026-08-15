@@ -29,7 +29,11 @@
     "FORM_RATE_LIMIT_IP_HOURLY": "20",
     "FORM_RATE_LIMIT_EMAIL_DAILY": "5",
     "FORM_RATE_LIMIT_GLOBAL_DAILY": "100",
-    "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\"}"
+    // TODO(business-map): "offer:business-map" below is a placeholder, not a
+    // real Sender group id. Create the actual group in Sender and replace the
+    // value before the /business-map/ intake form UI goes live, or leads will
+    // fail to capture (see FORM_MAP["business-map"] in src/worker.js).
+    "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\",\"offer:business-map\":\"TODO-replace-with-real-sender-group-id\"}"
   },
   "kv_namespaces": [
     { "binding": "SUBSCRIBE_DEDUPE", "id": "8707fb62aa5147b68f6fae18b437a26a" },

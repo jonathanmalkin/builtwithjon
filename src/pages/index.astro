@@ -1,25 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 
-const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Jonathan Malkin',
-  jobTitle: 'AI Workflow Consultant and Workshop Facilitator',
+const personSchema = buildPersonSchema({
   description: 'Jonathan Malkin audits one workflow at a time, finds where AI can safely help, and either builds it on your platform or runs a hands-on workshop so your team builds it themselves and becomes an AI-powered team.',
   url: 'https://builtwithjon.com',
-  sameAs: [
-    'https://github.com/jonathanmalkin',
-    'https://x.com/builtwithjon',
-    'https://linkedin.com/in/jonathanmalkin',
-  ],
   knowsAbout: [
     'AI workflow consulting',
     'fractional AI operations',
     'business process automation',
     'AI workshops in Austin',
   ],
-};
+});
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -29,19 +22,9 @@ const websiteSchema = {
   description: 'Start with a free AI workflow scorecard: find where your business is leaking deals, time, and cash, then use the Hidden Profit Review to measure the best first pilot.',
 };
 
-const professionalServiceSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  name: 'Built with Jon',
-  url: 'https://builtwithjon.com',
+const professionalServiceSchema = buildProfessionalServiceSchema({
   description: 'AI workflow consulting, implementation, and in-person workshops for small and mid-size businesses in Austin and across the United States.',
   founder: personSchema,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Austin',
-    addressRegion: 'TX',
-    addressCountry: 'US',
-  },
   makesOffer: [
     {
       '@type': 'Offer',
@@ -58,7 +41,7 @@ const professionalServiceSchema = {
       url: 'https://builtwithjon.com/hidden-profit-review/',
     },
   ],
-};
+});
 ---
 
 <Base
@@ -66,8 +49,8 @@ const professionalServiceSchema = {
   description="Jonathan Malkin helps small and mid-size businesses find where deals, time, and cash leak, then builds or teaches the first practical AI workflow worth keeping."
   schema={personSchema}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-  <script type="application/ld+json" set:html={JSON.stringify(professionalServiceSchema)} />
+  <JsonLd schema={websiteSchema} />
+  <JsonLd schema={professionalServiceSchema} />
 
   <section class="hero-split container-wide">
     <div class="hero-split-copy">

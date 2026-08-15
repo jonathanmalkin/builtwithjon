@@ -32,16 +32,39 @@
 
 # AI Workflow Audit renamed to The Hidden Profit Review, slug /hidden-profit-review/ 2026-06-14.
 # Order matters: specific sample + thanks paths first, then the catch-all for the section.
+# The sample assessment itself (public/hidden-profit-review/sample/) is NOT retired
+# and keeps serving, so these two still point there.
 /ai-workflow-audit/sample-assessment/ /hidden-profit-review/sample/ 301
 /ai-workflow-audit/sample-assessment /hidden-profit-review/sample/ 301
 /ai-workflow-audit/profit-leak-assessment/ /hidden-profit-review/sample/ 301
 /ai-workflow-audit/profit-leak-assessment /hidden-profit-review/sample/ 301
-/ai-workflow-audit/thanks/ /hidden-profit-review/thanks/ 301
-/ai-workflow-audit/thanks /hidden-profit-review/thanks/ 301
 # Catch splat landing paths when an edge /ai-workflow-audit/* rule may shadow the specific rules above.
 /hidden-profit-review/profit-leak-assessment/ /hidden-profit-review/sample/ 301
 /hidden-profit-review/profit-leak-assessment /hidden-profit-review/sample/ 301
 /hidden-profit-review/sample-assessment/ /hidden-profit-review/sample/ 301
 /hidden-profit-review/sample-assessment /hidden-profit-review/sample/ 301
-/ai-workflow-audit/* /hidden-profit-review/:splat 301
-/ai-workflow-audit /hidden-profit-review/ 301
+
+# 2026-08-15 revamp: /hidden-profit-review/ itself is retired to /business-map/.
+# The old /ai-workflow-audit/thanks and /ai-workflow-audit/* catch-all used to
+# chain through /hidden-profit-review/(thanks/), which would now be a double
+# redirect since that page is also retired below. Point both straight at
+# /business-map/ instead.
+/ai-workflow-audit/thanks/ /business-map/ 301
+/ai-workflow-audit/thanks /business-map/ 301
+/ai-workflow-audit/* /business-map/ 301
+/ai-workflow-audit /business-map/ 301
+
+# Old funnel retired for the Business Map front door, 2026-08-15. No splat on
+# /hidden-profit-review/* so public/hidden-profit-review/sample/ keeps serving.
+/scorecard / 301
+/scorecard/ / 301
+/hidden-profit-review /business-map/ 301
+/hidden-profit-review/ /business-map/ 301
+/hidden-profit-review/thanks /business-map/ 301
+/hidden-profit-review/thanks/ /business-map/ 301
+/tools / 301
+/tools/ / 301
+/tools/* / 301
+/kits/* / 301
+/use-cases /business-map/ 301
+/use-cases/ /business-map/ 301

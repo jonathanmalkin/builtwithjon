@@ -29,8 +29,8 @@ const TURNSTILE_ACTION = "lead-form";
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
-  ["/workshops", "/ai-assistant/"],
-  ["/workshops/", "/ai-assistant/"],
+  // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,
+  // 2026-08-15 revamp), so it is intentionally not in this map.
   ["/ai-assistant-workshop", "/ai-assistant/"],
   ["/ai-assistant-workshop/", "/ai-assistant/"],
   ["/ai-assistant-workshop/thanks", "/ai-assistant/"],
@@ -39,11 +39,33 @@ const PERMANENT_REDIRECTS = new Map([
   ["/ai-assistant-workshop-austin/", "/ai-assistant/"],
   ["/ai-assistant/claude-code", "/ai-assistant/course/"],
   ["/ai-assistant/claude-code/", "/ai-assistant/course/"],
+  // Old funnel retired for the Business Map front door, 2026-08-15. The
+  // matching src/pages/*.astro files were removed so they don't shadow
+  // these 301s; src/data/{scorecard,use-cases,leak-calculators} stay in
+  // place because src/mcp/tools.js still imports them.
+  ["/scorecard", "/"],
+  ["/scorecard/", "/"],
+  ["/hidden-profit-review", "/business-map/"],
+  ["/hidden-profit-review/", "/business-map/"],
+  ["/hidden-profit-review/thanks", "/business-map/"],
+  ["/hidden-profit-review/thanks/", "/business-map/"],
+  ["/tools", "/"],
+  ["/tools/", "/"],
+  ["/use-cases", "/business-map/"],
+  ["/use-cases/", "/business-map/"],
 ]);
+// Prefix redirects for retired sections with no single index page (e.g. the
+// individual kit/tool pages under them). /hidden-profit-review/sample/ is
+// intentionally NOT covered here (no splat) so that static dir keeps serving.
+const PERMANENT_REDIRECT_PREFIXES = [
+  ["/tools/", "/"],
+  ["/kits/", "/"],
+];
 const MCP_REGISTRY_AUTH_PATH = "/.well-known/mcp-registry-auth";
 const MCP_REGISTRY_AUTH_PROOF =
   "v=MCPv1; k=ecdsap384; p=AvUGKTlupoWJNtt1rtl5R5SD9Z3yK59b7dTHmdbt53BWO/EqQARKJm+V22+awwN/HA==";
 const ALLOWED_EVENT_NAMES = new Set([
+  "business-map:start", "business-map:submit", "business-map:success",
   "contact:start", "contact:submit",
   "cta:scorecard-article", "cta:scorecard-article-s2", "cta:scorecard-article-s3",
   "cta:scorecard-contact", "cta:scorecard-final", "cta:scorecard-footer",
@@ -66,6 +88,21 @@ const ALLOWED_CALCULATOR_EVENTS = new Set(CALCS.map((calculator) => `leakcalc:pi
 const FORM_MAP = {
   newsletter: { groups: [], fields: {}, allowed: ["source", "source_url"] },
   "workshop-next": { groups: [], fields: {}, allowed: ["comments"] },
+  // Business Map intake (src/pages/business-map.astro). The four fields mirror
+  // the approved intake screens in Workspace/04-Marketing/Website/copy-kernel-2026-08-15.md.
+  // Backend allowlist only: the form UI is not wired yet, copy is pending.
+  // company_website is the honeypot already handled globally in handleSubscribe.
+  "business-map": {
+    groups: ["offer:business-map"],
+    fields: {
+      blocked_project: "blocked_project",
+      stakeholders: "stakeholders",
+      in_progress: "in_progress",
+      decision_maker: "decision_maker",
+    },
+    allowed: ["blocked_project", "stakeholders", "in_progress", "decision_maker"],
+    required: ["name", "blocked_project", "decision_maker"],
+  },
   "hpr-waitlist": {
     groups: ["offer:hidden-profit-review"],
     fields: { company: "company", biggest_leak: "biggest_leak" },
@@ -88,6 +125,7 @@ const FORM_MAP = {
 const FORM_LABELS = {
   newsletter: "Newsletter",
   "workshop-next": "Cowork workshop: What's Next",
+  "business-map": "Business Map intake",
   "hpr-waitlist": "Hidden Profit Review waitlist",
   "kit-invoice-chase": "Invoice Chase Kit",
   "kit-follow-up-swipe-file": "Follow-up Swipe File",
@@ -121,6 +159,12 @@ export default {
     const permanentTarget = PERMANENT_REDIRECTS.get(url.pathname);
     if (permanentTarget) {
       url.pathname = permanentTarget;
+      return Response.redirect(url.toString(), 301);
+    }
+
+    const prefixMatch = PERMANENT_REDIRECT_PREFIXES.find(([prefix]) => url.pathname.startsWith(prefix));
+    if (prefixMatch) {
+      url.pathname = prefixMatch[1];
       return Response.redirect(url.toString(), 301);
     }
 

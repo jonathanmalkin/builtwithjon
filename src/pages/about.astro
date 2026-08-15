@@ -1,21 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import { Icon } from 'astro-icon/components';
+import { buildPersonSchema } from '../lib/schema.js';
 
-const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Jonathan Malkin',
-  jobTitle: 'AI Workflow Consultant and Workshop Facilitator',
+const personSchema = buildPersonSchema({
   description:
     'Jonathan Malkin spent 20+ years getting enterprise teams to actually adopt new technology, including eight years through the RPA wave at Automation Anywhere. He now runs hands-on AI workshops where teams build a real workflow against their own work.',
-  url: 'https://builtwithjon.com/about/',
-  sameAs: [
-    'https://github.com/jonathanmalkin',
-    'https://x.com/builtwithjon',
-    'https://linkedin.com/in/jonathanmalkin',
-  ],
-};
+});
 ---
 
 <Base
