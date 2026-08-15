@@ -1,18 +1,208 @@
 ---
 import Base from '../layouts/Base.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
+
+// Copy source: Workspace/04-Marketing/Website/business-map-page-copy-DRAFT-2026-08-15.md
+// (internal draft, 2026-08-15). Reproduced faithfully; wording is not yet
+// Jonathan-approved. No public pricing, no client name, no measured ROI claim.
+// This is the forwardable /business-map/ offer page a referrer sends someone to.
 
 const description =
-  "I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.";
+  'The Business Map is the first phase of a build. Your people, process, and systems on one page, then a clear decision about what to build first.';
+
+const personSchema = buildPersonSchema({
+  description: 'Jonathan Malkin maps the knowledge trapped in an owner-led business, in people, tools, and scattered files, onto one page, then builds the company brain the team and their AI can actually use.',
+});
+
+const professionalServiceSchema = buildProfessionalServiceSchema({
+  description: 'Business knowledge mapping and company brain builds for owner-led businesses in Austin and across the United States.',
+  founder: personSchema,
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      name: 'The Business Map',
+      description: 'The first phase of a build: your people, process, and systems mapped onto one page, then a clear decision about what to build first.',
+      url: 'https://builtwithjon.com/business-map/',
+    },
+  ],
+});
 ---
 
-<Base title="Business Map" description={description}>
+<Base title="The Business Map" description={description} schema={personSchema}>
+  <JsonLd schema={professionalServiceSchema} />
+
   <section class="container-wide section-band">
-    <p class="eyebrow">Start here</p>
+    <p class="eyebrow">What this page is for</p>
     <h1>The Business Map</h1>
-    <p class="subtitle">{description}</p>
+    <p class="subtitle">
+      Someone told you to talk to me. This is what they were pointing at, and what happens after we talk.
+    </p>
     <div class="hero-links">
-      <a href="/contact/" class="hero-btn">Start with the Business Map</a>
+      <a href="#start" class="hero-btn">Start with the Business Map</a>
     </div>
-    <!-- TODO: swap in approved copy from Workspace/04-Marketing/Website/*-DRAFT-2026-08-15.md -->
+  </section>
+
+  <section class="container section-band" aria-labelledby="what-h">
+    <p class="eyebrow">What it is</p>
+    <h2 id="what-h">What the Business Map is</h2>
+    <p class="section-intro">
+      The Business Map is the first phase of a build. I put your people, process, and systems on one page, and we end with a clear decision about what to build first.
+    </p>
+    <p class="section-intro">
+      It is not a report you file and forget. It is the start of the work, and it ends in a straightforward call: continue into the build, or stop here with the map you paid for. Either way you keep the map.
+    </p>
+    <p class="section-intro">
+      What the Map gives you is a way to see your business as systems on a page, and enough clarity to make that build-or-stop call with confidence. It is the thing that gets the project you have been putting off finally moving.
+    </p>
+  </section>
+
+  <section class="container section-band" aria-labelledby="fit-h">
+    <p class="eyebrow">Who it fits</p>
+    <h2 id="fit-h">Who it fits</h2>
+    <p class="section-intro">The Business Map is a fit if:</p>
+    <ol>
+      <li>There's a project you keep putting off because getting the information together is too painful.</li>
+      <li>Someone besides you needs answers the business can't give them today.</li>
+      <li>Nobody on your team is already building this and expecting to finish it.</li>
+      <li>You can make the call to move forward, or you know whose call it is.</li>
+    </ol>
+    <p class="section-intro">If that sounds like your business, the intake below is the place to start.</p>
+  </section>
+
+  <section class="container section-band" aria-labelledby="get-h">
+    <p class="eyebrow">What you get</p>
+    <h2 id="get-h">What you get</h2>
+    <ul>
+      <li>Your knowledge, data, workflow, and friction mapped against the project you actually want to move.</li>
+      <li>The one place the first build should start, and why.</li>
+      <li>A clear continue-or-stop decision, with a build scoped only if it makes sense.</li>
+    </ul>
+  </section>
+
+  <section class="container section-band" id="start" aria-labelledby="start-h">
+    <p class="eyebrow">How to start</p>
+    <h2 id="start-h">How to start</h2>
+    <p class="section-intro">
+      Start with the Business Map. The short intake below is how I make sure the first build is worth both our time. There's a free 15-minute working session behind it once it's a fit.
+    </p>
+    <p class="section-intro">
+      I take one build at a time. The next Business Map can start as the current build wraps, so the intake is also how you hold your place.
+    </p>
+    <p class="section-intro">
+      No book-a-call button here on purpose. Most weeks I'm inside a build, and the intake keeps the next one focused.
+    </p>
+
+    <!--
+      TODO(business-map): lead capture will not fully succeed until the real Sender
+      group id replaces the "offer:business-map" placeholder for
+      SENDER_GROUP_IDS in wrangler.jsonc (Jonathan's task; see FORM_MAP["business-map"]
+      in src/worker.js). The form below is wired and functional otherwise:
+      it posts to /api/subscribe with form_id=business-map, is protected by
+      the global honeypot and Turnstile, and the four intake fields
+      (blocked_project, stakeholders, in_progress, decision_maker) are already
+      in the backend allowlist.
+    -->
+    <form
+      action="/api/subscribe"
+      method="POST"
+      class="panel bm-form"
+      style="padding: 1.5rem; margin-top: 1.25rem;"
+      data-track-form="business-map"
+    >
+      <input type="hidden" name="_subject" value="Business Map intake" />
+      <input type="hidden" name="inquiry_type" value="business-map-intake" />
+      <input type="hidden" name="form_id" value="business-map" />
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+
+      <div class="form-group">
+        <label for="bm-name">Name</label>
+        <input type="text" id="bm-name" name="name" required class="form-input" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label for="bm-email">Email</label>
+        <input type="email" id="bm-email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
+      </div>
+
+      <div class="form-group">
+        <label for="bm-blocked-project">What's the project you keep putting off because getting the information together is too painful?</label>
+        <textarea id="bm-blocked-project" name="blocked_project" rows="3" required class="form-input"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="bm-stakeholders">Who besides you needs answers the business can't give them today? <span class="form-optional">(optional)</span></label>
+        <textarea id="bm-stakeholders" name="stakeholders" rows="2" class="form-input"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="bm-in-progress">Is anyone on your team already building something like this? <span class="form-optional">(optional)</span></label>
+        <input type="text" id="bm-in-progress" name="in_progress" class="form-input" />
+      </div>
+
+      <div class="form-group">
+        <label for="bm-decision-maker">Whose call is it to move forward?</label>
+        <input type="text" id="bm-decision-maker" name="decision_maker" required class="form-input" />
+      </div>
+
+      <button type="submit" class="form-submit">Start with the Business Map</button>
+      <p class="bm-form-status" hidden role="status" style="color: var(--color-text-muted); margin-top: 0.75rem;"></p>
+    </form>
+  </section>
+
+  <section class="container section-band" aria-labelledby="trust-h">
+    <p class="eyebrow">What you can count on</p>
+    <h2 id="trust-h">What you can count on</h2>
+    <div class="panel" style="padding: 1.5rem;">
+      <p style="margin: 0;">
+        You own the platform, the credentials, the data, and the final system. High-stakes decisions stay with people. Sensitive material gets privacy treatment with a required human review step, which is treatment, not a guarantee of complete de-identification.
+      </p>
+    </div>
   </section>
 </Base>
+
+<script>
+  const bmForm = document.querySelector('.bm-form');
+  const bmStatus = bmForm?.querySelector('.bm-form-status');
+
+  bmForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!bmForm.checkValidity()) {
+      bmForm.reportValidity();
+      return;
+    }
+
+    const button = bmForm.querySelector('button[type="submit"]');
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending...';
+    }
+
+    try {
+      const response = await fetch(bmForm.action, {
+        method: 'POST',
+        body: new FormData(bmForm),
+        headers: { Accept: 'application/json' },
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ok) throw new Error(result.error || 'business_map_failed');
+
+      if (window.bwjTrack) window.bwjTrack('business-map:success');
+      bmForm.reset();
+      if (bmStatus) {
+        bmStatus.textContent = "Got it. I'll read this and follow up if it's a fit.";
+        bmStatus.hidden = false;
+      }
+    } catch (err) {
+      if (bmStatus) {
+        bmStatus.textContent = 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.';
+        bmStatus.hidden = false;
+      }
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Start with the Business Map';
+      }
+    }
+  });
+</script>

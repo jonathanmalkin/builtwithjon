@@ -3,13 +3,17 @@ import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 
+// Copy source: Workspace/04-Marketing/Website/homepage-copy-DRAFT-2026-08-15.md
+// (internal draft, 2026-08-15). Reproduced faithfully; wording is not yet
+// Jonathan-approved. No public pricing, no client name, no measured ROI claim.
+
 const personSchema = buildPersonSchema({
-  description: 'Jonathan Malkin audits one workflow at a time, finds where AI can safely help, and either builds it on your platform or runs a hands-on workshop so your team builds it themselves and becomes an AI-powered team.',
+  description: 'Jonathan Malkin maps the knowledge trapped in an owner-led business, in people, tools, and scattered files, onto one page, then builds the company brain the team and their AI can actually use.',
   url: 'https://builtwithjon.com',
   knowsAbout: [
-    'AI workflow consulting',
-    'fractional AI operations',
-    'business process automation',
+    'company brain systems',
+    'business knowledge mapping',
+    'AI-ready operations',
     'AI workshops in Austin',
   ],
 });
@@ -19,34 +23,26 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Start with a free AI workflow scorecard: find where your business is leaking deals, time, and cash, then use the Hidden Profit Review to measure the best first pilot.',
+  description: 'Start with the Business Map: put your people, process, and systems on one page, then get a clear decision about what to build first.',
 };
 
 const professionalServiceSchema = buildProfessionalServiceSchema({
-  description: 'AI workflow consulting, implementation, and in-person workshops for small and mid-size businesses in Austin and across the United States.',
+  description: 'Business knowledge mapping and company brain builds for owner-led businesses in Austin and across the United States.',
   founder: personSchema,
   makesOffer: [
     {
       '@type': 'Offer',
-      name: 'The AI workflow scorecard',
-      description: 'A free 3-minute scorecard that shows where a business is leaking deals, time, and cash.',
-      price: '0',
-      priceCurrency: 'USD',
-      url: 'https://builtwithjon.com/scorecard/',
-    },
-    {
-      '@type': 'Offer',
-      name: 'The Hidden Profit Review',
-      description: 'A measured review of one recurring workflow with a first AI pilot plan. Limited monthly capacity via waitlist.',
-      url: 'https://builtwithjon.com/hidden-profit-review/',
+      name: 'The Business Map',
+      description: 'The first phase of a build: your people, process, and systems mapped onto one page, then a clear decision about what to build first.',
+      url: 'https://builtwithjon.com/business-map/',
     },
   ],
 });
 ---
 
 <Base
-  title="AI Workflow Consulting & Workshops in Austin"
-  description="Jonathan Malkin helps small and mid-size businesses find where deals, time, and cash leak, then builds or teaches the first practical AI workflow worth keeping."
+  title="Company Brain Systems for Owner-Led Businesses"
+  description="Jonathan Malkin maps the knowledge trapped in your people and tools onto one page, then builds the company brain your team and AI can actually use. Start with the Business Map."
   schema={personSchema}
 >
   <JsonLd schema={websiteSchema} />
@@ -54,15 +50,20 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
   <section class="hero-split container-wide">
     <div class="hero-split-copy">
-      <p class="eyebrow">Start with the 3-minute scorecard</p>
-      <h1>Find where the <a href="/scorecard/" class="hero-highlight">Hidden Profit</a> is in your business.</h1>
+      <p class="eyebrow">Start here</p>
+      <h1>You can't see where the money goes.</h1>
       <p class="subtitle">
-        Answer a few questions about deals, time, and cash. You get an instant leak score, the likely first fix, and a clear path to the measured Hidden Profit Review if the opportunity is real.
+        The answers live in people's heads. Everything routes back through you. Frantic, and never caught up.
+      </p>
+      <p class="subtitle">
+        There's a project you keep putting off because pulling the information together is too painful.
       </p>
       <div class="hero-links">
-        <a href="/scorecard/" class="hero-btn" data-track="cta:scorecard-hero">Take the scorecard</a>
+        <a href="/business-map/#start" class="hero-btn">Start with the Business Map</a>
       </div>
-      <p class="hero-microcopy">Free &middot; 3 minutes &middot; no call, no pitch</p>
+      <p class="subtitle">
+        I take one build at a time. The next Business Map can start as the current build wraps.
+      </p>
     </div>
     <figure class="hero-split-media">
       <img
@@ -77,64 +78,93 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     </figure>
   </section>
 
-  <section class="container offerings" style="margin-bottom: 3rem;" aria-labelledby="offerings-h">
-    <p class="eyebrow">Work with me</p>
-    <h2 id="offerings-h">One workflow at a time.</h2>
-    <p class="section-intro">
-      No big platform decision, no pricing puzzle. We map one real process you run today, then decide together if it is worth going further.
-    </p>
-
-    <a href="/scorecard/" class="offer-frontdoor" data-track="cta:scorecard-frontdoor">
-      <span class="offer-frontdoor-label">The front door</span>
-      <span class="offer-frontdoor-title">The AI workflow scorecard &rarr;</span>
-      <span class="offer-frontdoor-desc">Find the leak that is costing deals, time, or cash. The scorecard gives the fast assumption-based view; the Hidden Profit Review is the paid, measured version with your real data.</span>
-    </a>
-
-    <p class="offer-split-intro">Then, if it earns the next step, two ways forward:</p>
-    <div class="offer-routes">
-      <div class="offer-route">
-        <span class="offer-route-label">Have it done for you</span>
-        <h3>I build it on your platform</h3>
-        <p>I implement the pilot in the tools you already use, Claude Cowork or Google Workspace, so you own it from day one. Nothing of mine to host. After the build I can stay on in an advisory or fractional role.</p>
+  <section class="container section-band" aria-labelledby="cost-h">
+    <p class="eyebrow">What flying blind costs</p>
+    <h2 id="cost-h">What is flying blind actually costing you?</h2>
+    <div class="proof-strip">
+      <div class="proof-item">
+        <strong>You can't see your own business.</strong>
+        Money moves through the business and you can't say exactly where. Decisions get made on guesswork instead of what actually happened. Your team knows things you don't, and you find out after it matters.
       </div>
-      <div class="offer-route">
-        <span class="offer-route-label">Build the capability</span>
-        <h3>Your team builds it, and becomes AI-powered</h3>
-        <p>A hands-on session where your people build the real thing against your own work, with human approval gates so it never acts on its own. They leave with it running, and an AI-powered team able to build and extend the next one themselves.</p>
+      <div class="proof-item">
+        <strong>There's the project you keep avoiding.</strong>
+        It's the thing you actually want to do next, the one you can't start because getting the information together is too painful. It sits there. You route around it.
+      </div>
+      <div class="proof-item">
+        <strong>And there's what happens if one person leaves.</strong>
+        The knowledge that keeps the business running lives in a handful of heads. If one of them walks, so does the answer.
       </div>
     </div>
   </section>
 
-  <section class="container how-i-work" style="margin-bottom: 3rem;" aria-labelledby="how-i-work-h">
-    <p class="eyebrow">How I work</p>
-    <h2 id="how-i-work-h">A method, not a tool pitch.</h2>
+  <section class="container section-band" aria-labelledby="get-h">
+    <p class="eyebrow">What you get</p>
+    <h2 id="get-h">What do you actually get?</h2>
     <p class="section-intro">
-      Before any build, the same approach every time: connect the data, audit the workflow not the tool, and keep a human at the high-stakes gate. It's all public.
+      It's folders and files. Your team can read them. So can your AI assistants. That means real help with real work, not generic advice. Nothing about it locks you into a platform. High-stakes decisions stay with people, not automation.
     </p>
-    <div class="method-links">
-      <a href="/principles/" class="method-card">
-        <span class="method-eyebrow">The beliefs</span>
-        <span class="method-title">Principles &rarr;</span>
-        <span class="method-desc">Five rules every automation runs through.</span>
-      </a>
-      <a href="/process/" class="method-card">
-        <span class="method-eyebrow">The sequence</span>
-        <span class="method-title">Process &rarr;</span>
-        <span class="method-desc">The five phases from "here's my mess" to a working system.</span>
-      </a>
-      <a href="/use-cases/" class="method-card">
-        <span class="method-eyebrow">The proof</span>
-        <span class="method-title">Use case library &rarr;</span>
-        <span class="method-desc">96 worked examples across 15 kinds of business.</span>
-      </a>
-    </div>
+    <p class="section-intro">I call the finished system a company brain.</p>
   </section>
 
-  <section class="container why-me-grid" style="margin-bottom: 3rem;">
+  <section class="container section-band" aria-labelledby="playbook-h">
+    <p class="eyebrow">Why the usual playbook fails here</p>
+    <h2 id="playbook-h">Why doesn't the usual playbook work here?</h2>
+    <p class="section-intro">
+      In a big company, ten people do one job, so you automate a slice and free eight. In a small business nobody does just one thing, so the enterprise playbook falls apart.
+    </p>
+  </section>
+
+  <section class="container section-band" aria-labelledby="proof-h">
+    <p class="eyebrow">Proof, not theory</p>
+    <h2 id="proof-h">Has this actually worked?</h2>
+    <div class="proof-strip">
+      <div class="proof-item">
+        <strong>~5,000 to ~900</strong>
+        One client's business had about 5,000 scattered messages. Working through them narrowed that to about 1,200 in-scope threads, then to about 900 organized, privacy-treated files the team and their AI use.
+      </div>
+      <div class="proof-item">
+        <strong>696 artifacts</strong>
+        That same build organized 696 content artifacts into one system.
+      </div>
+      <div class="proof-item">
+        <strong>770 checks, all green</strong>
+        It shipped against 770 automated checks.
+      </div>
+    </div>
+    <blockquote>
+      &ldquo;It's just all over. I open up about fifteen different things every month and export spreadsheets and try to get them all into one.&rdquo;
+    </blockquote>
+    <div class="panel" style="padding: 1.5rem; margin: 0 0 1rem;">
+      <p style="margin: 0;">
+        A lot of the source material was sensitive, so every human-sourced item went through privacy treatment with a required human review step. That's treatment, not a guarantee of complete de-identification. It was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion.
+      </p>
+    </div>
+    <p>The client owns the platform, the credentials, the data, and the final system.</p>
+  </section>
+
+  <section class="container section-band" aria-labelledby="after-h">
+    <p class="eyebrow">What comes next</p>
+    <h2 id="after-h">What happens after the Business Map?</h2>
+    <p class="section-intro">
+      We start with the Business Map: your people, process, and systems on one page, plus a clear decision about what to build first. It's the first phase of a build, not a standalone report, and it ends in a straightforward call: continue or stop.
+    </p>
+    <p class="section-intro">
+      If it's a go, the build happens in phases and you own everything as it's built: the platform, the credentials, the data.
+    </p>
+    <p class="section-intro">
+      Once the system is running, ongoing support keeps it current. Regular working meetings, not a mailbox you wait on.
+    </p>
+    <p class="section-intro">
+      Down the road, the same brain can extend into a relationship system, the kind that preps meetings and drafts follow-ups for you to approve. That's an extension, not the starting point.
+    </p>
+  </section>
+
+  <section class="container why-me-grid section-band">
     <div>
-      <h2>Why me</h2>
+      <p class="eyebrow">Who's behind this</p>
+      <h2>Who's behind this?</h2>
       <p class="cred-line">
-        20+ years in enterprise tech, spent getting teams to actually adopt new systems, not just buy them. I run my own AI workflows every day, so what I build and teach is what I already use.
+        20+ years in enterprise tech, 8 of them at Automation Anywhere, where I scaled a global SE org from 6 people to 250. I'm based in Austin. I meet clients in Austin rooms and deliver anywhere.
       </p>
       <p><a href="/about/">More about how I work &rarr;</a></p>
     </div>
@@ -152,22 +182,12 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
   <section class="container home-final-cta">
     <p class="eyebrow">Start here</p>
-    <h2>Want to know where AI is worth touching first?</h2>
-    <p>
-      Take the scorecard first. If the result shows a real leak, the Hidden Profit Review turns those assumptions into measured numbers and a first pilot plan.
+    <h2>Start with the Business Map</h2>
+    <p class="section-intro">
+      I take one build at a time. The next Business Map can start as the current build wraps.
     </p>
     <div class="hero-links" style="justify-content: center;">
-      <a href="/scorecard/" class="hero-btn" data-track="cta:scorecard-final">Take the scorecard</a>
-      <a href="/hidden-profit-review/#waitlist" class="hero-btn hero-btn-outline" data-track="cta:waitlist-final">Join the review waitlist</a>
+      <a href="/business-map/#start" class="hero-btn">Start with the Business Map</a>
     </div>
-    <p class="hero-microcopy" style="text-align: center;">I run every review personally, so I take on a handful a month &mdash; the waitlist holds your spot.</p>
   </section>
-
-  <style>
-    .hero-microcopy {
-      color: var(--color-text-muted);
-      font-size: 0.84rem;
-      margin: 0.6rem 0 0;
-    }
-  </style>
 </Base>
