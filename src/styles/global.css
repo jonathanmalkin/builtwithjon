@@ -4373,6 +4373,16 @@ body .path-switch.path-switch span[aria-current] {
   font-size: 0.92rem;
 }
 
+.fine-note .note-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.69rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .fine-note p {
   margin: 0 0 0.5rem;
 }
@@ -4843,9 +4853,22 @@ body .path-switch.path-switch span[aria-current] {
   transform: translateY(-0.2em);
 }
 
+/* The H1 is a real owner quote (2026-08-16 decision): sized for a
+   thirteen-word line, not a three-word slogan. */
 .home-hero-copy h1 {
-  margin: 1.1rem 0 1.3rem;
-  font-size: clamp(2.5rem, 5.2vw, 4.4rem);
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.9rem, 3.6vw, 3.05rem);
+  line-height: 1.14;
+}
+
+.home-hero-attr {
+  margin: 0 0 1.4rem;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .home-lede {
