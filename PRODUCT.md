@@ -57,7 +57,9 @@ No public pricing. No client name (the case study stays anonymous). No measured 
 revenue claim. Privacy treatment is a treatment, not a guarantee. The legal check is "a targeted
 primary-source legal issue scan, not a legal opinion." No "AI consultant" title, no "Operating
 Partner", fractional is never the lead. No em dashes. No "apply to work with me", no "waitlist".
-No book-a-call in the hero; the free 15-minute working session sits behind the intake.
+No book-a-call in the hero and no advertised free session (retired 2026-08-16): the public
+promise is "I read every intake myself and reply", with no timeframe. "See if it's a fit" is the
+approved secondary gate framing; qualification stays silent.
 
 ## Brand Personality
 

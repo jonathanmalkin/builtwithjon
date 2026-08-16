@@ -4516,6 +4516,28 @@ body .path-switch.path-switch span[aria-current] {
   margin-bottom: 1.1rem;
 }
 
+.home-hero-quote {
+  margin: 1.3rem 0 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--ucl-ink);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-serif);
+  font-size: 1.08rem;
+  line-height: 1.45;
+  max-width: 30em;
+}
+
+.home-hero-quote cite {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.68rem;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .intake fieldset.form-group {
   border: none;
   margin: 0 0 1.1rem;

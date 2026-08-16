@@ -98,7 +98,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     <section id="start" aria-labelledby="start-h">
       <h2 id="start-h">How do you start?</h2>
       <p>
-        Start with the Business Map. The short intake below is how I make sure the first build is worth both our time. There's a free 15-minute working session behind it once it's a fit.
+        Start with the Business Map. The short intake below is how we both see if it's a fit, and how I make sure the first build is worth both our time. I read every intake myself and reply.
       </p>
       <p>
         I take one build at a time. The next Business Map can start as the current build wraps, so the intake is also how you hold your place.
@@ -244,7 +244,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         step2.querySelectorAll('.form-group, button[type="submit"], .intake-progress, .intake-done').forEach((el) => {
           el.hidden = true;
         });
-        showStatus(step2, "Got it. I'll read this and follow up if it's a fit.");
+        showStatus(step2, 'Got it. I read every intake myself and will reply.');
       } catch (err) {
         showStatus(step2, 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.');
         if (button) {

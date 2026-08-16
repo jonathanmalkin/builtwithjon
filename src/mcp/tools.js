@@ -360,7 +360,7 @@ function getBusinessMapInfo(args, ctx) {
     `**What it is:** the first phase of a build, not a standalone report. It ends in a straightforward call: continue into the build, or stop with the map you paid for. Either way the client keeps the map.`,
     `**Who it fits:** there's a project the owner keeps putting off because getting the information together is too painful; someone besides the owner needs answers the business can't give them today; and nobody on the team is already building it.`,
     `**What you can count on:** the client owns the platform, the credentials, the data, and the final system. High-stakes decisions stay with people. Sensitive material gets privacy treatment with a required human review step, which is treatment, not a guarantee of complete de-identification.`,
-    `**How it starts:** a short intake at ${o}/business-map/ with a free 15-minute working session behind it once it's a fit. Jonathan takes one build at a time; the next Business Map can start as the current build wraps. No public pricing; cost is scoped after the Map.`,
+    `**How it starts:** a short intake at ${o}/business-map/ (email first, then three questions). Jonathan reads every intake himself and replies. He takes one build at a time; the next Business Map can start as the current build wraps. No public pricing; cost is scoped after the Map.`,
     `**Proof:** an anonymized case study of a finished build is at ${o}/case-study/: 696 content artifacts organized into one system, roughly 5,000 scattered messages narrowed to about 900 organized, privacy-treated files, shipped against 770 green automated checks.`,
   ].join("\n\n");
   return text(body);
