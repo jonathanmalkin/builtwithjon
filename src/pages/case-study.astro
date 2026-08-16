@@ -1,15 +1,119 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// Anonymization contract: the client and business are never named. Allowed
+// descriptor is "an owner-led online education business." No program names,
+// no niche specifics beyond that. Every number is verified in the claims
+// ledger of Workspace/04-Marketing/Writing/BR101-Case-Study-DRAFT-2026-08-15.md.
+// No measured business/ROI/revenue claim, by design.
+
 const description =
-  "I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.";
+  'An owner-led online education business could not start the curriculum rebuild it wanted. One build turned 696 scattered artifacts and years of email into a company brain the team and its AI use.';
 ---
 
-<Base title="Case Study" description={description}>
-  <section class="container-wide section-band">
-    <p class="eyebrow">Case study</p>
-    <h1>Case Study</h1>
-    <p class="subtitle">{description}</p>
-    <!-- TODO: swap in approved copy from Workspace/04-Marketing/Website/*-DRAFT-2026-08-15.md -->
-  </section>
+<Base
+  title="Case Study: The Business That Couldn't Start Its Own Rebuild"
+  description={description}
+>
+  <div class="letter">
+    <header class="letter-open">
+      <p class="letter-dateline">Case study &middot; anonymized</p>
+      <h1>The business that couldn't start its own rebuild</h1>
+      <p class="letter-lede">
+        An owner-led online education business, a project the owner badly wanted to do, and the scattered knowledge that kept it from starting.
+      </p>
+    </header>
+
+    <section aria-labelledby="stuck-h">
+      <h2 id="stuck-h">The project that wouldn't move</h2>
+      <p>
+        The owner of a growing online education business had a project she badly wanted to do: rebuild her core curriculum from everything she had already learned from her audience. She could not start it. The raw material she needed was real, but it was scattered across years of videos, support conversations, member questions, and email, and pulling it together by hand was too big to face.
+      </p>
+      <p>
+        This is the pattern behind most of the work: the trapped knowledge only becomes worth paying to fix when it is blocking something the owner already wants to do.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="scattered-h">
+      <h2 id="scattered-h">What did "scattered" actually look like?</h2>
+      <p>
+        Money lived in one place, answers in another, customer signal in a dozen more. Decisions ran on guesswork. The knowledge that made the business work was spread across the team and the tools, not anywhere the owner could point to.
+      </p>
+      <blockquote>
+        &ldquo;It's just all over. I open up about fifteen different things every month and export spreadsheets and try to get them all into one.&rdquo;
+        <cite>The owner, before the build</cite>
+      </blockquote>
+      <blockquote>
+        &ldquo;I have nine thousand things I should be doing, I'm not doing any of them, and I don't know where to start.&rdquo;
+        <cite>The owner, before the build</cite>
+      </blockquote>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="built-h">
+      <h2 id="built-h">What was built?</h2>
+      <p>
+        A client-owned system that turns the business's approved material into something the owner, the team, and AI assistants can actually use. The build organized 696 content artifacts into one place:
+      </p>
+      <div class="artifact-list">
+        <div><span class="count">39</span><span class="what">curriculum transcripts</span></div>
+        <div><span class="count">213</span><span class="what">public videos</span></div>
+        <div><span class="count">50</span><span class="what">members-only videos</span></div>
+        <div><span class="count">103</span><span class="what">privacy-treated support-call transcripts</span></div>
+        <div><span class="count">103</span><span class="what">support knowledge cards</span></div>
+        <div><span class="count">188</span><span class="what">privacy-treated participant wins</span></div>
+      </div>
+      <p>
+        Plus 29 newsletters folded in near the end. The years of scattered email became a navigable, privacy-treated record: roughly 5,000 messages narrowed to about 1,200 in-scope threads and delivered as around 900 organized files the team and its AI can read.
+      </p>
+      <div class="note-anchor">
+        <figure class="funnel-fig">
+          <div class="funnel-row">
+            <div class="funnel-step"><span class="n">~5,000</span><span class="l">scattered messages</span></div>
+            <span class="funnel-arrow" aria-hidden="true">&rarr;</span>
+            <div class="funnel-step"><span class="n">~1,200</span><span class="l">in-scope threads</span></div>
+            <span class="funnel-arrow" aria-hidden="true">&rarr;</span>
+            <div class="funnel-step"><span class="n">~900</span><span class="l">organized files</span></div>
+          </div>
+        </figure>
+      </div>
+      <p>
+        Because a lot of the source material was sensitive, every human-sourced item went through privacy treatment with a required human recognition-review step. This is treatment, not a guarantee of complete de-identification, and it was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion. The finished system shipped against 770 automated checks, all green.
+      </p>
+      <p>
+        The owner owns the platform, the credentials, the source data, and the final system. High-stakes decisions stay with people.
+      </p>
+      <aside class="aside-panel">
+        <p class="aside-kicker">The feature I killed</p>
+        <p>
+          Partway through, one planned feature would have surfaced individual member material in a way that crossed a privacy line. I killed it and reset expectations rather than ship it. I would rather lose a feature than quietly cross a line. That instinct is built into how the system handles sensitive material, not bolted on after.
+        </p>
+      </aside>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="changed-h">
+      <h2 id="changed-h">What changed?</h2>
+      <p>
+        The owner is now using the system to rebuild the curriculum she couldn't start before. The point was never to surprise her with facts about her own business. It was to make what she already knew usable, so the project she cared about could finally move.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="next-h">
+      <h2 id="next-h">Is there a project like this in your business?</h2>
+      <p>
+        We start with the Business Map: your people, process, and systems on one page, plus a clear decision about what to build first.
+      </p>
+      <div class="letter-cta">
+        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-case-study">Start with the Business Map</a>
+        <p class="capacity-note">I take one build at a time. The next Business Map can start as the current build wraps.</p>
+      </div>
+    </section>
+  </div>
 </Base>

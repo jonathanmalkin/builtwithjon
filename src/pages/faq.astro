@@ -1,15 +1,103 @@
 ---
 import Base from '../layouts/Base.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { buildFaqPageSchema } from '../lib/schema.js';
+
+// Copy: finalized from Workspace/04-Marketing/Website/faq-page-copy-DRAFT-2026-08-15.md
+// via voice-editor. Answers lead with the direct answer, one idea per line,
+// and the page copy is the single source for the FAQPage JSON-LD below.
+
+const faqs = [
+  {
+    question: "Why can't I just book a call?",
+    answer: [
+      "Most weeks I'm inside a build.",
+      'The short intake makes sure the next conversation is worth both our time.',
+      'I take one build at a time. The next Business Map can start as the current build wraps.',
+    ],
+  },
+  {
+    question: 'What is a company brain?',
+    answer: [
+      "It's folders and files your team and your AI assistants can both read and use.",
+      'I call the finished system a company brain.',
+      'The name is mine. The system is yours.',
+    ],
+  },
+  {
+    question: 'What does the Business Map get me?',
+    answer: [
+      'Your people, process, and systems on one page.',
+      'Plus a clear decision about what to build first.',
+      "It's the first phase of a build, not a standalone report. It ends in a real decision: continue or stop.",
+    ],
+  },
+  {
+    question: 'What happens after the system is built?',
+    answer: [
+      'Ongoing support keeps it current: regular working meetings, not a monthly check-the-box call.',
+      'Later, once the brain exists, it can extend. A relationship system that preps your meetings and drafts your follow-ups is the first example.',
+      "That's a later conversation. It starts with the Business Map.",
+    ],
+  },
+  {
+    question: 'Is my data safe?',
+    answer: [
+      'Sensitive material gets privacy treatment before anyone or anything uses it.',
+      "That's treatment, not a guarantee. A human reviews it too.",
+      'You own the platform, the credentials, the data, and the final system. Every high-stakes decision stays with people.',
+    ],
+  },
+  {
+    question: 'How much does it cost?',
+    answer: [
+      "There's no public price because the work isn't generic.",
+      "Cost gets scoped after the Business Map, once we know what's actually there to build.",
+      "Start with the Map and you'll have a real number, not a guess.",
+    ],
+  },
+];
+
+const faqSchema = buildFaqPageSchema(
+  faqs.map(({ question, answer }) => ({ question, answer: answer.join(' ') }))
+);
 
 const description =
-  "I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.";
+  'Direct answers about the Business Map, the company brain, data privacy, ongoing support, and cost. One idea per line, no runaround.';
 ---
 
-<Base title="FAQ" description={description}>
-  <section class="container-wide section-band">
-    <p class="eyebrow">FAQ</p>
-    <h1>Frequently Asked Questions</h1>
-    <p class="subtitle">{description}</p>
-    <!-- TODO: swap in approved copy from Workspace/04-Marketing/Website/*-DRAFT-2026-08-15.md -->
-  </section>
+<Base
+  title="FAQ: The Business Map and the Company Brain"
+  description={description}
+>
+  <JsonLd schema={faqSchema} />
+
+  <div class="letter">
+    <header class="letter-open">
+      <p class="letter-dateline">FAQ</p>
+      <h1>Questions owners actually ask</h1>
+      <p class="letter-lede">
+        Direct answers, one idea per line. Anything else, email
+        <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a>.
+      </p>
+    </header>
+
+    <div class="faq-list">
+      {faqs.map(({ question, answer }) => (
+        <section>
+          <h2>{question}</h2>
+          {answer.map((line) => (
+            <p>{line}</p>
+          ))}
+        </section>
+      ))}
+    </div>
+
+    <section aria-labelledby="start-h" style="margin-top: 2.6rem;">
+      <h2 id="start-h">Ready to start?</h2>
+      <div class="letter-cta">
+        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-faq">Start with the Business Map</a>
+      </div>
+    </section>
+  </div>
 </Base>

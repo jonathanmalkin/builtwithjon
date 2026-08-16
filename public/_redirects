@@ -2,7 +2,17 @@
 /articles/kink-quiz-vs-bdsm-test/ / 301
 /articles/what-is-kink-archetype/ / 301
 /articles/what-i-actually-do-with-claude-code/ / 301
-/knowledge-os-product/ /knowledge-os-proof/ 301
+# Approach trio + Knowledge OS pages retired 2026-08-15 (company-brain revamp).
+/knowledge-os-product/ /case-study/ 301
+/knowledge-os-product /case-study/ 301
+/knowledge-os-proof/ /case-study/ 301
+/knowledge-os-proof /case-study/ 301
+/principles/ /map-not-dump/ 301
+/principles /map-not-dump/ 301
+/process/ /business-map/ 301
+/process /business-map/ 301
+/dispositions/ /map-not-dump/ 301
+/dispositions /map-not-dump/ 301
 
 # /scan/* existed for part of 2026-08-05 and edges cached 301s into it. Catch
 # those so a stale redirect still lands on the scan card instead of a 404.

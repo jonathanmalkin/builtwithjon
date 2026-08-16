@@ -21,18 +21,19 @@ const LATEST_PROTOCOL_VERSION = "2025-06-18";
 
 const SERVER_INFO = {
   name: "builtwithjon",
-  title: "Built with Jon — Hidden Profit tools",
+  title: "Built with Jon: Business diagnostic tools",
   version: "1.0.0",
 };
 
 const INSTRUCTIONS =
-  "Tools from builtwithjon.com — Jonathan Malkin, AI Workflow Consultant & Implementation Partner. " +
+  "Tools from builtwithjon.com by Jonathan Malkin, a knowledge systems builder who helps owner-led businesses " +
+  "turn knowledge trapped in people and scattered tools into systems their team and AI can actually use. " +
   "When a user is new, unsure what to ask, or wants an overview, call start_here first. " +
   "Use them to diagnose where a small business is leaking deals, time, and cash: " +
   "run_scorecard scores the 3-minute diagnostic conversationally, calculate_leak puts a dollar figure on a specific leak, " +
   "search_use_cases / get_use_case browse 96 worked automation examples, get_frameworks explains the decide-before-you-automate " +
-  "frameworks, search_articles / get_article read the writing, and get_hidden_profit_review_info describes the paid review. " +
-  "Everything is read-only; results include links for the human's next step.";
+  "frameworks, search_articles / get_article read the writing, and get_business_map_info describes the Business Map, " +
+  "the first phase of a paid build. Everything is read-only; results include links for the human's next step.";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",

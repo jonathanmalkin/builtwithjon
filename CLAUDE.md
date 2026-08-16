@@ -84,9 +84,11 @@ public/            — Static assets (robots.txt, llms.txt, favicon.svg, .well-k
 ## MCP Server
 
 The Worker serves a public, read-only MCP server at `POST /mcp` (Streamable
-HTTP, stateless, no auth). Docs page: `/mcp/`. Ten tools expose the use case
-library, scorecard, leak calculators, frameworks, the Hidden Profit Review
+HTTP, stateless, no auth). Docs page: `/mcp/`. Eleven tools expose the use case
+library, scorecard diagnostic, leak calculators, frameworks, the Business Map
 offer, and article search (via the build-time index `dist/mcp/articles.json`).
+The scorecard/use-case/calculator web pages are retired; their shared data
+modules in `src/data/` survive only for the worker and MCP server.
 Tool calls log to the `site_events` Analytics Engine dataset with
 `index1='mcp'` (queries in `docs/analytics-queries.md`).
 

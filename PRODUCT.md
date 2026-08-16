@@ -1,39 +1,73 @@
 # Product
 
-## Register
-
-brand
-
 ## Users
 
-Built with Jon is for owners, founders, CEOs, COOs, and practical operators at small and lower-mid-size businesses. The core audience generally runs companies around $10M–$50M in revenue, with room for smaller owner-operated businesses whose operational pain and authority to act are real.
+Built with Jon is for owners of owner-led businesses: founders, CEOs, and the operators who run
+the whole thing. Size is not the qualifier and no revenue band is published; the qualifier is the
+situation. The owner can't see where the money goes, the answers live in people's heads,
+everything routes back through them, and there is a project they keep putting off because pulling
+the information together is too painful.
 
-They arrive because deals, time, cash, or attention are leaking through ordinary work: slow follow-up, repeated administration, weak handoffs, missed calls, stale records, meeting overload, unbilled work, or knowledge trapped in people and inboxes. They are not looking for AI entertainment or a large transformation program. They want a credible diagnosis, a useful first move, and evidence that Jonathan understands the work behind the tool.
+They are not looking for AI entertainment or a transformation program. They want the blocked
+project moving, a credible operator, and evidence before a conversation.
 
-The site must also remain legible to technical builders, potential partners, event organizers, and people learning from Jonathan’s implementation work without letting those secondary audiences replace the business owner/operator as the primary reader.
+The site must also remain legible to technical builders, potential partners, event organizers,
+and people learning from Jonathan's implementation work without letting those secondary audiences
+replace the business owner as the primary reader.
+
+## Positioning (decided 2026-08-15)
+
+The canonical one-liner, reused word for word across hero, meta, schema, GBP, and LinkedIn:
+
+> I help owner-led businesses turn knowledge trapped in people and scattered tools into systems
+> their team and AI can actually use.
+
+The product noun leads with the plain description, then the name: "It is folders and files your
+team and your AI assistants can both read and use. I call the finished system a company brain."
+Singular attribution only (one paying client so far; never "clients call it").
+
+The message architecture is fixed: nightmare-mirror recognition, then the blocked-project trigger,
+then the Business Map as the answer. The promise is unblocking via the path, visibility, and a
+continue-or-stop decision from the Map itself. Never revelation, never a measured business result.
+
+The Business Map is the one front door: the first phase of a build that puts people, process, and
+systems on one page and ends in a continue-or-stop decision. Capacity is honest and evergreen:
+one build at a time; the next Business Map can start as the current build wraps.
+
+Jonathan's jobTitle everywhere is "Knowledge Systems Builder."
 
 ## Product Purpose
 
-Built with Jon is Jonathan Malkin’s business-facing brand and utility site. It presents him as an experienced, hands-on partner who improves business operations one workflow at a time. The precise category and long-term offer architecture remain under review, so the site must not prematurely lock Jonathan into “fractional AI operator,” “AI agency,” or another narrow label.
+The site has four jobs:
 
-The site has four current jobs:
+1. Make the right owner recognize their own situation before any technology is mentioned.
+2. Move that owner to the Business Map intake (email captured first, qualification second).
+3. Show operating judgment and practical evidence first: the anonymized case study, the
+   map-not-dump pattern, real event photography, the public MCP server as proof of practice.
+4. Route rooms of owners to workshops and everyone else to a plain contact path.
 
-1. Help a qualified visitor recognize where deals, time, or cash are leaking.
-2. Give that visitor something useful immediately through the scorecard, leak calculators, use-case library, articles, and public agent-readable tools.
-3. Show Jonathan’s operating judgment, implementation depth, and practical evidence before asking for a conversation.
-4. Offer a clear next step: complete the scorecard, join the Hidden Profit Review waitlist, join the Claude Cowork personal-assistant mini-course, or contact Jonathan about implementation, speaking, or a team workshop.
+`/business-map/` is the primary conversion surface. `/ai-assistant/` remains the single public
+entry point for the free Claude Cowork mini-course (a separate, secondary audience). The retired
+scorecard/Hidden Profit Review/tools/use-cases funnel stays retired; its diagnostic math survives
+only inside the public MCP server.
 
-The scorecard is the primary business front door. `/tools/` is the forwardable utility hub. `/ai-assistant/` is the single public entry point for the free Claude Cowork mini-course. The detailed Cowork guide remains a reference used inside the course. The Claude Code guide is preserved in source but its public URL redirects to the mini-course. Past public workshop pages also redirect to the current AI-assistant entry point.
+## Hard boundaries (every surface)
 
-Success means a visitor can understand the business problem before the technology, use a useful resource without a sales call, and choose one low-risk next action without navigating competing versions of the same offer.
+No public pricing. No client name (the case study stays anonymous). No measured business/ROI/
+revenue claim. Privacy treatment is a treatment, not a guarantee. The legal check is "a targeted
+primary-source legal issue scan, not a legal opinion." No "AI consultant" title, no "Operating
+Partner", fractional is never the lead. No em dashes. No "apply to work with me", no "waitlist".
+No book-a-call in the hero; the free 15-minute working session sits behind the intake.
 
 ## Brand Personality
 
 Practical, credible, and human.
 
-The site should feel like a clear working session with an experienced operator: technically capable without tool hype, warm without becoming cute, direct without becoming abrasive, and confident without corporate fog. Jonathan’s point of view should be visible, but the page should never perform cleverness at the expense of comprehension.
-
-The desired emotional result is grounded confidence: “This person understands how work actually happens, can explain the tradeoffs, and will help me start smaller than I expected.”
+The site should feel like a working session with an experienced operator: technically capable
+without tool hype, warm without becoming cute, direct without becoming abrasive, and confident
+without corporate fog. The desired emotional result is recognition first, then grounded
+confidence: "This person understands how my business actually runs and can get my stuck project
+moving."
 
 ## Anti-references
 
@@ -47,21 +81,25 @@ Avoid:
 - Creator-growth funnels aimed at prompt collectors.
 - Multiple named visual registers that force every new page to choose between competing design systems.
 - Marketing pages that bury the useful action beneath explanations of MCP, models, agents, or infrastructure.
-- Generic “AI made this” landing-page grammar: endless identical cards, repeated eyebrow-heading-copy sections, decorative gradients, glass panels, and unearned motion.
+- Generic "AI made this" landing-page grammar: endless identical cards, repeated eyebrow-heading-copy sections, decorative gradients, glass panels, and unearned motion.
 
 ## Design Principles
 
-- **Lead with the business leak.** AI may attract attention; operations is the job.
-- **One website, one visual system.** Reading pages, tools, and funnels may use different density and semantic color, but they share one foundation and should never look like separate brands.
-- **Make the first move unmistakable.** Every page should have one dominant next action. The scorecard remains the main business front door; the mini-course is the single public AI-assistant path.
-- **Show practical evidence before technical sophistication.** Use worked examples, screenshots, real tools, demonstrations, and operating judgment.
-- **Keep the first step concrete and low-risk.** A non-technical decision-maker should understand what happens next and what remains under human review.
-- **Use color to communicate meaning.** Axis, disposition, status, and outcome colors may carry information. Decorative color does not earn its place.
-- **Preserve the fast, readable foundation.** Prefer semantic HTML, restrained JavaScript, durable content, and responsive layouts over ornamental complexity.
-- **Keep claims honest.** Estimates are assumptions until measured; external actions remain approval-gated; privacy and delivery promises must match the real system.
+- **Recognition before technology.** The owner's situation leads; AI is the mechanism, not the pitch.
+- **One website, one visual system.** Reading pages, tools, and funnels vary in density and semantic color, but share one foundation.
+- **Make the first move unmistakable.** One dominant next action per page; the Business Map is the front door.
+- **Show practical evidence before technical sophistication.** The case study, real numbers with honest rounding, real event photography, working systems.
+- **Keep the first step concrete and low-risk.** Email first, three short questions, a free 15-minute working session behind the intake.
+- **Use color to communicate meaning.** Semantic hues carry information; decorative color does not earn its place.
+- **Preserve the fast, readable foundation.** Semantic HTML, restrained JavaScript, durable content.
+- **Keep claims honest.** Only documented proof atoms; privacy and delivery promises match the real system.
 
 ## Accessibility & Inclusion
 
-Use WCAG 2.2 AA as the practical baseline. Preserve keyboard access, visible focus, semantic structure, useful alternative text, sufficient contrast, readable type, meaningful labels, reduced-motion support, and responsive behavior from small phones through wide desktop screens.
+Use WCAG 2.2 AA as the practical baseline. Preserve keyboard access, visible focus, semantic
+structure, useful alternative text, sufficient contrast, readable type, meaningful labels,
+reduced-motion support, and responsive behavior from small phones through wide desktop screens.
 
-Do not use color as the only signal. Keep body copy within readable line lengths. Any motion must leave the content visible by default and provide a reduced-motion alternative. Forms must expose errors and success states to assistive technology. Accessibility supports reach and usability but should feel native to the product rather than presented as a separate theme.
+Do not use color as the only signal. Keep body copy within readable line lengths. Any motion must
+leave the content visible by default and provide a reduced-motion alternative. Forms must expose
+errors and success states to assistive technology.

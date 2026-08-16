@@ -53,6 +53,19 @@ const PERMANENT_REDIRECTS = new Map([
   ["/tools/", "/"],
   ["/use-cases", "/business-map/"],
   ["/use-cases/", "/business-map/"],
+  // Approach trio + Knowledge OS proof retired 2026-08-15 with the
+  // company-brain revamp. The method story now lives at /map-not-dump/,
+  // the engagement story at /business-map/, and the proof at /case-study/.
+  ["/principles", "/map-not-dump/"],
+  ["/principles/", "/map-not-dump/"],
+  ["/process", "/business-map/"],
+  ["/process/", "/business-map/"],
+  ["/dispositions", "/map-not-dump/"],
+  ["/dispositions/", "/map-not-dump/"],
+  ["/knowledge-os-proof", "/case-study/"],
+  ["/knowledge-os-proof/", "/case-study/"],
+  ["/knowledge-os-product", "/case-study/"],
+  ["/knowledge-os-product/", "/case-study/"],
 ]);
 // Prefix redirects for retired sections with no single index page (e.g. the
 // individual kit/tool pages under them). /hidden-profit-review/sample/ is
@@ -65,7 +78,11 @@ const MCP_REGISTRY_AUTH_PATH = "/.well-known/mcp-registry-auth";
 const MCP_REGISTRY_AUTH_PROOF =
   "v=MCPv1; k=ecdsap384; p=AvUGKTlupoWJNtt1rtl5R5SD9Z3yK59b7dTHmdbt53BWO/EqQARKJm+V22+awwN/HA==";
 const ALLOWED_EVENT_NAMES = new Set([
-  "business-map:start", "business-map:submit", "business-map:success",
+  "business-map:start", "business-map:submit", "business-map:capture", "business-map:success",
+  "business-map-details:start", "business-map-details:submit",
+  "cta:business-map-nav", "cta:business-map-footer", "cta:business-map-hero",
+  "cta:business-map-final", "cta:business-map-case-study", "cta:business-map-faq",
+  "cta:business-map-resource", "cta:business-map-contact", "cta:workshops-contact",
   "contact:start", "contact:submit",
   "cta:scorecard-article", "cta:scorecard-article-s2", "cta:scorecard-article-s3",
   "cta:scorecard-contact", "cta:scorecard-final", "cta:scorecard-footer",
@@ -88,20 +105,28 @@ const ALLOWED_CALCULATOR_EVENTS = new Set(CALCS.map((calculator) => `leakcalc:pi
 const FORM_MAP = {
   newsletter: { groups: [], fields: {}, allowed: ["source", "source_url"] },
   "workshop-next": { groups: [], fields: {}, allowed: ["comments"] },
-  // Business Map intake (src/pages/business-map.astro). The four fields mirror
-  // the approved intake screens in Workspace/04-Marketing/Website/copy-kernel-2026-08-15.md.
-  // Backend allowlist only: the form UI is not wired yet, copy is pending.
-  // company_website is the honeypot already handled globally in handleSubscribe.
+  // Business Map intake (src/pages/business-map.astro), two-step per the
+  // 2026-08-15 spec: step 1 captures the email immediately (name optional) so
+  // a partial completion still yields the lead; step 2 carries the three
+  // qualification fields. The authority question is removed from the public
+  // form on purpose. company_website is the honeypot already handled globally
+  // in handleSubscribe.
   "business-map": {
+    groups: ["offer:business-map"],
+    fields: {},
+    allowed: [],
+    required: [],
+  },
+  "business-map-details": {
     groups: ["offer:business-map"],
     fields: {
       blocked_project: "blocked_project",
-      stakeholders: "stakeholders",
-      in_progress: "in_progress",
-      decision_maker: "decision_maker",
+      key_person: "key_person",
+      already_building: "already_building",
     },
-    allowed: ["blocked_project", "stakeholders", "in_progress", "decision_maker"],
-    required: ["name", "blocked_project", "decision_maker"],
+    allowed: ["blocked_project", "key_person", "already_building"],
+    required: ["blocked_project"],
+    enums: { key_person: ["Yes", "No"], already_building: ["Yes", "No"] },
   },
   "hpr-waitlist": {
     groups: ["offer:hidden-profit-review"],
@@ -125,7 +150,8 @@ const FORM_MAP = {
 const FORM_LABELS = {
   newsletter: "Newsletter",
   "workshop-next": "Cowork workshop: What's Next",
-  "business-map": "Business Map intake",
+  "business-map": "Business Map intake (step 1: email)",
+  "business-map-details": "Business Map intake (step 2: details)",
   "hpr-waitlist": "Hidden Profit Review waitlist",
   "kit-invoice-chase": "Invoice Chase Kit",
   "kit-follow-up-swipe-file": "Follow-up Swipe File",
@@ -331,7 +357,7 @@ async function handleSubscribe(request, env) {
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
 
   const name = safeText(form.get("name"), 120);
-  const extras = Object.fromEntries(config.allowed.map((key) => [key, safeText(form.get(key), 240)]).filter(([, value]) => value));
+  const extras = Object.fromEntries(config.allowed.map((key) => [key, safeText(form.get(key), key === "blocked_project" ? 2000 : 240)]).filter(([, value]) => value));
   const sourceUrl = safeUrl(form.get("source_url")) || safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/`;
   const attribution = safeText(form.get("attribution"), 240);
   const inquiryType = safeText(form.get("inquiry_type"), 80);
@@ -766,7 +792,13 @@ function validateMappedForm(form, config) {
   ]);
   for (const [key, value] of form.entries()) {
     if (!allowed.has(key) || typeof value !== "string") return false;
-    const limit = key === "cf-turnstile-response" ? 2048 : key === "email" ? 254 : key === "name" ? 120 : 240;
+    // blocked_project invites a paragraph; rejecting long answers on the one
+    // conversion surface loses the lead's own words.
+    const limit = key === "cf-turnstile-response" ? 2048
+      : key === "email" ? 254
+      : key === "name" ? 120
+      : key === "blocked_project" ? 2000
+      : 240;
     if (value.length > limit) return false;
   }
   for (const field of config.required || []) {

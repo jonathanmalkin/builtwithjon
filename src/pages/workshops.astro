@@ -1,19 +1,171 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// Copy: finalized from Workspace/04-Marketing/Website/workshops-page-copy-DRAFT-2026-08-15.md
+// via voice-editor. No revenue band, no client name, "clients" plural
+// attribution not used. Host inquiries go to jonathan@builtwithjon.com per
+// the prior Host-Session One-Pager. The upcoming-events block stays out
+// until there is a real event to list.
+
 const description =
-  "I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.";
+  'A working session for rooms of business owners: one live demo of a built company knowledge system, honest scope, and one named workflow to fix first. Austin-based, delivered anywhere.';
 ---
 
-<Base title="Workshops" description={description}>
-  <section class="container-wide section-band">
-    <p class="eyebrow">Workshops</p>
-    <h1>Workshops</h1>
-    <p class="subtitle">{description}</p>
-    <div class="hero-links">
-      <a href="/contact/" class="hero-btn">Ask about a workshop</a>
-    </div>
-    <!-- TODO: swap in approved copy from Workspace/04-Marketing/Website/*-DRAFT-2026-08-15.md
-         (a fuller draft to model from is preserved at src/_drafts/workshops-index.astro) -->
-  </section>
+<Base
+  title="AI Workshops for Owner-Led Businesses | Austin, TX"
+  description={description}
+>
+  <div class="letter">
+    <header class="letter-open">
+      <p class="letter-dateline">Workshops &amp; speaking</p>
+      <h1>This workshop isn't what I do.</h1>
+      <p class="letter-lede">
+        I build the systems underneath a business. I run these because it's the fastest way to show you what's possible.
+      </p>
+      <div class="letter-cta">
+        <a href="mailto:jonathan@builtwithjon.com" class="hero-btn" data-track="cta:workshops-contact">Bring this to your room</a>
+        <p class="capacity-note">jonathan@builtwithjon.com &middot; Austin-based, delivered anywhere.</p>
+      </div>
+    </header>
+  </div>
+
+  <figure class="figure-band">
+    <img
+      src="/home/austin-workshop.jpg"
+      width="1600"
+      height="1066"
+      alt="Jonathan Malkin speaking from the podium at Capital Factory in Austin, framed by the Capital Factory gear logo, with the audience in the foreground."
+      loading="eager"
+      decoding="async"
+    />
+    <figcaption>Austin Claude meetup at Capital Factory, August 2026</figcaption>
+  </figure>
+
+  <div class="letter">
+    <section aria-labelledby="problem-h">
+      <h2 id="problem-h">What problem does the session address?</h2>
+      <p>
+        The information a company runs on ends up scattered across people, inboxes, shared drives, vendor systems, and whatever lives only in someone's head. Nobody planned it that way. It's what happens when a business grows faster than its systems.
+      </p>
+      <p>
+        The cost shows up in three places. The owner becomes the bottleneck for every real question. Work that matters stays blocked because pulling the information together is too painful to start. When a key person leaves, so does the answer.
+      </p>
+      <p>
+        This isn't about revenue size. It's about whether more than just you needs answers the business can't give them today.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="room-h">
+      <h2 id="room-h">What happens in the room?</h2>
+      <ol class="room-list">
+        <li>
+          <strong>The real shape of the problem.</strong> Where information actually goes in an operating company, and why adding another tool hasn't fixed it.
+        </li>
+        <li>
+          <strong>One live demo of a built system.</strong> Real client work, anonymized. Not slides about the future. The actual thing, answering actual questions, with the sources attached.
+        </li>
+        <li>
+          <strong>What it took.</strong> Honest scope: what got built, what went wrong, what stays human.
+        </li>
+        <li>
+          <strong>Finding your own first workflow.</strong> You leave having named one specific thing in your business worth fixing first.
+        </li>
+      </ol>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="leave-h">
+      <h2 id="leave-h">What do you leave with?</h2>
+      <ul>
+        <li>A clear picture of what AI does inside a running business, and what it doesn't.</li>
+        <li>One named workflow in your own business, with a rough sense of what fixing it is worth.</li>
+        <li>The questions to ask any vendor before spending money.</li>
+      </ul>
+      <p>
+        No product pitch. Nothing sold from the front of the room. No futurism. No claim that AI replaces your team.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="close-h">
+      <h2 id="close-h">How does it end?</h2>
+      <p>
+        At the end I'll offer 15 minutes, free, one on one. Not a sales call. I'm an operator who does this work during the week, not a speaker-circuit regular, and 15 minutes is enough to tell you whether there's something worth pursuing.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="reasons-h">
+      <h2 id="reasons-h">Why run one of these?</h2>
+      <p>Four reasons hosts book this session. Name which one it is before we set the agenda.</p>
+      <ul>
+        <li><strong>Public lead gen.</strong> Owner-dense rooms: Vistage, business owner councils, peer boards.</li>
+        <li><strong>Post-build adoption.</strong> Coaching a team that already has a system, to get it actually used.</li>
+        <li><strong>Internal vision.</strong> A leadership team deciding what to build first.</li>
+        <li><strong>Training.</strong> A team that needs to use a system that already exists.</li>
+      </ul>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="format-h">
+      <h2 id="format-h">What formats work?</h2>
+      <table class="format-table">
+        <thead>
+          <tr>
+            <th scope="col">Option</th>
+            <th scope="col">Length</th>
+            <th scope="col">Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Talk plus Q&amp;A</td>
+            <td>45 to 60 min</td>
+            <td>Luncheon or monthly meeting slot</td>
+          </tr>
+          <tr>
+            <td>Working session</td>
+            <td>90 min</td>
+            <td>Groups that want members to leave with their own answer</td>
+          </tr>
+          <tr>
+            <td>Half day</td>
+            <td>3 to 4 hrs</td>
+            <td>Peer boards and retreat formats, hands-on</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="who-h">
+      <h2 id="who-h">Who runs it?</h2>
+      <p>
+        Austin-based. I work inside owner-run businesses making their information usable: diagnosing the workflow worth fixing first, then building the system the team actually adopts. Most recently I delivered a company knowledge system for a client whose team can now ask the business a question in plain language and get an answer with the source attached. Not a speaker-circuit regular. An operator who does this work during the week.
+      </p>
+      <p><a href="/case-study/">Read the case study behind the live demo &rarr;</a></p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="book-h">
+      <h2 id="book-h">Bring this to your room</h2>
+      <p>
+        Tell me about the room and which of the four reasons fits. I'll come back with a format recommendation.
+      </p>
+      <div class="letter-cta">
+        <a href="mailto:jonathan@builtwithjon.com" class="hero-btn" data-track="cta:workshops-contact">Email jonathan@builtwithjon.com</a>
+      </div>
+      <p class="letter-ps">
+        <span class="ps-mark">P.S.</span>Looking for the networking card instead? That's at <a href="/card/">/card/</a>.
+      </p>
+    </section>
+  </div>
 </Base>

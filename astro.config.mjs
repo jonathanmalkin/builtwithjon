@@ -65,5 +65,12 @@ export default defineConfig({
     '/kits/invoice-chase-kit': '/',
     '/kits/follow-up-swipe-file': '/',
     '/use-cases': '/business-map/',
+    // Approach trio + Knowledge OS proof retired 2026-08-15 (company-brain
+    // revamp). Their src/pages/*.astro files were removed so they don't
+    // shadow the matching entries in src/worker.js and public/_redirects.
+    '/principles': '/map-not-dump/',
+    '/process': '/business-map/',
+    '/dispositions': '/map-not-dump/',
+    '/knowledge-os-proof': '/case-study/',
   },
 });

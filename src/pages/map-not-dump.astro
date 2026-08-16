@@ -1,15 +1,159 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// Permanent resource page (website plan Decision D6), adapted from the
+// article src/content/articles/give-claude-a-map-not-a-dump.md via
+// Workspace/04-Marketing/Website/map-not-dump-page-copy-DRAFT-2026-08-15.md
+// and voice-editor. The article keeps its own URL; this page carries the
+// pattern as a durable, forwardable resource that closes on the Business Map.
+
 const description =
-  "I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.";
+  'Connecting Claude to more sources gives it access, not a route. A map does what connection cannot: it points toward the right material and carries instructions for using it.';
 ---
 
-<Base title="Map, Not Dump" description={description}>
-  <section class="container-wide section-band">
-    <p class="eyebrow">Resource</p>
-    <h1>Map, Not Dump</h1>
-    <p class="subtitle">{description}</p>
-    <!-- TODO: swap in approved copy from Workspace/04-Marketing/Website/*-DRAFT-2026-08-15.md -->
-  </section>
+<Base
+  title="Give Claude a Map, Not a Dump: The Pattern Behind a Company Brain"
+  description={description}
+>
+  <div class="letter">
+    <header class="letter-open">
+      <p class="letter-dateline">Resource</p>
+      <h1>Give Claude a map. Not a dump.</h1>
+      <p class="letter-lede">
+        Connected is not organized. A map points toward the right material and carries instructions for using it.
+      </p>
+    </header>
+
+    <section>
+      <p>
+        Every new Claude session, I explain who I am. I explain what I'm working on. I point it toward some files. Then I spend several minutes rebuilding context I already built yesterday.
+      </p>
+      <p>
+        The work was never missing. It exists across email, Google Drive, Notion, calendars, project tools, and three versions of the same document named final, final-2, and final-actually-use-this-one.
+      </p>
+      <p>
+        We've spent years building a working world across all these places. Opening a new session still doesn't start with a reliable picture of that world.
+      </p>
+      <p>
+        The obvious response is to connect Claude to more sources. That helps. But it doesn't solve the actual problem.
+      </p>
+    </section>
+
+    <section aria-labelledby="connected-h">
+      <h2 id="connected-h">Why isn't connected the same as organized?</h2>
+      <p>
+        Connectors are useful. I use them. They surface information that would otherwise stay buried in a specific tool.
+      </p>
+      <p>
+        But connection opens the doors. It doesn't decide what matters, reconcile the formats, thread a meeting to the right people, or tell Claude how to use what it finds.
+      </p>
+      <p>
+        Connect every source and stop there, and Claude has access. Not a reliable route through the context.
+      </p>
+      <p>
+        A map does what connection can't: it points toward the right material and carries instructions for using it.
+      </p>
+    </section>
+
+    <section aria-labelledby="simple-h">
+      <h2 id="simple-h">What does the simplest version look like?</h2>
+      <p>Suppose I ask Claude to prep me for a meeting.</p>
+      <p>
+        There's one mounted folder and standing project instructions that point toward a root file. That file is the workspace map. For a meeting question, the route goes to Relationships.
+      </p>
+      <p>
+        Inside Relationships, a context file explains that part of the workspace. People live here. Meetings live here. Companies live here. Meeting-prep instructions live here.
+      </p>
+      <p>
+        That file points toward the meeting-prep workflow. It explains how to find the relevant meeting and what kind of briefing to produce.
+      </p>
+      <p>Three files. Three stops.</p>
+      <figure class="brain-tree">
+        <pre>CLAUDE.md                         <span class="t-note">workspace map</span>
+Relationships/CONTEXT.md          <span class="t-note">relationship map</span>
+Relationships/Meeting-Prep.md     <span class="t-note">meeting-prep instructions</span></pre>
+        <figcaption>The route for one recurring question</figcaption>
+      </figure>
+      <p>This isn't magic memory. It's repeatable orientation.</p>
+      <p>
+        Start with one recurring question, one folder that owns it, and one workflow. You don't need to reorganize your whole workspace over the weekend.
+      </p>
+    </section>
+
+    <section aria-labelledby="instructions-h">
+      <h2 id="instructions-h">Where do the instructions live?</h2>
+      <p>
+        Skills are for reusable capabilities you want available across projects or domains. Meeting prep is tied to specific files, so the workflow lives there, and the context file points to it only when Claude enters that part of the workspace.
+      </p>
+      <p>The instructions live with the work they govern.</p>
+    </section>
+
+    <section aria-labelledby="company-h">
+      <h2 id="company-h">What does this look like at company scale?</h2>
+      <p class="pull-line">
+        Map out the business. People, process and systems. Then Claude onto the business.
+      </p>
+      <p>
+        The same pattern applies at company scale. Company material usually arrives in several formats and systems: email, support calls, video transcripts, customer feedback, documents in various states, structured exports.
+      </p>
+      <p>
+        Some sources need threading. Some need extraction. Some need privacy treatment. Some already have useful text but inconsistent layouts and repeated material.
+      </p>
+      <p>
+        Before a map can route Claude toward useful context, the material itself has to become consistently usable.
+      </p>
+      <p>
+        One anonymized example: we started with roughly 5,000 messages. We narrowed to about 1,200 organized threads, ran privacy treatment on them (a treatment, not a guarantee, with a human reviewing it too), and produced about 900 prepared, consistently formatted files.
+      </p>
+      <p>
+        That preparation runs on a schedule instead of starting inside every question. The original systems stay authoritative. Live connectors handle something newly arrived, intentionally excluded, or outside the prepared route.
+      </p>
+      <p>At company scale, the file map looks like this:</p>
+      <figure class="brain-tree">
+        <pre>Brain/
+  CLAUDE.md                   <span class="t-note">material types and recurring work</span>
+  Indexes/
+    Support-Calls.md          <span class="t-note">shortlist of relevant records</span>
+    Video-Transcripts.md
+    Customer-Feedback.md
+    Email.md
+    Marketing-Content.md
+  Support-Calls/
+    support-call-07.md        <span class="t-note">prepared record, source details</span>
+  ...</pre>
+        <figcaption>Root map, to an index, to a prepared record</figcaption>
+      </figure>
+      <p>The route is still three stops: the root map, to an index, to a prepared record.</p>
+      <p>
+        More material doesn't require a more complicated system. It requires clearer routes and better preparation.
+      </p>
+    </section>
+
+    <section aria-labelledby="start-where-h">
+      <h2 id="start-where-h">Where do you start?</h2>
+      <p>Pick one recurring question your team currently checks five places to answer.</p>
+      <p>
+        Build three files: a root map that points toward the right domain, a domain file that explains what lives there, and a workflow that guides the specific recurring question.
+      </p>
+      <p>
+        Prepare the material those files govern. Run that preparation on a schedule. Let the original systems stay authoritative.
+      </p>
+      <p>Then ask the question.</p>
+      <p>
+        If it takes noticeably less setup than it did yesterday, the pattern is working. If it doesn't, the route or the preparation is the problem, not the idea.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="bm-h">
+      <h2 id="bm-h">Start with the Business Map</h2>
+      <p>
+        This is the pattern behind every company brain I build. The Business Map is the first step: your people, process, and systems on one page, plus a clear decision about what to build first.
+      </p>
+      <div class="letter-cta">
+        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-resource">Start with the Business Map</a>
+      </div>
+    </section>
+  </div>
 </Base>

@@ -3,12 +3,26 @@ import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 
-// Copy source: Workspace/04-Marketing/Website/homepage-copy-DRAFT-2026-08-15.md
-// (internal draft, 2026-08-15). Reproduced faithfully; wording is not yet
-// Jonathan-approved. No public pricing, no client name, no measured ROI claim.
+// DIRECTION CONTRACT (2026-08-15 redesign)
+// THESIS: The homepage is a working-session letter from an operator to the
+//   owner who can't see their own business. It refuses the split-hero,
+//   stat-card landing grammar the category (and the old page) shipped.
+// OWN-WORLD: Workshop paper, working ink. One ruled letter column, Newsreader
+//   passages, mono marginalia as evidence citations, full-width photo
+//   interludes, numbers set as typographic figures instead of cards.
+// STORY: The owner recognizes their week in the first lines, sees the blocked
+//   project named, learns the path (Map -> decision -> build), reads real
+//   evidence, and starts the Business Map.
+// FIRST VIEWPORT: Mono dateline, three-line serif mirror headline, serif lede,
+//   bold trigger line, one ink CTA with the capacity note beside it.
+// FORM: The operator's letter; candidate 4 of 7 grounded structures;
+//   staging: linear letter, margin notes as citations; seed b1885e21.
+//
+// Copy: finalized from Workspace/04-Marketing/Website/homepage-copy-DRAFT-2026-08-15.md
+// via voice-editor. No public pricing, no client name, no measured ROI claim.
 
 const personSchema = buildPersonSchema({
-  description: 'Jonathan Malkin maps the knowledge trapped in an owner-led business, in people, tools, and scattered files, onto one page, then builds the company brain the team and their AI can actually use.',
+  description: 'Jonathan Malkin helps owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.',
   url: 'https://builtwithjon.com',
   knowsAbout: [
     'company brain systems',
@@ -23,11 +37,11 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Start with the Business Map: put your people, process, and systems on one page, then get a clear decision about what to build first.',
+  description: 'Start with the Business Map: your people, process, and systems on one page, plus a clear decision about what to build first.',
 };
 
 const professionalServiceSchema = buildProfessionalServiceSchema({
-  description: 'Business knowledge mapping and company brain builds for owner-led businesses in Austin and across the United States.',
+  description: 'Jonathan Malkin helps owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use. Austin-based, delivers anywhere.',
   founder: personSchema,
   makesOffer: [
     {
@@ -41,153 +55,193 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 ---
 
 <Base
-  title="Company Brain Systems for Owner-Led Businesses"
-  description="Jonathan Malkin maps the knowledge trapped in your people and tools onto one page, then builds the company brain your team and AI can actually use. Start with the Business Map."
+  title="Business Knowledge Systems for Owner-Led Businesses | Austin, TX"
+  description="I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use. Start with the Business Map."
   schema={personSchema}
 >
   <JsonLd schema={websiteSchema} />
   <JsonLd schema={professionalServiceSchema} />
 
-  <section class="hero-split container-wide">
-    <div class="hero-split-copy">
-      <p class="eyebrow">Start here</p>
+  <div class="letter">
+    <header class="letter-open">
+      <p class="letter-dateline">Built with Jon &middot; Austin, TX</p>
       <h1>You can't see where the money goes.</h1>
-      <p class="subtitle">
+      <p class="letter-lede">
         The answers live in people's heads. Everything routes back through you. Frantic, and never caught up.
       </p>
-      <p class="subtitle">
+      <p class="letter-trigger">
         There's a project you keep putting off because pulling the information together is too painful.
       </p>
-      <div class="hero-links">
-        <a href="/business-map/#start" class="hero-btn">Start with the Business Map</a>
+      <div class="letter-cta">
+        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-hero">Start with the Business Map</a>
+        <p class="capacity-note">I take one build at a time. The next Business Map can start as the current build wraps.</p>
       </div>
-      <p class="subtitle">
-        I take one build at a time. The next Business Map can start as the current build wraps.
+    </header>
+
+    <section aria-labelledby="cost-h">
+      <h2 id="cost-h">What is flying blind actually costing you?</h2>
+      <p>
+        <strong>You can't see your own business.</strong> Money moves through the business and you can't say exactly where. Decisions get made on guesswork instead of what actually happened. Your team knows things you don't, and you find out after it matters.
       </p>
-    </div>
-    <figure class="hero-split-media">
-      <img
-        src="/home/workshop-room.jpg"
-        width="1600"
-        height="900"
-        alt="A full room of people watching Jonathan present a live AI demo on screen at AI Tinkerers in Sao Paulo."
-        loading="eager"
-        decoding="async"
-      />
-      <figcaption>Live demo at AI Tinkerers, Sao Paulo</figcaption>
-    </figure>
-  </section>
+      <p>
+        <strong>There's the project you keep avoiding.</strong> It's the thing you actually want to do next, the one you can't start because getting the information together is too painful. It sits there. You route around it.
+      </p>
+      <p>
+        <strong>And there's what happens if one person leaves.</strong> The knowledge that keeps the business running lives in a handful of heads. If one of them walks, so does the answer.
+      </p>
+    </section>
+  </div>
 
-  <section class="container section-band" aria-labelledby="cost-h">
-    <p class="eyebrow">What flying blind costs</p>
-    <h2 id="cost-h">What is flying blind actually costing you?</h2>
-    <div class="proof-strip">
-      <div class="proof-item">
-        <strong>You can't see your own business.</strong>
-        Money moves through the business and you can't say exactly where. Decisions get made on guesswork instead of what actually happened. Your team knows things you don't, and you find out after it matters.
-      </div>
-      <div class="proof-item">
-        <strong>There's the project you keep avoiding.</strong>
-        It's the thing you actually want to do next, the one you can't start because getting the information together is too painful. It sits there. You route around it.
-      </div>
-      <div class="proof-item">
-        <strong>And there's what happens if one person leaves.</strong>
-        The knowledge that keeps the business running lives in a handful of heads. If one of them walks, so does the answer.
-      </div>
-    </div>
-  </section>
+  <figure class="figure-band">
+    <img
+      src="/home/austin-keynote.jpg"
+      width="1600"
+      height="1066"
+      alt="Jonathan Malkin at the podium giving a live demo at the Austin Claude meetup at Capital Factory."
+      loading="lazy"
+      decoding="async"
+    />
+    <figcaption>Live demo, Austin Claude meetup at Capital Factory, August 2026</figcaption>
+  </figure>
 
-  <section class="container section-band" aria-labelledby="get-h">
-    <p class="eyebrow">What you get</p>
-    <h2 id="get-h">What do you actually get?</h2>
-    <p class="section-intro">
-      It's folders and files. Your team can read them. So can your AI assistants. That means real help with real work, not generic advice. Nothing about it locks you into a platform. High-stakes decisions stay with people, not automation.
-    </p>
-    <p class="section-intro">I call the finished system a company brain.</p>
-  </section>
+  <div class="letter">
+    <section aria-labelledby="get-h">
+      <h2 id="get-h">What do you actually get?</h2>
+      <p>
+        It's folders and files. Your team can read them. So can your AI assistants. That means real help with real work, not generic advice. Nothing about it locks you into a platform. High-stakes decisions stay with people, not automation.
+      </p>
+      <figure class="brain-tree">
+        <pre>company-brain/
+  START-HERE.md          <span class="t-note">the map: what lives where</span>
+  customers/
+    feedback-index.md
+    call-notes/          <span class="t-note">prepared, privacy-treated</span>
+  operations/
+    how-we-quote.md
+    who-knows-what.md</pre>
+        <figcaption>Illustrative. The real one is organized around your business.</figcaption>
+      </figure>
+      <p>I call the finished system a company brain.</p>
+    </section>
 
-  <section class="container section-band" aria-labelledby="playbook-h">
-    <p class="eyebrow">Why the usual playbook fails here</p>
-    <h2 id="playbook-h">Why doesn't the usual playbook work here?</h2>
-    <p class="section-intro">
-      In a big company, ten people do one job, so you automate a slice and free eight. In a small business nobody does just one thing, so the enterprise playbook falls apart.
-    </p>
-  </section>
+    <hr class="letter-rule" />
 
-  <section class="container section-band" aria-labelledby="proof-h">
-    <p class="eyebrow">Proof, not theory</p>
-    <h2 id="proof-h">Has this actually worked?</h2>
-    <div class="proof-strip">
-      <div class="proof-item">
-        <strong>~5,000 to ~900</strong>
+    <section aria-labelledby="playbook-h">
+      <h2 id="playbook-h">Why doesn't the usual playbook work here?</h2>
+      <p class="pull-line">
+        In a big company, ten people do one job, so you automate a slice and free eight. In a small business nobody does just one thing, so the enterprise playbook falls apart.
+      </p>
+    </section>
+
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="proof-h">
+      <h2 id="proof-h">Has this actually worked?</h2>
+      <p>
         One client's business had about 5,000 scattered messages. Working through them narrowed that to about 1,200 in-scope threads, then to about 900 organized, privacy-treated files the team and their AI use.
-      </div>
-      <div class="proof-item">
-        <strong>696 artifacts</strong>
-        That same build organized 696 content artifacts into one system.
-      </div>
-      <div class="proof-item">
-        <strong>770 checks, all green</strong>
-        It shipped against 770 automated checks.
-      </div>
-    </div>
-    <blockquote>
-      &ldquo;It's just all over. I open up about fifteen different things every month and export spreadsheets and try to get them all into one.&rdquo;
-    </blockquote>
-    <div class="panel" style="padding: 1.5rem; margin: 0 0 1rem;">
-      <p style="margin: 0;">
-        A lot of the source material was sensitive, so every human-sourced item went through privacy treatment with a required human review step. That's treatment, not a guarantee of complete de-identification. It was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion.
       </p>
-    </div>
-    <p>The client owns the platform, the credentials, the data, and the final system.</p>
-  </section>
+      <div class="note-anchor">
+        <figure class="funnel-fig">
+          <div class="funnel-row">
+            <div class="funnel-step"><span class="n">~5,000</span><span class="l">scattered messages</span></div>
+            <span class="funnel-arrow" aria-hidden="true">&rarr;</span>
+            <div class="funnel-step"><span class="n">~1,200</span><span class="l">in-scope threads</span></div>
+            <span class="funnel-arrow" aria-hidden="true">&rarr;</span>
+            <div class="funnel-step"><span class="n">~900</span><span class="l">organized files</span></div>
+          </div>
+        </figure>
+        <p class="margin-note">Rounded from one real build. The details are in the case study.</p>
+      </div>
+      <p>
+        That same build organized <strong>696 content artifacts</strong> into one system. It shipped against <strong>770 automated checks</strong>, all green.
+      </p>
+      <blockquote>
+        &ldquo;It's just all over. I open up about fifteen different things every month and export spreadsheets and try to get them all into one.&rdquo;
+        <cite>The owner, before the build</cite>
+      </blockquote>
+      <div class="fine-note">
+        <p>
+          A lot of the source material was sensitive, so every human-sourced item went through privacy treatment with a required human review step. That's treatment, not a guarantee of complete de-identification. It was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion.
+        </p>
+        <p>The client owns the platform, the credentials, the data, and the final system.</p>
+      </div>
+      <p><a href="/case-study/">Read the full case study &rarr;</a></p>
+    </section>
 
-  <section class="container section-band" aria-labelledby="after-h">
-    <p class="eyebrow">What comes next</p>
-    <h2 id="after-h">What happens after the Business Map?</h2>
-    <p class="section-intro">
-      We start with the Business Map: your people, process, and systems on one page, plus a clear decision about what to build first. It's the first phase of a build, not a standalone report, and it ends in a straightforward call: continue or stop.
-    </p>
-    <p class="section-intro">
-      If it's a go, the build happens in phases and you own everything as it's built: the platform, the credentials, the data.
-    </p>
-    <p class="section-intro">
-      Once the system is running, ongoing support keeps it current. Regular working meetings, not a mailbox you wait on.
-    </p>
-    <p class="section-intro">
-      Down the road, the same brain can extend into a relationship system, the kind that preps meetings and drafts follow-ups for you to approve. That's an extension, not the starting point.
-    </p>
-  </section>
+    <hr class="letter-rule" />
 
-  <section class="container why-me-grid section-band">
-    <div>
-      <p class="eyebrow">Who's behind this</p>
-      <h2>Who's behind this?</h2>
-      <p class="cred-line">
+    <section aria-labelledby="after-h">
+      <h2 id="after-h">What happens after the Business Map?</h2>
+      <ol class="path-steps">
+        <li>
+          <h3>The Business Map</h3>
+          <p>Your people, process, and systems on one page, plus a clear decision about what to build first. It's the first phase of a build, not a standalone report, and it ends in a straightforward call: continue or stop.</p>
+        </li>
+        <li>
+          <h3>The build</h3>
+          <p>If it's a go, the build happens in phases and you own everything as it's built: the platform, the credentials, the data.</p>
+        </li>
+        <li>
+          <h3>Ongoing support</h3>
+          <p>Once the system is running, ongoing support keeps it current. Regular working meetings, not a mailbox you wait on.</p>
+        </li>
+        <li>
+          <h3>Extensions, later</h3>
+          <p>Down the road, the same brain can extend into a relationship system, the kind that preps meetings and drafts follow-ups for you to approve. That's an extension, not the starting point.</p>
+        </li>
+      </ol>
+    </section>
+
+  </div>
+
+  <figure class="figure-band">
+    <img
+      src="/home/jules-demo.jpg"
+      width="1400"
+      height="787"
+      alt="Close view of a live AI assistant demo on screen, showing Jonathan alongside a real-time AI avatar."
+      loading="lazy"
+      decoding="async"
+    />
+    <figcaption>A built system answering live on stage</figcaption>
+  </figure>
+
+  <div class="letter">
+    <section aria-labelledby="who-h">
+      <h2 id="who-h">Who's behind this?</h2>
+      <p>
         20+ years in enterprise tech, 8 of them at Automation Anywhere, where I scaled a global SE org from 6 people to 250. I'm based in Austin. I meet clients in Austin rooms and deliver anywhere.
       </p>
       <p><a href="/about/">More about how I work &rarr;</a></p>
-    </div>
-    <figure class="why-me-media">
-      <img
-        src="/home/jules-demo.jpg"
-        width="1400"
-        height="787"
-        alt="Close view of a live AI assistant demo on screen, showing the presenter alongside a real-time AI avatar."
-        loading="lazy"
-        decoding="async"
-      />
-    </figure>
-  </section>
+    </section>
 
-  <section class="container home-final-cta">
-    <p class="eyebrow">Start here</p>
-    <h2>Start with the Business Map</h2>
-    <p class="section-intro">
-      I take one build at a time. The next Business Map can start as the current build wraps.
-    </p>
-    <div class="hero-links" style="justify-content: center;">
-      <a href="/business-map/#start" class="hero-btn">Start with the Business Map</a>
-    </div>
-  </section>
+    <hr class="letter-rule" />
+
+    <section aria-labelledby="start-h">
+      <h2 id="start-h">Start with the Business Map</h2>
+      <p>
+        A short intake, then a free 15-minute working session once it's a fit. The Map puts your people, process, and systems on one page and ends in a real decision.
+      </p>
+      <div class="letter-cta">
+        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-final">Start with the Business Map</a>
+      </div>
+      <div class="letter-sig">
+        <img
+          src="/home/austin-portrait.jpg"
+          width="92"
+          height="92"
+          alt="Jonathan Malkin"
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <p class="sig-name">Jonathan Malkin</p>
+          <p class="sig-role">Built with Jon &middot; Austin, TX</p>
+        </div>
+      </div>
+      <p class="letter-ps">
+        <span class="ps-mark">P.S.</span>I take one build at a time. The next Business Map can start as the current build wraps, so the intake is also how you hold your place.
+      </p>
+    </section>
+  </div>
 </Base>

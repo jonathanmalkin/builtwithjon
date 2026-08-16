@@ -4151,3 +4151,637 @@ body .path-switch.path-switch span[aria-current] {
     padding: 0 16px;
   }
 }
+
+/* ============================================================
+   2026-08 revamp: the working-session letter and the intake.
+   Composition layer for the company-brain positioning pages
+   (home, business-map, case-study, workshops, faq, map-not-dump).
+   Built on the shared foundations tokens; no new palette.
+   ============================================================ */
+
+.letter {
+  width: 100%;
+  max-width: 41rem;
+  margin: 0 auto;
+}
+
+.letter-open {
+  padding: 2.5rem 0 1rem;
+}
+
+.letter-open h1 {
+  margin: 1.1rem 0 1.4rem;
+  font-size: clamp(2.4rem, 6.4vw, 4.2rem);
+}
+
+.letter-dateline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  color: var(--ucl-ink-3);
+  font-family: var(--ucl-mono);
+  font-size: 0.69rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.letter-dateline::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--ucl-line-2);
+  transform: translateY(-0.2em);
+}
+
+.letter-lede {
+  color: var(--ucl-ink);
+  font-family: var(--ucl-serif);
+  font-size: clamp(1.25rem, 2.6vw, 1.55rem);
+  line-height: 1.35;
+  max-width: 34em;
+}
+
+.letter-trigger {
+  margin: 1.6rem 0 0;
+  color: var(--ucl-ink);
+  font-size: 1.06rem;
+  font-weight: 600;
+  max-width: 36em;
+}
+
+.letter-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.7rem 0 0.4rem;
+}
+
+.letter-cta .capacity-note {
+  margin: 0;
+  color: var(--ucl-ink-2);
+  font-size: 0.88rem;
+  max-width: 24em;
+}
+
+.letter h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.55rem, 3.4vw, 2.1rem);
+}
+
+.letter section {
+  margin: 3.2rem 0;
+}
+
+.letter p {
+  margin-bottom: 1rem;
+}
+
+.letter-rule {
+  width: 48px;
+  margin: 3rem auto;
+  border: none;
+  border-top: 1px solid var(--ucl-line-2);
+}
+
+/* Full-width photo interlude between letter passages. */
+.figure-band {
+  width: 100%;
+  max-width: var(--ucl-max-width);
+  margin: 3.2rem auto;
+}
+
+.figure-band img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--ucl-r-lg);
+  border: 1px solid var(--ucl-line-2);
+}
+
+.figure-band figcaption,
+.brain-tree figcaption,
+.funnel-fig figcaption {
+  margin-top: 0.6rem;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The product, shown honestly: folders and files on paper. */
+.brain-tree {
+  margin: 1.6rem 0;
+}
+
+.brain-tree pre {
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  background: var(--ucl-paper-card);
+  border: 1px solid var(--ucl-line-2);
+  border-radius: var(--ucl-r-md);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-mono);
+  font-size: 0.8rem;
+  line-height: 1.75;
+  overflow-x: auto;
+}
+
+.brain-tree .t-note {
+  color: var(--ucl-ink-3);
+}
+
+/* The evidence funnel as a set figure, not stat cards. */
+.funnel-fig {
+  margin: 2rem 0;
+}
+
+.funnel-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.funnel-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.funnel-step .n {
+  font-family: var(--ucl-serif);
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.funnel-step .l {
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.funnel-arrow {
+  color: var(--ucl-ink-3);
+  font-family: var(--ucl-mono);
+  font-size: 1.2rem;
+  align-self: center;
+}
+
+.letter blockquote {
+  margin: 1.8rem 0;
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--ucl-ink);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-serif);
+  font-size: 1.28rem;
+  line-height: 1.4;
+}
+
+.letter blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.68rem;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Large serif pull passage; earns its size once per page. */
+.pull-line {
+  margin: 1.4rem 0;
+  color: var(--ucl-ink);
+  font-family: var(--ucl-serif);
+  font-size: clamp(1.3rem, 2.8vw, 1.6rem);
+  line-height: 1.35;
+}
+
+/* Quiet framed note for privacy/ownership boundaries. */
+.fine-note {
+  margin: 1.8rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--ucl-line-2);
+  border-bottom: 1px solid var(--ucl-line-2);
+  color: var(--ucl-ink-2);
+  font-size: 0.92rem;
+}
+
+.fine-note p {
+  margin: 0 0 0.5rem;
+}
+
+.fine-note p:last-child {
+  margin: 0;
+}
+
+/* The path after the Map: the sequence carries the meaning. */
+.path-steps {
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: path;
+}
+
+.path-steps li {
+  counter-increment: path;
+  position: relative;
+  margin: 0 0 1.5rem;
+  padding-left: 2.6rem;
+}
+
+.path-steps li::before {
+  content: counter(path);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ucl-line-2);
+  border-radius: var(--ucl-r-sm);
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.78rem;
+}
+
+.path-steps h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+}
+
+.path-steps p {
+  margin: 0;
+  color: var(--ucl-ink-2);
+}
+
+/* Letter signature and P.S. */
+.letter-sig {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 2.2rem 0 0;
+}
+
+.letter-sig img {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: var(--ucl-r-md);
+  border: 1px solid var(--ucl-line-2);
+}
+
+.letter-sig .sig-name {
+  margin: 0;
+  font-family: var(--ucl-serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.letter-sig .sig-role {
+  margin: 0.15rem 0 0;
+  color: var(--ucl-ink-3);
+  font-family: var(--ucl-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.letter-ps {
+  margin: 2.4rem 0 3rem;
+  color: var(--ucl-ink-2);
+  font-size: 0.95rem;
+}
+
+.letter-ps .ps-mark {
+  font-family: var(--ucl-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ucl-ink-3);
+  margin-right: 0.5rem;
+}
+
+/* Margin note: evidence citation in the wide right margin. */
+.note-anchor {
+  position: relative;
+}
+
+.margin-note {
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  margin: 0.4rem 0 1rem;
+}
+
+@media (min-width: 1080px) {
+  .margin-note {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 150px;
+    margin: 0 0 0 2.2rem;
+  }
+}
+
+/* ---- Two-step Business Map intake ---- */
+.intake {
+  margin: 1.8rem 0 0;
+  padding: 1.6rem;
+  background: var(--ucl-paper-card);
+  border: 1px solid var(--ucl-line-2);
+  border-radius: var(--ucl-r-xl);
+  box-shadow: 0 10px 30px -18px rgba(31, 23, 19, 0.3);
+}
+
+.intake-progress {
+  margin: 0 0 1rem;
+  color: var(--ucl-ink-3);
+  font-family: var(--ucl-mono);
+  font-size: 0.69rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.intake .form-group {
+  margin-bottom: 1.1rem;
+}
+
+.intake fieldset.form-group {
+  border: none;
+  margin: 0 0 1.1rem;
+  padding: 0;
+}
+
+.intake legend {
+  display: block;
+  padding: 0;
+  margin-bottom: 0.35rem;
+  font-family: var(--ucl-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.intake-hint {
+  margin: 0.35rem 0 0;
+  color: var(--ucl-ink-2);
+  font-size: 0.82rem;
+}
+
+.intake-status {
+  margin: 0.9rem 0 0;
+  color: var(--ucl-ink-2);
+  font-size: 0.9rem;
+}
+
+.intake-done {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ucl-report-ln);
+  border-radius: var(--ucl-r-md);
+  background: var(--ucl-report-bg);
+  color: var(--ucl-report);
+  font-size: 0.9rem;
+}
+
+.yesno {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.yesno label {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--ucl-paper-card);
+  border: 1px solid var(--ucl-line-2);
+  border-radius: var(--ucl-r-md);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.yesno label:hover {
+  border-color: var(--ucl-ink);
+}
+
+.yesno label:has(input:checked) {
+  background: var(--ucl-paper);
+  border-color: var(--ucl-ink);
+}
+
+.yesno input[type='radio'] {
+  accent-color: var(--ucl-ink);
+  margin: 0;
+}
+
+.yesno input[type='radio']:focus-visible {
+  outline: 2px solid var(--ucl-ink);
+  outline-offset: 2px;
+}
+
+/* ---- Fit checklist (business-map) ---- */
+.fit-list {
+  margin: 1.4rem 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: fit;
+}
+
+.fit-list li {
+  counter-increment: fit;
+  position: relative;
+  margin: 0 0 0.9rem;
+  padding-left: 2.4rem;
+}
+
+.fit-list li::before {
+  content: counter(fit);
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  width: 1.55rem;
+  height: 1.55rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ucl-line-2);
+  border-radius: 50%;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.72rem;
+}
+
+/* ---- Case study artifact table ---- */
+.artifact-list {
+  margin: 1.4rem 0;
+  border-top: 1px solid var(--ucl-line-2);
+}
+
+.artifact-list div {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--ucl-line);
+}
+
+.artifact-list .count {
+  flex: 0 0 3.2rem;
+  font-family: var(--ucl-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+.artifact-list .what {
+  color: var(--ucl-ink-2);
+  font-size: 0.95rem;
+}
+
+/* Aside panel for the killed-feature story. */
+.aside-panel {
+  margin: 2rem 0;
+  padding: 1.25rem 1.4rem;
+  background: var(--ucl-paper-card);
+  border: 1px solid var(--ucl-line-2);
+  border-radius: var(--ucl-r-lg);
+}
+
+.aside-panel .aside-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--ucl-ink-3);
+  font-family: var(--ucl-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.aside-panel p {
+  margin: 0 0 0.6rem;
+}
+
+.aside-panel p:last-child {
+  margin: 0;
+}
+
+/* ---- FAQ ---- */
+.faq-list {
+  margin-top: 0.5rem;
+}
+
+.faq-list section {
+  margin: 0;
+  padding: 1.6rem 0;
+  border-top: 1px solid var(--ucl-line-2);
+}
+
+.faq-list section:last-child {
+  border-bottom: 1px solid var(--ucl-line-2);
+}
+
+.faq-list h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.35rem;
+}
+
+.faq-list p {
+  margin: 0 0 0.5rem;
+  color: var(--ucl-ink-2);
+  max-width: 44em;
+}
+
+/* ---- Workshops ---- */
+.room-list {
+  margin: 1.4rem 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: room;
+}
+
+.room-list li {
+  counter-increment: room;
+  position: relative;
+  margin: 0 0 1.2rem;
+  padding-left: 2.6rem;
+}
+
+.room-list li::before {
+  content: counter(room);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ucl-line-2);
+  border-radius: var(--ucl-r-sm);
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.78rem;
+}
+
+.format-table th {
+  font-family: var(--ucl-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ucl-ink-2);
+}
+
+/* ---- Footer nav row (2026-08 IA) ---- */
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.3rem;
+  justify-content: center;
+  margin: 0 0 1.6rem;
+  font-size: 0.85rem;
+}
+
+.footer-cta {
+  text-align: center;
+  margin: 0 0 1.8rem;
+}
+
+.footer-cta p {
+  margin: 0 0 0.75rem;
+  color: var(--ucl-ink-2);
+}
+
+@media (max-width: 640px) {
+  .letter-open {
+    padding-top: 1.4rem;
+  }
+
+  .funnel-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .funnel-arrow {
+    align-self: flex-start;
+    transform: rotate(90deg);
+  }
+
+  .letter-sig {
+    align-items: flex-start;
+  }
+
+  .yesno {
+    flex-wrap: wrap;
+  }
+}

@@ -8,7 +8,10 @@
 
 export const SITE_URL = 'https://builtwithjon.com';
 export const PERSON_NAME = 'Jonathan Malkin';
-export const JOB_TITLE = 'AI Workflow Consultant and Workshop Facilitator';
+// Decided 2026-08-15 with the company-brain positioning. "AI consultant",
+// "Operating Partner", and fractional-led titles are retired; this is the one
+// jobTitle used everywhere.
+export const JOB_TITLE = 'Knowledge Systems Builder';
 
 const DEFAULT_SAME_AS = [
   'https://github.com/jonathanmalkin',

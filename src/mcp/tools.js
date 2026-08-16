@@ -58,9 +58,8 @@ function nextSteps(env, lines) {
 }
 
 const FUNNEL_LINKS = [
-  `Run the free 3-minute scorecard (full emailed breakdown): {origin}${link("/scorecard/")}`,
-  `The Hidden Profit Review measures your leak with real data (waitlist, 4/month): {origin}${link("/hidden-profit-review/#waitlist")}`,
-  `See a complete worked review sample: {origin}${link("/hidden-profit-review/sample/")}`,
+  `Ready for professional help? Start with the Business Map (short intake, free 15-minute working session behind it): {origin}${link("/business-map/")}`,
+  `See what a finished build looks like in the anonymized case study: {origin}${link("/case-study/")}`,
 ];
 
 function text(value) {
@@ -109,11 +108,11 @@ function startHere(args, ctx) {
     `### 3. I want examples from businesses like mine → \`list_use_case_categories\`, \`search_use_cases\`, then \`get_use_case\`\n**Why:** See how a similar workflow actually breaks and what is worth changing.\n**What they do:** Search 96 worked examples across 15 categories, then return one workflow with per-step verdicts and the role AI should — or should not — play.\n**How:** Browse categories or describe the pain in plain language, then open the most relevant result by id.`,
     `### 4. I need a way to decide what should be automated → \`get_frameworks\`\n**Why:** Automation is not the right treatment for every step.\n**What it does:** Explains the Five Dispositions — eliminate, simplify, automate, optimize, report — and the five-phase implementation process.\n**How:** Ask for \`dispositions\`, \`process\`, or \`all\`.`,
     `### 5. I want to research a topic → \`search_articles\` then \`get_article\`\n**Why:** Get the underlying explanation, evidence, and implementation lessons.\n**What they do:** Search Jonathan's field notes, then return the article's text when available plus its canonical webpage.\n**How:** Search by a problem, keyword, or tag; use the returned slug to open one result.`,
-    `### 6. I want Jonathan to measure one workflow with real data → \`get_hidden_profit_review_info\`\n**Why:** The public tools diagnose and estimate; a review measures the actual workflow.\n**What it does:** Explains the deliverables, worked sample, capacity, and waitlist for the Hidden Profit Review.\n**How:** Call it with no arguments, then decide whether the measured review is the right next step.`,
+    `### 6. I want Jonathan's help with the underlying problem → \`get_business_map_info\`\n**Why:** The public tools diagnose and estimate; the Business Map is where paid work starts.\n**What it does:** Explains the Business Map, the first phase of a build: people, process, and systems on one page, plus a clear decision about what to build first.\n**How:** Call it with no arguments, then decide whether the intake is the right next step.`,
     `## Three good first prompts`,
     `- “Run the scorecard with me. Ask one question at a time.”\n- “I think missed calls are costing us work. Help me calculate it with real numbers.”\n- “Find use cases for a home-service business that struggles with lead follow-up.”`,
     `Everything in this MCP server is read-only. Scorecard answers and calculator inputs are not stored. Calculator results are always estimates; defaults are illustrative until you replace them with real business inputs.`,
-    `Prefer a normal webpage? The no-install tools hub is ${o}/tools/.`,
+    `Prefer a normal webpage? Start at ${o}/ or the server docs at ${o}/mcp/.`,
   ].join("\n\n");
   return text(body);
 }
@@ -145,7 +144,7 @@ function listUseCaseCategories(args, ctx) {
       });
     return `### ${title}\n${rows.join("\n")}`;
   });
-  const body = `# Use Case Library — ${useCases.length} worked examples across ${categories.length} categories\n\nBrowse the full library at ${origin(ctx.env)}/use-cases/. Use \`search_use_cases\` to filter, or \`get_use_case\` with an id (e.g. "A1") for the full workflow breakdown.\n\n${sections.join("\n\n")}`;
+  const body = `# Use Case Library — ${useCases.length} worked examples across ${categories.length} categories\n\nThis library is served through this MCP server. Use \`search_use_cases\` to filter, or \`get_use_case\` with an id (e.g. "A1") for the full workflow breakdown.\n\n${sections.join("\n\n")}`;
   return text(body + nextSteps(ctx.env, FUNNEL_LINKS.slice(0, 2)));
 }
 
@@ -180,7 +179,7 @@ function searchUseCases(args, ctx) {
   if (!matches.length) {
     return text(
       `No use cases matched. Try a broader keyword, or call \`list_use_case_categories\` to see what's in the library.` +
-        nextSteps(ctx.env, [`Browse all ${useCases.length} use cases: {origin}${link("/use-cases/")}`])
+        nextSteps(ctx.env, FUNNEL_LINKS.slice(0, 1))
     );
   }
 
@@ -215,7 +214,6 @@ function getUseCase(args, ctx) {
   if (uc.aiFit) parts.push(`## Where AI actually fits\n${uc.aiFit}`);
   if (uc.afterState) parts.push(`## After the fix\n${uc.afterState}`);
   if (uc.complianceNote) parts.push(`**Compliance note:** ${uc.complianceNote}`);
-  parts.push(`Full library: ${origin(ctx.env)}/use-cases/`);
 
   return text(parts.join("\n\n") + nextSteps(ctx.env, FUNNEL_LINKS.slice(0, 2)));
 }
@@ -252,13 +250,13 @@ function runScorecard(args, ctx) {
     axisRows,
     `**Your biggest leak right now:** ${lines[worst].replace(/\.$/, "")}. For ${businessPhrase}, that is usually the most expensive one to leave alone.`,
     `**Where I would start:** ${FIRST_MOVES[worst]} One working thing beats a grand plan.`,
-    `_Quick honesty: this is an estimate built from your answers and benchmarks for businesses like yours, scored exactly the way the scorecard at builtwithjon.com scores it. It describes the size of the problem; the Hidden Profit Review measures it with your real data._`,
+    `_Quick honesty: this is an estimate built from your answers and benchmarks for businesses like yours. It describes the size of the problem, not a measurement of your business._`,
   ].join("\n\n");
 
   return text(body + nextSteps(ctx.env, [
     "Next, call `list_leak_calculators`, choose the closest match to the worst leak, ask for the user's real inputs, then call `calculate_leak`.",
     "After pricing it, call `search_use_cases` for the same problem and open one strong match with `get_use_case`.",
-    ...FUNNEL_LINKS.slice(1, 2),
+    ...FUNNEL_LINKS.slice(0, 1),
   ]));
 }
 
@@ -269,7 +267,7 @@ function listLeakCalculators(args, ctx) {
     const fields = c.fields.map((f) => `\`${f.k}\` (${f.label}; default ${f.v})`).join(", ");
     return `- **${c.id}** — ${c.title} (${c.segment} · ${c.axis}). ${c.desc}\n  Inputs: ${fields}`;
   });
-  const body = `# The Leak Calculator — 10 ways to put a dollar figure on an operational leak\n\nCall \`calculate_leak\` with a calculator_id and the numbers you know; anything you leave out uses the illustrative default. Interactive version: ${origin(ctx.env)}/tools/leak-calculator/\n\n${rows.join("\n")}`;
+  const body = `# The Leak Calculator — 10 ways to put a dollar figure on an operational leak\n\nCall \`calculate_leak\` with a calculator_id and the numbers you know; anything you leave out uses the illustrative default.\n\n${rows.join("\n")}`;
   return text(body + nextSteps(ctx.env, FUNNEL_LINKS.slice(0, 2)));
 }
 
@@ -324,7 +322,7 @@ function calculateLeak(args, ctx) {
   return text(body + nextSteps(ctx.env, [
     "Now call `search_use_cases` for this same leak and open one strong match with `get_use_case` so the user can see what a practical fix looks like.",
     "If this was a known problem and the user has not ranked deals, time, and cash, offer `run_scorecard` next.",
-    ...FUNNEL_LINKS.slice(1, 2),
+    ...FUNNEL_LINKS.slice(0, 1),
   ]));
 }
 
@@ -339,7 +337,7 @@ function getFrameworks(args, ctx) {
       .map((d) => `- **${d.label}** — "${d.question}" ${d.meaning}`)
       .join("\n");
     parts.push(
-      `# The Five Dispositions\n${dispositionFraming.heading} ${dispositionFraming.intro}\n\n${rows}\n\n${dispositionFraming.afterTable}\n\n**${dispositionFraming.aiHeading}** ${dispositionFraming.aiBody}\n\nFull page: ${origin(ctx.env)}/dispositions/`
+      `# The Five Dispositions\n${dispositionFraming.heading} ${dispositionFraming.intro}\n\n${rows}\n\n${dispositionFraming.afterTable}\n\n**${dispositionFraming.aiHeading}** ${dispositionFraming.aiBody}`
     );
   }
 
@@ -347,22 +345,23 @@ function getFrameworks(args, ctx) {
     const rows = processPhases
       .map((p) => `${p.num}. **${p.name}** (${p.short}) — ${p.body}\n   Principle: _${p.principle}_ · Output: ${p.output}`)
       .join("\n");
-    parts.push(`# The 5-Phase Process\n${rows}\n\nFull pages: ${origin(ctx.env)}/process/ and ${origin(ctx.env)}/principles/`);
+    parts.push(`# The 5-Phase Process\n${rows}`);
   }
 
   return text(parts.join("\n\n---\n\n") + nextSteps(ctx.env, FUNNEL_LINKS.slice(0, 2)));
 }
 
-function getHiddenProfitReviewInfo(args, ctx) {
+function getBusinessMapInfo(args, ctx) {
   const o = origin(ctx.env);
   const body = [
-    `# The Hidden Profit Review`,
-    `**Find the profit hiding in how your business actually runs.**`,
-    `Bring one recurring process that is quietly costing time, follow-up, or cash. Jonathan Malkin (AI Workflow Consultant & Implementation Partner, Austin TX) maps the workflow, surfaces the profit it is leaking, and tells you whether to pilot AI now, clean up first, hand it off, or leave it alone.`,
-    `**What it is:** a measured review of one recurring business workflow to surface the profit it is leaking in deals, time, and cash, with one safe first AI pilot recommendation. Every step that touches a high-stakes decision keeps a human at the gate by design, and clients own everything that gets built.`,
-    `**What you get:** the business case with financial projections, a process scorecard, the workflow mapped end to end with per-step verdicts (eliminate / simplify / automate / optimize / report), and the first pilot recommendation. See a complete worked sample for a $24M general contractor: ${o}/hidden-profit-review/sample/`,
-    `**How it runs:** Jonathan runs every review personally, so capacity is 4 reviews a month and spots go through a waitlist — invites go out in order, no obligation. Joining takes about 30 seconds at ${o}/hidden-profit-review/#waitlist`,
-    `**Not sure it's for you yet?** The free 3-minute scorecard (${o}/scorecard/) ranks where you're leaking deals, time, and cash — or run it right here with the \`run_scorecard\` tool. The use case library (${o}/use-cases/) shows ${useCases.length} worked examples of what fixes look like.`,
+    `# The Business Map`,
+    `**Your people, process, and systems on one page, plus a clear decision about what to build first.**`,
+    `Jonathan Malkin (Austin, TX) helps owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use. He calls the finished system a company brain: folders and files a team and its AI assistants can both read and use.`,
+    `**What it is:** the first phase of a build, not a standalone report. It ends in a straightforward call: continue into the build, or stop with the map you paid for. Either way the client keeps the map.`,
+    `**Who it fits:** there's a project the owner keeps putting off because getting the information together is too painful; someone besides the owner needs answers the business can't give them today; and nobody on the team is already building it.`,
+    `**What you can count on:** the client owns the platform, the credentials, the data, and the final system. High-stakes decisions stay with people. Sensitive material gets privacy treatment with a required human review step, which is treatment, not a guarantee of complete de-identification.`,
+    `**How it starts:** a short intake at ${o}/business-map/ with a free 15-minute working session behind it once it's a fit. Jonathan takes one build at a time; the next Business Map can start as the current build wraps. No public pricing; cost is scoped after the Map.`,
+    `**Proof:** an anonymized case study of a finished build is at ${o}/case-study/: 696 content artifacts organized into one system, roughly 5,000 scattered messages narrowed to about 900 organized, privacy-treated files, shipped against 770 green automated checks.`,
   ].join("\n\n");
   return text(body);
 }
@@ -505,7 +504,7 @@ export const TOOLS = [
   {
     name: "run_scorecard",
     description:
-      "Run Built with Jon's 3-minute AI Workflow Scorecard: ask the user these questions conversationally, then call this with their answers to get a scored verdict on where their business is leaking deals, time, and cash — plus the first fix worth making. Same deterministic scoring as builtwithjon.com/scorecard/. No email or signup involved.",
+      "Run Built with Jon's 3-minute business diagnostic: ask the user these questions conversationally, then call this with their answers to get a scored verdict on where their business is leaking deals, time, and cash — plus the first fix worth making. Deterministic scoring. No email or signup involved.",
     inputSchema: {
       type: "object",
       properties: SCORECARD_PROPERTIES,
@@ -552,11 +551,11 @@ export const TOOLS = [
     handler: getFrameworks,
   },
   {
-    name: "get_hidden_profit_review_info",
+    name: "get_business_map_info",
     description:
-      "Get the details of the Hidden Profit Review — Jonathan Malkin's paid, measured review of one recurring business workflow (deliverables, worked sample, waitlist mechanics, capacity). Call when a user wants professional help finding or fixing a profit leak.",
+      "Get the details of the Business Map — the first phase of a Jonathan Malkin build: the client's people, process, and systems on one page, plus a clear decision about what to build first. Call when a user wants professional help turning trapped business knowledge into systems their team and AI can use.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
-    handler: getHiddenProfitReviewInfo,
+    handler: getBusinessMapInfo,
   },
   {
     name: "search_articles",
