@@ -3,23 +3,30 @@ import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 
-// DIRECTION CONTRACT (2026-08-15 redesign)
-// THESIS: The homepage is a working-session letter from an operator to the
-//   owner who can't see their own business. It refuses the split-hero,
-//   stat-card landing grammar the category (and the old page) shipped.
-// OWN-WORLD: Workshop paper, working ink. One ruled letter column, Newsreader
-//   passages, mono marginalia as evidence citations, full-width photo
-//   interludes, numbers set as typographic figures instead of cards.
-// STORY: The owner recognizes their week in the first lines, sees the blocked
-//   project named, learns the path (Map -> decision -> build), reads real
-//   evidence, and starts the Business Map.
-// FIRST VIEWPORT: Mono dateline, three-line serif mirror headline, serif lede,
-//   bold trigger line, one ink CTA with the capacity note beside it.
-// FORM: The operator's letter; candidate 4 of 7 grounded structures;
-//   staging: linear letter, margin notes as citations; seed b1885e21.
+// DIRECTION CONTRACT (2026-08-16 redesign)
+// THESIS: The homepage is the working session pinned up at full width: the
+//   operator is in the room (large real photography), the evidence is on the
+//   wall (figures set at display scale), and one action is on the table. It
+//   replaces the narrow letter column with a visually led magazine spread.
+// OWN-WORLD: Workshop paper, working ink, Newsreader display. Stage-dark
+//   Capital Factory photographs as large blocks against paper; evidence drawn
+//   as designed figures (a proportional funnel, the company-brain tree as a
+//   paper artifact, small labeled-illustrative diagrams); asymmetric grids at
+//   desktop width, one calm column on mobile.
+// STORY: The owner recognizes their week beside the person who fixes it,
+//   scans the three costs in ruled columns, sees the product as an artifact,
+//   reads the funnel figures and the owner's own words, walks the four-step
+//   path, and starts the Business Map. Visuals, headlines, and figures alone
+//   carry the whole pitch.
+// FIRST VIEWPORT: Full-container asymmetric hero: mirror headline, lede,
+//   trigger line, and one ink CTA on the left; a tall stage portrait of
+//   Jonathan mid-demo on the right. No caption, no stat row, one action.
+// FORM: The pinned-up working session; magazine-spread staging over the
+//   letter; copy carried verbatim from the 2026-08-15 letter; seed b1885e21.
 //
-// Copy: finalized from Workspace/04-Marketing/Website/homepage-copy-DRAFT-2026-08-15.md
-// via voice-editor. No public pricing, no client name, no measured ROI claim.
+// Copy: verbatim-frozen from the 2026-08-15 approved letter
+// (Workspace/04-Marketing/Website/homepage-copy-DRAFT-2026-08-15.md via
+// voice-editor). No public pricing, no client name, no measured ROI claim.
 
 const personSchema = buildPersonSchema({
   description: 'Jonathan Malkin helps owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.',
@@ -62,24 +69,36 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   <JsonLd schema={websiteSchema} />
   <JsonLd schema={professionalServiceSchema} />
 
-  <div class="letter">
-    <header class="letter-open">
-      <p class="letter-dateline">Built with Jon &middot; Austin, TX</p>
+  <section class="home-hero">
+    <div class="home-hero-copy">
+      <p class="home-dateline">Built with Jon &middot; Austin, TX</p>
       <h1>You can't see where the money goes.</h1>
-      <p class="letter-lede">
+      <p class="home-lede">
         The answers live in people's heads. Everything routes back through you. Frantic, and never caught up.
       </p>
-      <p class="letter-trigger">
+      <p class="home-trigger">
         There's a project you keep putting off because pulling the information together is too painful.
       </p>
-      <div class="letter-cta">
+      <div class="home-cta">
         <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-hero">Start with the Business Map</a>
-        <p class="capacity-note">I take one build at a time. The next Business Map can start as the current build wraps.</p>
+        <p class="home-capacity">I take one build at a time. The next Business Map can start as the current build wraps.</p>
       </div>
-    </header>
+    </div>
+    <div class="home-hero-media">
+      <img
+        src="/home/austin-hero.jpg"
+        width="1082"
+        height="1360"
+        alt="Jonathan Malkin mid-demo on stage at Capital Factory in Austin, presenter remote in hand."
+        fetchpriority="high"
+        decoding="async"
+      />
+    </div>
+  </section>
 
-    <section aria-labelledby="cost-h">
-      <h2 id="cost-h">What is flying blind actually costing you?</h2>
+  <section class="home-sec home-costs" aria-labelledby="cost-h">
+    <h2 id="cost-h">What is flying blind actually costing you?</h2>
+    <div class="home-costs-grid">
       <p>
         <strong>You can't see your own business.</strong> Money moves through the business and you can't say exactly where. Decisions get made on guesswork instead of what actually happened. Your team knows things you don't, and you find out after it matters.
       </p>
@@ -89,8 +108,8 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       <p>
         <strong>And there's what happens if one person leaves.</strong> The knowledge that keeps the business running lives in a handful of heads. If one of them walks, so does the answer.
       </p>
-    </section>
-  </div>
+    </div>
+  </section>
 
   <figure class="figure-band">
     <img
@@ -104,14 +123,16 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     <figcaption>Live demo, Austin Claude meetup at Capital Factory, August 2026</figcaption>
   </figure>
 
-  <div class="letter">
-    <section aria-labelledby="get-h">
+  <section class="home-sec home-get" aria-labelledby="get-h">
+    <div class="home-get-copy">
       <h2 id="get-h">What do you actually get?</h2>
       <p>
         It's folders and files. Your team can read them. So can your AI assistants. That means real help with real work, not generic advice. Nothing about it locks you into a platform. High-stakes decisions stay with people, not automation.
       </p>
-      <figure class="brain-tree">
-        <pre>company-brain/
+      <p class="home-get-line">I call the finished system a company brain.</p>
+    </div>
+    <figure class="home-tree">
+      <pre>company-brain/
   START-HERE.md          <span class="t-note">the map: what lives where</span>
   customers/
     feedback-index.md
@@ -119,129 +140,205 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   operations/
     how-we-quote.md
     who-knows-what.md</pre>
-        <figcaption>Illustrative. The real one is organized around your business.</figcaption>
-      </figure>
-      <p>I call the finished system a company brain.</p>
-    </section>
+      <figcaption>Illustrative. The real one is organized around your business.</figcaption>
+    </figure>
+  </section>
 
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="playbook-h">
+  <section class="home-sec home-playbook" aria-labelledby="playbook-h">
+    <div class="home-playbook-copy">
       <h2 id="playbook-h">Why doesn't the usual playbook work here?</h2>
-      <p class="pull-line">
+      <p class="home-pull">
         In a big company, ten people do one job, so you automate a slice and free eight. In a small business nobody does just one thing, so the enterprise playbook falls apart.
       </p>
-    </section>
+    </div>
+    <figure class="home-playbook-fig">
+      <svg viewBox="0 0 560 220" role="img" aria-label="Diagram contrasting a big company, where automating one job frees eight people, with a small business, where one person carries many jobs at once.">
+        <rect x="103" y="58" width="44" height="99" rx="9" fill="none" class="home-fig-slice" />
+        <g class="home-fig-freed">
+          <circle cx="45" cy="85" r="11" /><circle cx="85" cy="85" r="11" />
+          <circle cx="165" cy="85" r="11" /><circle cx="205" cy="85" r="11" />
+          <circle cx="45" cy="130" r="11" /><circle cx="85" cy="130" r="11" />
+          <circle cx="165" cy="130" r="11" /><circle cx="205" cy="130" r="11" />
+        </g>
+        <g class="home-fig-slice-fill">
+          <circle cx="125" cy="85" r="11" /><circle cx="125" cy="130" r="11" />
+        </g>
+        <text x="125" y="203" text-anchor="middle" class="home-fig-label">big company</text>
+        <g class="home-fig-lines">
+          <line x1="430" y1="107" x2="494" y2="107" /><line x1="430" y1="107" x2="475" y2="152" />
+          <line x1="430" y1="107" x2="430" y2="171" /><line x1="430" y1="107" x2="385" y2="152" />
+          <line x1="430" y1="107" x2="366" y2="107" /><line x1="430" y1="107" x2="385" y2="62" />
+          <line x1="430" y1="107" x2="430" y2="43" /><line x1="430" y1="107" x2="475" y2="62" />
+        </g>
+        <g class="home-fig-jobs">
+          <rect x="486" y="99" width="16" height="16" rx="3" /><rect x="467" y="144" width="16" height="16" rx="3" />
+          <rect x="422" y="163" width="16" height="16" rx="3" /><rect x="377" y="144" width="16" height="16" rx="3" />
+          <rect x="358" y="99" width="16" height="16" rx="3" /><rect x="377" y="54" width="16" height="16" rx="3" />
+          <rect x="422" y="35" width="16" height="16" rx="3" /><rect x="467" y="54" width="16" height="16" rx="3" />
+        </g>
+        <circle cx="430" cy="107" r="15" class="home-fig-owner" />
+        <text x="430" y="203" text-anchor="middle" class="home-fig-label">small business</text>
+      </svg>
+      <figcaption>Illustrative</figcaption>
+    </figure>
+  </section>
 
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="proof-h">
-      <h2 id="proof-h">Has this actually worked?</h2>
-      <p>
-        One client's business had about 5,000 scattered messages. Working through them narrowed that to about 1,200 in-scope threads, then to about 900 organized, privacy-treated files the team and their AI use.
-      </p>
-      <div class="note-anchor">
-        <figure class="funnel-fig">
-          <div class="funnel-row">
-            <div class="funnel-step"><span class="n">~5,000</span><span class="l">scattered messages</span></div>
-            <span class="funnel-arrow" aria-hidden="true">&rarr;</span>
-            <div class="funnel-step"><span class="n">~1,200</span><span class="l">in-scope threads</span></div>
-            <span class="funnel-arrow" aria-hidden="true">&rarr;</span>
-            <div class="funnel-step"><span class="n">~900</span><span class="l">organized files</span></div>
-          </div>
-        </figure>
-        <p class="margin-note">Rounded from one real build. The details are in the case study.</p>
+  <section class="home-sec home-proof" aria-labelledby="proof-h">
+    <h2 id="proof-h">Has this actually worked?</h2>
+    <p class="home-proof-intro">
+      One client's business had about 5,000 scattered messages. Working through them narrowed that to about 1,200 in-scope threads, then to about 900 organized, privacy-treated files the team and their AI use.
+    </p>
+    <figure class="home-funnel">
+      <div class="home-funnel-stage" style="--w: 100%">
+        <p class="home-funnel-head"><span class="n">~5,000</span><span class="l">scattered messages</span></p>
+        <div class="bar" aria-hidden="true"></div>
       </div>
-      <p>
-        That same build organized <strong>696 content artifacts</strong> into one system. It shipped against <strong>770 automated checks</strong>, all green.
-      </p>
-      <blockquote>
+      <div class="home-funnel-stage" style="--w: 24%">
+        <p class="home-funnel-head"><span class="n">~1,200</span><span class="l">in-scope threads</span></p>
+        <div class="bar" aria-hidden="true"></div>
+      </div>
+      <div class="home-funnel-stage is-outcome" style="--w: 18%">
+        <p class="home-funnel-head"><span class="n">~900</span><span class="l">organized files</span></p>
+        <div class="bar" aria-hidden="true"></div>
+      </div>
+      <figcaption>Rounded from one real build. The details are in the case study.</figcaption>
+    </figure>
+    <div class="home-proof-grid">
+      <blockquote class="home-quote">
         &ldquo;It's just all over. I open up about fifteen different things every month and export spreadsheets and try to get them all into one.&rdquo;
         <cite>The owner, before the build</cite>
       </blockquote>
-      <div class="fine-note">
+      <div class="home-proof-notes">
         <p>
-          A lot of the source material was sensitive, so every human-sourced item went through privacy treatment with a required human review step. That's treatment, not a guarantee of complete de-identification. It was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion.
+          That same build organized <strong>696 content artifacts</strong> into one system. It shipped against <strong>770 automated checks</strong>, all green.
         </p>
-        <p>The client owns the platform, the credentials, the data, and the final system.</p>
+        <div class="fine-note">
+          <p>
+            A lot of the source material was sensitive, so every human-sourced item went through privacy treatment with a required human review step. That's treatment, not a guarantee of complete de-identification. It was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion.
+          </p>
+          <p>The client owns the platform, the credentials, the data, and the final system.</p>
+        </div>
+        <p><a href="/case-study/">Read the full case study &rarr;</a></p>
       </div>
-      <p><a href="/case-study/">Read the full case study &rarr;</a></p>
-    </section>
+    </div>
+    <figure class="figure-band home-proof-band">
+      <img
+        src="/home/jules-demo.jpg"
+        width="1400"
+        height="787"
+        alt="Close view of a live AI assistant demo on screen, showing Jonathan alongside a real-time AI avatar."
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>A built system answering live on stage</figcaption>
+    </figure>
+  </section>
 
-    <hr class="letter-rule" />
+  <section class="home-sec home-path" aria-labelledby="after-h">
+    <h2 id="after-h">What happens after the Business Map?</h2>
+    <ol class="home-path-steps">
+      <li>
+        <h3>The Business Map</h3>
+        <p>Your people, process, and systems on one page, plus a clear decision about what to build first. It's the first phase of a build, not a standalone report, and it ends in a straightforward call: continue or stop.</p>
+      </li>
+      <li>
+        <h3>The build</h3>
+        <p>If it's a go, the build happens in phases and you own everything as it's built: the platform, the credentials, the data.</p>
+      </li>
+      <li>
+        <h3>Ongoing support</h3>
+        <p>Once the system is running, ongoing support keeps it current. Regular working meetings, not a mailbox you wait on.</p>
+      </li>
+      <li>
+        <h3>Extensions, later</h3>
+        <p>Down the road, the same brain can extend into a relationship system, the kind that preps meetings and drafts follow-ups for you to approve. That's an extension, not the starting point.</p>
+      </li>
+    </ol>
+  </section>
 
-    <section aria-labelledby="after-h">
-      <h2 id="after-h">What happens after the Business Map?</h2>
-      <ol class="path-steps">
-        <li>
-          <h3>The Business Map</h3>
-          <p>Your people, process, and systems on one page, plus a clear decision about what to build first. It's the first phase of a build, not a standalone report, and it ends in a straightforward call: continue or stop.</p>
-        </li>
-        <li>
-          <h3>The build</h3>
-          <p>If it's a go, the build happens in phases and you own everything as it's built: the platform, the credentials, the data.</p>
-        </li>
-        <li>
-          <h3>Ongoing support</h3>
-          <p>Once the system is running, ongoing support keeps it current. Regular working meetings, not a mailbox you wait on.</p>
-        </li>
-        <li>
-          <h3>Extensions, later</h3>
-          <p>Down the road, the same brain can extend into a relationship system, the kind that preps meetings and drafts follow-ups for you to approve. That's an extension, not the starting point.</p>
-        </li>
-      </ol>
-    </section>
-
-  </div>
-
-  <figure class="figure-band">
-    <img
-      src="/home/jules-demo.jpg"
-      width="1400"
-      height="787"
-      alt="Close view of a live AI assistant demo on screen, showing Jonathan alongside a real-time AI avatar."
-      loading="lazy"
-      decoding="async"
-    />
-    <figcaption>A built system answering live on stage</figcaption>
-  </figure>
-
-  <div class="letter">
-    <section aria-labelledby="who-h">
+  <section class="home-sec home-who" aria-labelledby="who-h">
+    <figure class="home-who-media">
+      <img
+        src="/home/austin-workshop.jpg"
+        width="1600"
+        height="1066"
+        alt="Jonathan Malkin at the Capital Factory podium in Austin, centered in the venue's gear-shaped stage wall."
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>Capital Factory, Austin</figcaption>
+    </figure>
+    <div class="home-who-copy">
       <h2 id="who-h">Who's behind this?</h2>
       <p>
         20+ years in enterprise tech, 8 of them at Automation Anywhere, where I scaled a global SE org from 6 people to 250. I'm based in Austin. I meet clients in Austin rooms and deliver anywhere.
       </p>
       <p><a href="/about/">More about how I work &rarr;</a></p>
-    </section>
+    </div>
+  </section>
 
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="start-h">
-      <h2 id="start-h">Start with the Business Map</h2>
-      <p>
-        A short intake, then a free 15-minute working session once it's a fit. The Map puts your people, process, and systems on one page and ends in a real decision.
-      </p>
-      <div class="letter-cta">
-        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-final">Start with the Business Map</a>
-      </div>
-      <div class="letter-sig">
-        <img
-          src="/home/austin-portrait.jpg"
-          width="92"
-          height="92"
-          alt="Jonathan Malkin"
-          loading="lazy"
-          decoding="async"
-        />
-        <div>
-          <p class="sig-name">Jonathan Malkin</p>
-          <p class="sig-role">Built with Jon &middot; Austin, TX</p>
+  <section class="home-sec home-final" aria-labelledby="start-h">
+    <div class="home-final-grid">
+      <div class="home-final-copy">
+        <h2 id="start-h">Start with the Business Map</h2>
+        <p>
+          A short intake, then a free 15-minute working session once it's a fit. The Map puts your people, process, and systems on one page and ends in a real decision.
+        </p>
+        <div class="home-cta">
+          <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-final">Start with the Business Map</a>
         </div>
       </div>
-      <p class="letter-ps">
-        <span class="ps-mark">P.S.</span>I take one build at a time. The next Business Map can start as the current build wraps, so the intake is also how you hold your place.
-      </p>
-    </section>
-  </div>
+      <figure class="home-map-fig">
+        <svg viewBox="0 0 360 440" role="img" aria-label="Illustrative sketch of a one-page Business Map: people, process, and systems on one sheet, ending in a continue-or-stop decision.">
+          <rect x="8" y="8" width="344" height="424" rx="10" class="home-map-sheet" />
+          <line x1="32" y1="48" x2="328" y2="48" class="home-map-rule-strong" />
+          <g class="home-map-people">
+            <circle cx="58" cy="96" r="10" /><circle cx="100" cy="88" r="10" /><circle cx="142" cy="100" r="10" />
+            <line x1="46" y1="120" x2="70" y2="120" /><line x1="88" y1="112" x2="112" y2="112" /><line x1="130" y1="124" x2="154" y2="124" />
+          </g>
+          <text x="32" y="164" class="home-fig-label">people</text>
+          <g class="home-map-process">
+            <rect x="196" y="88" width="34" height="22" rx="4" /><rect x="245" y="88" width="34" height="22" rx="4" /><rect x="294" y="88" width="34" height="22" rx="4" />
+            <line x1="230" y1="99" x2="245" y2="99" /><line x1="279" y1="99" x2="294" y2="99" />
+          </g>
+          <text x="196" y="164" class="home-fig-label">process</text>
+          <line x1="178" y1="72" x2="178" y2="150" class="home-map-rule" />
+          <g class="home-map-systems">
+            <rect x="40" y="210" width="82" height="48" rx="5" />
+            <rect x="139" y="210" width="82" height="48" rx="5" />
+            <rect x="238" y="210" width="82" height="48" rx="5" />
+            <line x1="122" y1="234" x2="139" y2="234" /><line x1="221" y1="234" x2="238" y2="234" />
+            <line x1="52" y1="226" x2="110" y2="226" /><line x1="52" y1="240" x2="96" y2="240" />
+            <line x1="151" y1="226" x2="209" y2="226" /><line x1="151" y1="240" x2="195" y2="240" />
+            <line x1="250" y1="226" x2="308" y2="226" /><line x1="250" y1="240" x2="294" y2="240" />
+          </g>
+          <text x="32" y="300" class="home-fig-label">systems</text>
+          <line x1="32" y1="336" x2="328" y2="336" class="home-map-rule" />
+          <g class="home-map-decision">
+            <rect x="40" y="362" width="18" height="18" rx="4" /><rect x="168" y="362" width="18" height="18" rx="4" />
+          </g>
+          <text x="68" y="376" class="home-fig-label">continue</text>
+          <text x="196" y="376" class="home-fig-label">stop</text>
+        </svg>
+        <figcaption>Illustrative</figcaption>
+      </figure>
+    </div>
+    <div class="home-sig">
+      <img
+        src="/home/austin-portrait.jpg"
+        width="92"
+        height="92"
+        alt="Jonathan Malkin"
+        loading="lazy"
+        decoding="async"
+      />
+      <div>
+        <p class="sig-name">Jonathan Malkin</p>
+        <p class="sig-role">Built with Jon &middot; Austin, TX</p>
+      </div>
+    </div>
+    <p class="home-ps">
+      <span class="ps-mark">P.S.</span>I take one build at a time. The next Business Map can start as the current build wraps, so the intake is also how you hold your place.
+    </p>
+  </section>
 </Base>
