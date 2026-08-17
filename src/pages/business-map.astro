@@ -79,6 +79,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         <li>Nobody on your team is already building this and expecting to finish it.</li>
         <li>You can make the call to move forward, or you know whose call it is.</li>
       </ol>
+      <p>The project doesn't have to be a launch. Getting a key hire up to speed counts. So does getting the business ready to sell.</p>
       <p>If that sounds like your business, the intake below is the place to start.</p>
     </section>
 
@@ -117,6 +118,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         <input type="hidden" name="_subject" value="Business Map intake (step 1)" />
         <input type="hidden" name="inquiry_type" value="business-map-intake" />
         <input type="hidden" name="form_id" value="business-map" />
+        <input type="hidden" name="framing" value="" />
         <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
 
         <div class="form-group">
@@ -146,6 +148,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
           <input type="hidden" name="_subject" value="Business Map intake (step 2)" />
           <input type="hidden" name="inquiry_type" value="business-map-intake" />
           <input type="hidden" name="form_id" value="business-map-details" />
+          <input type="hidden" name="framing" value="" />
           <input type="hidden" name="email" value="" />
           <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
 
@@ -194,6 +197,19 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   const step1 = document.querySelector('.bm-step1');
   const step2Template = document.getElementById('bm-step2-template');
   const step2Slot = document.querySelector('.bm-step2-slot');
+  const FRAMINGS = ['product', 'marketing', 'onboarding', 'exit'];
+  const framingParam = new URLSearchParams(location.search).get('f');
+  const framing = FRAMINGS.includes(framingParam) ? framingParam : '';
+
+  // Which homepage door the visitor came through; empty fields are removed so
+  // no stray value reaches the worker.
+  function applyFraming(scope) {
+    scope.querySelectorAll('input[name="framing"]').forEach((el) => {
+      if (framing) el.value = framing;
+      else el.remove();
+    });
+  }
+  applyFraming(document);
 
   function statusEl(form) {
     return form.querySelector('.intake-status');
@@ -225,6 +241,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     if (!step2) return;
     const emailField = step2.querySelector('input[name="email"]');
     if (emailField) emailField.value = email;
+    applyFraming(step2);
     if (window.bwjInjectAttribution) window.bwjInjectAttribution(step2Slot);
 
     step2.addEventListener('submit', async (event) => {

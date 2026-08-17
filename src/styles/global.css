@@ -4938,24 +4938,29 @@ body .path-switch.path-switch span[aria-current] {
   max-width: 18em;
 }
 
-/* ---- The three costs, ruled editorial columns ---- */
-.home-costs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2.2rem;
-  margin-top: 2rem;
+/* ---- Growth doors, ruled editorial columns ---- */
+.home-doors-kicker {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ucl-ink-2);
 }
 
-.home-costs-grid p {
-  margin: 0;
+.home-doors-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.2rem;
+  margin-top: 1.4rem;
+}
+
+.home-door {
   padding-top: 1.1rem;
   border-top: 1px solid var(--ucl-ink);
-  color: var(--ucl-ink-2);
-  font-size: 0.97rem;
 }
 
-.home-costs-grid p strong {
-  display: block;
+.home-door h2 {
   margin: 0 0 0.55rem;
   color: var(--ucl-ink);
   font-family: var(--ucl-serif);
@@ -4963,6 +4968,59 @@ body .path-switch.path-switch span[aria-current] {
   font-weight: 500;
   line-height: 1.18;
   letter-spacing: -0.01em;
+  max-width: none;
+}
+
+.home-door p {
+  margin: 0 0 0.9rem;
+  color: var(--ucl-ink-2);
+  font-size: 0.97rem;
+}
+
+.home-door-shapes {
+  margin: 0 0 1.3rem;
+  padding-left: 1.1rem;
+  color: var(--ucl-ink-2);
+  font-size: 0.95rem;
+}
+
+.home-door-shapes li {
+  margin: 0.3rem 0;
+}
+
+.home-door-secondary {
+  margin-top: 2.6rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--ucl-line-2);
+}
+
+.home-door-secondary h2 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  max-width: none;
+}
+
+.home-door-secondary > p {
+  margin: 0 0 1rem;
+  color: var(--ucl-ink-2);
+  font-size: 0.95rem;
+}
+
+.home-door-secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.2rem;
+}
+
+.home-door-secondary-grid p {
+  margin: 0;
+  color: var(--ucl-ink-2);
+  font-size: 0.95rem;
+}
+
+.home-door-secondary-grid a {
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 /* ---- What you get: copy beside the artifact ---- */
@@ -5385,7 +5443,8 @@ body .path-switch.path-switch span[aria-current] {
     object-position: 50% 16%;
   }
 
-  .home-costs-grid {
+  .home-doors-grid,
+  .home-door-secondary-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.6rem;
   }

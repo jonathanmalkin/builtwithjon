@@ -187,3 +187,19 @@ GROUP BY referrer_host, event
 ORDER BY hits DESC
 LIMIT 50
 ```
+
+## Framing doors (homepage CTA clicks by lane)
+
+The four homepage lanes track as `cta:business-map-product|marketing|onboarding|exit`; the
+corresponding intake records carry a `framing` field with the same value.
+
+```sql
+SELECT
+  blob1 AS event,
+  SUM(double1 * _sample_interval) AS clicks
+FROM site_events
+WHERE timestamp > NOW() - INTERVAL '30' DAY
+  AND blob1 LIKE 'cta:business-map-%'
+GROUP BY event
+ORDER BY clicks DESC
+```

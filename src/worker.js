@@ -114,8 +114,9 @@ const FORM_MAP = {
   "business-map": {
     groups: ["offer:business-map"],
     fields: {},
-    allowed: [],
+    allowed: ["framing"],
     required: [],
+    enums: { framing: ["", "product", "marketing", "onboarding", "exit"] },
   },
   "business-map-details": {
     groups: ["offer:business-map"],
@@ -124,9 +125,13 @@ const FORM_MAP = {
       key_person: "key_person",
       already_building: "already_building",
     },
-    allowed: ["blocked_project", "key_person", "already_building"],
+    allowed: ["blocked_project", "key_person", "already_building", "framing"],
     required: ["blocked_project"],
-    enums: { key_person: ["Yes", "No"], already_building: ["Yes", "No"] },
+    enums: {
+      key_person: ["Yes", "No"],
+      already_building: ["Yes", "No"],
+      framing: ["", "product", "marketing", "onboarding", "exit"],
+    },
   },
   "hpr-waitlist": {
     groups: ["offer:hidden-profit-review"],
