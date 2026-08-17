@@ -5051,6 +5051,15 @@ body .path-switch.path-switch span[aria-current] {
   padding-top: 0.5rem;
 }
 
+/* jules-demo classroom shot reads best small (Jonathan, 2026-08-17) */
+.home-proof-band {
+  max-width: 460px;
+}
+
+.home-proof-band img {
+  border-radius: var(--ucl-r-md);
+}
+
 .home-own {
   margin: 0.9rem 0 0;
   color: var(--ucl-ink);
