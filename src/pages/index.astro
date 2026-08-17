@@ -97,25 +97,27 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     <p class="home-doors-kicker">Growth stalls in the same place twice.</p>
     <div class="home-doors-grid">
       <div class="home-door">
+        <p class="home-door-label">Close more sales</p>
         <h2>Still saying &ldquo;we need to relaunch the program&rdquo;?</h2>
         <p>
-          It's been months. The relaunch would close more sales and serve people better, and it never moves, because pulling together what the business already knows is harder than the project itself.
+          It's been months. It never moves, because pulling together what the business already knows is harder than the project itself.
         </p>
         <ul class="home-door-shapes">
-          <li>The core program or offer that needs a revamp before you can sell it harder</li>
-          <li>The update stuck behind &ldquo;we need to pull everything together first&rdquo;</li>
+          <li>The core program or offer revamp</li>
+          <li>The update stuck behind &ldquo;pull everything together first&rdquo;</li>
         </ul>
         <a href="/business-map/?f=product#start" class="hero-btn home-door-cta" data-track="cta:business-map-product">Start with the Business Map</a>
       </div>
       <div class="home-door">
+        <p class="home-door-label">More leads</p>
         <h2>Still saying &ldquo;we need to get that webinar out&rdquo;?</h2>
         <p>
-          Same months. The webinar would feed the funnel, the case studies are sitting inside work you already delivered, and the website rewrite is stalled on content. More leads wait on marketing that never ships.
+          The webinar would feed the funnel. The case studies sit inside work you already delivered. More leads wait on marketing that never ships.
         </p>
         <ul class="home-door-shapes">
           <li>The webinar, course, or lead magnet that never ships</li>
-          <li>Delivered results that should be case studies by now</li>
-          <li>The website or rebrand stalled on pulling the content together</li>
+          <li>Delivered results, still not case studies</li>
+          <li>The website or rebrand stalled on content</li>
         </ul>
         <a href="/business-map/?f=marketing#start" class="hero-btn home-door-cta" data-track="cta:business-map-marketing">Start with the Business Map</a>
       </div>
@@ -124,14 +126,16 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       <h2>Not chasing growth right now?</h2>
       <p>The same trapped knowledge bites at two other moments.</p>
       <div class="home-door-secondary-grid">
-        <p>
-          <strong>Onboarding a key hire.</strong> Everything the new person needs to know lives in your head and a few others'. So they spend months asking, and you spend months answering.
+        <div class="home-door-secondary-item">
+          <p class="home-door-label">Onboarding a key hire</p>
+          <p>Everything the new person needs to know lives in your head and a few others'.</p>
           <a href="/business-map/?f=onboarding#start" data-track="cta:business-map-onboarding">Start with the Business Map &rarr;</a>
-        </p>
-        <p>
-          <strong>Selling, someday.</strong> A business that only runs with its owner in it is worth less than it should be. The buyer's first question is what happens when you leave.
+        </div>
+        <div class="home-door-secondary-item">
+          <p class="home-door-label">Selling, someday</p>
+          <p>A business that only runs with its owner in it is worth less than it should be.</p>
           <a href="/business-map/?f=exit#start" data-track="cta:business-map-exit">Start with the Business Map &rarr;</a>
-        </p>
+        </div>
       </div>
     </div>
   </section>
@@ -156,6 +160,17 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       </p>
       <p class="home-get-line">I call the finished system a company brain.</p>
     </div>
+    <figure class="home-tree">
+      <pre>company-brain/
+  START-HERE.md          <span class="t-note">the map: what lives where</span>
+  customers/
+    feedback-index.md
+    call-notes/          <span class="t-note">prepared, privacy-treated</span>
+  operations/
+    how-we-quote.md
+    who-knows-what.md</pre>
+      <figcaption>Illustrative. The real one is organized around your business.</figcaption>
+    </figure>
   </section>
 
   <section class="home-sec home-proof" aria-labelledby="proof-h">
@@ -199,19 +214,19 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     <ol class="home-path-steps">
       <li>
         <h3>The Business Map</h3>
-        <p>Your people, process, and systems on one page, plus a clear decision about what to build first. It's the first phase of a build, not a standalone report, and it ends in a straightforward call: continue or stop.</p>
+        <p>Your people, process, and systems on one page. It ends in a straightforward call: continue or stop.</p>
       </li>
       <li>
         <h3>The build</h3>
-        <p>If it's a go, the build happens in phases and you own everything as it's built: the platform, the credentials, the data.</p>
+        <p>Phased, and you own everything as it's built: the platform, the credentials, the data.</p>
       </li>
       <li>
         <h3>Ongoing support</h3>
-        <p>Once the system is running, ongoing support keeps it current. Regular working meetings, not a mailbox you wait on.</p>
+        <p>Regular working meetings keep the system current. Not a mailbox you wait on.</p>
       </li>
       <li>
         <h3>Extensions, later</h3>
-        <p>Down the road, the same brain can extend into a relationship system, the kind that preps meetings and drafts follow-ups for you to approve. That's an extension, not the starting point.</p>
+        <p>The same brain can extend, like a relationship system that preps meetings and drafts follow-ups for you to approve. Not the starting point.</p>
       </li>
     </ol>
   </section>
@@ -247,6 +262,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         <p>
           A short intake: your email first, then three questions. I read every one and reply. The Map puts your people, process, and systems on one page and ends in a real decision.
         </p>
+        <p class="home-own">You own all of it: the accounts, the credentials, the files, the data.</p>
         <div class="home-cta">
           <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-final">Start with the Business Map</a>
           <p class="home-capacity">Two minutes to see if it's a fit.</p>

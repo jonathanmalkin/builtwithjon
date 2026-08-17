@@ -4956,8 +4956,25 @@ body .path-switch.path-switch span[aria-current] {
 }
 
 .home-door {
+  display: flex;
+  flex-direction: column;
   padding-top: 1.1rem;
   border-top: 1px solid var(--ucl-ink);
+}
+
+.home-door-label {
+  margin: 0 0 0.7rem;
+  color: var(--ucl-ink-2);
+  font-family: var(--ucl-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.home-door .home-door-cta {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .home-door h2 {
@@ -5012,15 +5029,33 @@ body .path-switch.path-switch span[aria-current] {
   gap: 2.2rem;
 }
 
-.home-door-secondary-grid p {
-  margin: 0;
+.home-door-secondary-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-door-secondary-item p {
+  margin: 0 0 0.4rem;
   color: var(--ucl-ink-2);
   font-size: 0.95rem;
 }
 
-.home-door-secondary-grid a {
+.home-door-secondary-item .home-door-label {
+  margin: 0 0 0.5rem;
+  color: var(--ucl-ink);
+}
+
+.home-door-secondary-item a {
   display: inline-block;
-  margin-top: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.home-own {
+  margin: 0.9rem 0 0;
+  color: var(--ucl-ink);
+  font-size: 0.97rem;
+  font-weight: 600;
 }
 
 /* ---- What you get: copy beside the artifact ---- */
