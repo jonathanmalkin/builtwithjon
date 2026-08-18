@@ -2,31 +2,26 @@
 import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/schibsted-grotesk';
 
-// DIRECTION CONTRACT (2026-08-16 redesign)
-// THESIS: The homepage is the working session pinned up at full width: the
-//   operator is in the room (large real photography), the evidence is on the
-//   wall (figures set at display scale), and one action is on the table. It
-//   replaces the narrow letter column with a visually led magazine spread.
-// OWN-WORLD: Workshop paper, working ink, Newsreader display. Stage-dark
-//   Capital Factory photographs as large blocks against paper; evidence drawn
-//   as designed figures (a proportional funnel, the company-brain tree as a
-//   paper artifact, small labeled-illustrative diagrams); asymmetric grids at
-//   desktop width, one calm column on mobile.
-// STORY: The owner recognizes their week beside the person who fixes it,
-//   scans the three costs in ruled columns, sees the product as an artifact,
-//   reads the funnel figures and the owner's own words, walks the four-step
-//   path, and starts the Business Map. Visuals, headlines, and figures alone
-//   carry the whole pitch.
-// FIRST VIEWPORT: Full-container asymmetric hero: mirror headline, lede,
-//   trigger line, and one ink CTA on the left; a tall stage portrait of
-//   Jonathan mid-demo on the right. No caption, no stat row, one action.
-// FORM: The pinned-up working session; magazine-spread staging over the
-//   letter; copy carried verbatim from the 2026-08-15 letter; seed b1885e21.
-//
-// Copy: verbatim-frozen from the 2026-08-15 approved letter
-// (Workspace/04-Marketing/Website/homepage-copy-DRAFT-2026-08-15.md via
-// voice-editor). No public pricing, no client name, no measured ROI claim.
+// DIRECTION CONTRACT (2026-08-17 design-lab session, composite v12 + H-C1 hero)
+// THESIS: One argument told as full-bleed bands: a mirror headline, the growth
+//   loop, the one-page view of the business, one anonymized transformation,
+//   and an ask for the conversation. The page sells talking to Jonathan; the
+//   Business Map is phase one of the paid build and is not named here.
+// OWN-WORLD: Ivory / parchment / clay grounds with one committed amber band.
+//   Bricolage Grotesque display + Schibsted Grotesk text (self-hosted
+//   variable fonts). One board language for every figure: ivory board, ink
+//   title bar, offset ink shadow, parchment chips, thin line icons.
+// STORY: "Everything you need to grow is already in the business" -> growth
+//   is a loop jammed by scattered knowledge -> we start by seeing the whole
+//   picture -> one build proved it -> tell me about the project.
+// FIRST VIEWPORT: Full-bleed workshop photo, ivory overlap card bottom-left,
+//   Jonathan recropped right of the card, one CTA.
+// FORM: Lab lineage design-lab-composite-v12.html; copy approved in-session
+//   2026-08-17 (Decision-Log entries: question-hero, conversation-first).
+//   Case-study link intentionally absent until client clearance.
 
 const personSchema = buildPersonSchema({
   description: 'Jonathan Malkin helps owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.',
@@ -69,256 +64,320 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   <JsonLd schema={websiteSchema} />
   <JsonLd schema={professionalServiceSchema} />
 
-  <section class="home-hero">
-    <div class="home-hero-copy">
-      <h1>&ldquo;I have a very complicated, intimidating project plan that I avoid like the plague.&rdquo;</h1>
-      <p class="home-hero-attr">An owner, before the build</p>
-      <p class="home-lede">
-        There's a project you keep putting off. Pulling the information together is too painful, so it sits there while everything still runs through your head.
-      </p>
-      <div class="home-cta">
-        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-hero">Start with the Business Map</a>
-        <p class="home-capacity">I take one build at a time.</p>
+  <div class="h26-home2026">
+    <section class="h26-hero">
+      <div class="h26-img-holder">
+        <img
+          src="/home/austin-workshop.jpg"
+          width="1600"
+          height="1066"
+          alt="Jonathan Malkin at the Capital Factory podium in Austin, the venue's gear-shaped stage wall behind him."
+          fetchpriority="high"
+        />
       </div>
-    </div>
-    <div class="home-hero-media">
-      <img
-        src="/home/austin-hero.jpg"
-        width="1082"
-        height="1360"
-        alt="Jonathan Malkin mid-demo on stage at Capital Factory in Austin, presenter remote in hand."
-        fetchpriority="high"
-        decoding="async"
-      />
-    </div>
-  </section>
+      <div class="h26-over">
+        <h1>Everything you need to grow is already in the business.</h1>
+        <p class="h26-lede">The relaunch, the webinar, the bid library: all waiting on knowledge that&rsquo;s scattered across heads and tools.</p>
+        <a class="h26-cta" href="/business-map/#start" data-track="cta:home-hero">Tell me about it</a>
+        <span class="h26-cap">I read every one myself.</span>
+      </div>
+    </section>
 
-  <section class="home-sec home-doors" aria-label="Where growth stalls">
-    <p class="home-doors-kicker">Growth stalls in the same place twice.</p>
-    <div class="home-doors-grid">
-      <div class="home-door">
-        <p class="home-door-label">Close more sales</p>
-        <h2>Still saying &ldquo;we need to relaunch the program&rdquo;?</h2>
-        <p>
-          It's been months. It never moves, because pulling together what the business already knows is harder than the project itself.
-        </p>
-        <ul class="home-door-shapes">
-          <li>The core program or offer revamp</li>
-          <li>The update stuck behind &ldquo;pull everything together first&rdquo;</li>
-        </ul>
-        <a href="/business-map/?f=product#start" class="hero-btn home-door-cta" data-track="cta:business-map-product">Start with the Business Map</a>
-      </div>
-      <div class="home-door">
-        <p class="home-door-label">More leads</p>
-        <h2>Still saying &ldquo;we need to get that webinar out&rdquo;?</h2>
-        <p>
-          The webinar would feed the funnel. The case studies sit inside work you already delivered. More leads wait on marketing that never ships.
-        </p>
-        <ul class="home-door-shapes">
-          <li>The webinar, course, or lead magnet that never ships</li>
-          <li>Delivered results, still not case studies</li>
-          <li>The website or rebrand stalled on content</li>
-        </ul>
-        <a href="/business-map/?f=marketing#start" class="hero-btn home-door-cta" data-track="cta:business-map-marketing">Start with the Business Map</a>
-      </div>
-    </div>
-    <div class="home-door-secondary">
-      <h2>Not chasing growth right now?</h2>
-      <p>The same trapped knowledge bites at two other moments.</p>
-      <div class="home-door-secondary-grid">
-        <div class="home-door-secondary-item">
-          <p class="home-door-label">Onboarding a key hire</p>
-          <p>Everything the new person needs to know lives in your head and a few others'.</p>
-          <a href="/business-map/?f=onboarding#start" data-track="cta:business-map-onboarding">Start with the Business Map &rarr;</a>
+    <section class="h26-loopband">
+      <div class="h26-inner">
+        <div>
+          <h2>Because growth is a loop.</h2>
+          <p class="h26-body">What your business knows feeds your <span class="h26-hl">products</span> and your <span class="h26-hl">marketing</span>. That wins customers, and customers teach you more. Scattered knowledge jams the loop at step one: understanding your own business.</p>
+          <a class="h26-cta" href="/business-map/#start" data-track="cta:home-loop">Tell me where yours is stuck</a>
         </div>
-        <div class="home-door-secondary-item">
-          <p class="home-door-label">Selling, someday</p>
-          <p>A business that only runs with its owner in it is worth less than it should be.</p>
-          <a href="/business-map/?f=exit#start" data-track="cta:business-map-exit">Start with the Business Map &rarr;</a>
-        </div>
+        <figure class="h26-board" aria-label="The growth loop: understand your business, improve products, improve marketing, win customers, repeat. Stalled projects queue at the jammed first step.">
+          <div class="h26-bar">The growth loop</div>
+          <div class="h26-loop-wrap">
+            <svg viewBox="0 0 660 420" role="img" aria-hidden="true">
+              <defs>
+                <marker id="la" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#191E26"/>
+                </marker>
+              </defs>
+              <path d="M400,84 Q490,100 512,166" fill="none" stroke="#191E26" stroke-width="2.4" marker-end="url(#la)"/>
+              <path d="M506,268 Q472,330 396,348" fill="none" stroke="#191E26" stroke-width="2.4" marker-end="url(#la)"/>
+              <path d="M256,348 Q180,330 148,268" fill="none" stroke="#191E26" stroke-width="2.4" marker-end="url(#la)"/>
+              <path d="M142,166 Q166,100 252,84" fill="none" stroke="#191E26" stroke-width="2.4" marker-end="url(#la)"/>
+              <g>
+                <rect x="246" y="34" width="168" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <circle cx="292" cy="71" r="16" fill="none" stroke="#191E26" stroke-width="2"/>
+                <circle cx="288" cy="67" r="6.5" fill="none" stroke="#191E26" stroke-width="2"/>
+                <line x1="293" y1="72" x2="301" y2="80" stroke="#191E26" stroke-width="2.4" stroke-linecap="round"/>
+                <text x="320" y="66" class="h26-t-head">Understand</text>
+                <text x="320" y="84" class="h26-t-sub">your business</text>
+              </g>
+              <g>
+                <rect x="468" y="176" width="170" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <rect x="496" y="200" width="24" height="20" rx="3" fill="none" stroke="#191E26" stroke-width="2"/>
+                <path d="M496,207 h24 M508,200 v20" stroke="#191E26" stroke-width="1.6"/>
+                <text x="534" y="208" class="h26-t-head">Better</text>
+                <text x="534" y="226" class="h26-t-sub">products &amp; services</text>
+              </g>
+              <g>
+                <rect x="246" y="312" width="168" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <path d="M282,362 l14,-8 v20 l-14,-8 z M296,354 q14,-6 14,8 t-14,8" fill="none" stroke="#191E26" stroke-width="2" stroke-linejoin="round"/>
+                <text x="320" y="344" class="h26-t-head">Better</text>
+                <text x="320" y="362" class="h26-t-sub">marketing &amp; sales</text>
+              </g>
+              <g>
+                <rect x="32" y="176" width="152" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <circle cx="66" cy="204" r="7" fill="none" stroke="#191E26" stroke-width="2"/>
+                <path d="M55,224 q11,-12 22,0" fill="none" stroke="#191E26" stroke-width="2" stroke-linecap="round"/>
+                <path d="M80,206 h12 M86,200 v12" stroke="#191E26" stroke-width="2" stroke-linecap="round"/>
+                <text x="98" y="208" class="h26-t-head">More</text>
+                <text x="98" y="226" class="h26-t-sub">customers</text>
+              </g>
+              <g transform="rotate(-2 328 156)">
+                <rect x="268" y="136" width="120" height="40" rx="8" fill="#FBF4EA" stroke="#C4392B" stroke-width="2.2" stroke-dasharray="7 5"/>
+                <text x="328" y="153" class="h26-t-jam">SCATTERED</text>
+                <text x="328" y="168" class="h26-t-jam">KNOWLEDGE</text>
+              </g>
+              <g>
+                <rect x="520" y="120" width="112" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
+                <text x="576" y="139" class="h26-t-chip">the relaunch</text>
+                <rect x="428" y="368" width="118" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
+                <text x="487" y="387" class="h26-t-chip">the webinar</text>
+                <rect x="560" y="290" width="96" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
+                <text x="608" y="309" class="h26-t-chip">bid library</text>
+                <path d="M566,146 Q556,162 550,176" fill="none" stroke="#9A917C" stroke-width="1.6" stroke-dasharray="4 4"/>
+                <path d="M470,366 Q446,356 420,350" fill="none" stroke="#9A917C" stroke-width="1.6" stroke-dasharray="4 4"/>
+                <path d="M600,288 Q592,270 580,254" fill="none" stroke="#9A917C" stroke-width="1.6" stroke-dasharray="4 4"/>
+              </g>
+            </svg>
+          </div>
+          <p class="h26-board-cap">The relaunch, the webinar, the bid library: all waiting on the same jammed step.</p>
+        </figure>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <figure class="figure-band">
-    <img
-      src="/home/austin-keynote.jpg"
-      width="1600"
-      height="1066"
-      alt="Jonathan Malkin at the podium giving a live demo at the Austin Claude meetup at Capital Factory."
-      loading="lazy"
-      decoding="async"
-    />
-    <figcaption>Live demo, Austin Claude meetup at Capital Factory, August 2026</figcaption>
-  </figure>
-
-  <section class="home-sec home-get" aria-labelledby="get-h">
-    <div class="home-get-copy">
-      <h2 id="get-h">What do you actually get?</h2>
-      <p>
-        A system your team can read and your AI assistants can actually use. That means real help with real work, not generic advice. Nothing about it locks you into a platform. <a href="/case-study/#killed-feature">High-stakes decisions stay with people</a>, not automation.
-      </p>
-      <p class="home-get-line">I call the finished system a company brain.</p>
-    </div>
-    <figure class="home-tree">
-      <pre>company-brain/
-  START-HERE.md          <span class="t-note">the map: what lives where</span>
-  customers/
-    feedback-index.md
-    call-notes/          <span class="t-note">prepared, privacy-treated</span>
-  operations/
-    how-we-quote.md
-    who-knows-what.md</pre>
-      <figcaption>Illustrative. The real one is organized around your business.</figcaption>
-    </figure>
-  </section>
-
-  <section class="home-sec home-proof" aria-labelledby="proof-h">
-    <h2 id="proof-h">Has this actually worked?</h2>
-    <div class="home-proof-grid">
-      <blockquote class="home-quote">
-        &ldquo;It's just all over. I open up about fifteen different things every month and export spreadsheets and try to get them all into one.&rdquo;
-        <cite>The owner, before the build</cite>
-      </blockquote>
-      <div class="home-proof-notes">
-        <p>
-          Years of customer conversations and content were scattered across tools and the owner's head. One build organized it into a knowledge system her team and their AI use every day.
-        </p>
-        <p>
-          The owner is now rebuilding the curriculum she couldn't start before. That was the project she kept putting off.
-        </p>
-        <div class="fine-note">
-          <p class="note-kicker">Privacy, called out</p>
-          <p>
-            A lot of the source material was sensitive, so every human-sourced item went through privacy treatment with a required human review step. That's treatment, not a guarantee of complete de-identification. It was backed by a targeted primary-source legal issue scan, which is a scan, not a legal opinion.
-          </p>
+    <section class="h26-mapband">
+      <div class="h26-inner">
+        <div>
+          <h2>So we start by seeing the whole picture.</h2>
+          <p class="h26-body">Working together begins with seeing it clearly, you included. Your <span class="h26-hl">people</span>, <span class="h26-hl">process</span>, and <span class="h26-hl">systems</span> on one page. It shows where the loop jams and what to build first.</p>
+          <a class="h26-cta" href="/business-map/#start" data-track="cta:home-picture">Let&rsquo;s look at it</a>
         </div>
-        <p><a href="/case-study/">Read the full case study &rarr;</a></p>
+        <figure class="h26-board" aria-label="A one-page view of a business: people, process, and systems, with one stalled project flagged.">
+          <div class="h26-bar">Your business · one page</div>
+          <div class="h26-cols">
+            <div class="h26-bcol">
+              <h3><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="6" r="3.4" fill="none" stroke="#191E26" stroke-width="1.8"/><path d="M2.5,15.5 q6.5,-7 13,0" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round"/></svg>People</h3>
+              <ul>
+                <li>You: final say on everything</li>
+                <li>The ops lead who knows how delivery really works</li>
+                <li>Contractors briefed by phone, every time</li>
+              </ul>
+            </div>
+            <div class="h26-bcol">
+              <h3><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2,9 h4 l2,-5 3,10 2,-5 h3" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Process</h3>
+              <ul>
+                <li>Quoting, in your head</li>
+                <li>Delivery: works, unwritten</li>
+                <li class="h26-stuck"><span class="h26-tag">Still &ldquo;next month&rdquo;</span>The project you keep putting off</li>
+              </ul>
+            </div>
+            <div class="h26-bcol">
+              <h3><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="2.5" y="2.5" width="13" height="4.4" rx="1.4" fill="none" stroke="#191E26" stroke-width="1.8"/><rect x="2.5" y="11" width="13" height="4.4" rx="1.4" fill="none" stroke="#191E26" stroke-width="1.8"/></svg>Systems</h3>
+              <ul>
+                <li>Email, the real database</li>
+                <li>Drive, three eras of folders</li>
+                <li>Fourteen spreadsheets, one load-bearing</li>
+              </ul>
+            </div>
+          </div>
+          <p class="h26-board-cap">The stuck project stops being a mystery once it's on the page.</p>
+        </figure>
       </div>
-    </div>
-    <figure class="figure-band home-proof-band">
-      <img
-        src="/home/jules-demo.jpg"
-        width="1400"
-        height="787"
-        alt="Close view of a live AI assistant demo on screen, showing Jonathan alongside a real-time AI avatar."
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption>A built system answering live on stage</figcaption>
-    </figure>
-  </section>
+    </section>
 
-  <section class="home-sec home-path" aria-labelledby="after-h">
-    <h2 id="after-h">What happens after the Business Map?</h2>
-    <ol class="home-path-steps">
-      <li>
-        <h3>The Business Map</h3>
-        <p>Your people, process, and systems on one page. It ends in a straightforward call: continue or stop.</p>
-      </li>
-      <li>
-        <h3>The build</h3>
-        <p>Phased, and you own everything as it's built: the platform, the credentials, the data.</p>
-      </li>
-      <li>
-        <h3>Ongoing support</h3>
-        <p>Regular working meetings keep the system current. Not a mailbox you wait on.</p>
-      </li>
-      <li>
-        <h3>Extensions, later</h3>
-        <p>The same brain can extend, like a relationship system that preps meetings and drafts follow-ups for you to approve. Not the starting point.</p>
-      </li>
-    </ol>
-  </section>
-
-  <section class="home-sec home-who" aria-labelledby="who-h">
-    <figure class="home-who-media">
-      <img
-        src="/home/austin-workshop.jpg"
-        width="1600"
-        height="1066"
-        alt="Jonathan Malkin at the Capital Factory podium in Austin, centered in the venue's gear-shaped stage wall."
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption>Capital Factory, Austin</figcaption>
-    </figure>
-    <div class="home-who-copy">
-      <h2 id="who-h">Who's behind this?</h2>
-      <p>
-        If an owner is growing but everything still runs through their head, that's exactly who I help.
-      </p>
-      <p>
-        20+ years in enterprise tech, 8 of them at Automation Anywhere, where I scaled a global SE org from 6 people to 250. I'm based in Austin. I meet clients in Austin rooms and deliver anywhere.
-      </p>
-      <p><a href="/about/">More about how I work &rarr;</a></p>
-    </div>
-  </section>
-
-  <section class="home-sec home-final" aria-labelledby="start-h">
-    <div class="home-final-grid">
-      <div class="home-final-copy">
-        <h2 id="start-h">Start with the Business Map</h2>
-        <p>
-          A short intake: your email first, then three questions. I read every one and reply. The Map puts your people, process, and systems on one page and ends in a real decision.
-        </p>
-        <p class="home-own">You own all of it: the accounts, the credentials, the files, the data.</p>
-        <div class="home-cta">
-          <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-final">Start with the Business Map</a>
-          <p class="home-capacity">Two minutes to see if it's a fit.</p>
+    <section class="h26-proof">
+      <div class="h26-inner">
+        <h2>Then we build. From &ldquo;it's just all over&rdquo; to a loop that moves.</h2>
+        <div class="h26-transform">
+          <div class="h26-mess" aria-label="Scattered source material from one anonymized build">
+            <span class="h26-scrap" style="top:4%; left:2%; transform:rotate(-3deg);">years of videos</span>
+            <span class="h26-scrap" style="top:16%; right:6%; transform:rotate(2deg);">support email</span>
+            <span class="h26-scrap" style="top:34%; left:10%; transform:rotate(1.5deg);">curriculum transcripts</span>
+            <span class="h26-scrap" style="top:50%; right:4%; transform:rotate(-2deg);">member questions</span>
+            <span class="h26-scrap" style="top:64%; left:2%; transform:rotate(2.5deg);">newsletters</span>
+            <span class="h26-scrap h26-q" style="top:78%; left:18%;">&ldquo;I open up about fifteen different things every month&rdquo;</span>
+            <span class="h26-scrap" style="top:42%; left:38%; transform:rotate(-1.5deg);">support calls</span>
+          </div>
+          <div class="h26-bigarrow" aria-hidden="true">
+            <svg viewBox="0 0 96 52"><path d="M2 12 L64 20 L64 6 L94 26 L64 46 L64 32 L2 40 Z" fill="#191E26"/></svg>
+          </div>
+          <figure class="h26-brain">
+            <div class="h26-bar">One system · client-owned</div>
+            <ul class="h26-brain-list">
+              <li><span>company-brain/</span><span class="n"></span></li>
+              <li style="padding-left:14px"><span>START-HERE.md</span><span class="n">the map</span></li>
+              <li><span>curriculum/</span><span class="n">organized</span></li>
+              <li><span>video-library/</span><span class="n">indexed</span></li>
+              <li><span>support-knowledge/</span><span class="n">privacy-treated</span></li>
+              <li><span>participant-wins/</span><span class="n">privacy-treated</span></li>
+            </ul>
+          </figure>
+        </div>
+        <div class="h26-foot">
+          <p>One build, anonymized. The owner is back to rebuilding the product that sat for years, and the loop is moving again.</p>
         </div>
       </div>
-      <figure class="home-map-fig">
-        <svg viewBox="0 0 360 440" role="img" aria-label="Illustrative sketch of a one-page Business Map: people, process, and systems on one sheet, ending in a continue-or-stop decision.">
-          <rect x="8" y="8" width="344" height="424" rx="10" class="home-map-sheet" />
-          <line x1="32" y1="48" x2="328" y2="48" class="home-map-rule-strong" />
-          <g class="home-map-people">
-            <circle cx="58" cy="96" r="10" /><circle cx="100" cy="88" r="10" /><circle cx="142" cy="100" r="10" />
-            <line x1="46" y1="120" x2="70" y2="120" /><line x1="88" y1="112" x2="112" y2="112" /><line x1="130" y1="124" x2="154" y2="124" />
-          </g>
-          <text x="32" y="164" class="home-fig-label">people</text>
-          <g class="home-map-process">
-            <rect x="196" y="88" width="34" height="22" rx="4" /><rect x="245" y="88" width="34" height="22" rx="4" /><rect x="294" y="88" width="34" height="22" rx="4" />
-            <line x1="230" y1="99" x2="245" y2="99" /><line x1="279" y1="99" x2="294" y2="99" />
-          </g>
-          <text x="196" y="164" class="home-fig-label">process</text>
-          <line x1="178" y1="72" x2="178" y2="150" class="home-map-rule" />
-          <g class="home-map-systems">
-            <rect x="40" y="210" width="82" height="48" rx="5" />
-            <rect x="139" y="210" width="82" height="48" rx="5" />
-            <rect x="238" y="210" width="82" height="48" rx="5" />
-            <line x1="122" y1="234" x2="139" y2="234" /><line x1="221" y1="234" x2="238" y2="234" />
-            <line x1="52" y1="226" x2="110" y2="226" /><line x1="52" y1="240" x2="96" y2="240" />
-            <line x1="151" y1="226" x2="209" y2="226" /><line x1="151" y1="240" x2="195" y2="240" />
-            <line x1="250" y1="226" x2="308" y2="226" /><line x1="250" y1="240" x2="294" y2="240" />
-          </g>
-          <text x="32" y="300" class="home-fig-label">systems</text>
-          <line x1="32" y1="336" x2="328" y2="336" class="home-map-rule" />
-          <g class="home-map-decision">
-            <rect x="40" y="362" width="18" height="18" rx="4" /><rect x="168" y="362" width="18" height="18" rx="4" />
-          </g>
-          <text x="68" y="376" class="home-fig-label">continue</text>
-          <text x="196" y="376" class="home-fig-label">stop</text>
-        </svg>
-        <figcaption>Illustrative</figcaption>
-      </figure>
-    </div>
-    <div class="home-sig">
-      <img
-        src="/home/austin-portrait.jpg"
-        width="92"
-        height="92"
-        alt="Jonathan Malkin"
-        loading="lazy"
-        decoding="async"
-      />
-      <div>
-        <p class="sig-name">Jonathan Malkin</p>
-        <p class="sig-role">Built with Jon &middot; Austin, TX</p>
+    </section>
+
+    <section class="h26-finale">
+      <div class="h26-img-holder">
+        <img
+          src="/home/austin-keynote.jpg"
+          width="1600"
+          height="1066"
+          alt="Jonathan Malkin presenting at the Austin Claude meetup."
+          loading="lazy"
+        />
       </div>
-    </div>
-    <p class="home-ps">
-      <span class="ps-mark">P.S.</span>The next Business Map can start as the current build wraps, so the intake is also how you hold your place.
-    </p>
-  </section>
+      <div class="h26-over">
+        <h2>Tell me about the project.</h2>
+        <p class="h26-sub">Your email, then three questions. I read every one myself and reply. If it looks like a fit, we set up a call.</p>
+        <a class="h26-cta" href="/business-map/#start" data-track="cta:home-finale">Tell me about it</a>
+      </div>
+    </section>
+  </div>
 </Base>
+
+<style>
+  .h26-home2026 {
+    text-align: left;
+    --ink: #191E26;
+    --body-txt: #3F4752;
+    --ivory: #FBF8F1;
+    --parch: #F3ECDD;
+    --clay: #EDE2CC;
+    --amber: #E8A83C;
+    --amber-soft: #F2CE8A;
+    --red: #C4392B;
+    --disp: 'Bricolage Grotesque Variable', sans-serif;
+    --txt: 'Schibsted Grotesk Variable', sans-serif;
+    font-family: var(--txt);
+    color: var(--ink);
+    background: var(--ivory);
+  }
+  .h26-home2026 img { display: block; max-width: 100%; }
+  .h26-home2026 .h26-inner { max-width: 1280px; margin: 0 auto; }
+  .h26-home2026 .h26-cta {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--ivory);
+    font: 600 1.05rem/1 var(--txt);
+    padding: 18px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  .h26-home2026 .h26-cta:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
+  .h26-home2026 .h26-cap { display: block; margin-top: 12px; font-size: .95rem; color: #5C6570; }
+  .h26-home2026 .h26-hl { background: linear-gradient(transparent 55%, var(--amber-soft) 55%); font-weight: 700; padding: 0 2px; }
+
+  .h26-hero { position: relative; height: 600px; overflow: hidden; }
+  .h26-hero .h26-img-holder { position: absolute; inset: 0; }
+  .h26-hero img { position: absolute; width: 145%; max-width: none; left: -12%; top: -30%; height: auto; }
+  .h26-hero .h26-over {
+    position: absolute; left: 5vw; bottom: 44px; max-width: 600px;
+    background: var(--ivory); border-radius: 14px; padding: 38px 40px;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.55); z-index: 2;
+  }
+  .h26-hero h1 { font: 700 clamp(2.3rem, 4.3vw, 3.5rem)/1.04 var(--disp); letter-spacing: -.025em; margin: 0 0 14px; }
+  .h26-hero .h26-lede { font-size: 1.16rem; line-height: 1.48; color: var(--body-txt); margin: 0 0 22px; }
+
+  .h26-loopband { background: var(--parch); padding: 64px 5vw; }
+  .h26-loopband .h26-inner { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; }
+  .h26-loopband h2, .h26-mapband h2 { font: 700 clamp(2rem, 3.4vw, 3rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 16px; }
+  .h26-loopband p.h26-body, .h26-mapband p.h26-body { font-size: 1.16rem; line-height: 1.6; color: var(--body-txt); max-width: 42ch; margin: 0 0 24px; }
+
+  .h26-board { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); margin: 0; }
+  .h26-board .h26-bar, .h26-brain .h26-bar { background: var(--ink); color: var(--ivory); padding: 12px 18px; font: 700 12px/1 var(--txt); letter-spacing: .14em; text-transform: uppercase; }
+  .h26-board-cap { padding: 0 18px 16px; font-size: .95rem; color: #5C6570; margin: 0; }
+  .h26-loop-wrap { padding: 10px 8px 4px; }
+  .h26-loop-wrap svg { width: 100%; height: auto; display: block; }
+  .h26-t-head { font: 700 15px var(--disp); fill: #191E26; }
+  .h26-t-sub { font: 400 12.5px var(--txt); fill: #3F4752; }
+  .h26-t-jam { font: 700 12px var(--txt); fill: #C4392B; text-anchor: middle; }
+  .h26-t-chip { font: 600 12.5px var(--txt); fill: #3F4752; text-anchor: middle; }
+
+  .h26-mapband { background: var(--clay); padding: 68px 5vw; }
+  .h26-mapband .h26-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: center; }
+  .h26-board .h26-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .h26-bcol { padding: 18px 18px 20px; }
+  .h26-bcol + .h26-bcol { border-left: 1px dashed #D2C4A6; }
+  .h26-bcol h3 { font: 800 1rem/1 var(--disp); letter-spacing: .02em; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
+  .h26-bcol h3 svg { width: 18px; height: 18px; }
+  .h26-bcol ul { list-style: none; display: grid; gap: 8px; margin: 0; padding: 0; }
+  .h26-bcol li { background: var(--parch); border: 1px solid #D2C4A6; border-radius: 8px; padding: 10px 12px; font: 600 .93rem/1.25 var(--txt); color: #3F4752; }
+  .h26-bcol li.h26-stuck { background: #FBF4EA; border: 2px dashed var(--red); color: var(--ink); }
+  .h26-bcol li.h26-stuck .h26-tag { display: block; color: var(--red); font: 700 10px/1 var(--txt); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 5px; }
+
+  .h26-proof { background: var(--amber); padding: 68px 5vw; }
+  .h26-proof h2 { font: 700 clamp(2rem, 3.6vw, 3rem)/1.05 var(--disp); letter-spacing: -.02em; margin: 0 0 36px; max-width: 24ch; }
+  .h26-transform { display: grid; grid-template-columns: 1.1fr 96px 1fr; gap: 22px; align-items: center; }
+  .h26-mess { position: relative; height: 300px; }
+  .h26-scrap {
+    position: absolute; background: var(--ivory); border: 1px solid #D8B96B;
+    border-radius: 7px; padding: 10px 14px; font: 500 .95rem/1.25 var(--txt);
+    color: #5A5140; box-shadow: 4px 8px 0 rgba(25,30,38,.12);
+  }
+  .h26-scrap.h26-q { font-weight: 600; color: var(--red); background: #FCF6E8; }
+  .h26-bigarrow svg { width: 100%; height: auto; display: block; }
+  .h26-brain { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); margin: 0; }
+  .h26-brain-list { list-style: none; padding: 18px 22px 20px; margin: 0; }
+  .h26-brain-list li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .9fr); gap: 8px 12px; padding: 5px 0; font: 500 .95rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .h26-brain-list .n { color: #8A8270; font-family: var(--txt); font-size: .88rem; }
+  .h26-proof .h26-foot { margin-top: 32px; }
+  .h26-proof .h26-foot p { font-size: 1.12rem; color: #3F300C; max-width: 52ch; margin: 0; }
+
+  .h26-finale { position: relative; height: 580px; overflow: hidden; }
+  .h26-finale .h26-img-holder { position: absolute; inset: 0; }
+  .h26-finale img { position: absolute; width: 136%; max-width: none; left: 0; top: -28%; height: auto; }
+  .h26-finale .h26-over {
+    position: absolute; left: 5vw; bottom: 44px; max-width: 540px;
+    background: var(--ivory); border-radius: 14px; padding: 38px 40px;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.55); z-index: 2;
+  }
+  .h26-finale h2 { font: 700 clamp(2rem, 3.6vw, 3rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 12px; }
+  .h26-finale .h26-sub { color: var(--body-txt); font-size: 1.1rem; line-height: 1.5; margin: 0 0 20px; }
+
+  @media (max-width: 900px) {
+    .h26-hero { overflow: visible; height: auto; }
+    .h26-hero .h26-img-holder { position: relative; height: 420px; overflow: hidden; }
+    .h26-hero img { width: 180%; left: -49%; top: -5%; }
+    .h26-hero .h26-over { position: relative; z-index: 2; margin: -48px 4vw 24px; max-width: none; }
+    .h26-loopband .h26-inner, .h26-mapband .h26-inner, .h26-transform { grid-template-columns: 1fr; }
+    .h26-board .h26-cols { grid-template-columns: 1fr; }
+    .h26-bcol + .h26-bcol { border-left: 0; border-top: 1px dashed #D2C4A6; }
+    .h26-bigarrow { transform: rotate(90deg); width: 72px; margin: 0 auto; }
+    .h26-finale { height: auto; overflow: visible; }
+    .h26-finale .h26-img-holder { position: relative; height: 380px; overflow: hidden; }
+    .h26-finale img { width: 170%; left: -21%; top: 0; }
+    .h26-finale .h26-over { position: relative; z-index: 2; margin: -48px 4vw 28px; max-width: none; }
+  }
+</style>
+
+<style is:global>
+  /* Homepage only: release the site's boxed letter column so the 2026 bands
+     run full bleed. Ships with this page's CSS bundle, so no other route is
+     affected. */
+  body {
+    max-width: none !important;
+    padding: 0 !important;
+    background: #FBF8F1 !important;
+  }
+  .site-header nav,
+  .site-footer {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+</style>

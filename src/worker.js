@@ -10,7 +10,6 @@ import {
   segmentBusinessPlural,
 } from "./data/scorecard";
 import { CALCS } from "./data/leak-calculators";
-import { isMcpRequest, handleMcp } from "./mcp/handler";
 import {
   parseSenderFrom,
   senderTransactionalSend,
@@ -39,44 +38,13 @@ const PERMANENT_REDIRECTS = new Map([
   ["/ai-assistant-workshop-austin/", "/ai-assistant/"],
   ["/ai-assistant/claude-code", "/ai-assistant/course/"],
   ["/ai-assistant/claude-code/", "/ai-assistant/course/"],
-  // Old funnel retired for the Business Map front door, 2026-08-15. The
-  // matching src/pages/*.astro files were removed so they don't shadow
-  // these 301s; src/data/{scorecard,use-cases,leak-calculators} stay in
-  // place because src/mcp/tools.js still imports them.
-  ["/scorecard", "/"],
-  ["/scorecard/", "/"],
-  ["/hidden-profit-review", "/business-map/"],
-  ["/hidden-profit-review/", "/business-map/"],
-  ["/hidden-profit-review/thanks", "/business-map/"],
-  ["/hidden-profit-review/thanks/", "/business-map/"],
-  ["/tools", "/"],
-  ["/tools/", "/"],
-  ["/use-cases", "/business-map/"],
-  ["/use-cases/", "/business-map/"],
-  // Approach trio + Knowledge OS proof retired 2026-08-15 with the
-  // company-brain revamp. The method story now lives at /map-not-dump/,
-  // the engagement story at /business-map/, and the proof at /case-study/.
-  ["/principles", "/map-not-dump/"],
-  ["/principles/", "/map-not-dump/"],
-  ["/process", "/business-map/"],
-  ["/process/", "/business-map/"],
-  ["/dispositions", "/map-not-dump/"],
-  ["/dispositions/", "/map-not-dump/"],
-  ["/knowledge-os-proof", "/case-study/"],
-  ["/knowledge-os-proof/", "/case-study/"],
-  ["/knowledge-os-product", "/case-study/"],
-  ["/knowledge-os-product/", "/case-study/"],
+  ["/knowledge-os-product", "/business-map/"],
+  ["/knowledge-os-product/", "/business-map/"],
 ]);
-// Prefix redirects for retired sections with no single index page (e.g. the
-// individual kit/tool pages under them). /hidden-profit-review/sample/ is
-// intentionally NOT covered here (no splat) so that static dir keeps serving.
-const PERMANENT_REDIRECT_PREFIXES = [
-  ["/tools/", "/"],
-  ["/kits/", "/"],
-];
-const MCP_REGISTRY_AUTH_PATH = "/.well-known/mcp-registry-auth";
-const MCP_REGISTRY_AUTH_PROOF =
-  "v=MCPv1; k=ecdsap384; p=AvUGKTlupoWJNtt1rtl5R5SD9Z3yK59b7dTHmdbt53BWO/EqQARKJm+V22+awwN/HA==";
+// Prefix redirects for retired sections with no single index page.
+// /hidden-profit-review/sample/ is intentionally NOT covered here (no splat)
+// so that static dir keeps serving.
+const PERMANENT_REDIRECT_PREFIXES = [];
 const ALLOWED_EVENT_NAMES = new Set([
   "business-map:start", "business-map:submit", "business-map:capture", "business-map:success",
   "business-map-details:start", "business-map-details:submit",
@@ -171,18 +139,6 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // The slash path is documentation only. Keeping every protocol method on
-    // exact /mcp prevents alternate-path bypasses of the exact-path WAF rule.
-    if (url.pathname === "/mcp/" && request.method !== "GET") {
-      return new Response(null, { status: 405, headers: { Allow: "GET" } });
-    }
-
-    // MCP server (POST /mcp + preflight + SSE-GET rejection); plain browser
-    // GETs on /mcp fall through to the static docs page.
-    if (isMcpRequest(url, request)) {
-      return handleMcp(request, env);
-    }
-
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
       return Response.redirect(AGENT_DOWNLOAD_URL, 302);
     }
@@ -197,12 +153,6 @@ export default {
     if (prefixMatch) {
       url.pathname = prefixMatch[1];
       return Response.redirect(url.toString(), 301);
-    }
-
-    if (url.pathname === MCP_REGISTRY_AUTH_PATH && request.method === "GET") {
-      return new Response(`${MCP_REGISTRY_AUTH_PROOF}\n`, {
-        headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=300" },
-      });
     }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {

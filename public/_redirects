@@ -3,16 +3,8 @@
 /articles/what-is-kink-archetype/ / 301
 /articles/what-i-actually-do-with-claude-code/ / 301
 # Approach trio + Knowledge OS pages retired 2026-08-15 (company-brain revamp).
-/knowledge-os-product/ /case-study/ 301
-/knowledge-os-product /case-study/ 301
-/knowledge-os-proof/ /case-study/ 301
-/knowledge-os-proof /case-study/ 301
-/principles/ /map-not-dump/ 301
-/principles /map-not-dump/ 301
-/process/ /business-map/ 301
-/process /business-map/ 301
-/dispositions/ /map-not-dump/ 301
-/dispositions /map-not-dump/ 301
+/knowledge-os-product/ /business-map/ 301
+/knowledge-os-product /business-map/ 301
 
 # /scan/* existed for part of 2026-08-05 and edges cached 301s into it. Catch
 # those so a stale redirect still lands on the scan card instead of a 404.
@@ -63,18 +55,3 @@
 /ai-workflow-audit/thanks /business-map/ 301
 /ai-workflow-audit/* /business-map/ 301
 /ai-workflow-audit /business-map/ 301
-
-# Old funnel retired for the Business Map front door, 2026-08-15. No splat on
-# /hidden-profit-review/* so public/hidden-profit-review/sample/ keeps serving.
-/scorecard / 301
-/scorecard/ / 301
-/hidden-profit-review /business-map/ 301
-/hidden-profit-review/ /business-map/ 301
-/hidden-profit-review/thanks /business-map/ 301
-/hidden-profit-review/thanks/ /business-map/ 301
-/tools / 301
-/tools/ / 301
-/tools/* / 301
-/kits/* / 301
-/use-cases /business-map/ 301
-/use-cases/ /business-map/ 301

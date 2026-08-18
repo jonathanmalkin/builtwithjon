@@ -8,8 +8,6 @@
     "directory": "dist",
     // Route only protocol/API paths through the worker before static assets.
     "run_worker_first": [
-      "/mcp",
-      "/mcp/",
       "/api/subscribe",
       "/api/contact",
       "/api/scorecard-report",

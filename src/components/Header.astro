@@ -12,13 +12,11 @@ const pathname = Astro.url.pathname;
       <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <div class="nav-links" id="site-nav-links">
-      <a href="/case-study/" aria-current={pathname.startsWith('/case-study') ? 'page' : undefined}>Case study</a>
+      <!-- 2026-08-17: lean menu decision. Case study joins as the third text
+           link once the client clears it; everything else lives in the footer. -->
       <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
-      <a href="/articles/" aria-current={pathname.startsWith('/articles') ? 'page' : undefined}>Articles</a>
       <a href="/faq/" aria-current={pathname.startsWith('/faq') ? 'page' : undefined}>FAQ</a>
-      <a href="/about/" aria-current={pathname.startsWith('/about') ? 'page' : undefined}>About</a>
-      <a href="/contact/" aria-current={pathname === '/contact/' ? 'page' : undefined}>Contact</a>
-      <a class="nav-cta" href="/business-map/" data-track="cta:business-map-nav" aria-current={pathname.startsWith('/business-map') ? 'page' : undefined}>Business Map</a>
+      <a class="nav-cta" href="/business-map/#start" data-track="cta:talk-nav" aria-current={pathname.startsWith('/business-map') ? 'page' : undefined}>Talk to me</a>
     </div>
     <div class="header-social">
       <a href="https://github.com/jonathanmalkin" rel="me" aria-label="GitHub" title="GitHub">

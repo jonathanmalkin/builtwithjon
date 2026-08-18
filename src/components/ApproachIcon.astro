@@ -1,0 +1,70 @@
+---
+// One restrained line-glyph per concept across the Approach section.
+// Field-manual register: 24x24 viewBox, stroke="currentColor", no fill, so each
+// glyph inherits its concept color from the surrounding element.
+//
+// Three families, keyed by `name`:
+//   - disposition glyphs (eliminate/simplify/automate/optimize/report) are the
+//     canonical paths from ./../data/dispositions.ts, kept identical to the ones
+//     used on the use-cases page.
+//   - process-phase glyphs (see/map/decide/build/measure) describe the action of
+//     each phase of the engagement process.
+//   - principle glyphs (data/workflow/no-ai/human/not-yet) describe each belief.
+//
+// Usage: <ApproachIcon name="see" size={18} />
+import { dispositions } from '../data/dispositions';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+const { name, size = 18, class: className } = Astro.props;
+
+const dispoIcon = Object.fromEntries(dispositions.map((d) => [d.id, d.icon]));
+
+// Process-phase glyphs.
+const phaseIcons: Record<string, string> = {
+  // See the data: a magnifier over a small grid (find where it lives).
+  see: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-3.5-3.5"/><path d="M9 11h4M11 9v4"/>',
+  // Map the workflow: connected nodes (the steps laid out).
+  map: '<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 6h10M6 8l5 8M18 8l-5 8"/>',
+  // Decide each step: a checklist with a verdict mark.
+  decide: '<path d="M4 6h10M4 12h10M4 18h6"/><path d="M16 16l2 2 4-4"/>',
+  // Build the first pilot: stacked blocks / wiring up one thing.
+  build: '<path d="M4 20V8l8-4 8 4v12"/><path d="M4 8l8 4 8-4M12 12v8"/>',
+  // Run and measure: a gauge / dial (watch what it does).
+  measure: '<path d="M4 16a8 8 0 0 1 16 0"/><path d="M12 16l5-4"/><path d="M4 16h2M18 16h2"/>',
+};
+
+// Principle (belief) glyphs.
+const principleIcons: Record<string, string> = {
+  // Connect the data first: converging sources into one.
+  data: '<path d="M5 5v4M19 5v4"/><path d="M5 9c0 4 14 4 14 0"/><path d="M12 11v8"/><circle cx="12" cy="20" r="1.5"/>',
+  // Audit the workflow, not the tool: a magnifier on a flow.
+  workflow: '<path d="M3 7h7M3 12h5M3 17h7"/><circle cx="16" cy="14" r="4"/><path d="M21 19l-2.2-2.2"/>',
+  // Most wins need no AI: a wrench (plain plumbing, not a robot).
+  'no-ai': '<path d="M14 7a4 4 0 0 0-5.4 4.8L4 16.5 7.5 20l4.7-4.7A4 4 0 0 0 17 9.9l-2.4 2.4-2.1-2.1L14.9 7.8A4 4 0 0 0 14 7z"/>',
+  // Human at the gate: a person behind a gate line.
+  human: '<circle cx="12" cy="8" r="3"/><path d="M6 19a6 6 0 0 1 12 0"/>',
+  // Not yet: a pause inside a circle.
+  'not-yet': '<circle cx="12" cy="12" r="8"/><path d="M10 9v6M14 9v6"/>',
+};
+
+const inner = dispoIcon[name] ?? phaseIcons[name] ?? principleIcons[name] ?? '';
+---
+{inner && (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    class={className}
+    set:html={inner}
+  />
+)}

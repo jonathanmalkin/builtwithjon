@@ -1,0 +1,125 @@
+---
+// Shared, compact, directional switcher across the three Approach pages
+// (Principles -> Process -> Dispositions). The current page is highlighted and
+// the steps read left-to-right as a flow, not three equal tabs.
+//
+// Single source of truth for the trio + its order, so the three pages can't
+// drift. Drop it directly under each page's local top bar:
+//   <ApproachFlow current="principles" />
+//
+// `variant` toggles the two shapes we're comparing in preview:
+//   - 'chevron': three pill-cards with a ">" connector between them (default)
+//   - 'tabs':    chevron-pointed pipeline segments that physically point right
+// Once a shape is chosen we keep one and drop the other.
+
+interface Props {
+  current: 'principles' | 'process' | 'dispositions';
+  variant?: 'chevron' | 'tabs';
+}
+const { current, variant = 'chevron' } = Astro.props;
+
+const steps = [
+  { id: 'principles', num: '01', name: 'Principles', sub: 'the beliefs', href: '/principles/' },
+  { id: 'process', num: '02', name: 'Process', sub: 'the sequence', href: '/process/' },
+  { id: 'dispositions', num: '03', name: 'Dispositions', sub: 'the lens', href: '/dispositions/' },
+] as const;
+---
+
+<nav class={`apf apf--${variant}`} aria-label="The approach, in three parts">
+  <ol class="apf-list">
+    {steps.map((s, i) => (
+      <>
+        <li class={`apf-step${s.id === current ? ' is-current' : ''}`}>
+          <a
+            class="apf-link"
+            href={s.href}
+            aria-current={s.id === current ? 'page' : undefined}
+          >
+            <span class="apf-num">{s.num}</span>
+            <span class="apf-body">
+              <span class="apf-name">{s.name}</span>
+              <span class="apf-sub">{s.sub}</span>
+            </span>
+          </a>
+        </li>
+        {variant === 'chevron' && i < steps.length - 1 && (
+          <li class="apf-arrow" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </li>
+        )}
+      </>
+    ))}
+  </ol>
+</nav>
+
+<style is:global>
+/* Uses the global --ucl-* field-manual tokens so it matches every Approach page. */
+.apf {
+  background: var(--ucl-paper-card);
+  border-bottom: 1px solid var(--ucl-line);
+}
+.apf-list {
+  max-width: 1140px; margin: 0 auto; padding: 12px 20px;
+  list-style: none; display: flex; align-items: stretch; gap: 8px;
+}
+.apf-arrow { display: flex; align-items: center; color: var(--ucl-ink-3); flex: none; }
+
+/* ---- shared step internals ---- */
+.apf-step { flex: 1 1 0; min-width: 0; display: flex; }
+.apf-link {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  text-decoration: none; color: var(--ucl-ink-2);
+  transition: color .14s ease, background .14s ease, border-color .14s ease;
+}
+.apf-num {
+  font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .1em;
+  color: var(--ucl-ink-3); flex: none;
+}
+.apf-name { font-family: var(--ucl-serif); font-size: 17px; font-weight: 500; line-height: 1.05; display: block; letter-spacing: -.01em; }
+.apf-sub { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .04em; color: var(--ucl-ink-3); display: block; margin-top: 2px; }
+.apf-step.is-current .apf-name { color: var(--ucl-ink); }
+.apf-step.is-current .apf-sub { color: var(--ucl-ink-2); }
+
+/* ====== variant A: chevron pill-cards ====== */
+.apf--chevron .apf-link {
+  border: 1px solid var(--ucl-line-2); border-radius: 5px;
+  background: var(--ucl-paper); padding: 8px 12px;
+}
+.apf--chevron .apf-link:hover { border-color: var(--ucl-ink-3); color: var(--ucl-ink); }
+.apf--chevron .apf-step.is-current .apf-link {
+  background: var(--ucl-paper-card); border-color: var(--ucl-ink);
+  box-shadow: inset 0 0 0 1px var(--ucl-ink);
+}
+
+/* ====== variant B: pipeline arrow-tabs ====== */
+.apf--tabs .apf-list { gap: 0; }
+.apf--tabs .apf-step { position: relative; }
+.apf--tabs .apf-link {
+  background: var(--ucl-paper); padding: 9px 14px 9px 22px;
+  border-top: 1px solid var(--ucl-line-2); border-bottom: 1px solid var(--ucl-line-2);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+}
+.apf--tabs .apf-step:first-child .apf-link { padding-left: 14px; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); border-radius: 4px 0 0 4px; }
+.apf--tabs .apf-step:last-child .apf-link { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%); border-radius: 0 4px 4px 0; }
+.apf--tabs .apf-link:hover { color: var(--ucl-ink); }
+.apf--tabs .apf-step.is-current .apf-link { background: var(--ucl-ink); }
+.apf--tabs .apf-step.is-current .apf-num,
+.apf--tabs .apf-step.is-current .apf-name,
+.apf--tabs .apf-step.is-current .apf-sub { color: var(--ucl-paper); }
+
+@media (max-width: 640px) {
+  .apf-sub { display: none; }
+  .apf-list { padding: 10px 12px; gap: 5px; }
+  .apf-name { font-size: 13.5px; }
+  /* the chevron connectors and step numbers are decorative; drop them so three
+     labels fit without clipping at narrow widths. */
+  .apf--chevron .apf-arrow { display: none; }
+  .apf--chevron .apf-num { display: none; }
+  .apf--chevron .apf-link { padding: 7px 9px; gap: 0; justify-content: center; text-align: center; }
+  .apf--tabs .apf-link { padding-left: 18px; }
+}
+@media (max-width: 380px) {
+  .apf-name { font-size: 12.5px; letter-spacing: -.02em; }
+  .apf--chevron .apf-link { padding: 7px 6px; }
+}
+</style>

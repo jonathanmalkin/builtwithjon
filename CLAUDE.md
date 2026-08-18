@@ -62,7 +62,7 @@ npm run preview  # Preview built site
 
 **Deploy command:** `npm run build && find dist -name .DS_Store -delete && wrangler deploy`
 
-(name, worker entry, assets directory, `run_worker_first` for /mcp, and compatibility date all come from `wrangler.jsonc` — don't re-specify them on the CLI, or overrides can drop the MCP routing config)
+(name, worker entry, assets directory, and compatibility date all come from `wrangler.jsonc` — don't re-specify them on the CLI)
 
 In the broader `Active-Work` workspace, prefer `Scripts/deploy-website.sh` because it pushes `main`, builds, cleans deploy artifacts, and runs Wrangler in one sequence.
 
@@ -75,28 +75,11 @@ src/
   components/      — Header, Footer, ArticleCard, SEOHead, JsonLd, StoryBadge
   content/articles/ — Markdown articles
   data/            — Shared data modules (use cases, scorecard, leak calculators, frameworks)
-  mcp/             — MCP server (handler.js transport, tools.js tool definitions)
-  worker.js        — Cloudflare Worker: /api routes + MCP server + assets
+  worker.js        — Cloudflare Worker: /api routes + assets
   styles/global.css — All styles, single file
-public/            — Static assets (robots.txt, llms.txt, favicon.svg, .well-known/mcp.json)
+public/            — Static assets (robots.txt, llms.txt, favicon.svg)
 ```
 
-## MCP Server
-
-The Worker serves a public, read-only MCP server at `POST /mcp` (Streamable
-HTTP, stateless, no auth). Docs page: `/mcp/`. Eleven tools expose the use case
-library, scorecard diagnostic, leak calculators, frameworks, the Business Map
-offer, and article search (via the build-time index `dist/mcp/articles.json`).
-The scorecard/use-case/calculator web pages are retired; their shared data
-modules in `src/data/` survive only for the worker and MCP server.
-Tool calls log to the `site_events` Analytics Engine dataset with
-`index1='mcp'` (queries in `docs/analytics-queries.md`).
-
-**Shared-data rule:** anything both a page and the worker/MCP present —
-calculator math, scorecard questions/scoring, use-case data — lives in
-`src/data/` and is imported by both. Never fork a second copy. Exception:
-`scorecard.astro`'s inline quiz script (needs `define:vars`) keeps a copy;
-keep it in sync with `src/data/scorecard.ts`.
 
 ## Code Style
 

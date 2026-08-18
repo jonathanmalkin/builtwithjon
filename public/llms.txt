@@ -26,14 +26,6 @@ Engagements start with the Business Map: the client's people, process, and syste
 - The map-not-dump pattern: https://builtwithjon.com/map-not-dump/
 - Free AI personal assistant mini-course: https://builtwithjon.com/ai-assistant/
 
-## MCP Server
-
-This site runs a free, public, read-only Model Context Protocol server. AI agents can connect to it directly (Streamable HTTP, no authentication) to run a business diagnostic conversationally, put a dollar figure on an operational leak with ten calculators, search a 96-example workflow use case library, read the decide-before-you-automate frameworks, get the Business Map details, and search the articles.
-
-- Endpoint: https://builtwithjon.com/mcp
-- Documentation and connect instructions: https://builtwithjon.com/mcp/
-- Server metadata: https://builtwithjon.com/.well-known/mcp.json
-
 ## Content
 
 - Articles: https://builtwithjon.com/articles/

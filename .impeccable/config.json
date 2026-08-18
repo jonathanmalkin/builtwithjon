@@ -1,0 +1,99 @@
+{
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro"
+        ],
+        "createdAt": "2026-08-18T00:55:59.864Z",
+        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); tokens documented in DESIGN.md addendum; sitewide migration deferred"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/tools/index.astro"
+        ],
+        "createdAt": "2026-08-18T00:55:59.899Z",
+        "reason": "Pre-existing legacy page restored verbatim per Jonathan's 2026-08-17 keep-live-unlisted decision; predates current DESIGN.md; slated for later prune/redesign"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro"
+        ],
+        "createdAt": "2026-08-18T00:55:59.933Z",
+        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); tokens documented in DESIGN.md addendum; sitewide migration deferred"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/tools/index.astro"
+        ],
+        "createdAt": "2026-08-18T00:55:59.967Z",
+        "reason": "Pre-existing legacy page restored verbatim per Jonathan's 2026-08-17 keep-live-unlisted decision; predates current DESIGN.md; slated for later prune/redesign"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro"
+        ],
+        "createdAt": "2026-08-18T00:56:00.002Z",
+        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); tokens documented in DESIGN.md addendum; sitewide migration deferred"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/tools/index.astro"
+        ],
+        "createdAt": "2026-08-18T00:56:00.036Z",
+        "reason": "Pre-existing legacy page restored verbatim per Jonathan's 2026-08-17 keep-live-unlisted decision; predates current DESIGN.md; slated for later prune/redesign"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/worker.js"
+        ],
+        "createdAt": "2026-08-18T01:02:48.898Z",
+        "reason": "Claude triage: pre-existing inline HTML email template styling (lead-notification/scorecard emails); left-border accent is email-client-compatible convention, not web UI; untouched by tonight's MCP/redirect edits"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/worker.js"
+        ],
+        "createdAt": "2026-08-18T01:07:51.051Z",
+        "reason": "Claude triage: pre-existing inline HTML email templates (lead notification, scorecard report); email clients require literal inline styles, so DESIGN.md tokens cannot apply; untouched by tonight's edits"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/worker.js"
+        ],
+        "createdAt": "2026-08-18T01:07:51.084Z",
+        "reason": "Claude triage: pre-existing inline HTML email templates (lead notification, scorecard report); email clients require literal inline styles, so DESIGN.md tokens cannot apply; untouched by tonight's edits"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/worker.js"
+        ],
+        "createdAt": "2026-08-18T01:07:51.116Z",
+        "reason": "Claude triage: pre-existing inline HTML email templates (lead notification, scorecard report); email clients require literal inline styles, so DESIGN.md tokens cannot apply; untouched by tonight's edits"
+      }
+    ]
+  }
+}

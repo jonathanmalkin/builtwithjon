@@ -235,3 +235,20 @@ Scorecards, calculators, and guided course steps may use one semantic axis hue a
 - **Don't** use a colored side stripe wider than `1px` on cards or callouts.
 - **Don't** pair a hairline border with a broad decorative shadow on the same repeated card.
 - **Don't** set display letter spacing tighter than `-0.04em` or let headings overflow narrow viewports.
+
+## Addendum 2026-08-17: the homepage world (scoped to /)
+
+Jonathan approved a new visual world for the homepage in the 2026-08-17 design-lab session
+(lineage: `Workspace/04-Marketing/Website/design-directions-2026-08-17/design-lab-composite-v12.html`).
+It is scoped to `src/pages/index.astro` for now; sitewide migration is a later decision. Tokens:
+
+- Grounds: ivory `#FBF8F1`, parchment `#F3ECDD`, clay `#EDE2CC`, committed amber band `#E8A83C`.
+- Ink `#191E26`, body text `#3F4752`, captions `#5C6570`, red accent (annotation/jam) `#C4392B`,
+  amber highlight `#F2CE8A`, chip borders `#D2C4A6` / `#D8B96B`.
+- Type: Bricolage Grotesque Variable (display, 700-800, tight tracking) + Schibsted Grotesk
+  Variable (text), self-hosted via fontsource. Display clamp 2.3-3.5rem, section H2 clamp
+  2-3rem, body 1.16rem, captions .95rem.
+- Board language for every figure: ivory board, ink title bar (12px caps), offset ink shadow
+  `8px 14px 0 var(--ink)`, parchment chips, thin line icons, radius 6-16px.
+- Photos: full-bleed with ivory overlap card bottom-left; the subject is recropped right of the
+  card and never covered.

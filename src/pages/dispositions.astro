@@ -1,0 +1,222 @@
+---
+import Base from '../layouts/Base.astro';
+import ApproachFlow from '../components/ApproachFlow.astro';
+import ApproachIcon from '../components/ApproachIcon.astro';
+import { dispositions, dispositionFraming } from '../data/dispositions';
+
+const description =
+  'The five dispositions behind every Built with Jon automation: for each step of a workflow, the verdict is eliminate, simplify, automate, optimize, or report. The lens applied during the process.';
+
+const scorecardHref = '/scorecard/';
+const processHref = '/process/';
+const libraryHref = '/use-cases/';
+const principlesHref = '/principles/';
+---
+
+<Base title="The Five Dispositions" description={description}>
+<style is:global>
+/* dispositions.astro: same field-manual language as /use-cases, /principles,
+   /process (--ucl-* tokens + disposition colors live in global.css).
+   Adds only the disposition-page layout on top of those tokens. */
+
+.dsp-root {
+  --dsp-maxw: 1140px;
+  background: var(--ucl-paper);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: calc(var(--ucl-gutter, 20px) * -1);
+  margin-right: calc(var(--ucl-gutter, 20px) * -1);
+  margin-top: -2rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.dsp-root *, .dsp-root *::before, .dsp-root *::after { box-sizing: border-box; }
+.dsp-wrap { max-width: var(--dsp-maxw); margin: 0 auto; padding: 0 20px; }
+.dsp-eyebrow {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ucl-ink-3); font-weight: 500;
+}
+
+/* bar */
+.dsp-bar { background: var(--ucl-paper); border-bottom: 1px solid var(--ucl-ink); }
+.dsp-bar-in { max-width: var(--dsp-maxw); margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.dsp-wordmark { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .12em; line-height: 1.35; white-space: nowrap; text-decoration: none; }
+.dsp-wordmark b { display: block; font-weight: 600; color: var(--ucl-ink); }
+.dsp-wordmark span { color: var(--ucl-ink-3); }
+.dsp-cta {
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--ucl-mono); font-weight: 500; font-size: 14px; letter-spacing: .01em;
+  background: var(--ucl-ink); color: var(--ucl-paper);
+  border: none; padding: 14px 20px; border-radius: 3px; cursor: pointer;
+  text-decoration: none; line-height: 1; white-space: nowrap; transition: background .15s ease;
+}
+.dsp-cta:hover { background: #000; }
+.dsp-cta svg { transition: transform .15s ease; }
+.dsp-cta:hover svg { transform: translateX(3px); }
+.dsp-cta--sm { padding: 10px 14px; font-size: 12.5px; }
+.dsp-cta--ghost { background: var(--ucl-paper); color: var(--ucl-ink); box-shadow: inset 0 0 0 1px var(--ucl-ink); }
+.dsp-cta--ghost:hover { background: var(--ucl-ink); color: var(--ucl-paper); }
+
+/* hero */
+.dsp-hero { padding: 46px 0 24px; }
+.dsp-hero .dsp-eyebrow { display: block; margin-bottom: 20px; }
+.dsp-hero h1 {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em;
+  line-height: 1.04; font-size: clamp(40px, 6.4vw, 64px); margin: 0; max-width: 17ch;
+}
+.dsp-hero-lead {
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(20px, 3.6vw, 26px);
+  line-height: 1.34; letter-spacing: -.01em; margin: 24px 0 0; max-width: 46ch; color: var(--ucl-ink-2);
+}
+
+/* the five, up top: the page centerpiece */
+.dsp-five { padding: 14px 0 8px; }
+.dsp-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.dsp-card {
+  border: 1px solid; border-radius: 6px; padding: 20px 22px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.dsp-card-top { display: flex; align-items: center; gap: 12px; }
+.dsp-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 8px; flex: none;
+  background: var(--ucl-paper-card); border: 1px solid;
+}
+.dsp-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ucl-mono); font-size: 12px; font-weight: 500; letter-spacing: .05em;
+  text-transform: uppercase; line-height: 1;
+}
+.dsp-num { margin-left: auto; font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .1em; color: var(--ucl-ink-3); }
+.dsp-q { font-family: var(--ucl-serif); font-size: clamp(20px, 2.6vw, 24px); font-weight: 500; line-height: 1.18; letter-spacing: -.01em; margin: 12px 0 0; color: var(--ucl-ink); }
+.dsp-m { font-size: 15px; line-height: 1.5; color: var(--ucl-ink-2); margin: 4px 0 0; }
+
+.dsp-card.d-eliminate { background: var(--ucl-eliminate-bg); border-color: var(--ucl-eliminate-ln); }
+.dsp-card.d-simplify  { background: var(--ucl-simplify-bg);  border-color: var(--ucl-simplify-ln); }
+.dsp-card.d-automate  { background: var(--ucl-automate-bg);  border-color: var(--ucl-automate-ln); }
+.dsp-card.d-optimize  { background: var(--ucl-optimize-bg);  border-color: var(--ucl-optimize-ln); }
+.dsp-card.d-report    { background: var(--ucl-report-bg);    border-color: var(--ucl-report-ln); }
+.d-eliminate .dsp-badge { border-color: var(--ucl-eliminate-ln); color: var(--ucl-eliminate); }
+.d-simplify  .dsp-badge { border-color: var(--ucl-simplify-ln);  color: var(--ucl-simplify); }
+.d-automate  .dsp-badge { border-color: var(--ucl-automate-ln);  color: var(--ucl-automate); }
+.d-optimize  .dsp-badge { border-color: var(--ucl-optimize-ln);  color: var(--ucl-optimize); }
+.d-report    .dsp-badge { border-color: var(--ucl-report-ln);    color: var(--ucl-report); }
+.d-eliminate .dsp-tag { color: var(--ucl-eliminate); }
+.d-simplify  .dsp-tag { color: var(--ucl-simplify); }
+.d-automate  .dsp-tag { color: var(--ucl-automate); }
+.d-optimize  .dsp-tag { color: var(--ucl-optimize); }
+.d-report    .dsp-tag { color: var(--ucl-report); }
+
+/* where AI fits + bridge back to process/library */
+.dsp-note { padding: 36px 0 8px; border-top: 1px solid var(--ucl-line); margin-top: 34px; }
+.dsp-note .dsp-eyebrow { display: block; margin-bottom: 12px; }
+.dsp-note p { font-size: 16px; line-height: 1.6; color: var(--ucl-ink); max-width: 66ch; margin: 0; }
+.dsp-note b { font-weight: 600; }
+.dsp-links { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 0; }
+.dsp-linkcard {
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 5px;
+  padding: 14px 16px; color: var(--ucl-ink); transition: border-color .14s ease, background .14s ease;
+  flex: 1 1 240px;
+}
+.dsp-linkcard:hover { border-color: var(--ucl-ink); background: #fff; }
+.dsp-linkcard .lk-k { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); display: block; }
+.dsp-linkcard .lk-v { font-family: var(--ucl-serif); font-size: 17px; font-weight: 500; line-height: 1.15; }
+.dsp-linkcard svg { margin-left: auto; color: var(--ucl-ink-3); flex: none; }
+
+/* closing band */
+.dsp-close { padding: 46px 0 60px; }
+.dsp-close-card { background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 5px; padding: 38px 34px; display: flex; flex-direction: column; gap: 14px; }
+.dsp-close-ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ucl-line); }
+.dsp-close-card h2 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(26px, 4vw, 36px); line-height: 1.12; margin: 0; }
+.dsp-close-card p { font-size: 16px; line-height: 1.55; margin: 0; color: #E9E2D2; max-width: 56ch; }
+.dsp-close .dsp-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 6px; }
+.dsp-close .dsp-cta:hover { background: #fff; }
+.dsp-close-card a:not(.dsp-cta) { color: var(--ucl-paper); text-decoration: underline; text-underline-offset: .16em; }
+.dsp-colophon { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); margin-top: 20px; text-align: center; }
+
+@media (min-width: 760px) {
+  .dsp-grid { grid-template-columns: 1fr 1fr; }
+  /* report spans full width as the closing verdict */
+  .dsp-card.d-report { grid-column: 1 / -1; }
+}
+</style>
+
+<div class="dsp-root">
+  <header class="dsp-bar">
+    <div class="dsp-bar-in">
+      <a class="dsp-wordmark" href="/">
+        <b>BUILTWITHJON</b>
+        <span>Dispositions</span>
+      </a>
+      <a class="dsp-cta dsp-cta--sm" href={scorecardHref}>
+        Take the scorecard
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <ApproachFlow current="dispositions" />
+
+  <section class="dsp-wrap dsp-hero">
+    <span class="dsp-eyebrow">The verdict every step gets</span>
+    <h1>Five questions. One per step.</h1>
+    <p class="dsp-hero-lead">{dispositionFraming.intro}</p>
+  </section>
+
+  <section class="dsp-wrap dsp-five" aria-label="The five dispositions">
+    <div class="dsp-grid">
+      {dispositions.map((d, i) => (
+        <article class={`dsp-card d-${d.id}`}>
+          <div class="dsp-card-top">
+            <span class="dsp-badge"><ApproachIcon name={d.id} size={20} /></span>
+            <span class="dsp-tag">{d.label}</span>
+            <span class="dsp-num">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <h2 class="dsp-q">{d.question}</h2>
+          <p class="dsp-m">{d.meaning}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="dsp-wrap dsp-note">
+    <span class="dsp-eyebrow">{dispositionFraming.aiHeading}</span>
+    <p>{dispositionFraming.aiBody}</p>
+    <div class="dsp-links">
+      <a class="dsp-linkcard" href={processHref}>
+        <span>
+          <span class="lk-k">Where these apply</span>
+          <span class="lk-v">The process &rarr; Decide each step</span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="dsp-linkcard" href={libraryHref}>
+        <span>
+          <span class="lk-k">See it per workflow</span>
+          <span class="lk-v">The use case library</span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="dsp-wrap dsp-close">
+    <div class="dsp-close-card">
+      <span class="dsp-close-ce">Start here</span>
+      <h2>The scorecard runs the first verdict on your business.</h2>
+      <p>
+        It names the biggest leak across deals, time, and cash, the place a disposition is most likely to pay off first. From there, the process decides each step.
+      </p>
+      <a class="dsp-cta" href={scorecardHref}>
+        Take the scorecard
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <p><a href={principlesHref}>Start from the beliefs instead.</a></p>
+    </div>
+    <p class="dsp-colophon">Eliminate &middot; Simplify &middot; Automate &middot; Optimize &middot; Report</p>
+  </section>
+</div>
+</Base>

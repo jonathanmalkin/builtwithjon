@@ -52,25 +52,5 @@ export default defineConfig({
     '/ai-assistant-workshop/thanks': '/ai-assistant/',
     '/ai-assistant-workshop-austin': '/ai-assistant/',
     '/ai-assistant/claude-code': '/ai-assistant/course/',
-    // Old funnel retired for the Business Map front door, 2026-08-15.
-    // These pages were removed from src/pages/ so they don't shadow the
-    // 301s below (or the matching entries in src/worker.js and
-    // public/_redirects). See src/data/{scorecard,use-cases,leak-calculators},
-    // still imported by src/worker.js and src/mcp/tools.js, kept in place.
-    '/scorecard': '/',
-    '/hidden-profit-review': '/business-map/',
-    '/hidden-profit-review/thanks': '/business-map/',
-    '/tools': '/',
-    '/tools/leak-calculator': '/',
-    '/kits/invoice-chase-kit': '/',
-    '/kits/follow-up-swipe-file': '/',
-    '/use-cases': '/business-map/',
-    // Approach trio + Knowledge OS proof retired 2026-08-15 (company-brain
-    // revamp). Their src/pages/*.astro files were removed so they don't
-    // shadow the matching entries in src/worker.js and public/_redirects.
-    '/principles': '/map-not-dump/',
-    '/process': '/business-map/',
-    '/dispositions': '/map-not-dump/',
-    '/knowledge-os-proof': '/case-study/',
   },
 });

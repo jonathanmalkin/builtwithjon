@@ -1,0 +1,805 @@
+---
+import Base from '../layouts/Base.astro';
+import { categories as categoryDefinitions, useCases as useCaseDefinitions } from '../data/use-cases/index';
+
+const description = 'A practical library of small-business AI and automation use cases, organized by workflow, frequency, and automation potential.';
+---
+
+<Base title="Use Case Library" description={description}>
+<style is:global>
+/* ucl.css, Use Case Library, scoped design language.
+   Everything lives under .ucl-root and is namespaced --ucl- so it never
+   touches the host site's color and font tokens, reset, or globals.
+   "Field manual": warm paper, hard ink, Newsreader / Archivo / IBM Plex Mono. */
+
+.ucl-root {
+  /* paper + ink */
+  --ucl-paper: #F6F2E9;
+  --ucl-paper-card: #FFFDF8;
+  --ucl-ink: #1B1813;
+  --ucl-ink-2: #5A5347;
+  --ucl-ink-3: #8B8475;
+  --ucl-line: #E2DBCC;
+  --ucl-line-2: #D2C9B5;
+
+  /* the five dispositions (the brand) */
+  --ucl-eliminate: #BB3A2B; --ucl-eliminate-bg: #F6E3DE; --ucl-eliminate-ln: #E7C0B8;
+  --ucl-simplify:  #A96A11; --ucl-simplify-bg:  #F6E9D2; --ucl-simplify-ln:  #E7CF9F;
+  --ucl-automate:  #2D5AA6; --ucl-automate-bg:  #E1E8F5; --ucl-automate-ln:  #C0CFEA;
+  --ucl-optimize:  #6A45A0; --ucl-optimize-bg:  #EBE4F4; --ucl-optimize-ln:  #D2C3E8;
+  --ucl-report:    #297150; --ucl-report-bg:    #DEEBE0; --ucl-report-ln:    #BBD7C0;
+
+  --ucl-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --ucl-sans: "Archivo", system-ui, -apple-system, sans-serif;
+  --ucl-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --ucl-maxw: 1140px;
+  --ucl-site-header-h: 49px;
+
+  background: var(--ucl-paper);
+  color: var(--ucl-ink);
+  font-family: var(--ucl-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: calc(var(--ucl-gutter, 20px) * -1);
+  margin-right: calc(var(--ucl-gutter, 20px) * -1);
+  margin-top: -2rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ucl-root *,
+.ucl-root *::before,
+.ucl-root *::after { box-sizing: border-box; }
+
+.ucl-root img { max-width: 100%; }
+
+/* ---------- shared primitives ---------- */
+.ucl-wrap { max-width: var(--ucl-maxw); margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+
+.ucl-eyebrow {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ucl-ink-3); font-weight: 500;
+}
+.ucl-meta {
+  font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ucl-ink-2);
+}
+
+.ucl-cta {
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--ucl-mono); font-weight: 500; font-size: 14px; letter-spacing: .01em;
+  background: var(--ucl-ink); color: var(--ucl-paper);
+  border: none; padding: 14px 20px; border-radius: 3px; cursor: pointer;
+  text-decoration: none; line-height: 1; white-space: nowrap;
+  transition: background .15s ease;
+}
+.ucl-cta:hover { background: #000; }
+.ucl-cta svg { transition: transform .15s ease; }
+.ucl-cta:hover svg { transform: translateX(3px); }
+.ucl-cta--sm { padding: 10px 14px; font-size: 12.5px; }
+.ucl-cta--ghost { background: var(--ucl-paper); color: var(--ucl-ink); box-shadow: inset 0 0 0 1px var(--ucl-ink); }
+.ucl-cta--ghost:hover { background: var(--ucl-ink); color: var(--ucl-paper); }
+
+/* disposition tag (legend, steps, filters) */
+.ucl-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ucl-mono); font-size: 11px; font-weight: 500; letter-spacing: .05em;
+  padding: 5px 9px 5px 7px; border-radius: 3px; border: 1px solid; line-height: 1;
+  text-transform: uppercase; white-space: nowrap;
+}
+.ucl-tag--eliminate { color: var(--ucl-eliminate); background: var(--ucl-eliminate-bg); border-color: var(--ucl-eliminate-ln); }
+.ucl-tag--simplify  { color: var(--ucl-simplify);  background: var(--ucl-simplify-bg);  border-color: var(--ucl-simplify-ln); }
+.ucl-tag--automate  { color: var(--ucl-automate);  background: var(--ucl-automate-bg);  border-color: var(--ucl-automate-ln); }
+.ucl-tag--optimize  { color: var(--ucl-optimize);  background: var(--ucl-optimize-bg);  border-color: var(--ucl-optimize-ln); }
+.ucl-tag--report    { color: var(--ucl-report);    background: var(--ucl-report-bg);    border-color: var(--ucl-report-ln); }
+.ucl-tag--human     { color: var(--ucl-ink-2);     background: transparent;             border-color: var(--ucl-line-2); }
+
+/* filter toggle: same look, dimmed when off */
+.ucl-tag.is-toggle { cursor: pointer; opacity: .42; transition: opacity .14s ease; }
+.ucl-tag.is-toggle:hover { opacity: .72; }
+.ucl-tag.is-toggle.is-on { opacity: 1; }
+
+/* ---------- header ---------- */
+.ucl-header {
+  position: relative; z-index: 10;
+  background: var(--ucl-paper); border-bottom: 1px solid var(--ucl-ink);
+}
+.ucl-header-in {
+  max-width: var(--ucl-maxw); margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.ucl-wordmark { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .12em; line-height: 1.35; cursor: pointer; white-space: nowrap; }
+.ucl-wordmark b { display: block; font-weight: 600; color: var(--ucl-ink); }
+.ucl-wordmark span { color: var(--ucl-ink-3); }
+
+/* ---------- hero ---------- */
+.ucl-hero { padding: 42px 0 38px; }
+.ucl-hero .ucl-eyebrow { margin-bottom: 20px; display: block; }
+.ucl-hero-grid { display: flex; flex-direction: column; }
+.ucl-hero-stat {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.03em;
+  line-height: .84; font-size: clamp(86px, 17vw, 164px); flex: none;
+}
+.ucl-hero-stat .u { display: block; font-size: .27em; letter-spacing: -.01em; color: var(--ucl-ink-2); margin-top: .14em; white-space: nowrap; }
+.ucl-hero-lead {
+  font-family: var(--ucl-serif); font-weight: 400; font-size: clamp(22px, 4.4vw, 31px);
+  line-height: 1.3; letter-spacing: -.01em; margin: 24px 0 0; max-width: 24ch;
+}
+.ucl-hero-attr { margin-top: 16px; font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+.ucl-hero-cta { margin-top: 24px; }
+
+/* disposition-colored emphasis: ties the hero promise to the framework */
+.ucl-hl { font-style: normal; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: .13em; }
+.ucl-hl--eliminate { text-decoration-color: var(--ucl-eliminate); }
+.ucl-hl--automate  { text-decoration-color: var(--ucl-automate); }
+.ucl-hl--optimize  { text-decoration-color: var(--ucl-optimize); }
+.ucl-word { font-style: normal; font-weight: 600; }
+.ucl-word--eliminate { color: var(--ucl-eliminate); }
+.ucl-word--simplify  { color: var(--ucl-simplify); }
+.ucl-word--automate  { color: var(--ucl-automate); }
+.ucl-word--report    { color: var(--ucl-report); }
+
+@media (min-width: 880px) {
+  .ucl-hero { padding: 54px 0 46px; }
+  .ucl-hero-grid { flex-direction: row; align-items: flex-end; gap: 64px; }
+  .ucl-hero-lead { margin-top: 0; max-width: 21ch; }
+  .ucl-hero-right { padding-bottom: 6px; }
+}
+
+/* ---------- framework intro ---------- */
+.ucl-framework { padding: 38px 0 42px; border-top: 1px solid var(--ucl-ink); }
+.ucl-framework h2 {
+  font-family: var(--ucl-serif); font-weight: 500; letter-spacing: -.02em;
+  font-size: clamp(26px, 4.4vw, 38px); line-height: 1.06; margin: 12px 0 0; max-width: 24ch;
+}
+.ucl-framework p { color: var(--ucl-ink-2); max-width: 64ch; margin: 16px 0 0; line-height: 1.55; }
+.ucl-fw-grid { margin-top: 26px; display: flex; flex-direction: column; gap: 24px; }
+.ucl-legend { display: flex; flex-direction: column; border-top: 1px solid var(--ucl-ink); }
+.ucl-legend-row { display: flex; gap: 16px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--ucl-line); }
+.ucl-legend-row .lq { min-width: 124px; flex: none; padding-top: 1px; }
+.ucl-legend-row .lx { color: var(--ucl-ink-2); font-size: 14.5px; line-height: 1.5; }
+.ucl-legend-row .lx b { color: var(--ucl-ink); font-weight: 600; }
+.ucl-fw-verdicts { border-top: 1px solid var(--ucl-ink); padding-top: 18px; }
+.ucl-chiprow { display: flex; flex-wrap: wrap; gap: 8px; }
+.ucl-fw-full { display: inline-flex; align-items: center; gap: .5em; margin-top: 16px; font-family: var(--ucl-mono); font-size: 12.5px; color: var(--ucl-ink); text-decoration: none; }
+.ucl-fw-full:hover { text-decoration: underline; text-underline-offset: .15em; }
+.ucl-fw-full svg { transition: transform .15s ease; }
+.ucl-fw-full:hover svg { transform: translateX(3px); }
+.ucl-fw-side p { margin-top: 0; font-size: 15px; }
+.ucl-ai-note { margin-top: 16px; padding: 16px 17px; border-left: 3px solid var(--ucl-ink); background: var(--ucl-paper-card); }
+.ucl-ai-note b { font-weight: 600; }
+.ucl-ai-note p { font-size: 14.5px; max-width: 70ch; margin: 0; color: var(--ucl-ink); }
+.ucl-fw-process { margin-top: 12px !important; font-family: var(--ucl-mono); font-size: 12.5px; color: var(--ucl-ink-2); }
+.ucl-fw-process a { color: var(--ucl-ink); text-decoration: underline; text-underline-offset: .15em; }
+
+@media (min-width: 920px) {
+  .ucl-fw-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: start; }
+}
+
+/* ---------- toolbar / filters ---------- */
+.ucl-toolbar { position: sticky; top: var(--ucl-site-header-h); z-index: 20; background: var(--ucl-paper); border-top: 1px solid var(--ucl-ink); border-bottom: 1px solid var(--ucl-line); }
+.ucl-toolbar-in { max-width: var(--ucl-maxw); margin: 0 auto; padding: 10px 20px 11px; display: flex; flex-direction: column; gap: 8px; }
+.ucl-bar { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.ucl-bar .ucl-count { margin-left: auto; }
+.ucl-sep { width: 1px; align-self: stretch; background: var(--ucl-line-2); margin: 2px 6px; }
+.ucl-search { position: relative; flex: 1 1 230px; min-width: 180px; }
+.ucl-search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--ucl-ink-3); }
+.ucl-search input {
+  width: 100%; font-family: var(--ucl-sans); font-size: 14px; color: var(--ucl-ink);
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 4px;
+  padding: 8px 12px 8px 34px; outline: none;
+}
+.ucl-search input:focus { border-color: var(--ucl-ink); }
+.ucl-search input::placeholder { color: var(--ucl-ink-3); }
+.ucl-chip {
+  font-family: var(--ucl-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--ucl-paper-card); color: var(--ucl-ink-2); border: 1px solid var(--ucl-line-2);
+  border-radius: 3px; padding: 6px 11px; cursor: pointer; line-height: 1; transition: all .14s ease; white-space: nowrap;
+}
+.ucl-chip:hover { border-color: var(--ucl-ink-3); }
+.ucl-chip.is-on { background: var(--ucl-ink); color: var(--ucl-paper); border-color: var(--ucl-ink); }
+
+.ucl-select {
+  font-family: var(--ucl-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--ucl-paper-card); color: var(--ucl-ink-2); border: 1px solid var(--ucl-line-2);
+  border-radius: 3px; padding: 6px 26px 6px 11px; cursor: pointer; line-height: 1.4; outline: none;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B8475' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 9px center;
+}
+.ucl-select:focus { border-color: var(--ucl-ink); }
+.ucl-clear { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: var(--ucl-ink-3); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 6px 4px; }
+.ucl-clear:hover { color: var(--ucl-ink); }
+
+.ucl-count { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .06em; color: var(--ucl-ink-3); text-transform: uppercase; white-space: nowrap; }
+
+/* ---------- "your week" teaser ---------- */
+.ucl-teaser {
+  margin: 22px 0 0; border: 1px solid var(--ucl-ink); border-radius: 5px; background: var(--ucl-paper-card);
+  padding: 16px 18px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: space-between;
+}
+.ucl-teaser .tt { font-family: var(--ucl-serif); font-size: 18px; line-height: 1.35; max-width: 52ch; }
+.ucl-teaser .tt b { font-style: italic; font-weight: 500; }
+
+/* ---------- category section ---------- */
+.ucl-cat { padding: 42px 0 8px; scroll-margin-top: calc(var(--ucl-site-header-h) + 14px); }
+.ucl-cat-top { display: flex; flex-direction: column; }
+@media (min-width: 920px) {
+  .ucl-cat-top.has-stat { display: grid; grid-template-columns: 1.15fr .85fr; gap: 44px; align-items: end; }
+  .ucl-cat-top.has-stat .ucl-statcard { margin-top: 0; display: block; }
+  .ucl-cat-top.has-stat .ucl-statcard .big { margin-bottom: 10px; }
+}
+.ucl-cat-head { display: flex; align-items: baseline; gap: 11px; }
+.ucl-cat-num { font-family: var(--ucl-mono); font-size: 12px; color: var(--ucl-ink-3); letter-spacing: .1em; }
+.ucl-cat-name { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(28px, 5vw, 40px); letter-spacing: -.02em; line-height: 1; margin: 0; }
+.ucl-cat-intro { margin: 16px 0 0; color: var(--ucl-ink-2); font-size: 15px; line-height: 1.55; max-width: 66ch; }
+
+.ucl-statcard {
+  margin-top: 22px; border: 1px solid var(--ucl-ink); background: var(--ucl-paper-card);
+  border-radius: 5px; padding: 20px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+}
+.ucl-statcard .big { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(44px, 8vw, 62px); line-height: .88; letter-spacing: -.02em; flex: none; }
+.ucl-statcard .txt { font-size: 15px; line-height: 1.5; max-width: 56ch; }
+.ucl-statcard .txt b { font-weight: 600; }
+.ucl-statcard .src { display: block; margin-top: 9px; font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+.ucl-statcard.is-qual .txt { font-family: var(--ucl-serif); font-size: 19px; line-height: 1.4; }
+
+/* ---------- grid + cards ---------- */
+.ucl-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 22px; }
+@media (min-width: 640px) { .ucl-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .ucl-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+.ucl-card {
+  background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 6px;
+  padding: 17px 17px 15px; cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
+  display: flex; flex-direction: column; gap: 13px;
+  transition: border-color .14s ease, transform .14s ease, box-shadow .14s ease;
+}
+.ucl-card:hover { border-color: var(--ucl-ink); transform: translateY(-2px); box-shadow: 0 16px 30px -22px rgba(40,33,20,.55); }
+.ucl-card:focus-visible { outline: 2px solid var(--ucl-ink); outline-offset: 2px; }
+.ucl-card-top { display: flex; align-items: center; justify-content: space-between; }
+.ucl-card-id { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .1em; color: var(--ucl-ink-3); }
+.ucl-card-name { font-family: var(--ucl-serif); font-weight: 500; font-size: 22px; line-height: 1.12; letter-spacing: -.01em; }
+.ucl-card-pain { font-family: var(--ucl-serif); font-style: italic; font-weight: 400; font-size: 15.5px; line-height: 1.42; color: var(--ucl-ink-2); margin-top: 6px; }
+.ucl-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 4px; }
+
+.ucl-pot { display: flex; align-items: center; gap: 7px; }
+.ucl-pot .dots { display: flex; gap: 3px; }
+.ucl-pot .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ucl-line-2); display: block; }
+.ucl-pot .dots i.on { background: var(--ucl-ink); }
+
+.ucl-strip { display: flex; gap: 3px; align-items: center; }
+.ucl-strip i { height: 6px; border-radius: 1px; display: block; }
+.ucl-strip i.eliminate { background: var(--ucl-eliminate); }
+.ucl-strip i.simplify  { background: var(--ucl-simplify); }
+.ucl-strip i.automate  { background: var(--ucl-automate); }
+.ucl-strip i.optimize  { background: var(--ucl-optimize); }
+.ucl-strip i.report    { background: var(--ucl-report); }
+
+/* category-level CTA card embedded in the grid */
+.ucl-cta-card {
+  background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 6px;
+  padding: 20px 18px; display: flex; flex-direction: column; gap: 12px; justify-content: center;
+}
+.ucl-cta-card .ce { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; }
+.ucl-cta-card .ch { font-family: var(--ucl-serif); font-weight: 500; font-size: 22px; line-height: 1.14; }
+.ucl-cta-card .cb { font-size: 13.5px; line-height: 1.5; color: #D8CFBC; }
+.ucl-cta-card .ucl-cta { background: var(--ucl-paper); color: var(--ucl-ink); align-self: flex-start; margin-top: 2px; }
+.ucl-cta-card .ucl-cta:hover { background: #fff; }
+
+.ucl-empty { padding: 50px 0; text-align: center; color: var(--ucl-ink-3); font-family: var(--ucl-mono); font-size: 13px; letter-spacing: .04em; }
+
+/* ---------- footer ---------- */
+.ucl-foot { border-top: 1px solid var(--ucl-ink); margin-top: 48px; padding: 36px 0 56px; }
+.ucl-foot-cta {
+  background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 8px; padding: 32px 26px; text-align: center;
+}
+.ucl-foot-cta .ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; }
+.ucl-foot-cta h3 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(26px, 4.6vw, 36px); line-height: 1.1; letter-spacing: -.01em; margin: 12px 0 0; }
+.ucl-foot-cta p { font-size: 15px; line-height: 1.55; color: #D8CFBC; margin: 14px auto 0; max-width: 60ch; }
+.ucl-foot-cta .ucl-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 22px; }
+.ucl-foot-cta .ucl-cta:hover { background: #fff; }
+.ucl-foot-cta .sub { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: #9C927D; margin-top: 16px; }
+.ucl-colophon { font-family: var(--ucl-mono); font-size: 11px; color: var(--ucl-ink-3); letter-spacing: .04em; margin-top: 26px; text-align: center; }
+
+/* ======================================================================
+   DETAIL VIEW  (full-screen overlay, mobile-reading optimized)
+   ====================================================================== */
+.ucl-detail-scrim { position: fixed; inset: 0; z-index: 50; background: rgba(20,16,10,.34); }
+.ucl-detail {
+  position: fixed; z-index: 51; inset: 0; background: var(--ucl-paper);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+@media (min-width: 760px) {
+  .ucl-detail { inset: 0 0 0 auto; width: min(680px, 100%); border-left: 1px solid var(--ucl-ink); box-shadow: -30px 0 60px -30px rgba(20,16,10,.4); }
+}
+.ucl-detail-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 18px; border-bottom: 1px solid var(--ucl-line); background: var(--ucl-paper); flex: none;
+}
+.ucl-detail-back { font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .04em; color: var(--ucl-ink-2); background: none; border: none; cursor: pointer; display: flex; gap: 6px; align-items: center; padding: 4px; }
+.ucl-detail-back:hover { color: var(--ucl-ink); }
+.ucl-detail-scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.ucl-detail-body { padding: 26px 22px 36px; max-width: 640px; margin: 0 auto; }
+
+.ucl-detail-id { display: block; margin-bottom: 10px; }
+.ucl-detail-name { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(30px, 6vw, 40px); line-height: 1.04; letter-spacing: -.02em; margin: 0; }
+.ucl-detail-subject { font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ucl-ink-3); margin-top: 10px; }
+.ucl-detail-pain { font-family: var(--ucl-serif); font-style: italic; font-size: clamp(18px, 4.2vw, 22px); line-height: 1.36; color: var(--ucl-ink-2); margin: 16px 0 0; }
+.ucl-detail-tags { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; align-items: center; }
+
+.ucl-callout { margin: 26px 0; border-left: 3px solid var(--ucl-ink); padding: 4px 0 4px 18px; }
+.ucl-callout .lbl { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.ucl-callout .big { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(24px, 5vw, 30px); line-height: 1.12; letter-spacing: -.01em; margin: 8px 0; }
+.ucl-callout .big .num { display: block; }
+.ucl-callout .qual { font-family: var(--ucl-serif); font-weight: 500; font-size: 20px; line-height: 1.32; letter-spacing: -.005em; margin: 6px 0 8px; }
+.ucl-callout .src { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ucl-ink-3); }
+
+.ucl-sec-h {
+  font-family: var(--ucl-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ucl-ink); font-weight: 600; margin: 34px 0 16px; padding-bottom: 9px; border-bottom: 1px solid var(--ucl-ink);
+}
+
+/* workflow list */
+.ucl-flow { display: flex; flex-direction: column; }
+.ucl-flow-step { display: flex; gap: 13px; padding: 11px 0; border-bottom: 1px solid var(--ucl-line); }
+.ucl-flow-step:last-child { border-bottom: none; }
+.ucl-flow-n { font-family: var(--ucl-mono); font-size: 12px; color: var(--ucl-ink-3); flex: none; width: 22px; padding-top: 2px; }
+.ucl-flow-t { flex: 1; font-size: 15px; line-height: 1.45; }
+.ucl-flow-ties { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; }
+.ucl-flow-ties i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.ucl-flow-ties i.eliminate { background: var(--ucl-eliminate); }
+.ucl-flow-ties i.simplify  { background: var(--ucl-simplify); }
+.ucl-flow-ties i.automate  { background: var(--ucl-automate); }
+.ucl-flow-ties i.optimize  { background: var(--ucl-optimize); }
+.ucl-flow-ties i.report    { background: var(--ucl-report); }
+
+/* breakdown items */
+.ucl-break { display: flex; flex-direction: column; gap: 12px; }
+.ucl-break-item { border: 1px solid var(--ucl-line); border-radius: 5px; background: var(--ucl-paper-card); padding: 14px 15px; }
+.ucl-break-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 9px; }
+.ucl-break-step { font-family: var(--ucl-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-3); margin-right: 2px; }
+.ucl-break-rat { font-size: 14.5px; line-height: 1.5; color: var(--ucl-ink); }
+
+.ucl-aifit { margin-top: 4px; padding: 16px 17px; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 5px; font-size: 14.5px; line-height: 1.55; }
+.ucl-aifit b { font-weight: 600; }
+
+.ucl-compliance { margin-top: 12px; padding: 14px 17px; background: var(--ucl-simplify-bg); border: 1px solid var(--ucl-simplify-ln); border-left: 3px solid var(--ucl-simplify); border-radius: 5px; font-size: 14px; line-height: 1.55; color: var(--ucl-ink); }
+.ucl-compliance .lbl { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-simplify); margin-bottom: 6px; }
+.ucl-after { font-family: var(--ucl-serif); font-size: clamp(17px, 3.6vw, 19px); line-height: 1.46; color: var(--ucl-ink); }
+
+/* detail CTA block (the bridge) */
+.ucl-bridge { margin-top: 34px; background: var(--ucl-ink); color: var(--ucl-paper); border-radius: 7px; padding: 26px 22px; }
+.ucl-bridge .ce { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #B9AE96; }
+.ucl-bridge h4 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(24px, 5vw, 28px); line-height: 1.12; letter-spacing: -.01em; margin: 12px 0 0; }
+.ucl-bridge p { font-size: 14.5px; line-height: 1.55; color: #D8CFBC; margin: 13px 0 0; }
+.ucl-bridge .ucl-cta { background: var(--ucl-paper); color: var(--ucl-ink); margin-top: 20px; }
+.ucl-bridge .ucl-cta:hover { background: #fff; }
+.ucl-bridge .sub { font-family: var(--ucl-mono); font-size: 11px; letter-spacing: .04em; color: #9C927D; margin-top: 15px; }
+
+/* prev / next pager */
+.ucl-pager { display: flex; gap: 10px; margin-top: 24px; }
+.ucl-pager button { flex: 1; text-align: left; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: 5px; padding: 13px 14px; cursor: pointer; font: inherit; color: inherit; transition: border-color .14s ease; }
+.ucl-pager button:hover { border-color: var(--ucl-ink); }
+.ucl-pager button:disabled { opacity: .4; cursor: default; }
+.ucl-pager button.nx { text-align: right; }
+.ucl-pager .d { font-family: var(--ucl-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ucl-ink-3); }
+.ucl-pager .n { font-family: var(--ucl-serif); font-size: 15.5px; line-height: 1.18; margin-top: 4px; display: block; }
+
+/* entrance + reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .ucl-detail { animation: ucl-slide .26s cubic-bezier(.2,.7,.2,1); }
+  .ucl-detail-scrim { animation: ucl-fade .26s ease; }
+}
+@keyframes ucl-slide { from { transform: translateX(18px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes ucl-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.ucl-noscroll { overflow: hidden; }
+
+</style>
+<div id="ucl-mount"></div>
+<script id="ucl-categories" type="application/json" set:html={JSON.stringify(categoryDefinitions)} />
+<script id="ucl-use-cases" type="application/json" set:html={JSON.stringify(useCaseDefinitions)} />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const { useState, useEffect, useMemo, useRef, useCallback } = React;
+  const categories = JSON.parse(document.getElementById("ucl-categories").textContent || "[]");
+  const useCases = JSON.parse(document.getElementById("ucl-use-cases").textContent || "[]");
+  const dispositions = [
+    { id: "eliminate", label: "Eliminate", question: "Should this step exist at all?", meaning: "Stop doing it. Nobody misses it." },
+    { id: "simplify", label: "Simplify", question: "Can this be fewer steps, fewer tools, fewer people?", meaning: "Make the default smarter." },
+    { id: "automate", label: "Automate", question: "Can software do this without a human?", meaning: "A trigger fires, the work happens." },
+    { id: "optimize", label: "Optimize", question: "A human still does it, can they do it in a tenth of the time?", meaning: "AI drafts, you approve." },
+    { id: "report", label: "Report", question: "Can the exhaust of this work give you visibility you've never had?", meaning: "Finally see what's actually happening." }
+  ];
+  // Content ships in stages: hide categories with no cases yet.
+  const populatedCategoryIds = new Set(useCases.map((u) => u.categoryId));
+  const visibleCategories = categories.filter((c) => populatedCategoryIds.has(c.id));
+  // Two filter axes, each a dropdown. "Business function" = function-group categories.
+  // "Industry" = industry-group categories PLUS the personal group, folded in as Life & Home.
+  const functionCategories = visibleCategories.filter((c) => c.group === "function");
+  const industryCategories = visibleCategories.filter((c) => c.group === "industry" || c.group === "personal");
+  const categoryGroupById = new Map(categories.map((c) => [c.id, c.group]));
+  // Plain, warm label override: the Personal & Household category reads as "Life & Home"
+  // inside the Industry dropdown so it sits naturally alongside the verticals.
+  const industryLabel = (c) => (c.group === "personal" ? "Life & Home" : c.name);
+  const dispositionOrder = ["eliminate", "simplify", "automate", "optimize", "report"];
+  const framework = {
+    heading: "Every workflow gets the same five-question treatment.",
+    intro: "Before you automate anything, you should ask harder questions first. For every step in a workflow, there are five possible verdicts:",
+    afterTable: 'Most "automation" advice skips straight to the blue. The biggest wins usually come from the red and orange, work that never needed doing, and the green: numbers you\u2019ve been running your business without.',
+    aiHeading: "Where AI actually fits (and where it doesn\u2019t):",
+    aiBody: 'A lot of what gets sold as "AI" is plain automation, a form submission triggers an email, a calendar invite syncs to a spreadsheet. That\u2019s been possible for a decade and it\u2019s great. AI earns its keep on the messy parts: reading an email and figuring out what the person wants, drafting a reply in your voice, pulling totals out of a PDF invoice, summarizing a week of job-site photos into a client update. Throughout this library, we mark which is which. If someone tells you everything needs AI, they\u2019re selling you AI.'
+  };
+  const hero = {
+    eyebrow: "The week you keep losing",
+    value: "16",
+    unit: "hours a week",
+    lead: "Small business owners lose two full workdays to admin. Most of those hours can be eliminated, automated, or done in a tenth of the time.",
+    source: "ServiceNow, State of Work"
+  };
+  const cta = {
+    headline: "This is the generic version. Yours is different.",
+    body: "Every business runs these workflows a little differently. The scorecard asks about your deals, time, and cash, then shows which leak is likely costing the most. The audit is the measured version after that.",
+    button: "Take the scorecard \u2192",
+    subline: "Three minutes. Instant result. No jargon."
+  };
+  const ctaCopy = cta;
+  function automationLevel(automation) {
+    const a = automation.toLowerCase();
+    if (a.includes("fully")) return 4;
+    if (a.includes("mostly")) return 3;
+    if (a.includes("partially")) return 2;
+    return 2;
+  }
+  function frequencyTokens(frequency) {
+    const base = frequency.toLowerCase();
+    const tokens = [];
+    if (base.includes("daily")) tokens.push("Daily");
+    if (base.includes("weekly")) tokens.push("Weekly");
+    if (base.includes("monthly")) tokens.push("Monthly");
+    if (base.includes("per ")) tokens.push("Per job");
+    return tokens.length ? tokens : [frequency];
+  }
+  const FREQUENCY_FILTERS = ["Daily", "Weekly", "Monthly", "Per job"];
+  function caseDispositions(useCase) {
+    const counts = {};
+    for (const item of useCase.breakdown) {
+      for (const d of item.dispositions) counts[d] = (counts[d] || 0) + 1;
+    }
+    return dispositionOrder.filter((id) => counts[id]).map((id) => ({ id, count: counts[id] }));
+  }
+  function stepTies(useCase, stepNumber) {
+    const ids = [];
+    for (const item of useCase.breakdown) {
+      if (item.steps.includes(stepNumber)) {
+        for (const d of item.dispositions) if (!ids.includes(d)) ids.push(d);
+      }
+    }
+    return ids;
+  }
+  function stepLabel(item) {
+    if (item.human) return "Stays human";
+    const s = item.steps;
+    if (!s.length) return "Across the workflow";
+    if (s.length === 1) return `Step ${s[0]}`;
+    const sorted = [...s].sort((a, b) => a - b);
+    const contiguous = sorted.every((n, i) => i === 0 || n === sorted[i - 1] + 1);
+    if (contiguous) return `Steps ${sorted[0]}\u2013${sorted[sorted.length - 1]}`;
+    return `Steps ${sorted.join(", ")}`;
+  }
+  function DispositionIcon({ id, size = 14 }) {
+    const common = {
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: 1.9,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": true
+    };
+    switch (id) {
+      case "eliminate":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M6 6l12 12M18 6L6 18" }));
+      case "simplify":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M5 5l7 7M19 5l-7 7M12 12v7" }));
+      case "automate":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M13 3L5 13h6l-1 8 8-11h-6z" }));
+      case "optimize":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M5 18a7 7 0 0 1 14 0" }), /* @__PURE__ */ React.createElement("path", { d: "M12 18l4-5" }));
+      case "report":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("path", { d: "M6 20V13M12 20V7M18 20v-9" }));
+      case "human":
+        return /* @__PURE__ */ React.createElement("svg", { ...common }, /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "8", r: "3.2" }), /* @__PURE__ */ React.createElement("path", { d: "M5.5 19a6.5 6.5 0 0 1 13 0" }));
+      default:
+        return null;
+    }
+  }
+  function ArrowRight({ size = 16 }) {
+    return /* @__PURE__ */ React.createElement(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.9,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        "aria-hidden": "true"
+      },
+      /* @__PURE__ */ React.createElement("path", { d: "M5 12h14M13 6l6 6-6 6" })
+    );
+  }
+  function SearchIcon({ size = 16 }) {
+    return /* @__PURE__ */ React.createElement(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.8,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        "aria-hidden": "true"
+      },
+      /* @__PURE__ */ React.createElement("circle", { cx: "11", cy: "11", r: "7" }),
+      /* @__PURE__ */ React.createElement("path", { d: "M21 21l-4.3-4.3" })
+    );
+  }
+  function ChevronLeft({ size = 16 }) {
+    return /* @__PURE__ */ React.createElement(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.8,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        "aria-hidden": "true"
+      },
+      /* @__PURE__ */ React.createElement("path", { d: "M15 6l-6 6 6 6" })
+    );
+  }
+  const dispoLabel = Object.fromEntries(dispositions.map((d) => [d.id, d.label]));
+  function Tag({ id, human }) {
+    if (human) {
+      return /* @__PURE__ */ React.createElement("span", { className: "ucl-tag ucl-tag--human" }, /* @__PURE__ */ React.createElement(DispositionIcon, { id: "human" }), "Human judgment");
+    }
+    return /* @__PURE__ */ React.createElement("span", { className: `ucl-tag ucl-tag--${id}` }, /* @__PURE__ */ React.createElement(DispositionIcon, { id }), dispoLabel[id]);
+  }
+  function DetailView({ useCase, category, onClose, onAudit, onPrev, onNext, prevCase, nextCase }) {
+    const scrollRef = useRef(null);
+    const level = automationLevel(useCase.automation);
+    useEffect(() => {
+      function onKey(e) {
+        if (e.key === "Escape") onClose();
+        else if (e.key === "ArrowLeft" && prevCase) onPrev();
+        else if (e.key === "ArrowRight" && nextCase) onNext();
+      }
+      document.addEventListener("keydown", onKey);
+      return () => document.removeEventListener("keydown", onKey);
+    }, [onClose, onPrev, onNext, prevCase, nextCase]);
+    useEffect(() => {
+      if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    }, [useCase.id]);
+    const cs = useCase.contextStat;
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-scrim", onClick: onClose }), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail", role: "dialog", "aria-modal": "true", "aria-label": useCase.name }, /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-nav" }, /* @__PURE__ */ React.createElement("button", { className: "ucl-detail-back", onClick: onClose }, /* @__PURE__ */ React.createElement(ChevronLeft, null), " All use cases"), /* @__PURE__ */ React.createElement("button", { className: "ucl-cta ucl-cta--sm", onClick: onAudit }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-scroll", ref: scrollRef }, /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-body" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow ucl-detail-id" }, category.name, " \xB7 ", useCase.id), /* @__PURE__ */ React.createElement("h2", { className: "ucl-detail-name" }, useCase.name), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-subject" }, useCase.subject), /* @__PURE__ */ React.createElement("p", { className: "ucl-detail-pain" }, "\u201C", useCase.painLine, "\u201D"), /* @__PURE__ */ React.createElement("div", { className: "ucl-detail-tags" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, useCase.frequency), /* @__PURE__ */ React.createElement("span", { className: "ucl-pot" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, useCase.automation), /* @__PURE__ */ React.createElement("span", { className: "dots" }, [0, 1, 2, 3].map((i) => /* @__PURE__ */ React.createElement("i", { key: i, className: i < level ? "on" : "" }))))), cs && /* @__PURE__ */ React.createElement("div", { className: "ucl-callout" }, /* @__PURE__ */ React.createElement("div", { className: "lbl" }, "This is measured"), cs.value ? /* @__PURE__ */ React.createElement("div", { className: "big" }, /* @__PURE__ */ React.createElement("span", { className: "num" }, cs.value), " ", cs.text) : /* @__PURE__ */ React.createElement("div", { className: "qual" }, cs.text), /* @__PURE__ */ React.createElement("div", { className: "src" }, cs.source)), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The workflow today"), /* @__PURE__ */ React.createElement("ol", { className: "ucl-flow" }, useCase.workflow.map((text, i) => {
+      const ties = stepTies(useCase, i + 1);
+      return /* @__PURE__ */ React.createElement("li", { className: "ucl-flow-step", key: i }, /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-n" }, String(i + 1).padStart(2, "0")), /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-t" }, text, ties.length > 0 && /* @__PURE__ */ React.createElement("span", { className: "ucl-flow-ties", "aria-hidden": "true" }, ties.map((d) => /* @__PURE__ */ React.createElement("i", { key: d, className: d })))));
+    })), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The breakdown"), /* @__PURE__ */ React.createElement("div", { className: "ucl-break" }, useCase.breakdown.map((item, i) => /* @__PURE__ */ React.createElement("div", { className: "ucl-break-item", key: i }, /* @__PURE__ */ React.createElement("div", { className: "ucl-break-top" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-break-step" }, stepLabel(item)), item.human ? /* @__PURE__ */ React.createElement(Tag, { human: true }) : item.dispositions.map((d) => /* @__PURE__ */ React.createElement(Tag, { id: d, key: d }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-break-rat" }, item.rationale)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "Where AI actually fits"), /* @__PURE__ */ React.createElement("p", { className: "ucl-aifit" }, useCase.aiFit), useCase.complianceNote && /* @__PURE__ */ React.createElement("div", { className: "ucl-compliance" }, /* @__PURE__ */ React.createElement("div", { className: "lbl" }, "Compliance note"), useCase.complianceNote), /* @__PURE__ */ React.createElement("div", { className: "ucl-sec-h" }, "The after state"), /* @__PURE__ */ React.createElement("p", { className: "ucl-after" }, useCase.afterState), /* @__PURE__ */ React.createElement("div", { className: "ucl-bridge" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("h4", null, ctaCopy.headline), /* @__PURE__ */ React.createElement("p", null, ctaCopy.body), /* @__PURE__ */ React.createElement("button", { className: "ucl-cta", onClick: onAudit }, ctaCopy.button.replace(" \u2192", ""), " ", /* @__PURE__ */ React.createElement(ArrowRight, null)), /* @__PURE__ */ React.createElement("div", { className: "sub" }, ctaCopy.subline)), /* @__PURE__ */ React.createElement("div", { className: "ucl-pager" }, /* @__PURE__ */ React.createElement("button", { onClick: onPrev, disabled: !prevCase }, /* @__PURE__ */ React.createElement("span", { className: "d" }, /* @__PURE__ */ React.createElement(ChevronLeft, { size: 12 }), " Prev"), /* @__PURE__ */ React.createElement("span", { className: "n" }, prevCase ? prevCase.name : "None")), /* @__PURE__ */ React.createElement("button", { className: "nx", onClick: onNext, disabled: !nextCase }, /* @__PURE__ */ React.createElement("span", { className: "d" }, "Next \u2192"), /* @__PURE__ */ React.createElement("span", { className: "n" }, nextCase ? nextCase.name : "None")))))));
+  }
+  const categoryById = Object.fromEntries(categories.map((c) => [c.id, c]));
+  function Marked({ text, marks, cls }) {
+    const parts = [];
+    let rest = text;
+    marks.forEach(([phrase, id], k) => {
+      const i = rest.indexOf(phrase);
+      if (i === -1) return;
+      parts.push(rest.slice(0, i));
+      parts.push(/* @__PURE__ */ React.createElement("em", { key: k, className: `${cls} ${cls}--${id}` }, phrase));
+      rest = rest.slice(i + phrase.length);
+    });
+    parts.push(rest);
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, parts);
+  }
+  function UseCaseCard({ useCase, onOpen }) {
+    const level = automationLevel(useCase.automation);
+    const strip = caseDispositions(useCase);
+    const automationShort = useCase.automation.replace(" automatable", "").replace("Partially", "Partly");
+    return /* @__PURE__ */ React.createElement("button", { className: "ucl-card", onClick: () => onOpen(useCase.id) }, /* @__PURE__ */ React.createElement("div", { className: "ucl-card-top" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-card-id" }, useCase.id), /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, useCase.frequency)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ucl-card-name" }, useCase.name), /* @__PURE__ */ React.createElement("p", { className: "ucl-card-pain" }, "\u201C", useCase.painLine, "\u201D")), /* @__PURE__ */ React.createElement("div", { className: "ucl-card-foot" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-pot" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-meta" }, automationShort), /* @__PURE__ */ React.createElement("span", { className: "dots" }, [0, 1, 2, 3].map((i) => /* @__PURE__ */ React.createElement("i", { key: i, className: i < level ? "on" : "" })))), /* @__PURE__ */ React.createElement("span", { className: "ucl-strip", "aria-hidden": "true" }, strip.map(({ id, count }) => /* @__PURE__ */ React.createElement("i", { key: id, className: id, style: { width: 10 + count * 5 } })))));
+  }
+  function Toolbar({
+    query,
+    setQuery,
+    fn,
+    setFn,
+    industry,
+    setIndustry,
+    freq,
+    setFreq,
+    anyActive,
+    clearAll,
+    count,
+    total
+  }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-toolbar-in" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-bar" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-search" }, /* @__PURE__ */ React.createElement(SearchIcon, null), /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "text",
+        value: query,
+        onChange: (e) => setQuery(e.target.value),
+        placeholder: "Search the week you keep losing\u2026",
+        "aria-label": "Search use cases"
+      }
+    )), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: fn, onChange: (e) => setFn(e.target.value), "aria-label": "Filter by business function" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "Business function"), functionCategories.map((c) => /* @__PURE__ */ React.createElement("option", { key: c.id, value: c.id }, c.name))), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: industry, onChange: (e) => setIndustry(e.target.value), "aria-label": "Filter by industry" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "Industry"), industryCategories.map((c) => /* @__PURE__ */ React.createElement("option", { key: c.id, value: c.id }, industryLabel(c)))), /* @__PURE__ */ React.createElement("select", { className: "ucl-select", value: freq, onChange: (e) => setFreq(e.target.value), "aria-label": "Filter by how often" }, /* @__PURE__ */ React.createElement("option", { value: "all" }, "How often"), FREQUENCY_FILTERS.map((f) => /* @__PURE__ */ React.createElement("option", { key: f, value: f }, f))), /* @__PURE__ */ React.createElement("span", { className: "ucl-count" }, count, " of ", total), anyActive && /* @__PURE__ */ React.createElement("button", { className: "ucl-clear", onClick: clearAll }, "Clear"))));
+  }
+  function UseCaseLibrary({ auditHref = "#audit" }) {
+    const [query, setQuery] = useState("");
+    const [fn, setFn] = useState("all");
+    const [industry, setIndustry] = useState("all");
+    const [freq, setFreq] = useState("all");
+    const [openId, setOpenId] = useState(null);
+    const [opened, setOpened] = useState(() => /* @__PURE__ */ new Set());
+    // The ordered list of category objects to render, derived from the two dropdowns:
+    //  - neither            -> all functions, then all industries
+    //  - function only      -> that one function, nothing else
+    //  - industry only      -> that industry first, then all business functions (they apply broadly)
+    //  - both               -> industry, then the selected function, then the remaining functions
+    const activeCategories = useMemo(() => {
+      const oneFn = functionCategories.filter((c) => c.id === fn);
+      const otherFns = functionCategories.filter((c) => c.id !== fn);
+      if (industry === "all") {
+        if (fn === "all") return [...functionCategories, ...industryCategories];
+        return oneFn; // function selected, no industry: that function only
+      }
+      const ind = industryCategories.filter((c) => c.id === industry);
+      if (fn === "all") return [...ind, ...functionCategories];
+      return [...ind, ...oneFn, ...otherFns];
+    }, [fn, industry]);
+    const activeCategoryIds = useMemo(() => new Set(activeCategories.map((c) => c.id)), [activeCategories]);
+    const activeGroupUseCases = useMemo(() => useCases.filter((u) => activeCategoryIds.has(u.categoryId)), [activeCategoryIds]);
+    const hashId = () => {
+      const m = window.location.hash.match(/^#case-(.+)$/);
+      return m ? m[1] : null;
+    };
+    const setOpenFromHash = useCallback(() => {
+      const id = hashId();
+      if (id) {
+        const target = useCases.find((u) => u.id === id);
+        if (target) {
+          // Make sure the case's category is in view: route it into the right dropdown.
+          const g = categoryGroupById.get(target.categoryId);
+          if (g === "function") setFn(target.categoryId);
+          else { setIndustry(target.categoryId); setFn("all"); }
+          setOpenId(id);
+          setOpened((p) => new Set(p).add(id));
+          return;
+        }
+      }
+      setOpenId(null);
+    }, []);
+    useEffect(() => {
+      setOpenFromHash();
+      const onPop = () => {
+        setOpenFromHash();
+      };
+      window.addEventListener("popstate", onPop);
+      return () => window.removeEventListener("popstate", onPop);
+    }, [setOpenFromHash]);
+    useEffect(() => {
+      if (openId && !activeGroupUseCases.some((u) => u.id === openId)) {
+        setOpenId(null);
+      }
+      document.body.classList.toggle("ucl-noscroll", !!openId);
+      return () => document.body.classList.remove("ucl-noscroll");
+    }, [activeGroupUseCases, openId]);
+    const markOpened = useCallback((id) => setOpened((p) => new Set(p).add(id)), []);
+    const openCase = useCallback((id) => {
+      if (hashId() !== id) window.history.pushState(null, "", `#case-${id}`);
+      setOpenId(id);
+      markOpened(id);
+    }, [markOpened]);
+    const navigateCase = useCallback((id) => {
+      window.history.replaceState(null, "", `#case-${id}`);
+      setOpenId(id);
+      markOpened(id);
+    }, [markOpened]);
+    const closeCase = useCallback(() => {
+      if (hashId()) window.history.back();
+      else setOpenId(null);
+    }, []);
+    const filtered = useMemo(() => {
+      const q = query.trim().toLowerCase();
+      return activeGroupUseCases.filter((u) => {
+        if (freq !== "all" && !frequencyTokens(u.frequency).includes(freq)) return false;
+        if (q) {
+          const hay = `${u.id} ${u.name} ${u.subject} ${u.painLine}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }, [activeGroupUseCases, query, freq]);
+    const anyActive = fn !== "all" || industry !== "all" || freq !== "all" || query.trim() !== "";
+    const clearAll = () => {
+      setQuery("");
+      setFn("all");
+      setIndustry("all");
+      setFreq("all");
+    };
+    // Preserve the dropdown-driven category order, then drop empty categories.
+    const grouped = activeCategories.map((c) => ({ category: c, items: filtered.filter((u) => u.categoryId === c.id) })).filter((g) => g.items.length > 0);
+    // Prev/next should follow the order cases actually appear on the page.
+    const order = grouped.length ? grouped.flatMap((g) => g.items) : activeGroupUseCases;
+    const openCaseObj = openId ? activeGroupUseCases.find((u) => u.id === openId) : null;
+    const openIdx = openCaseObj ? order.findIndex((u) => u.id === openId) : -1;
+    const prevCase = openIdx > 0 ? order[openIdx - 1] : null;
+    const nextCase = openIdx >= 0 && openIdx < order.length - 1 ? order[openIdx + 1] : null;
+    const openedList = activeGroupUseCases.filter((u) => opened.has(u.id)).slice(0, 3);
+    const showTeaser = opened.size >= 2;
+    return /* @__PURE__ */ React.createElement("div", { className: "ucl-root" }, /* @__PURE__ */ React.createElement("header", { className: "ucl-header" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-header-in" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-wordmark", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, /* @__PURE__ */ React.createElement("b", null, "BUILTWITHJON"), /* @__PURE__ */ React.createElement("span", null, "Use Case Library")), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta ucl-cta--sm", href: auditHref }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 })))), /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-hero" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow" }, hero.eyebrow), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-grid" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-stat" }, hero.value, /* @__PURE__ */ React.createElement("span", { className: "u" }, hero.unit)), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-right" }, /* @__PURE__ */ React.createElement("p", { className: "ucl-hero-lead" }, /* @__PURE__ */ React.createElement(
+      Marked,
+      {
+        text: hero.lead,
+        cls: "ucl-hl",
+        marks: [["eliminated", "eliminate"], ["automated", "automate"], ["done in a tenth of the time", "optimize"]]
+      }
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-attr" }, "Source, ", hero.source), /* @__PURE__ */ React.createElement("div", { className: "ucl-hero-cta" }, /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, null)))))), /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-framework" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-eyebrow" }, "The framework"), /* @__PURE__ */ React.createElement("h2", null, framework.heading), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-intro" }, framework.intro), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-grid" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-verdicts" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-chiprow" }, dispositions.map((d) => /* @__PURE__ */ React.createElement("span", { className: `ucl-tag ucl-tag--${d.id}`, key: d.id }, /* @__PURE__ */ React.createElement(DispositionIcon, { id: d.id }), d.label))), /* @__PURE__ */ React.createElement("a", { className: "ucl-fw-full", href: "/dispositions/" }, "What each verdict means ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 }))), /* @__PURE__ */ React.createElement("div", { className: "ucl-fw-side" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement(
+      Marked,
+      {
+        text: framework.afterTable,
+        cls: "ucl-word",
+        marks: [["blue", "automate"], ["red", "eliminate"], ["orange", "simplify"], ["green", "report"]]
+      }
+    )), /* @__PURE__ */ React.createElement("div", { className: "ucl-ai-note" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, framework.aiHeading), " ", framework.aiBody), /* @__PURE__ */ React.createElement("p", { className: "ucl-fw-process" }, "These five verdicts are one step of a bigger sequence. ", /* @__PURE__ */ React.createElement("a", { href: "/dispositions/" }, "The five dispositions"), " · ", /* @__PURE__ */ React.createElement("a", { href: "/process/" }, "where they fit in the process →")))))), /* @__PURE__ */ React.createElement(
+      Toolbar,
+      {
+        query,
+        setQuery,
+        fn,
+        setFn,
+        industry,
+        setIndustry,
+        freq,
+        setFreq,
+        anyActive,
+        clearAll,
+        count: filtered.length,
+        total: activeGroupUseCases.length
+      }
+    ), showTeaser && /* @__PURE__ */ React.createElement("div", { className: "ucl-wrap" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-teaser" }, /* @__PURE__ */ React.createElement("div", { className: "tt" }, "You\u2019ve looked at ", /* @__PURE__ */ React.createElement("b", null, openedList.map((u) => u.name).join(", ")), ", want to see where your version is leaking first? Take the scorecard."), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta ucl-cta--sm", href: auditHref }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 })))), grouped.length === 0 ? /* @__PURE__ */ React.createElement("div", { className: "ucl-wrap" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-empty" }, "No use cases match those filters. ", /* @__PURE__ */ React.createElement("button", { className: "ucl-clear", onClick: clearAll }, "Clear filters"))) : grouped.map(({ category, items }) => /* @__PURE__ */ React.createElement("section", { className: "ucl-wrap ucl-cat", id: category.id, key: category.id }, /* @__PURE__ */ React.createElement("div", { className: `ucl-cat-top${category.stat ? " has-stat" : ""}` }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ucl-cat-head" }, /* @__PURE__ */ React.createElement("span", { className: "ucl-cat-num" }, category.num), /* @__PURE__ */ React.createElement("h2", { className: "ucl-cat-name" }, category.name)), /* @__PURE__ */ React.createElement("p", { className: "ucl-cat-intro" }, category.intro)), category.stat && /* @__PURE__ */ React.createElement("div", { className: `ucl-statcard${category.stat.value ? "" : " is-qual"}` }, category.stat.value && /* @__PURE__ */ React.createElement("div", { className: "big" }, category.stat.value), /* @__PURE__ */ React.createElement("div", { className: "txt" }, category.stat.text, /* @__PURE__ */ React.createElement("span", { className: "src" }, category.stat.source)))), /* @__PURE__ */ React.createElement("div", { className: "ucl-grid" }, items.map((u) => /* @__PURE__ */ React.createElement(UseCaseCard, { key: u.id, useCase: u, onOpen: openCase })), /* @__PURE__ */ React.createElement("div", { className: "ucl-cta-card" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("div", { className: "ch" }, ctaCopy.headline), /* @__PURE__ */ React.createElement("div", { className: "cb" }, "The library shows the generic ", category.name, " workflows. The scorecard shows which leak is probably costing you first."), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, "Take the scorecard ", /* @__PURE__ */ React.createElement(ArrowRight, { size: 14 })))))), /* @__PURE__ */ React.createElement("footer", { className: "ucl-wrap ucl-foot", id: "audit" }, /* @__PURE__ */ React.createElement("div", { className: "ucl-foot-cta" }, /* @__PURE__ */ React.createElement("div", { className: "ce" }, "The bridge"), /* @__PURE__ */ React.createElement("h3", null, ctaCopy.headline), /* @__PURE__ */ React.createElement("p", null, ctaCopy.body), /* @__PURE__ */ React.createElement("a", { className: "ucl-cta", href: auditHref }, ctaCopy.button.replace(" \u2192", ""), " ", /* @__PURE__ */ React.createElement(ArrowRight, null)), /* @__PURE__ */ React.createElement("div", { className: "sub" }, ctaCopy.subline)), /* @__PURE__ */ React.createElement("div", { className: "ucl-colophon" }, "Five verdicts, Eliminate \xB7 Simplify \xB7 Automate \xB7 Optimize \xB7 Report. Numbers describe the problem, never a promise.")), openCaseObj && /* @__PURE__ */ React.createElement(
+      DetailView,
+      {
+        useCase: openCaseObj,
+        category: categoryById[openCaseObj.categoryId],
+        onClose: closeCase,
+        onAudit: () => {
+          window.location.href = auditHref;
+        },
+        onPrev: () => prevCase && navigateCase(prevCase.id),
+        onNext: () => nextCase && navigateCase(nextCase.id),
+        prevCase,
+        nextCase
+      }
+    ));
+  }
+  ReactDOM.createRoot(document.getElementById("ucl-mount")).render(React.createElement(UseCaseLibrary, { auditHref: "/scorecard/" }));
+  window.setTimeout(() => {
+    const id = window.location.hash.slice(1);
+    if (id && !id.startsWith("case-")) document.getElementById(id)?.scrollIntoView({ block: "start" });
+  }, 0);
+})();
+
+</script>
+</Base>
