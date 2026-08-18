@@ -72,7 +72,7 @@ Claude will discover the tool schema, ask for the required answers, call `run_sc
 
 In Claude's web or desktop apps, open Settings, go to Connectors, choose **Add custom connector**, and paste the endpoint. Cursor, VS Code, ChatGPT developer mode, and other MCP clients can add the same URL as a remote Streamable HTTP server with no authentication.
 
-The full tool list and copy-paste instructions live on the [MCP server page](/mcp/). If you do not want to connect anything, use the [no-install tools hub](/tools/) instead.
+The full tool list and copy-paste instructions live on the [tools hub](/tools/). If you do not want to connect anything, the same hub has no-install versions you can run in the browser.
 
 ## Why put this on the website?
 
