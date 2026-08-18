@@ -240,7 +240,7 @@ Scorecards, calculators, and guided course steps may use one semantic axis hue a
 
 Jonathan approved a new visual world for the homepage in the 2026-08-17 design-lab session
 (lineage: `Workspace/04-Marketing/Website/design-directions-2026-08-17/design-lab-composite-v12.html`).
-It is scoped to `src/pages/index.astro` for now; sitewide migration is a later decision. Tokens:
+It is scoped to `src/pages/index.astro` and `src/pages/workshops.astro` (plus the two workshop deck routes); sitewide migration is a later decision. Tokens:
 
 - Grounds: ivory `#FBF8F1`, parchment `#F3ECDD`, clay `#EDE2CC`, committed amber band `#E8A83C`.
 - Ink `#191E26`, body text `#3F4752`, captions `#5C6570`, red accent (annotation/jam) `#C4392B`,

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="500" viewBox="0 0 1120 500" role="img" aria-labelledby="title desc">
+  <title id="title">Skills concept diagram</title>
+  <desc id="desc">A folder named assistant-skills contains SKILL.md, scripts, and references. Three matching explanation blocks define each part.</desc>
+  <defs>
+    <style>
+      .mono {
+        font-family: Menlo, Consolas, monospace;
+        font-weight: 760;
+        fill: #1f1713;
+      }
+      .sans {
+        font-family: Helvetica, Arial, sans-serif;
+        fill: #5e5047;
+      }
+      .panel-title { font-size: 32px; line-height: 1.16; }
+      .tree-label { font-size: 34px; line-height: 1.16; }
+      .part-title { font-size: 38px; line-height: 1.12; }
+      .part-copy {
+        font-size: 30px;
+        font-weight: 720;
+        line-height: 1.22;
+      }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#8f4e24"/>
+    </marker>
+  </defs>
+
+  <rect width="1120" height="500" fill="#fffdf8"/>
+
+  <g id="folder-panel">
+    <rect x="28" y="48" width="470" height="404" rx="16" fill="#fffdf8" stroke="#8f4e24" stroke-width="3"/>
+
+    <g transform="translate(62 72)">
+      <path d="M0 14 Q0 8 6 8 H35 L45 20 H82 Q90 20 90 28 V58 Q90 66 82 66 H8 Q0 66 0 58 Z" fill="#fbf6ec" stroke="#8f4e24" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M2 24 H88" fill="none" stroke="#8f4e24" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <text x="162" y="118" class="mono panel-title">assistant-skills/</text>
+
+    <path d="M86 150 V358" fill="none" stroke="#e5d7c3" stroke-width="4" stroke-linecap="round"/>
+
+    <g id="skill-md-row">
+      <path d="M86 188 H118" fill="none" stroke="#e5d7c3" stroke-width="4" stroke-linecap="round"/>
+      <path d="M133 164 H166 L184 182 V222 H133 Z" fill="#fbf6ec" stroke="#8f4e24" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M166 164 V182 H184" fill="none" stroke="#8f4e24" stroke-width="3" stroke-linejoin="round"/>
+      <text x="204" y="203" class="mono tree-label">SKILL.md</text>
+    </g>
+
+    <g id="scripts-row">
+      <path d="M86 272 H118" fill="none" stroke="#e5d7c3" stroke-width="4" stroke-linecap="round"/>
+      <path d="M132 254 Q132 248 138 248 H164 L173 258 H207 Q214 258 214 266 V302 Q214 310 207 310 H140 Q132 310 132 302 Z" fill="#fbf6ec" stroke="#8f4e24" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M134 264 H212" fill="none" stroke="#8f4e24" stroke-width="3" stroke-linecap="round"/>
+      <text x="234" y="291" class="mono tree-label">scripts/</text>
+    </g>
+
+    <g id="references-row">
+      <path d="M86 356 H118" fill="none" stroke="#e5d7c3" stroke-width="4" stroke-linecap="round"/>
+      <path d="M132 338 Q132 332 138 332 H164 L173 342 H207 Q214 342 214 350 V386 Q214 394 207 394 H140 Q132 394 132 386 Z" fill="#fbf6ec" stroke="#8f4e24" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M134 348 H212" fill="none" stroke="#8f4e24" stroke-width="3" stroke-linecap="round"/>
+      <text x="234" y="375" class="mono tree-label">references/</text>
+    </g>
+  </g>
+
+  <g id="mapping-lines" stroke="#8f4e24" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.86">
+    <path d="M516 188 H558" marker-end="url(#arrow)"/>
+    <path d="M516 272 H558" marker-end="url(#arrow)"/>
+    <path d="M516 356 H558" marker-end="url(#arrow)"/>
+  </g>
+
+  <g id="part-blocks">
+    <g transform="translate(576 48)">
+      <rect width="516" height="118" rx="14" fill="#fbf6ec" stroke="#e5d7c3" stroke-width="2"/>
+      <circle cx="36" cy="40" r="9" fill="#8f4e24"/>
+      <text x="62" y="53" class="mono part-title">SKILL.md</text>
+      <text x="62" y="92" class="sans part-copy">Name, description, instructions</text>
+    </g>
+
+    <g transform="translate(576 191)">
+      <rect width="516" height="118" rx="14" fill="#fbf6ec" stroke="#e5d7c3" stroke-width="2"/>
+      <circle cx="36" cy="40" r="9" fill="#8f4e24"/>
+      <text x="62" y="53" class="mono part-title">scripts/</text>
+      <text x="62" y="92" class="sans part-copy">Executable helper code</text>
+    </g>
+
+    <g transform="translate(576 334)">
+      <rect width="516" height="118" rx="14" fill="#fbf6ec" stroke="#e5d7c3" stroke-width="2"/>
+      <circle cx="36" cy="40" r="9" fill="#8f4e24"/>
+      <text x="62" y="53" class="mono part-title">references/</text>
+      <text x="62" y="92" class="sans part-copy">Templates and examples</text>
+    </g>
+  </g>
+</svg>

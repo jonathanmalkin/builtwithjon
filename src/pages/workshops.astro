@@ -1,174 +1,409 @@
 ---
 import Base from '../layouts/Base.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/schibsted-grotesk';
 
-// Copy: finalized from Workspace/04-Marketing/Website/workshops-page-copy-DRAFT-2026-08-15.md
-// via voice-editor. No revenue band, no client name, "clients" plural
-// attribution not used. Host inquiries go to jonathan@builtwithjon.com per
-// the prior Host-Session One-Pager. The upcoming-events block stays out
-// until there is a real event to list.
+// DIRECTION CONTRACT (2026-08-18 workshops host-entry)
+// THESIS: /workshops/ is the host door. A room organizer sees the session,
+//   flips the actual decks, and tells Jonathan about the room. Refuses the
+//   letter-column speaker page and the 15-minute funnel close.
+// OWN-WORLD: Homepage 2026-08-17 world: ivory / parchment / clay / amber,
+//   Bricolage Grotesque + Schibsted Grotesk, ivory boards with ink title
+//   bars and offset ink shadows, full-bleed photos with overlap cards that
+//   never cover Jonathan.
+// STORY: A public-room host or an in-company host sees the Personal
+//   Assistant workshop, tells those two rooms apart, and sends details.
+// FIRST VIEWPORT: Full-bleed Capital Factory podium photo, ivory overlap
+//   card bottom-left, one CTA to the host form.
+// FORM: Homepage band grammar extended to this route. code-led.
+// FINISH: unreviewed and undocumented is unfinished; this build ends with
+//   the finish review, the verdict, DESIGN.md, and every shipping raster
+//   carrying its provenance.
 
 const description =
-  'A working session for rooms of business owners: one live demo of a built company knowledge system, honest scope, and one named workflow to fix first. Austin-based, delivered anywhere.';
+  'A personal assistant workshop for a peer-group room or a company team. Members leave with a starting point they can use. Nothing sold from the front of the room.';
+
+const personSchema = buildPersonSchema({
+  description: 'Jonathan Malkin runs a personal assistant workshop for rooms of owners and for company teams. Participants leave with a working starting point and a clear line for what still needs them.',
+  url: 'https://builtwithjon.com/workshops/',
+  knowsAbout: [
+    'AI personal assistant workshops',
+    'AI workshops for business owners',
+    'company knowledge systems',
+  ],
+});
+
+const serviceSchema = buildProfessionalServiceSchema({
+  description,
+  founder: personSchema,
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      name: 'Personal assistant workshop',
+      description: 'A working session for a public or peer-group room, or for a company team. Nothing sold from the front of the room.',
+      url: 'https://builtwithjon.com/workshops/',
+    },
+  ],
+});
 ---
 
 <Base
-  title="AI Workshops for Owner-Led Businesses | Austin, TX"
+  title="Personal Assistant Workshop for Your Room | Austin, TX"
   description={description}
+  schema={personSchema}
 >
-  <div class="letter">
-    <header class="letter-open">
-      <p class="letter-dateline">Workshops &amp; speaking</p>
-      <h1>This workshop isn't what I do.</h1>
-      <p class="letter-lede">
-        I build the systems underneath a business. I run these because it's the fastest way to show you what's possible.
-      </p>
-      <div class="letter-cta">
-        <a href="mailto:jonathan@builtwithjon.com" class="hero-btn" data-track="cta:workshops-contact">Bring this to your room</a>
-        <p class="capacity-note">jonathan@builtwithjon.com &middot; Austin-based, delivered anywhere.</p>
+  <JsonLd schema={serviceSchema} />
+
+  <div class="h26-ws">
+    <section class="h26-hero">
+      <div class="h26-img-holder">
+        <img
+          src="/home/austin-workshop.jpg"
+          width="1600"
+          height="1066"
+          alt="Jonathan Malkin at the Capital Factory podium in Austin, the venue's gear-shaped stage wall behind him and the audience in the foreground."
+          fetchpriority="high"
+        />
       </div>
-    </header>
-  </div>
-
-  <figure class="figure-band">
-    <img
-      src="/home/austin-workshop.jpg"
-      width="1600"
-      height="1066"
-      alt="Jonathan Malkin speaking from the podium at Capital Factory in Austin, framed by the Capital Factory gear logo, with the audience in the foreground."
-      loading="eager"
-      decoding="async"
-    />
-    <figcaption>Austin Claude meetup at Capital Factory, August 2026</figcaption>
-  </figure>
-
-  <div class="letter">
-    <section aria-labelledby="problem-h">
-      <h2 id="problem-h">What problem does the session address?</h2>
-      <p>
-        The information a company runs on ends up scattered across people, inboxes, shared drives, vendor systems, and whatever lives only in someone's head. Nobody planned it that way. It's what happens when a business grows faster than its systems.
-      </p>
-      <p>
-        The cost shows up in three places. The owner becomes the bottleneck for every real question. Work that matters stays blocked because pulling the information together is too painful to start. When a key person leaves, so does the answer.
-      </p>
-      <p>
-        This isn't about revenue size. It's about whether more than just you needs answers the business can't give them today.
-      </p>
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="room-h">
-      <h2 id="room-h">What happens in the room?</h2>
-      <ol class="room-list">
-        <li>
-          <strong>The real shape of the problem.</strong> Where information actually goes in an operating company, and why adding another tool hasn't fixed it.
-        </li>
-        <li>
-          <strong>One live demo of a built system.</strong> Real client work, anonymized. Not slides about the future. The actual thing, answering actual questions, with the sources attached.
-        </li>
-        <li>
-          <strong>What it took.</strong> Honest scope: what got built, what went wrong, what stays human.
-        </li>
-        <li>
-          <strong>Finding your own first workflow.</strong> You leave having named one specific thing in your business worth fixing first.
-        </li>
-      </ol>
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="leave-h">
-      <h2 id="leave-h">What do you leave with?</h2>
-      <ul>
-        <li>A clear picture of what AI does inside a running business, and what it doesn't.</li>
-        <li>One named workflow in your own business, with a rough sense of what fixing it is worth.</li>
-        <li>The questions to ask any vendor before spending money.</li>
-      </ul>
-      <p>
-        No product pitch. Nothing sold from the front of the room. No futurism. No claim that AI replaces your team.
-      </p>
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="close-h">
-      <h2 id="close-h">How does it end?</h2>
-      <p>
-        At the end I'll offer 15 minutes, free, one on one. Not a sales call. I'm an operator who does this work during the week, not a speaker-circuit regular, and 15 minutes is enough to tell you whether there's something worth pursuing.
-      </p>
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="reasons-h">
-      <h2 id="reasons-h">Why run one of these?</h2>
-      <p>Four reasons hosts book this session. Name which one it is before we set the agenda.</p>
-      <ul>
-        <li><strong>Public lead gen.</strong> Owner-dense rooms: Vistage, business owner councils, peer boards.</li>
-        <li><strong>Post-build adoption.</strong> Coaching a team that already has a system, to get it actually used.</li>
-        <li><strong>Internal vision.</strong> A leadership team deciding what to build first.</li>
-        <li><strong>Training.</strong> A team that needs to use a system that already exists.</li>
-      </ul>
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="format-h">
-      <h2 id="format-h">What formats work?</h2>
-      <table class="format-table">
-        <thead>
-          <tr>
-            <th scope="col">Option</th>
-            <th scope="col">Length</th>
-            <th scope="col">Best for</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Talk plus Q&amp;A</td>
-            <td>45 to 60 min</td>
-            <td>Luncheon or monthly meeting slot</td>
-          </tr>
-          <tr>
-            <td>Working session</td>
-            <td>90 min</td>
-            <td>Groups that want members to leave with their own answer</td>
-          </tr>
-          <tr>
-            <td>Half day</td>
-            <td>3 to 4 hrs</td>
-            <td>Peer boards and retreat formats, hands-on</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="who-h">
-      <h2 id="who-h">Who runs it?</h2>
-      <p>
-        Austin-based. I work inside owner-run businesses making their information usable: diagnosing the workflow worth fixing first, then building the system the team actually adopts. Most recently I delivered a company knowledge system for a client whose team can now ask the business a question in plain language and get an answer with the source attached. Not a speaker-circuit regular. An operator who does this work during the week.
-      </p>
-      <!-- 2026-08-17: case-study link held until client clearance; restore then.
-      <p><a href="/case-study/">Read the case study behind the live demo &rarr;</a></p>
-      -->
-
-    </section>
-
-    <hr class="letter-rule" />
-
-    <section aria-labelledby="book-h">
-      <h2 id="book-h">Bring this to your room</h2>
-      <p>
-        Tell me about the room and which of the four reasons fits. I'll come back with a format recommendation.
-      </p>
-      <div class="letter-cta">
-        <a href="mailto:jonathan@builtwithjon.com" class="hero-btn" data-track="cta:workshops-contact">Email jonathan@builtwithjon.com</a>
+      <div class="h26-over">
+        <h1>A fully working personal assistant.</h1>
+        <p class="h26-lede">Set up in the room. Working before you walk out the door.</p>
+        <a class="h26-cta" href="#tell-me" data-track="cta:workshops-hero">Book a workshop</a>
       </div>
-      <p class="letter-ps">
-        <span class="ps-mark">P.S.</span>Looking for the networking card instead? That's at <a href="/card/">/card/</a>.
-      </p>
+    </section>
+
+    <section class="h26-decks" aria-label="The workshop deck">
+      <div class="h26-inner">
+        <div class="h26-stage h26-stage-full">
+          <iframe
+            src="/workshops/decks/personal-assistant.html"
+            title="AI Personal Assistant Masterclass slide deck"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <aside class="h26-talk">
+          <p>Need a short talk instead? I have Give Claude a Map, the 14-slide closeout from the Austin Claude meetup. <a href="/workshops/give-claude-a-map/" data-track="cta:workshops-deck-map">Open that deck</a> &middot; also written up at <a href="/map-not-dump/">/map-not-dump/</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="h26-room" aria-labelledby="room-h">
+      <div class="h26-inner">
+        <div>
+          <h2 id="room-h">What they do in the room.</h2>
+          <p class="h26-body">They build their own assistant and run it on something from their week. They leave with a starting point they can keep using.</p>
+          <p class="h26-body">Works for a group of business owners or your own team.</p>
+          <a class="h26-cta" href="#tell-me" data-track="cta:workshops-room">Book a workshop</a>
+        </div>
+        <figure class="h26-board" aria-label="What they leave with">
+          <div class="h26-bar">What they leave with</div>
+          <div class="h26-bene-grid">
+            <div class="h26-bene"><span class="h26-bene-ic" aria-hidden="true">&#127749;</span><h3>Morning Brief</h3></div>
+            <div class="h26-bene"><span class="h26-bene-ic" aria-hidden="true">&#129309;</span><h3>Meeting Prep</h3></div>
+            <div class="h26-bene"><span class="h26-bene-ic" aria-hidden="true">&#9993;&#65039;</span><h3>Email</h3></div>
+            <div class="h26-bene"><span class="h26-bene-ic" aria-hidden="true">&#128172;</span><h3>Real-time Capture</h3></div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="h26-who" aria-labelledby="who-h">
+      <div class="h26-inner">
+        <figure class="h26-who-pic">
+          <img
+            src="/home/austin-portrait.jpg"
+            width="1600"
+            height="1066"
+            alt="Jonathan Malkin speaking at Capital Factory, smiling, name tag visible."
+          />
+        </figure>
+        <div>
+          <h2 id="who-h">Who runs it.</h2>
+          <p class="h26-body">Austin-based, with 20 years in enterprise tech. I work inside owner-run businesses to make their information easier to use.</p>
+          <p class="h26-body">An operator who does the work every week.</p>
+          <p class="h26-body">I stay after. Anyone who wants to talk, we talk.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="h26-finale" id="tell-me" aria-labelledby="tellme-h">
+      <div class="h26-img-holder">
+        <img
+          src="/home/austin-keynote.jpg"
+          width="1600"
+          height="1066"
+          alt="Jonathan Malkin presenting at the Austin Claude meetup, clicker in hand."
+          loading="lazy"
+        />
+      </div>
+      <div class="h26-over h26-over-form">
+        <h2 id="tellme-h">Book a workshop.</h2>
+        <p class="h26-sub">A peer group, a meetup, or your own team. I read every one myself and reply.</p>
+        <form
+          action="/api/contact"
+          method="POST"
+          class="intake host-form"
+          data-track-form="workshop-host"
+        >
+          <input type="hidden" name="_subject" value="Workshop host inquiry" />
+          <input type="hidden" name="inquiry_type" value="workshop-host" />
+          <input type="hidden" name="message" value="" />
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+          <div class="form-group">
+            <label for="ws-name">Name</label>
+            <input type="text" id="ws-name" name="name" required class="form-input" autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label for="ws-email">Email</label>
+            <input type="email" id="ws-email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
+          </div>
+          <div class="form-group">
+            <label for="ws-note">Anything else I should know? <span class="form-optional">(optional)</span></label>
+            <textarea id="ws-note" rows="3" maxlength="2000" class="form-input"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send the room details</button>
+          <p class="intake-status" hidden role="status"></p>
+          <p class="intake-hint">Prefer email? <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a></p>
+        </form>
+      </div>
     </section>
   </div>
 </Base>
+
+<script>
+  const form = document.querySelector('.host-form');
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const note = form.querySelector('#ws-note')?.value.trim() || '';
+    const hidden = form.querySelector('input[name="message"]');
+    if (hidden) hidden.value = note || 'Workshop host inquiry (no note left).';
+
+    const button = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('.intake-status');
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending...';
+    }
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.ok === false) throw new Error('host_failed');
+      if (window.bwjTrack) window.bwjTrack('workshop-host:success');
+      form.querySelectorAll('.form-group, button[type="submit"]').forEach((el) => {
+        el.hidden = true;
+      });
+      if (status) {
+        status.textContent = 'Got it. I read every one myself and will reply.';
+        status.hidden = false;
+        status.classList.add('is-ok');
+      }
+    } catch {
+      if (status) {
+        status.textContent = 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.';
+        status.hidden = false;
+      }
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Send the room details';
+      }
+    }
+  });
+</script>
+
+<style>
+  .h26-ws {
+    text-align: left;
+    --ink: #191E26;
+    --body-txt: #3F4752;
+    --ivory: #FBF8F1;
+    --parch: #F3ECDD;
+    --clay: #EDE2CC;
+    --amber: #E8A83C;
+    --amber-soft: #F2CE8A;
+    --red: #C4392B;
+    --disp: 'Bricolage Grotesque Variable', sans-serif;
+    --txt: 'Schibsted Grotesk Variable', sans-serif;
+    font-family: var(--txt);
+    color: var(--ink);
+    background: var(--ivory);
+    overflow-x: clip;
+  }
+  .h26-ws ::selection { background: var(--amber-soft); color: var(--ink); }
+  .h26-ws img { display: block; max-width: 100%; }
+  .h26-ws img[hidden] { display: none !important; }
+  .h26-ws .h26-inner { max-width: 1280px; margin: 0 auto; }
+  .h26-ws .h26-cta {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--ivory);
+    font: 600 1.05rem/1 var(--txt);
+    padding: 18px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  .h26-ws .h26-cta:hover { color: var(--ivory); text-decoration: none; }
+  .h26-ws .h26-cta:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
+  .h26-ws .h26-cap { display: block; margin-top: 12px; font-size: .95rem; color: #5C6570; }
+  .h26-ws .visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  /* Hero */
+  .h26-hero { position: relative; height: 600px; overflow: hidden; }
+  .h26-hero .h26-img-holder { position: absolute; inset: 0; }
+  .h26-hero img { position: absolute; width: 168%; max-width: none; left: -8%; top: -18%; height: auto; }
+  .h26-hero .h26-over {
+    position: absolute; left: 5vw; bottom: 44px; max-width: 600px;
+    background: var(--ivory); border-radius: 14px; padding: 38px 40px;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.55); z-index: 2;
+  }
+  .h26-hero h1 { font: 700 clamp(2.3rem, 4.3vw, 3.5rem)/1.04 var(--disp); letter-spacing: -.025em; margin: 0 0 14px; }
+  .h26-hero .h26-lede { font-size: 1.16rem; line-height: 1.48; color: var(--body-txt); margin: 0 0 22px; }
+
+  /* Room */
+  .h26-room { background: var(--parch); padding: 64px 5vw; }
+  .h26-room .h26-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: start; }
+  .h26-room h2, .h26-decks h2, .h26-who h2 {
+    font: 700 clamp(2rem, 3.4vw, 3rem)/1.04 var(--disp);
+    letter-spacing: -.02em;
+    margin: 0 0 16px;
+  }
+  .h26-room p.h26-body, .h26-who p.h26-body {
+    font-size: 1.16rem; line-height: 1.6; color: var(--body-txt); max-width: 42ch; margin: 0 0 20px;
+  }
+
+  /* Benefit grid */
+  .h26-bene-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; padding: 16px 18px 20px;
+  }
+  .h26-bene {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    background: var(--parch); border: 1px solid #D2C4A6; border-radius: 8px;
+    padding: 24px 16px; text-align: center;
+  }
+  .h26-bene-ic { font-size: 2.2rem; line-height: 1; }
+  .h26-bene h3 { margin: 0; font: 700 1.1rem/1.2 var(--disp); color: var(--ink); }
+
+  /* Board */
+  .h26-board {
+    background: var(--ivory);
+    border: 1.5px solid var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 8px 14px 0 var(--ink);
+    margin: 0;
+  }
+  .h26-bar {
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 12px 18px;
+    font: 700 12px/1 var(--txt);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .h26-board-cap { padding: 0 18px 16px; font-size: .95rem; color: #5C6570; margin: 12px 0 0; }
+  .h26-board-cap a { color: var(--ink); font-weight: 600; }
+
+  /* Decks */
+  .h26-decks { background: var(--clay); padding: 28px 5vw 32px; }
+
+  .h26-stage iframe { width: 100%; height: 100%; border: 0; display: block; background: #fbf6ec; }
+  .h26-stage-full {
+    width: 100%; margin: 0 auto;
+    height: min(calc(100vh - 132px), 760px);
+    background: #fbf6ec;
+    border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden;
+    box-shadow: 8px 14px 0 var(--ink);
+  }
+
+  .h26-talk {
+    max-width: 920px;
+    margin: 28px auto 0;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--body-txt);
+  }
+  .h26-talk a { color: var(--ink); font-weight: 600; }
+
+  /* Who */
+  .h26-who { background: var(--ivory); padding: 68px 5vw; }
+  .h26-who .h26-inner { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+  .h26-who-pic { margin: 0; border-radius: 16px; overflow: hidden; border: 1.5px solid var(--ink); box-shadow: 8px 14px 0 var(--ink); }
+  .h26-who-pic img { width: 100%; height: auto; object-fit: cover; object-position: 50% 20%; }
+
+  /* Finale + form */
+  .h26-finale { position: relative; overflow: hidden; padding: 64px 5vw; }
+  .h26-finale .h26-img-holder { position: absolute; inset: 0; }
+  .h26-finale img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
+  .h26-finale::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(90deg, rgba(15,18,24,.55) 0%, rgba(15,18,24,.15) 60%, transparent 100%);
+  }
+  .h26-over-form {
+    position: relative; z-index: 2; margin: 0 auto 0 0; max-width: 480px;
+    background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px;
+    padding: 32px 34px; box-shadow: 8px 14px 0 rgba(0,0,0,.35);
+  }
+  .h26-finale h2 { font: 700 clamp(2rem, 3.4vw, 2.6rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 10px; }
+  .h26-finale .h26-sub { color: var(--body-txt); font-size: 1.05rem; line-height: 1.5; margin: 0 0 22px; }
+  .h26-over-form .form-group { margin: 0 0 16px; }
+  .h26-over-form label { font: 600 1rem/1.3 var(--txt); color: var(--ink); display: block; margin-bottom: 7px; }
+  .h26-over-form .form-input {
+    width: 100%; font: 500 1.02rem/1.4 var(--txt); color: var(--ink);
+    background: #FFFEFB; border: 1.5px solid #C9BFA8; border-radius: 8px; padding: 11px 13px;
+  }
+  .h26-over-form .form-input:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; }
+  .h26-over-form textarea.form-input { resize: vertical; }
+  .h26-over-form .intake-hint { font-size: .9rem; color: #5C6570; margin: 12px 0 0; }
+  .h26-over-form .intake-hint a { color: var(--ink); font-weight: 600; }
+  .h26-over-form .form-optional { font-weight: 400; color: #5C6570; }
+  .h26-over-form .form-submit {
+    display: inline-block; background: var(--ink); color: var(--ivory);
+    font: 600 1.02rem/1 var(--txt); padding: 16px 26px; border: 0; border-radius: 6px; cursor: pointer;
+  }
+  .h26-over-form .form-submit:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
+  .h26-over-form .intake-status { margin: 12px 0 0; font-size: 1rem; color: var(--red); }
+  .h26-over-form .intake-status.is-ok { color: #2E7D4F; font-weight: 600; }
+  .h26-over-form .form-honeypot { position: absolute; left: -9999px; }
+
+  @media (max-width: 900px) {
+    .h26-hero { overflow: visible; height: auto; }
+    .h26-hero .h26-img-holder { position: relative; height: 420px; overflow: hidden; }
+    .h26-hero img { width: 180%; left: -49%; top: -5%; }
+    .h26-hero .h26-over { position: relative; z-index: 2; margin: -48px 4vw 24px; max-width: none; }
+    .h26-room .h26-inner, .h26-who .h26-inner {
+      grid-template-columns: 1fr;
+    }
+    .h26-stage-full { height: 62vh; }
+    .h26-over-form { max-width: none; margin: 0; }
+  }
+</style>
+
+<style is:global>
+  body {
+    max-width: none !important;
+    padding: 0 !important;
+    background: #FBF8F1 !important;
+  }
+  .site-header nav,
+  .site-footer {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+</style>

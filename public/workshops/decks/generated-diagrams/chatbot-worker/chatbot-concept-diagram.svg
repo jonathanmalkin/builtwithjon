@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="500" viewBox="0 0 1120 500" role="img" aria-labelledby="title desc">
+  <title id="title">Chatbot concept diagram</title>
+  <desc id="desc">Person asks the model. The model answers the person.</desc>
+  <defs>
+    <marker id="arrowhead" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="42" markerHeight="42" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 Z" fill="#1f1713"/>
+    </marker>
+    <filter id="soft-shadow" x="-8%" y="-10%" width="116%" height="124%">
+      <feDropShadow dx="0" dy="8" stdDeviation="4" flood-color="#1f1713" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .node-label {
+        fill: #1f1713;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+        font-size: 56px;
+        font-weight: 800;
+      }
+
+      .arrow-label {
+        fill: #1f1713;
+        font-family: "SF Mono", ui-monospace, "Fira Code", Menlo, Consolas, monospace;
+        font-size: 38px;
+        font-weight: 650;
+      }
+
+      .arrow {
+        fill: none;
+        stroke: #1f1713;
+        stroke-width: 5;
+        stroke-linecap: butt;
+      }
+    </style>
+  </defs>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="70" y="166" width="310" height="160" rx="14" fill="#fbf6ec" stroke="#3b6e8f" stroke-width="3"/>
+    <text class="node-label" x="225" y="248" text-anchor="middle" dominant-baseline="middle">Person</text>
+  </g>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="740" y="166" width="310" height="160" rx="14" fill="#fff5ed" stroke="#e8752b" stroke-width="3"/>
+    <text class="node-label" x="895" y="248" text-anchor="middle" dominant-baseline="middle">Model</text>
+  </g>
+
+  <line class="arrow" x1="412" y1="214" x2="708" y2="214" marker-end="url(#arrowhead)"/>
+  <line class="arrow" x1="708" y1="286" x2="412" y2="286" marker-end="url(#arrowhead)"/>
+
+  <text class="arrow-label" x="560" y="150" text-anchor="middle">Ask</text>
+  <text class="arrow-label" x="560" y="376" text-anchor="middle">Answers</text>
+</svg>

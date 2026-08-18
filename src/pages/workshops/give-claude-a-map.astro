@@ -1,0 +1,120 @@
+---
+import Base from '../../layouts/Base.astro';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/schibsted-grotesk';
+
+const slides = [
+  { src: '/workshops/decks/give-claude-a-map/slide-01.jpg', alt: 'Title slide: Give Claude a map. Not a dump.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-02.jpg', alt: 'Why does every session feel like starting over?' },
+  { src: '/workshops/decks/give-claude-a-map/slide-03.jpg', alt: 'So why don\'t we just tell it about ourselves?' },
+  { src: '/workshops/decks/give-claude-a-map/slide-04.jpg', alt: 'And tell it about our work.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-05.jpg', alt: 'One question. One brief.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-06.jpg', alt: 'The map that makes it possible.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-07.jpg', alt: 'The instructions live in the map.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-08.jpg', alt: 'Scale up to a company.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-09.jpg', alt: 'At company scale, context arrives unready.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-10.jpg', alt: 'Prepare the context before Claude needs it.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-11.jpg', alt: 'The record is longer than the answer.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-12.jpg', alt: 'Claude reads the card, not the transcript.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-13.jpg', alt: 'The full company map.' },
+  { src: '/workshops/decks/give-claude-a-map/slide-14.jpg', alt: 'What\'s in your brain?' },
+];
+---
+
+<Base
+  title="Give Claude a Map — Workshop Deck"
+  description="The 14-slide talk Jonathan closed the Austin Claude meetup with: connected is not organized, and a map is what makes Claude useful."
+  bare
+>
+  <div class="deck-page">
+    <header class="deck-top">
+      <a href="/workshops/">Back to workshops</a>
+      <p>Give Claude a Map · 14 slides · arrow keys work</p>
+    </header>
+    <div
+      class="stage"
+      data-flipper="map-full"
+      tabindex="0"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Give Claude a Map slide deck"
+    >
+      {slides.map((slide, index) => (
+        <img
+          src={slide.src}
+          width="1280"
+          height="720"
+          alt={slide.alt}
+          data-slide={index}
+          hidden={index !== 0}
+        />
+      ))}
+    </div>
+    <div class="deck-bottom">
+      <button type="button" data-flip="prev">Prev</button>
+      <span data-count>1 / {slides.length}</span>
+      <button type="button" data-flip="next">Next</button>
+    </div>
+  </div>
+</Base>
+
+<script>
+  const root = document.querySelector('[data-flipper]');
+  if (root) {
+    const slides = [...root.querySelectorAll('img[data-slide]')];
+    const count = document.querySelector('[data-count]');
+    let index = 0;
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => { slide.hidden = i !== index; });
+      if (count) count.textContent = `${index + 1} / ${slides.length}`;
+    }
+    document.querySelector('[data-flip="prev"]')?.addEventListener('click', () => show(index - 1));
+    document.querySelector('[data-flip="next"]')?.addEventListener('click', () => show(index + 1));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); show(index - 1); }
+      if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); show(index + 1); }
+    });
+    root.focus();
+  }
+</script>
+
+<style>
+  .deck-page {
+    --ink: #191E26;
+    --ivory: #FBF8F1;
+    --parch: #F3ECDD;
+    --amber: #E8A83C;
+    --disp: 'Bricolage Grotesque Variable', sans-serif;
+    --txt: 'Schibsted Grotesk Variable', sans-serif;
+    min-height: 100vh;
+    background: #191E26;
+    color: var(--ivory);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    font-family: var(--txt);
+  }
+  .deck-top, .deck-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+  }
+  .deck-top a { color: var(--ivory); font-weight: 600; }
+  .deck-top p { margin: 0; font: 700 12px/1 var(--txt); letter-spacing: .12em; text-transform: uppercase; color: #C9C2B2; }
+  .stage { display: grid; place-items: center; padding: 0 20px; min-height: 0; }
+  .stage img { width: min(100%, calc((100vh - 140px) * 16 / 9)); height: auto; background: #111; }
+  .stage img[hidden] { display: none !important; }
+  .deck-bottom { justify-content: center; }
+  .deck-bottom button {
+    appearance: none; border: 1.5px solid var(--ivory); background: transparent; color: var(--ivory);
+    font: 600 1rem/1 var(--txt); padding: 12px 18px; border-radius: 6px; cursor: pointer;
+  }
+  .deck-bottom button:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+  .deck-bottom span { min-width: 6ch; text-align: center; font: 700 12px/1 var(--txt); letter-spacing: .12em; text-transform: uppercase; }
+</style>
+
+<style is:global>
+  body { max-width: none !important; padding: 0 !important; background: #191E26 !important; }
+</style>

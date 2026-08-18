@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="AI Personal Assistant Masterclass — Workshop Deck"
+  description="The working-session deck: members leave with a starting point they can actually use, including a morning brief, meeting prep, and a clear line for what still needs them."
+  bare
+>
+  <div class="pa-wrap">
+    <a class="back" href="/workshops/">Back to workshops</a>
+    <iframe
+      src="/workshops/decks/personal-assistant.html"
+      title="AI Personal Assistant Masterclass slide deck"
+    ></iframe>
+  </div>
+</Base>
+
+<style>
+  .pa-wrap { height: 100vh; display: grid; grid-template-rows: auto 1fr; background: #1f1713; }
+  .back {
+    color: #fbf6ec;
+    font: 600 0.95rem/1 system-ui, sans-serif;
+    padding: 12px 18px;
+    text-decoration: none;
+  }
+  .back:hover { color: #fff; }
+  iframe { width: 100%; height: 100%; border: 0; background: #fbf6ec; }
+</style>
+
+<style is:global>
+  body { max-width: none !important; padding: 0 !important; background: #1f1713 !important; }
+</style>

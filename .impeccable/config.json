@@ -8,10 +8,13 @@
         "rule": "design-system-color",
         "value": "*",
         "files": [
-          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro"
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops/give-claude-a-map.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops/personal-assistant.astro"
         ],
         "createdAt": "2026-08-18T00:55:59.864Z",
-        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); tokens documented in DESIGN.md addendum; sitewide migration deferred"
+        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); extended to /workshops/ 2026-08-18; tokens documented in DESIGN.md addendum; sitewide migration deferred"
       },
       {
         "rule": "design-system-color",
@@ -26,10 +29,13 @@
         "rule": "design-system-radius",
         "value": "*",
         "files": [
-          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro"
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops/give-claude-a-map.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops/personal-assistant.astro"
         ],
         "createdAt": "2026-08-18T00:55:59.933Z",
-        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); tokens documented in DESIGN.md addendum; sitewide migration deferred"
+        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); extended to /workshops/ 2026-08-18; tokens documented in DESIGN.md addendum; sitewide migration deferred"
       },
       {
         "rule": "design-system-radius",
@@ -44,10 +50,13 @@
         "rule": "design-system-font-size",
         "value": "*",
         "files": [
-          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro"
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/index.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops/give-claude-a-map.astro",
+          "Code/personal/builtwithjon/builtwithjon-core-website/src/pages/workshops/personal-assistant.astro"
         ],
         "createdAt": "2026-08-18T00:56:00.002Z",
-        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); tokens documented in DESIGN.md addendum; sitewide migration deferred"
+        "reason": "Jonathan-approved new homepage visual world 2026-08-17 (design-lab v12, shipped on his 'ship it'); extended to /workshops/ 2026-08-18; tokens documented in DESIGN.md addendum; sitewide migration deferred"
       },
       {
         "rule": "design-system-font-size",

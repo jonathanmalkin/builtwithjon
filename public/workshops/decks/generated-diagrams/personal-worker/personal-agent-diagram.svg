@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="500" viewBox="0 0 1120 500" role="img" aria-labelledby="title desc">
+  <title id="title">Personal Agent concept diagram</title>
+  <desc id="desc">Person asks a model, the model uses tools and reacts to results, and a grouped Your Context box feeds the model with profile, memory, data, and workflows.</desc>
+  <defs>
+    <filter id="node-shadow" x="-12%" y="-18%" width="124%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#1f1713" flood-opacity="0.10"/>
+    </filter>
+    <filter id="context-shadow" x="-8%" y="-18%" width="116%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#1f1713" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f1713"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8f4e24"/>
+    </marker>
+    <marker id="arrow-context" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6e8b6f"/>
+    </marker>
+    <style>
+      .line {
+        fill: none;
+        stroke: #1f1713;
+        stroke-width: 4;
+        stroke-linecap: round;
+      }
+      .loop {
+        fill: none;
+        stroke: #8f4e24;
+        stroke-width: 5;
+        stroke-linecap: round;
+      }
+      .context-feed {
+        fill: none;
+        stroke: #6e8b6f;
+        stroke-width: 5;
+        stroke-linecap: round;
+      }
+      .label {
+        fill: #1f1713;
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 34px;
+        font-weight: 650;
+      }
+      .node-text {
+        fill: #1f1713;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+      }
+      .context-title {
+        fill: #1f1713;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+        font-size: 38px;
+        font-weight: 800;
+      }
+      .pill-text {
+        fill: #1f1713;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+        font-size: 30px;
+        font-weight: 780;
+      }
+    </style>
+  </defs>
+
+  <rect width="1120" height="500" fill="#fffdf8"/>
+
+  <line class="line" x1="310" y1="292" x2="426" y2="292" marker-end="url(#arrow-ink)"/>
+  <line class="line" x1="426" y1="344" x2="310" y2="344" marker-end="url(#arrow-ink)"/>
+  <text class="label" x="368" y="274" text-anchor="middle">Ask</text>
+  <text class="label" x="368" y="424" text-anchor="middle">Answers</text>
+
+  <path class="loop" d="M 642 252 C 676 138 840 138 872 252" marker-end="url(#arrow-loop)"/>
+  <path class="loop" d="M 872 384 C 836 478 676 478 642 384" marker-end="url(#arrow-loop)"/>
+  <text class="label" x="756" y="222" text-anchor="middle">Picks a tool</text>
+  <text class="label" x="756" y="474" text-anchor="middle">Reacts to result</text>
+
+  <line class="context-feed" x1="562" y1="136" x2="562" y2="252" marker-end="url(#arrow-context)"/>
+
+  <g filter="url(#context-shadow)">
+    <rect x="360" y="4" width="736" height="132" rx="14" fill="#f0f6ee" stroke="#6e8b6f" stroke-opacity="0.78" stroke-width="3"/>
+    <text class="context-title" x="728" y="44" text-anchor="middle">Your Context</text>
+    <rect x="382" y="66" width="162" height="54" rx="12" fill="#fffdf8" stroke="#e5d7c3" stroke-width="1"/>
+    <rect x="558" y="66" width="162" height="54" rx="12" fill="#fffdf8" stroke="#e5d7c3" stroke-width="1"/>
+    <rect x="734" y="66" width="162" height="54" rx="12" fill="#fffdf8" stroke="#e5d7c3" stroke-width="1"/>
+    <rect x="910" y="66" width="162" height="54" rx="12" fill="#fffdf8" stroke="#e5d7c3" stroke-width="1"/>
+    <text class="pill-text" x="463" y="101" text-anchor="middle">Profile</text>
+    <text class="pill-text" x="639" y="101" text-anchor="middle">Memory</text>
+    <text class="pill-text" x="815" y="101" text-anchor="middle">Data</text>
+    <text class="pill-text" x="991" y="101" text-anchor="middle">Workflows</text>
+  </g>
+
+  <g filter="url(#node-shadow)">
+    <rect x="40" y="252" width="270" height="132" rx="14" fill="#fbf6ec" stroke="#e5d7c3" stroke-width="2"/>
+    <text class="node-text" x="175" y="335" text-anchor="middle">Person</text>
+  </g>
+  <g filter="url(#node-shadow)">
+    <rect x="426" y="252" width="270" height="132" rx="14" fill="#fff5ed" stroke="#d6a785" stroke-width="2"/>
+    <text class="node-text" x="561" y="335" text-anchor="middle">Model</text>
+  </g>
+  <g filter="url(#node-shadow)">
+    <rect x="810" y="252" width="270" height="132" rx="14" fill="#eef6fa" stroke="#a9c4d3" stroke-width="2"/>
+    <text class="node-text" x="945" y="335" text-anchor="middle">Tools</text>
+  </g>
+</svg>
