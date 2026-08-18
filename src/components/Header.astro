@@ -16,7 +16,7 @@ const pathname = Astro.url.pathname;
            link once the client clears it; everything else lives in the footer. -->
       <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
       <a href="/faq/" aria-current={pathname.startsWith('/faq') ? 'page' : undefined}>FAQ</a>
-      <a class="nav-cta" href="/business-map/#start" data-track="cta:talk-nav" aria-current={pathname.startsWith('/business-map') ? 'page' : undefined}>Talk to me</a>
+      <a class="nav-cta" href="/#tell-me" data-track="cta:talk-nav" aria-current={pathname.startsWith('/business-map') ? 'page' : undefined}>Talk to me</a>
     </div>
     <div class="header-social">
       <a href="https://github.com/jonathanmalkin" rel="me" aria-label="GitHub" title="GitHub">

@@ -16,7 +16,11 @@
   },
   "vars": {
     "SITE_ORIGIN": "https://builtwithjon.com",
-    "TURNSTILE_ENABLED": "true",
+    // 2026-08-17: disabled at launch. The managed widget renders no iframe and
+    // never issues a token (silent failure), which either blocks submits or
+    // hard-fails them server-side. Honeypot + rate limits + dedupe still guard
+    // the forms. Re-enable only after the widget completes on builtwithjon.com.
+    "TURNSTILE_ENABLED": "false",
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEJkiadExu7m9ULG",
     "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
     // Sender is the sole website email provider. Marketing campaigns must target

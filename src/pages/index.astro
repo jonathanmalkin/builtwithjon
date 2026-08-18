@@ -78,7 +78,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       <div class="h26-over">
         <h1>Everything you need to grow is already in the business.</h1>
         <p class="h26-lede">The relaunch, the webinar, the bid library: all waiting on knowledge that&rsquo;s scattered across heads and tools.</p>
-        <a class="h26-cta" href="/business-map/#start" data-track="cta:home-hero">Tell me about it</a>
+        <a class="h26-cta" href="#tell-me" data-track="cta:home-hero">Tell me about it</a>
         <span class="h26-cap">I read every one myself.</span>
       </div>
     </section>
@@ -88,7 +88,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         <div>
           <h2>Because growth is a loop.</h2>
           <p class="h26-body">What your business knows feeds your <span class="h26-hl">products</span> and your <span class="h26-hl">marketing</span>. That wins customers, and customers teach you more. Scattered knowledge jams the loop at step one: understanding your own business.</p>
-          <a class="h26-cta" href="/business-map/#start" data-track="cta:home-loop">Tell me where yours is stuck</a>
+          <a class="h26-cta" href="#tell-me" data-track="cta:home-loop">Tell me where yours is stuck</a>
         </div>
         <figure class="h26-board" aria-label="The growth loop: understand your business, improve products, improve marketing, win customers, repeat. Stalled projects queue at the jammed first step.">
           <div class="h26-bar">The growth loop</div>
@@ -160,7 +160,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         <div>
           <h2>So we start by seeing the whole picture.</h2>
           <p class="h26-body">Working together begins with seeing it clearly, you included. Your <span class="h26-hl">people</span>, <span class="h26-hl">process</span>, and <span class="h26-hl">systems</span> on one page. It shows where the loop jams and what to build first.</p>
-          <a class="h26-cta" href="/business-map/#start" data-track="cta:home-picture">Let&rsquo;s look at it</a>
+          <a class="h26-cta" href="#tell-me" data-track="cta:home-picture">Let&rsquo;s look at it</a>
         </div>
         <figure class="h26-board" aria-label="A one-page view of a business: people, process, and systems, with one stalled project flagged.">
           <div class="h26-bar">Your business · one page</div>
@@ -242,11 +242,193 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       <div class="h26-over">
         <h2>Tell me about the project.</h2>
         <p class="h26-sub">Your email, then three questions. I read every one myself and reply. If it looks like a fit, we set up a call.</p>
-        <a class="h26-cta" href="/business-map/#start" data-track="cta:home-finale">Tell me about it</a>
+        <a class="h26-cta" href="#tell-me" data-track="cta:home-finale">Tell me about it</a>
+      </div>
+    </section>
+
+    <section class="h26-intake" id="tell-me" aria-labelledby="tellme-h">
+      <div class="h26-inner">
+        <h2 id="tellme-h">Three questions, right here.</h2>
+        <div class="h26-formboard">
+          <div class="h26-bar">The intake · I read every one myself</div>
+          <div class="h26-formwrap">
+            <form
+              action="/api/subscribe"
+              method="POST"
+              class="intake bm-step1"
+              data-track-form="business-map"
+            >
+              <p class="intake-progress">Step 1 of 2 &middot; Your email holds your place</p>
+              <input type="hidden" name="_subject" value="Business Map intake (step 1)" />
+              <input type="hidden" name="inquiry_type" value="business-map-intake" />
+              <input type="hidden" name="form_id" value="business-map" />
+              <input type="hidden" name="framing" value="" />
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+              <div class="form-group">
+                <label for="bm-email">Email</label>
+                <input type="email" id="bm-email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
+                <p class="intake-hint">Two more questions follow. If you stop after this step, I still know you're interested.</p>
+              </div>
+              <div class="form-group">
+                <label for="bm-name">Name <span class="form-optional">(optional)</span></label>
+                <input type="text" id="bm-name" name="name" class="form-input" autocomplete="name" />
+              </div>
+              <button type="submit" class="form-submit">Tell me about it</button>
+              <p class="intake-status" hidden role="status"></p>
+            </form>
+
+            <template id="bm-step2-template">
+              <form
+                action="/api/subscribe"
+                method="POST"
+                class="intake bm-step2"
+                data-track-form="business-map-details"
+              >
+                <p class="intake-done" role="status">Got your email. One short step left.</p>
+                <p class="intake-progress">Step 2 of 2 &middot; Three questions</p>
+                <input type="hidden" name="_subject" value="Business Map intake (step 2)" />
+                <input type="hidden" name="inquiry_type" value="business-map-intake" />
+                <input type="hidden" name="form_id" value="business-map-details" />
+                <input type="hidden" name="framing" value="" />
+                <input type="hidden" name="email" value="" />
+                <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+                <div class="form-group">
+                  <label for="bm-blocked-project">What's the project you keep putting off?</label>
+                  <textarea id="bm-blocked-project" name="blocked_project" rows="3" required maxlength="2000" class="form-input"></textarea>
+                </div>
+                <fieldset class="form-group">
+                  <legend>Do one or two people have all the info trapped in their heads?</legend>
+                  <div class="yesno">
+                    <label><input type="radio" name="key_person" value="Yes" required /> Yes</label>
+                    <label><input type="radio" name="key_person" value="No" /> No</label>
+                  </div>
+                </fieldset>
+                <fieldset class="form-group">
+                  <legend>Is anyone on your team already building something like this?</legend>
+                  <div class="yesno">
+                    <label><input type="radio" name="already_building" value="Yes" required /> Yes</label>
+                    <label><input type="radio" name="already_building" value="No" /> No</label>
+                  </div>
+                </fieldset>
+                <button type="submit" class="form-submit">Send the intake</button>
+                <p class="intake-status" hidden role="status"></p>
+              </form>
+            </template>
+            <div class="bm-step2-slot"></div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
 </Base>
+
+<script>
+  const step1 = document.querySelector('.bm-step1');
+  const step2Template = document.getElementById('bm-step2-template');
+  const step2Slot = document.querySelector('.bm-step2-slot');
+  const FRAMINGS = ['product', 'marketing', 'onboarding', 'exit'];
+  const framingParam = new URLSearchParams(location.search).get('f');
+  const framing = FRAMINGS.includes(framingParam) ? framingParam : '';
+
+  function applyFraming(scope) {
+    scope.querySelectorAll('input[name="framing"]').forEach((el) => {
+      if (framing) el.value = framing;
+      else el.remove();
+    });
+  }
+  applyFraming(document);
+
+  function statusEl(form) {
+    return form.querySelector('.intake-status');
+  }
+
+  function showStatus(form, message) {
+    const status = statusEl(form);
+    if (status) {
+      status.textContent = message;
+      status.hidden = false;
+    }
+  }
+
+  async function submitIntake(form) {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' },
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error || 'intake_failed');
+    return result;
+  }
+
+  function wireStep2(email) {
+    if (!step2Template || !step2Slot || step2Slot.querySelector('form')) return;
+    step2Slot.appendChild(step2Template.content.cloneNode(true));
+    const step2 = step2Slot.querySelector('.bm-step2');
+    if (!step2) return;
+    const emailField = step2.querySelector('input[name="email"]');
+    if (emailField) emailField.value = email;
+    applyFraming(step2);
+    if (window.bwjInjectAttribution) window.bwjInjectAttribution(step2Slot);
+
+    step2.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!step2.checkValidity()) {
+        step2.reportValidity();
+        return;
+      }
+      const button = step2.querySelector('button[type="submit"]');
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending...';
+      }
+      try {
+        await submitIntake(step2);
+        if (window.bwjTrack) window.bwjTrack('business-map:success');
+        step2.querySelectorAll('.form-group, button[type="submit"], .intake-progress, .intake-done').forEach((el) => {
+          el.hidden = true;
+        });
+        showStatus(step2, 'Got it. I read every intake myself and will reply.');
+      } catch (err) {
+        showStatus(step2, 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.');
+        if (button) {
+          button.disabled = false;
+          button.textContent = 'Send the intake';
+        }
+      }
+    });
+
+    step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const firstField = step2.querySelector('textarea');
+    if (firstField) firstField.focus({ preventScroll: true });
+  }
+
+  step1?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!step1.checkValidity()) {
+      step1.reportValidity();
+      return;
+    }
+    const button = step1.querySelector('button[type="submit"]');
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Saving...';
+    }
+    try {
+      await submitIntake(step1);
+      if (window.bwjTrack) window.bwjTrack('business-map:capture');
+      const email = step1.querySelector('input[name="email"]')?.value || '';
+      step1.hidden = true;
+      wireStep2(email);
+    } catch (err) {
+      showStatus(step1, 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.');
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Tell me about it';
+      }
+    }
+  });
+</script>
 
 <style>
   .h26-home2026 {
@@ -335,6 +517,25 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   .h26-brain-list .n { color: #8A8270; font-family: var(--txt); font-size: .88rem; }
   .h26-proof .h26-foot { margin-top: 32px; }
   .h26-proof .h26-foot p { font-size: 1.12rem; color: #3F300C; max-width: 52ch; margin: 0; }
+
+  .h26-intake { background: var(--parch); padding: 64px 5vw 72px; }
+  .h26-intake h2 { font: 700 clamp(2rem, 3.4vw, 3rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 28px; }
+  .h26-formboard { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); max-width: 760px; }
+  .h26-formwrap { padding: 26px 30px 30px; }
+  .h26-intake :global(.intake-progress) { font: 700 12px/1 var(--txt); letter-spacing: .14em; text-transform: uppercase; color: #5C6570; margin: 0 0 18px; }
+  .h26-intake :global(.form-group) { margin: 0 0 18px; }
+  .h26-intake :global(label), .h26-intake :global(legend) { font: 600 1.05rem/1.3 var(--txt); color: var(--ink); display: block; margin-bottom: 8px; }
+  .h26-intake :global(.form-input) { width: 100%; font: 500 1.05rem/1.4 var(--txt); color: var(--ink); background: #FFFEFB; border: 1.5px solid #C9BFA8; border-radius: 8px; padding: 12px 14px; }
+  .h26-intake :global(.form-input:focus-visible) { outline: 3px solid var(--amber); outline-offset: 1px; }
+  .h26-intake :global(.intake-hint) { font-size: .92rem; color: #5C6570; margin: 8px 0 0; }
+  .h26-intake :global(.form-optional) { font-weight: 400; color: #5C6570; }
+  .h26-intake :global(.form-submit) { display: inline-block; background: var(--ink); color: var(--ivory); font: 600 1.05rem/1 var(--txt); padding: 18px 28px; border: 0; border-radius: 6px; cursor: pointer; }
+  .h26-intake :global(.form-submit:focus-visible) { outline: 3px solid var(--amber); outline-offset: 4px; }
+  .h26-intake :global(.yesno) { display: flex; gap: 22px; }
+  .h26-intake :global(.yesno label) { font-weight: 500; display: flex; align-items: center; gap: 7px; margin: 0; }
+  .h26-intake :global(.intake-status) { margin: 14px 0 0; font-size: 1rem; color: var(--red); }
+  .h26-intake :global(.intake-done) { font-weight: 600; color: #2E7D4F; margin: 0 0 12px; }
+  .h26-intake :global(.form-honeypot) { position: absolute; left: -9999px; }
 
   .h26-finale { position: relative; height: 580px; overflow: hidden; }
   .h26-finale .h26-img-holder { position: absolute; inset: 0; }
