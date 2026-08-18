@@ -472,6 +472,15 @@ hr {
     align-items: center;
   }
 
+  /* No extra text links: keep Talk to me on the bar, skip the empty menu. */
+  .site-header:not(:has(.nav-links a:not(.nav-cta))) .menu-toggle {
+    display: none;
+  }
+
+  .site-header:not(:has(.nav-links a:not(.nav-cta))) .nav-links {
+    display: contents;
+  }
+
   .nav-links {
     display: none;
     grid-column: 1 / -1;

@@ -300,6 +300,26 @@ async function run() {
     });
 
     await stop(worker);
+    const todoGroups = JSON.parse(defaultGroupIds);
+    todoGroups["offer:business-map"] = "TODO-replace-with-real-sender-group-id";
+    worker = await startWorker({ groupIds: JSON.stringify(todoGroups) });
+    await test("15. Business Map placeholder group does not fail capture", async () => {
+      await reset();
+      const response = await form("/api/subscribe", {
+        email: "bizmap-todo@example.test",
+        form_id: "business-map",
+        inquiry_type: "business-map-intake",
+      });
+      const body = await response.json();
+      assert(response.ok && body.ok, "business-map failed");
+      const all = await requests();
+      const created = pathRequests(all, "/v2/subscribers", "POST");
+      assert(created.length === 1, "subscriber not created");
+      assert(!created[0].body.groups.includes("TODO-replace-with-real-sender-group-id"), "placeholder group was sent");
+      assert(all.every((request) => !String(request.path).includes("TODO-replace")), "placeholder group endpoint called");
+    });
+
+    await stop(worker);
     worker = await startWorker({ emailDailyLimit: 1 });
     await test("12. Per-email rate limit blocks repeated intake", async () => {
       await reset();
@@ -336,7 +356,7 @@ async function run() {
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 14 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
+  assert(results.length === 15 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
 }
 
 run().catch((error) => {

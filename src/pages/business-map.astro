@@ -11,9 +11,8 @@ import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema
 // qualification questions follow (step 2). The authority question is removed
 // from the public form on purpose.
 //
-// NOTE: lead capture will not fully succeed until the real Sender group id
-// replaces the "offer:business-map" placeholder for SENDER_GROUP_IDS in
-// wrangler.jsonc (Jonathan's task; see FORM_MAP in src/worker.js).
+// NOTE: offer:business-map in wrangler.jsonc is still a TODO placeholder.
+// The worker skips that tag so storage + owner notification still succeed.
 
 const description =
   'The Business Map is the first phase of a build. Your people, process, and systems on one page, then a clear decision about what to build first.';

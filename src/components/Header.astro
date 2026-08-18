@@ -12,10 +12,8 @@ const pathname = Astro.url.pathname;
       <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <div class="nav-links" id="site-nav-links">
-      <!-- 2026-08-17: lean menu decision. Case study joins as the third text
-           link once the client clears it; everything else lives in the footer. -->
-      <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
-      <a href="/faq/" aria-current={pathname.startsWith('/faq') ? 'page' : undefined}>FAQ</a>
+      <!-- Workshops returns after that page is rebuilt as the host entry.
+           Case study joins once the client clears it. FAQ stays in the footer. -->
       <a class="nav-cta" href="/#tell-me" data-track="cta:talk-nav" aria-current={pathname.startsWith('/business-map') ? 'page' : undefined}>Talk to me</a>
     </div>
     <div class="header-social">

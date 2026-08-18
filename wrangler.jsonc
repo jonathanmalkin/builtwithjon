@@ -16,10 +16,12 @@
   },
   "vars": {
     "SITE_ORIGIN": "https://builtwithjon.com",
-    // 2026-08-17: disabled at launch. The managed widget renders no iframe and
-    // never issues a token (silent failure), which either blocks submits or
-    // hard-fails them server-side. Honeypot + rate limits + dedupe still guard
-    // the forms. Re-enable only after the widget completes on builtwithjon.com.
+    // 2026-08-18: still disabled. The managed widget (sitekey below) never
+    // issues a token on builtwithjon.com: no iframe, and the challenge host
+    // brunhild.challenges.cloudflare.com is IPv6-only / often fails DNS.
+    // The client must stay gated off too — loading the widget disables every
+    // submit even when this flag is false. Re-enable client REQUIRED + this
+    // flag together only after a real browser issues a token on this domain.
     "TURNSTILE_ENABLED": "false",
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEJkiadExu7m9ULG",
     "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
@@ -31,10 +33,9 @@
     "FORM_RATE_LIMIT_IP_HOURLY": "20",
     "FORM_RATE_LIMIT_EMAIL_DAILY": "5",
     "FORM_RATE_LIMIT_GLOBAL_DAILY": "100",
-    // TODO(business-map): "offer:business-map" below is a placeholder, not a
-    // real Sender group id. Create the actual group in Sender and replace the
-    // value before the /business-map/ intake form UI goes live, or leads will
-    // fail to capture (see FORM_MAP["business-map"] in src/worker.js).
+    // offer:business-map is still a placeholder. resolveGroupIds skips TODO
+    // values so capture/notification continue; create the Sender group and
+    // put the real 6-char id here, then redeploy.
     "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\",\"offer:business-map\":\"TODO-replace-with-real-sender-group-id\"}"
   },
   "kv_namespaces": [

@@ -140,13 +140,18 @@ const pageTitle = title === 'Jonathan Malkin'
 </script>
     <script is:inline>
 (function () {
+  // Keep in sync with wrangler.jsonc TURNSTILE_ENABLED. The managed widget on
+  // this sitekey still fails to issue a token (no iframe; challenge host
+  // brunhild.challenges.cloudflare.com is IPv6-only and often fails DNS).
+  // Loading it while the server is disabled still disabled every submit.
+  var REQUIRED = false;
   var siteKey = '0x4AAAAAAEJkiadExu7m9ULG';
   var protectedActions = ['/api/subscribe', '/api/contact', '/api/scorecard-report'];
   var scriptRequested = false;
   var scanQueued = false;
 
   function eligible(form) {
-    if (!form || form.dataset.turnstileProtected) return false;
+    if (!REQUIRED || !form || form.dataset.turnstileProtected) return false;
     try { return protectedActions.indexOf(new URL(form.action, location.href).pathname) !== -1; }
     catch (err) { return false; }
   }
@@ -162,24 +167,28 @@ const pageTitle = title === 'Jonathan Malkin'
   function protect(form) {
     if (!eligible(form) || !window.turnstile) return;
     form.dataset.turnstileProtected = '1';
-    var container = document.createElement('div');
-    container.className = 'bwj-turnstile';
+    var wrap = document.createElement('div');
+    wrap.className = 'bwj-turnstile-wrap';
     var status = document.createElement('span');
     status.className = 'bwj-security-status';
     status.textContent = 'Completing security check…';
     status.setAttribute('role', 'status');
     status.setAttribute('aria-live', 'polite');
-    container.appendChild(status);
+    var container = document.createElement('div');
+    container.className = 'bwj-turnstile';
+    wrap.appendChild(status);
+    wrap.appendChild(container);
     var submit = form.querySelector('button[type="submit"], input[type="submit"]');
-    if (submit) submit.insertAdjacentElement('beforebegin', container);
-    else form.appendChild(container);
+    if (submit) submit.insertAdjacentElement('beforebegin', wrap);
+    else form.appendChild(wrap);
     setSubmitState(form, false);
 
     var widgetId = window.turnstile.render(container, {
       sitekey: siteKey,
       action: 'lead-form',
-      appearance: 'interaction-only',
-      size: 'flexible',
+      appearance: 'always',
+      size: 'normal',
+      retry: 'auto',
       callback: function () { setSubmitState(form, true); },
       'expired-callback': function () { setSubmitState(form, false); },
       'timeout-callback': function () { setSubmitState(form, false); },
@@ -208,7 +217,7 @@ const pageTitle = title === 'Jonathan Malkin'
   }
 
   function load() {
-    if (!document.querySelector('form') || scriptRequested) return;
+    if (!REQUIRED || !document.querySelector('form') || scriptRequested) return;
     if (![...document.querySelectorAll('form')].some(eligible)) return;
     scriptRequested = true;
     var script = document.createElement('script');

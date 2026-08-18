@@ -954,10 +954,19 @@ function validateSenderConfig(env) {
   }
 }
 
+function isPlaceholderGroupId(value) {
+  return /^TODO\b/i.test(String(value || "").trim());
+}
+
 function resolveGroupIds(env, slugs) {
   const ids = parseGroupIds(env);
-  return [...new Set(slugs)].map((slug) => {
-    if (ids[slug]) return String(ids[slug]);
+  return [...new Set(slugs)].flatMap((slug) => {
+    const id = ids[slug];
+    if (isPlaceholderGroupId(id)) {
+      logOperational("sender_group_skipped", { slug });
+      return [];
+    }
+    if (id) return [String(id)];
     const error = new Error("sender_group_mapping_missing");
     error.operation = "resolve_group";
     throw error;
