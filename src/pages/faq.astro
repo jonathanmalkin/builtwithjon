@@ -14,7 +14,7 @@ const faqs = [
       "Most weeks I'm inside a build.",
       'The short intake makes sure the next conversation is worth both our time.',
       'I read every intake myself and reply.',
-      'I take one build at a time. The next Business Map can start as the current build wraps.',
+      'I take one build at a time. The next one can start as the current build wraps.',
     ],
   },
   {
@@ -26,7 +26,7 @@ const faqs = [
     ],
   },
   {
-    question: 'What does the Business Map get me?',
+    question: 'What happens first?',
     answer: [
       'Your people, process, and systems on one page.',
       'Plus a clear decision about what to build first.',
@@ -45,7 +45,7 @@ const faqs = [
     answer: [
       'Ongoing support keeps it current: regular working meetings, not a monthly check-the-box call.',
       'Later, once the brain exists, it can extend. A relationship system that preps your meetings and drafts your follow-ups is the first example.',
-      "That's a later conversation. It starts with the Business Map.",
+      "That's a later conversation. It starts with seeing the whole picture.",
     ],
   },
   {
@@ -60,8 +60,8 @@ const faqs = [
     question: 'How much does it cost?',
     answer: [
       "There's no public price because the work isn't generic.",
-      "Cost gets scoped after the Business Map, once we know what's actually there to build.",
-      "Start with the Map and you'll have a real number, not a guess.",
+      "Cost gets scoped after we see the whole picture, once we know what's actually there to build.",
+      "Start with a conversation and you'll have a real number, not a guess.",
     ],
   },
 ];
@@ -71,11 +71,11 @@ const faqSchema = buildFaqPageSchema(
 );
 
 const description =
-  'Direct answers about the Business Map, the company brain, data privacy, ongoing support, and cost. One idea per line, no runaround.';
+  'Direct answers about how the work starts, the company brain, data privacy, ongoing support, and cost. One idea per line, no runaround.';
 ---
 
 <Base
-  title="FAQ: The Business Map and the Company Brain"
+  title="FAQ: The Company Brain"
   description={description}
 >
   <JsonLd schema={faqSchema} />
@@ -104,7 +104,7 @@ const description =
     <section aria-labelledby="start-h" style="margin-top: 2.6rem;">
       <h2 id="start-h">Ready to start?</h2>
       <div class="letter-cta">
-        <a href="/business-map/#start" class="hero-btn" data-track="cta:business-map-faq">Start with the Business Map</a>
+        <a href="/#tell-me" class="hero-btn" data-track="cta:business-map-faq">Tell me about it</a>
       </div>
     </section>
   </div>

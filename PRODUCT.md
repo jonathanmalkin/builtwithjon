@@ -21,17 +21,21 @@ implementation work) must stay legible. They do not replace the owner as the pri
 
 ## Product Purpose
 
-builtwithjon.com exists to get the right owner into a conversation with Jonathan about a stuck
-project, then into a paid Business Map if it is a fit.
+builtwithjon.com exists to get the right person into one of two conversations with Jonathan:
 
-Success is a qualified intake Jonathan can answer, not a booked call and not a self-serve tool
-completion.
+1. **Direct.** An owner with a stuck project. The public door is the homepage conversation and
+   intake at `/#tell-me`.
+2. **Workshop.** A host with a room of owners or a company team. The public door is `/workshops/`.
+
+Success for Direct is a captured email (`business-map:capture` on `/`). The three-question
+follow-up is a quality diagnostic, not the north star. Success for Workshop is a host form
+submit (`workshop-host:submit` on `/workshops/`).
 
 The site's jobs:
 
 1. Make the right owner recognize their situation before any technology is mentioned.
-2. Start a conversation through the intake: email first, three questions, Jonathan reads every
-   one and replies. No advertised timeframe.
+2. Start a conversation through the Direct intake: email first, three questions, Jonathan reads
+   every one and replies. No advertised timeframe.
 3. Show operating judgment and practical evidence: the anonymized case study, the map-not-dump
    pattern, real event photography.
 4. Route rooms of owners to workshops and everyone else to a plain contact path.
@@ -52,14 +56,20 @@ Singular attribution only (one paying client so far; never "clients call it").
 
 Jonathan's jobTitle everywhere is "Knowledge Systems Builder."
 
-The Business Map is phase one of the paid build: people, process, and systems on one page, ending
-in a continue-or-stop decision. It is not the homepage offer. The homepage sells talking to
-Jonathan. The Map keeps its name, page, and "Start with the Business Map" CTA on `/business-map/`
-and at the case-study close. Capacity is honest and evergreen: one build at a time; the next
-Business Map can start as the current build wraps.
+The public Direct offer is a conversation that can become a phased, client-owned build. The
+homepage sells talking to Jonathan. Do not name a first-phase deliverable on public surfaces,
+in schema, in nav, or in CTAs.
 
-The promise is unblocking via the path, plus visibility and a continue-or-stop decision from the
-Map itself. Never revelation. Never a measured business result.
+"Business Map" is internal delivery language only: paid Phase 1 of a build (people, process, and
+systems on one page, ending in a continue-or-stop decision). It is never a named public offer.
+Event names that start with `business-map:` stay as-is for analytics continuity. The retired
+`/business-map/` path 301s to `/#tell-me`.
+
+Capacity is honest and evergreen: one build at a time; the next build can start as the current
+one wraps.
+
+The promise is unblocking via the path, plus visibility and a continue-or-stop decision from
+the first phase itself. Never revelation. Never a measured business result.
 
 ## Operating Context
 
@@ -67,8 +77,9 @@ The site is an Astro static site on Cloudflare Workers (`jonathanmalkin-site`), 
 through `deploy-builtwithjon` after Jonathan's explicit approval.
 
 Owners arrive from rooms, referrals, and search. The working evaluation ritual is: recognize the
-stuck project, send a short intake, wait for Jonathan's reply. Intake lives on `/business-map/`
-(`?f=` framing and `data-track` values stay as built). Jonathan reads every submission himself.
+stuck project, send a short intake, wait for Jonathan's reply. Direct intake lives on `/`
+at `/#tell-me` (`?f=` framing and `data-track` values stay as built, including `business-map:*`
+event names). Jonathan reads every submission himself.
 
 Durable product truth lives in this file, `Workspace/00-HQ/`, and
 `Workspace/04-Marketing/Website/copy-kernel-2026-08-15.md`. Current page briefs and lab HTML live
@@ -88,6 +99,7 @@ Confirmed:
 - The public MCP server is retired (decided 2026-08-17). Remove at implementation: worker `/mcp`
   route, `src/mcp/`, `/mcp/` docs, `.well-known/mcp.json`, and the MCP section of `CLAUDE.md`.
 - Enterprise-decomposition copy ("ten people do one job") is retired from the website.
+- Do not name the Business Map as a public offer, CTA, schema entity, or nav destination.
 
 Open:
 
@@ -115,10 +127,10 @@ infrastructure.
 
 Use only documented atoms. Do not invent customers, quotes, counts, or results.
 
-- Anonymized BR101 case study on `/case-study/`. Public funnel figures (case study only): about
-  5,000 scattered messages to about 1,200 in-scope threads to about 900 organized,
-  privacy-treated files. 696 artifacts organized; 770 automated checks, all green. Homepage may
-  tell the outcome story without those counts.
+- Anonymized BR101 case study, currently held at `src/held/case-study.astro` until clearance.
+  Public funnel figures (case study only): about 5,000 scattered messages to about 1,200 in-scope
+  threads to about 900 organized, privacy-treated files. 696 artifacts organized; 770 automated
+  checks, all green. Homepage may tell the outcome story without those counts.
 - Approved scrubbed owner quotes, including "I have a very complicated, intimidating project
   plan that I avoid like the plague" and "I open up about fifteen different things every month."
 - Privacy-treatment and killed-feature trust stories, as scoped in the copy kernel.
@@ -132,8 +144,8 @@ photo credit.
 ## Product Principles
 
 - **Recognition before technology.** The owner's situation leads. AI is the mechanism, not the pitch.
-- **Sell the conversation on the homepage.** One dominant next action. The Business Map is phase
-  one of the paid work, not the public offer.
+- **Sell the conversation on the homepage.** One dominant next action. Direct = `/#tell-me`.
+  Workshop = `/workshops/`. The first-phase map is internal delivery language, not the public offer.
 - **Show practical evidence before sophistication.** Case study, honest rounded numbers, real
   photography, working artifacts.
 - **Keep the first step concrete and low-risk.** Email, three questions, Jonathan replies.

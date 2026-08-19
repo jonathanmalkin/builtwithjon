@@ -39,7 +39,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Jonathan Malkin',
   url: 'https://builtwithjon.com',
-  description: 'Start with the Business Map: your people, process, and systems on one page, plus a clear decision about what to build first.',
+  description: 'Jonathan Malkin helps owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.',
 };
 
 const professionalServiceSchema = buildProfessionalServiceSchema({
@@ -48,9 +48,9 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   makesOffer: [
     {
       '@type': 'Offer',
-      name: 'The Business Map',
-      description: 'The first phase of a build: your people, process, and systems mapped onto one page, then a clear decision about what to build first.',
-      url: 'https://builtwithjon.com/business-map/',
+      name: 'A conversation, then a client-owned build',
+      description: 'Start with a conversation about the project you keep putting off. If it is a fit, we build in phases. You own the finished system.',
+      url: 'https://builtwithjon.com/#tell-me',
     },
   ],
 });
@@ -58,7 +58,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
 <Base
   title="Business Knowledge Systems for Owner-Led Businesses | Austin, TX"
-  description="I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use. Start with the Business Map."
+  description="I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use."
   schema={personSchema}
 >
   <JsonLd schema={websiteSchema} />
@@ -159,38 +159,58 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       <div class="h26-inner">
         <div>
           <h2>So we start by seeing the whole picture.</h2>
-          <p class="h26-body">Working together begins with seeing it clearly, you included. Your <span class="h26-hl">people</span>, <span class="h26-hl">process</span>, and <span class="h26-hl">systems</span> on one page. It shows where the loop jams and what to build first.</p>
+          <p class="h26-body">We put your <span class="h26-hl">people</span>, <span class="h26-hl">process</span>, and <span class="h26-hl">systems</span> on one page. That makes the jam visible and shows us what to build first.</p>
           <a class="h26-cta" href="#tell-me" data-track="cta:home-picture">Let&rsquo;s look at it</a>
         </div>
         <figure class="h26-board" aria-label="A one-page view of a business: people, process, and systems, with one stalled project flagged.">
           <div class="h26-bar">Your business · one page</div>
-          <div class="h26-cols">
-            <div class="h26-bcol">
-              <h3><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="6" r="3.4" fill="none" stroke="#191E26" stroke-width="1.8"/><path d="M2.5,15.5 q6.5,-7 13,0" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round"/></svg>People</h3>
-              <ul>
-                <li>You: final say on everything</li>
-                <li>The ops lead who knows how delivery really works</li>
-                <li>Contractors briefed by phone, every time</li>
-              </ul>
-            </div>
-            <div class="h26-bcol">
-              <h3><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2,9 h4 l2,-5 3,10 2,-5 h3" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Process</h3>
-              <ul>
-                <li>Quoting, in your head</li>
-                <li>Delivery: works, unwritten</li>
-                <li class="h26-stuck"><span class="h26-tag">Still &ldquo;next month&rdquo;</span>The project you keep putting off</li>
-              </ul>
-            </div>
-            <div class="h26-bcol">
-              <h3><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="2.5" y="2.5" width="13" height="4.4" rx="1.4" fill="none" stroke="#191E26" stroke-width="1.8"/><rect x="2.5" y="11" width="13" height="4.4" rx="1.4" fill="none" stroke="#191E26" stroke-width="1.8"/></svg>Systems</h3>
-              <ul>
-                <li>Email, the real database</li>
-                <li>Drive, three eras of folders</li>
-                <li>Fourteen spreadsheets, one load-bearing</li>
-              </ul>
-            </div>
+          <div class="h26-diagram">
+            <svg viewBox="0 0 640 352" role="img" aria-hidden="true">
+              <defs>
+                <marker id="map-la" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#191E26"/>
+                </marker>
+              </defs>
+              <g>
+                <rect x="18" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <circle cx="48" cy="44" r="11" fill="none" stroke="#191E26" stroke-width="1.8"/>
+                <path d="M30,78 q18,-16 36,0" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round"/>
+                <text x="78" y="48" class="h26-t-head">People</text>
+                <text x="78" y="70" class="h26-t-sub">Who knows what</text>
+              </g>
+              <g>
+                <rect x="227" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <path d="M247,52 h14 l8,-16 10,32 8,-16 h14" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="287" y="48" class="h26-t-head">Process</text>
+                <text x="287" y="70" class="h26-t-sub">How work gets done</text>
+              </g>
+              <g>
+                <rect x="436" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <rect x="456" y="38" width="28" height="10" rx="2" fill="none" stroke="#191E26" stroke-width="1.6"/>
+                <rect x="456" y="54" width="28" height="10" rx="2" fill="none" stroke="#191E26" stroke-width="1.6"/>
+                <text x="496" y="48" class="h26-t-head">Systems</text>
+                <text x="496" y="70" class="h26-t-sub">Where work lives</text>
+              </g>
+              <path d="M111,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
+              <path d="M320,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
+              <path d="M529,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
+              <g>
+                <rect x="18" y="154" width="604" height="176" rx="14" fill="#FBF8F1" stroke="#191E26" stroke-width="1.8"/>
+                <text x="40" y="182" class="h26-t-head">The whole picture</text>
+                <text x="40" y="204" class="h26-t-sub">Enough to see the jam and decide what to build first.</text>
+                <rect x="40" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
+                <text x="124" y="245" class="h26-t-chip">people</text>
+                <rect x="220" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
+                <text x="304" y="245" class="h26-t-chip">process</text>
+                <rect x="400" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
+                <text x="484" y="245" class="h26-t-chip">systems</text>
+                <rect x="40" y="270" width="528" height="40" rx="8" fill="#FBF4EA" stroke="#C4392B" stroke-width="2" stroke-dasharray="6 4"/>
+                <text x="56" y="295" class="h26-t-head" style="font-size:13px;fill:#C4392B;">Still next month</text>
+                <text x="176" y="295" class="h26-t-sub">The project you keep putting off</text>
+              </g>
+            </svg>
           </div>
-          <p class="h26-board-cap">The stuck project stops being a mystery once it's on the page.</p>
+          <p class="h26-board-cap">Now we can see what is holding the project up.</p>
         </figure>
       </div>
     </section>
@@ -259,7 +279,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
               data-track-form="business-map"
             >
               <p class="intake-progress">Step 1 of 2 &middot; Your email holds your place</p>
-              <input type="hidden" name="_subject" value="Business Map intake (step 1)" />
+              <input type="hidden" name="_subject" value="Website intake (step 1)" />
               <input type="hidden" name="inquiry_type" value="business-map-intake" />
               <input type="hidden" name="form_id" value="business-map" />
               <input type="hidden" name="framing" value="" />
@@ -286,7 +306,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
               >
                 <p class="intake-done" role="status">Got your email. One short step left.</p>
                 <p class="intake-progress">Step 2 of 2 &middot; Three questions</p>
-                <input type="hidden" name="_subject" value="Business Map intake (step 2)" />
+                <input type="hidden" name="_subject" value="Website intake (step 2)" />
                 <input type="hidden" name="inquiry_type" value="business-map-intake" />
                 <input type="hidden" name="form_id" value="business-map-details" />
                 <input type="hidden" name="framing" value="" />
@@ -490,15 +510,8 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
   .h26-mapband { background: var(--clay); padding: 68px 5vw; }
   .h26-mapband .h26-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: center; }
-  .h26-board .h26-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; }
-  .h26-bcol { padding: 18px 18px 20px; }
-  .h26-bcol + .h26-bcol { border-left: 1px dashed #D2C4A6; }
-  .h26-bcol h3 { font: 800 1rem/1 var(--disp); letter-spacing: .02em; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
-  .h26-bcol h3 svg { width: 18px; height: 18px; }
-  .h26-bcol ul { list-style: none; display: grid; gap: 8px; margin: 0; padding: 0; }
-  .h26-bcol li { background: var(--parch); border: 1px solid #D2C4A6; border-radius: 8px; padding: 10px 12px; font: 600 .93rem/1.25 var(--txt); color: #3F4752; }
-  .h26-bcol li.h26-stuck { background: #FBF4EA; border: 2px dashed var(--red); color: var(--ink); }
-  .h26-bcol li.h26-stuck .h26-tag { display: block; color: var(--red); font: 700 10px/1 var(--txt); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 5px; }
+  .h26-diagram { padding: 16px 14px 6px; }
+  .h26-diagram svg { display: block; width: 100%; height: auto; }
 
   .h26-proof { background: var(--amber); padding: 68px 5vw; }
   .h26-proof h2 { font: 700 clamp(2rem, 3.6vw, 3rem)/1.05 var(--disp); letter-spacing: -.02em; margin: 0 0 36px; max-width: 24ch; }
@@ -554,8 +567,6 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     .h26-hero img { width: 180%; left: -49%; top: -5%; }
     .h26-hero .h26-over { position: relative; z-index: 2; margin: -48px 4vw 24px; max-width: none; }
     .h26-loopband .h26-inner, .h26-mapband .h26-inner, .h26-transform { grid-template-columns: 1fr; }
-    .h26-board .h26-cols { grid-template-columns: 1fr; }
-    .h26-bcol + .h26-bcol { border-left: 0; border-top: 1px dashed #D2C4A6; }
     .h26-bigarrow { transform: rotate(90deg); width: 72px; margin: 0 auto; }
     .h26-finale { height: auto; overflow: visible; }
     .h26-finale .h26-img-holder { position: relative; height: 380px; overflow: hidden; }

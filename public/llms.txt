@@ -4,14 +4,14 @@
 
 ## About
 
-Jonathan Malkin is an Austin-based knowledge systems builder. After 20+ years in enterprise technology, including 8 years at Automation Anywhere scaling a global solutions engineering organization from 6 to 250 people, he maps the knowledge trapped in an owner-led business onto one page, then builds the system the team and their AI assistants both use. He calls the finished system a company brain: folders and files a team and its AI can both read and use. High-stakes decisions stay with people, and clients own the platform, the credentials, the data, and the final system.
+Jonathan Malkin is an Austin-based knowledge systems builder. After 20+ years in enterprise technology, including 8 years at Automation Anywhere scaling a global solutions engineering organization from 6 to 250 people, he turns knowledge trapped in an owner-led business into a system the team and their AI assistants both use. He calls the finished system a company brain: folders and files a team and its AI can both read and use. High-stakes decisions stay with people, and clients own the platform, the credentials, the data, and the final system.
 
-Engagements start with the Business Map: the client's people, process, and systems on one page, plus a clear decision about what to build first. It is the first phase of a build, not a standalone report, and it ends in a continue-or-stop decision. He takes one build at a time.
+Working together starts with a conversation about the project the owner keeps putting off. If it is a fit, the work is a phased, client-owned build. He takes one build at a time.
 
 ## Key Topics
 
 - Company brain systems: turning scattered business knowledge into organized, AI-readable files
-- The Business Map: people, process, and systems on one page, then a build decision
+- Seeing people, process, and systems on one page, then deciding what to build first
 - Privacy treatment for sensitive business material, with required human review
 - Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
 - AI agents and AI operations inside a running business
@@ -19,7 +19,7 @@ Engagements start with the Business Map: the client's people, process, and syste
 
 ## Offers
 
-- The Business Map (start here): https://builtwithjon.com/business-map/
+- Talk about a stuck project: https://builtwithjon.com/#tell-me
 - Workshops and speaking: https://builtwithjon.com/workshops/
 - FAQ: https://builtwithjon.com/faq/
 - The map-not-dump pattern: https://builtwithjon.com/map-not-dump/

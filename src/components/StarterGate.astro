@@ -1,0 +1,164 @@
+---
+interface Props {
+  kit: string;
+  label: string;
+  lede: string;
+  subject: string;
+  formId: string;
+  button: string;
+  note: string;
+  inquiryType?: string;
+  trackForm?: string;
+  whichKit?: string;
+  error?: string;
+  file?: string;
+  filename?: string;
+  downloadLabel?: string;
+  revealSelector?: string;
+  unlockEvent?: string;
+  pendingLabel?: string;
+}
+
+const {
+  kit,
+  label,
+  lede,
+  subject,
+  formId,
+  button,
+  note,
+  inquiryType = 'lead-magnet',
+  trackForm = 'lead-magnet',
+  whichKit = kit,
+  error = 'Something went wrong. Email jonathan@builtwithjon.com and I will send it directly.',
+  file,
+  filename,
+  downloadLabel,
+  revealSelector,
+  unlockEvent,
+  pendingLabel = 'Unlocking...',
+} = Astro.props;
+---
+
+<div
+  class="starter-gate"
+  id="starter-gate"
+  data-kit={kit}
+  data-file={file}
+  data-filename={filename}
+  data-reveal={revealSelector}
+  data-unlock-event={unlockEvent}
+  data-pending={pendingLabel}
+  data-button={button}
+>
+  <p class="starter-gate-label">{label}</p>
+  <p class="starter-gate-lede">{lede}</p>
+  <form
+    class="starter-gate-form"
+    id="starter-gate-form"
+    action="/api/subscribe"
+    method="POST"
+    data-track-form={trackForm}
+  >
+    <input type="hidden" name="_subject" value={subject} />
+    <input type="hidden" name="inquiry_type" value={inquiryType} />
+    <input type="hidden" name="which_kit" value={whichKit} />
+    <input type="hidden" name="form_id" value={formId} />
+    <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+    <label for="starter-gate-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Email</label>
+    <input
+      type="email"
+      id="starter-gate-email"
+      name="email"
+      class="starter-gate-input"
+      placeholder="you@example.com"
+      required
+      autocomplete="email"
+      inputmode="email"
+      spellcheck="false"
+    />
+    <label class="form-consent form-consent-gate"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>Also email me practical AI tips now and then. Optional, unsubscribe anytime.</span></label>
+    <button type="submit" class="starter-gate-btn">{button}</button>
+  </form>
+  <p class="starter-gate-error" id="starter-gate-error" hidden role="alert" aria-live="polite" set:html={error} />
+  <p class="starter-gate-note">{note}</p>
+</div>
+
+{file && (
+  <div class="starter-gate-unlocked" id="starter-gate-unlocked" hidden>
+    <p class="starter-gate-ready">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      You are in. Download is ready
+    </p>
+    <a class="starter-gate-download" id="starter-gate-link" href={file} download>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      {downloadLabel || 'Download'}
+    </a>
+    <p class="starter-gate-download-hint">Did not start automatically? <a href={file} download>Click here to download <code>{filename || 'the file'}</code></a>.</p>
+  </div>
+)}
+
+<script is:inline>
+  (function () {
+    var gate = document.getElementById('starter-gate');
+    if (!gate) return;
+    var form = document.getElementById('starter-gate-form');
+    var errorEl = document.getElementById('starter-gate-error');
+    var btn = form ? form.querySelector('.starter-gate-btn') : null;
+    var unlocked = document.getElementById('starter-gate-unlocked');
+    var link = document.getElementById('starter-gate-link');
+    var revealSelector = gate.getAttribute('data-reveal');
+    var revealEl = revealSelector ? document.querySelector(revealSelector) : null;
+    var kit = gate.getAttribute('data-kit') || 'kit';
+    var storeKey = 'bwj-starter-kit-' + kit;
+    var pendingLabel = gate.getAttribute('data-pending') || 'Unlocking...';
+    var buttonLabel = gate.getAttribute('data-button') || 'Unlock';
+    var unlockEvent = gate.getAttribute('data-unlock-event');
+
+    function reveal(justUnlocked) {
+      gate.hidden = true;
+      if (unlocked) unlocked.hidden = false;
+      if (revealEl) revealEl.hidden = false;
+      var target = revealEl || unlocked;
+      if (justUnlocked && target && target.scrollIntoView) {
+        target.scrollIntoView({ behavior: 'smooth', block: revealEl ? 'start' : 'center' });
+      }
+      if (justUnlocked && unlockEvent && window.bwjTrack) window.bwjTrack(unlockEvent);
+      if (justUnlocked && link) {
+        setTimeout(function () {
+          try { link.click(); } catch (e) {}
+          try { link.focus(); } catch (e) {}
+        }, 350);
+      }
+    }
+
+    try {
+      if (window.localStorage && localStorage.getItem(storeKey) === 'unlocked') {
+        reveal(false);
+      }
+    } catch (e) {}
+
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (errorEl) errorEl.hidden = true;
+        if (btn) { btn.disabled = true; btn.textContent = pendingLabel; }
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        }).then(function (response) {
+          if (response.ok) {
+            try { if (window.localStorage) localStorage.setItem(storeKey, 'unlocked'); } catch (e) {}
+            reveal(true);
+            return;
+          }
+          throw new Error('Submission failed');
+        }).catch(function () {
+          if (errorEl) errorEl.hidden = false;
+          if (btn) { btn.disabled = false; btn.textContent = buttonLabel; }
+        });
+      });
+    }
+  })();
+</script>

@@ -6,8 +6,13 @@
 /articles/website-mcp-server-run-scorecard/ /tools/ 301
 /articles/website-mcp-server-run-scorecard /tools/ 301
 # Approach trio + Knowledge OS pages retired 2026-08-15 (company-brain revamp).
-/knowledge-os-product/ /business-map/ 301
-/knowledge-os-product /business-map/ 301
+# Direct offer door is the homepage conversation as of 2026-08-19.
+/knowledge-os-product/ /#tell-me 301
+/knowledge-os-product /#tell-me 301
+
+# /business-map/ retired 2026-08-19. Named public offer dropped; 301 to Direct intake.
+/business-map/ /#tell-me 301
+/business-map /#tell-me 301
 
 # /scan/* existed for part of 2026-08-05 and edges cached 301s into it. Catch
 # those so a stale redirect still lands on the scan card instead of a 404.
@@ -49,12 +54,9 @@
 /hidden-profit-review/sample-assessment/ /hidden-profit-review/sample/ 301
 /hidden-profit-review/sample-assessment /hidden-profit-review/sample/ 301
 
-# 2026-08-15 revamp: /hidden-profit-review/ itself is retired to /business-map/.
-# The old /ai-workflow-audit/thanks and /ai-workflow-audit/* catch-all used to
-# chain through /hidden-profit-review/(thanks/), which would now be a double
-# redirect since that page is also retired below. Point both straight at
-# /business-map/ instead.
-/ai-workflow-audit/thanks/ /business-map/ 301
-/ai-workflow-audit/thanks /business-map/ 301
-/ai-workflow-audit/* /business-map/ 301
-/ai-workflow-audit /business-map/ 301
+# Old /ai-workflow-audit paths. Point straight at Direct intake so they do not
+# chain through the retired /business-map/ page.
+/ai-workflow-audit/thanks/ /#tell-me 301
+/ai-workflow-audit/thanks /#tell-me 301
+/ai-workflow-audit/* /#tell-me 301
+/ai-workflow-audit /#tell-me 301

@@ -38,14 +38,18 @@ const PERMANENT_REDIRECTS = new Map([
   ["/ai-assistant-workshop-austin/", "/ai-assistant/"],
   ["/ai-assistant/claude-code", "/ai-assistant/course/"],
   ["/ai-assistant/claude-code/", "/ai-assistant/course/"],
-  ["/knowledge-os-product", "/business-map/"],
-  ["/knowledge-os-product/", "/business-map/"],
+  // Direct public door is /#tell-me. Keep business-map:* event names as-is.
+  ["/knowledge-os-product", "/#tell-me"],
+  ["/knowledge-os-product/", "/#tell-me"],
+  ["/business-map", "/#tell-me"],
+  ["/business-map/", "/#tell-me"],
 ]);
 // Prefix redirects for retired sections with no single index page.
 // /hidden-profit-review/sample/ is intentionally NOT covered here (no splat)
 // so that static dir keeps serving.
 const PERMANENT_REDIRECT_PREFIXES = [];
 const ALLOWED_EVENT_NAMES = new Set([
+  "page:view",
   "business-map:start", "business-map:submit", "business-map:capture", "business-map:success",
   "business-map-details:start", "business-map-details:submit",
   "cta:business-map-nav", "cta:business-map-footer", "cta:business-map-hero",
@@ -79,10 +83,10 @@ const ALLOWED_CALCULATOR_EVENTS = new Set(CALCS.map((calculator) => `leakcalc:pi
 const FORM_MAP = {
   newsletter: { groups: [], fields: {}, allowed: ["source", "source_url"] },
   "workshop-next": { groups: [], fields: {}, allowed: ["comments"] },
-  // Business Map intake (src/pages/business-map.astro), two-step per the
-  // 2026-08-15 spec: step 1 captures the email immediately (name optional) so
-  // a partial completion still yields the lead; step 2 carries the three
-  // qualification fields. The authority question is removed from the public
+  // Direct intake on `/` at `/#tell-me`, two-step: step 1 captures the email
+  // immediately (name optional) so a partial completion still yields the lead;
+  // step 2 carries the three qualification fields. form_id stays business-map
+  // for analytics continuity. The authority question is removed from the public
   // form on purpose. company_website is the honeypot already handled globally
   // in handleSubscribe.
   "business-map": {
@@ -129,8 +133,8 @@ const FORM_MAP = {
 const FORM_LABELS = {
   newsletter: "Newsletter",
   "workshop-next": "Cowork workshop: What's Next",
-  "business-map": "Business Map intake (step 1: email)",
-  "business-map-details": "Business Map intake (step 2: details)",
+  "business-map": "Website intake (step 1: email)",
+  "business-map-details": "Website intake (step 2: details)",
   "hpr-waitlist": "Hidden Profit Review waitlist",
   "kit-invoice-chase": "Invoice Chase Kit",
   "kit-follow-up-swipe-file": "Follow-up Swipe File",
@@ -151,8 +155,11 @@ export default {
 
     const permanentTarget = PERMANENT_REDIRECTS.get(url.pathname);
     if (permanentTarget) {
-      url.pathname = permanentTarget;
-      return Response.redirect(url.toString(), 301);
+      const dest = new URL(permanentTarget, url.origin);
+      url.searchParams.forEach((value, key) => {
+        if (!dest.searchParams.has(key)) dest.searchParams.set(key, value);
+      });
+      return Response.redirect(dest.toString(), 301);
     }
 
     const prefixMatch = PERMANENT_REDIRECT_PREFIXES.find(([prefix]) => url.pathname.startsWith(prefix));
@@ -177,6 +184,7 @@ export default {
       return handleEvent(request, env);
     }
 
+    logEdgeVisit(request, env, url);
     return env.ASSETS.fetch(request);
   },
 };
@@ -499,6 +507,98 @@ async function stableLeadKey(value) {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
+// AI referrer allowlist + compact attribution `s=chatgpt.com` (utm_source).
+// Matching host or utm writes blob5. Empty string means not AI-referred.
+const AI_REFERRER_HOSTS = [
+  "chatgpt.com",
+  "chat.openai.com",
+  "perplexity.ai",
+  "gemini.google.com",
+  "copilot.microsoft.com",
+  "bing.com",
+  "you.com",
+  "claude.ai",
+];
+
+function hostMatchesAllowlist(hostname, allowlist) {
+  const host = String(hostname || "").toLowerCase();
+  if (!host) return "";
+  return allowlist.find((domain) => host === domain || host.endsWith(`.${domain}`)) || "";
+}
+
+function classifyAiSource(referrerHost, attribution) {
+  const fromReferrer = hostMatchesAllowlist(referrerHost, AI_REFERRER_HOSTS);
+  if (fromReferrer) return fromReferrer;
+  const packed = String(attribution || "").match(/(?:^|\|)s=([^|]+)/i);
+  const utmSource = packed ? packed[1].trim().toLowerCase() : "";
+  if (utmSource === "chatgpt.com") return "chatgpt.com";
+  return hostMatchesAllowlist(utmSource, AI_REFERRER_HOSTS);
+}
+
+// Fetchers first. Do not lump ChatGPT-User / Perplexity-User with crawlers.
+const AI_FETCHER_UA = [
+  ["ChatGPT-User", /ChatGPT-User/i],
+  ["Perplexity-User", /Perplexity-User/i],
+];
+const AI_CRAWLER_UA = [
+  ["GPTBot", /GPTBot/i],
+  ["ClaudeBot", /ClaudeBot/i],
+  ["Google-Extended", /Google-Extended/i],
+  ["PerplexityBot", /PerplexityBot/i],
+  ["anthropic-ai", /anthropic-ai/i],
+  ["Claude-Web", /Claude-Web/i],
+  ["Applebot-Extended", /Applebot-Extended/i],
+  ["Amazonbot", /Amazonbot/i],
+  ["Bytespider", /Bytespider/i],
+  ["CCBot", /CCBot/i],
+];
+
+function classifyVisitor(userAgent) {
+  const ua = String(userAgent || "");
+  for (const [family, pattern] of AI_FETCHER_UA) {
+    if (pattern.test(ua)) return { kind: "fetcher", family };
+  }
+  for (const [family, pattern] of AI_CRAWLER_UA) {
+    if (pattern.test(ua)) return { kind: "crawler", family };
+  }
+  return { kind: "human", family: "" };
+}
+
+function referrerHostFromRequest(request) {
+  try {
+    const hostname = new URL(request.headers.get("referer") || "").hostname.toLowerCase();
+    if (/^[a-z0-9.-]{1,253}$/.test(hostname) && !hostname.includes("..")) return hostname;
+  } catch {
+    // Ignore malformed Referer.
+  }
+  return "";
+}
+
+function shouldLogEdgeVisit(request, url) {
+  if (request.method !== "GET") return false;
+  const path = url.pathname;
+  if (path.startsWith("/api/") || path.startsWith("/_astro/")) return false;
+  if (/\.[a-z0-9]{1,8}$/i.test(path)) return false;
+  return true;
+}
+
+function logEdgeVisit(request, env, url) {
+  if (!env.SITE_EVENTS || !shouldLogEdgeVisit(request, url)) return;
+  const visitor = classifyVisitor(request.headers.get("user-agent") || "");
+  const path = url.pathname.slice(0, 200);
+  try {
+    // blob1=event, blob2=path, blob3=referrer host, blob4=visitor kind,
+    // blob5=UA family. index1=edge. Separate from client page:view rows.
+    env.SITE_EVENTS.writeDataPoint({
+      blobs: ["edge:visit", path, referrerHostFromRequest(request), visitor.kind, visitor.family],
+      doubles: [1],
+      indexes: ["edge"],
+    });
+  } catch (err) {
+    console.error("edge visit write failed", err);
+  }
+}
+
 async function handleEvent(request, env) {
   if (request.method === "GET" || request.method === "HEAD") {
     return json({ ok: true, endpoint: "event", methods: ["POST"] });
@@ -554,8 +654,17 @@ async function handleEvent(request, env) {
   }
 
   const category = event.split(":")[0];
+  const aiSource = classifyAiSource(referrerHost, attribution);
   try {
-    env.SITE_EVENTS.writeDataPoint({ blobs: [event, path, referrerHost, attribution], doubles: [1], indexes: [category] });
+    // blob1=event, blob2=path, blob3=referrer host, blob4=attribution,
+    // blob5=ai_source (allowlisted referrer host or utm_source=chatgpt.com).
+    // Existing blob1–blob4 queries stay valid. Do not treat /business-map/ as
+    // a live Direct path after the 301.
+    env.SITE_EVENTS.writeDataPoint({
+      blobs: [event, path, referrerHost, attribution, aiSource],
+      doubles: [1],
+      indexes: [category],
+    });
   } catch (err) {
     console.error("site event write failed", err);
   }

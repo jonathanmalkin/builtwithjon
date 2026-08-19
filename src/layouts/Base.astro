@@ -136,6 +136,7 @@ const pageTitle = title === 'Jonathan Malkin'
     var form = ev.target && ev.target.closest ? ev.target.closest('form[data-track-form]') : null;
     if (form) track(form.getAttribute('data-track-form') + ':submit');
   });
+  track('page:view');
 })();
 </script>
     <script is:inline>
@@ -145,6 +146,7 @@ const pageTitle = title === 'Jonathan Malkin'
   // brunhild.challenges.cloudflare.com is IPv6-only and often fails DNS).
   // Loading it while the server is disabled still disabled every submit.
   var REQUIRED = false;
+  if (!REQUIRED) return;
   var siteKey = '0x4AAAAAAEJkiadExu7m9ULG';
   var protectedActions = ['/api/subscribe', '/api/contact', '/api/scorecard-report'];
   var scriptRequested = false;

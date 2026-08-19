@@ -1,7 +1,8 @@
 ---
-// 2026-08 IA: flat nav for the company-brain positioning. The Business Map is
-// the one front door and owns the CTA slot; everything else is a plain link.
+// Direct conversation is the homepage CTA. /workshops/ is the host door.
+// On workshop routes the nav CTA is hidden so it does not look like the host form.
 const pathname = Astro.url.pathname;
+const onWorkshop = pathname === '/workshops' || pathname.startsWith('/workshops/');
 ---
 
 <header class="site-header">
@@ -15,7 +16,9 @@ const pathname = Astro.url.pathname;
       <!-- Case study joins once the client clears it. FAQ stays in the footer. -->
       <a href="/" aria-current={pathname === '/' ? 'page' : undefined}>Home</a>
       <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
-      <a class="nav-cta" href="/#tell-me" data-track="cta:talk-nav" aria-current={pathname.startsWith('/business-map') ? 'page' : undefined}>Talk to me</a>
+      {!onWorkshop && (
+        <a class="nav-cta" href="/#tell-me" data-track="cta:talk-nav">Talk to me</a>
+      )}
     </div>
     <div class="header-social">
       <a href="https://github.com/jonathanmalkin" rel="me" aria-label="GitHub" title="GitHub">

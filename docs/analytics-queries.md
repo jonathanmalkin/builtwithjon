@@ -14,12 +14,21 @@ This site uses two Cloudflare analytics surfaces.
 
 Dataset: `site_events`
 
-- `blob1`: event name, such as `cta:scorecard-nav`
+- `blob1`: event name, such as `cta:scorecard-nav` or `page:view`
 - `blob2`: page path
 - `blob3`: referrer host
 - `blob4`: compact first-touch attribution (when present)
+- `blob5`: `ai_source` at write time. Allowlisted referrer host, or `chatgpt.com` when `utm_source=chatgpt.com` is packed as `s=chatgpt.com`. Empty when not AI-referred. Added 2026-08-19; blob1–blob4 stay unchanged.
 - `double1`: event count, normally `1`
 - `index1`: event category, the text before the colon
+
+`page:view` fires unconditionally from `Base.astro`. Direct conversion is
+`business-map:capture` on `/` only. `/business-map/` is retired (301 to
+`/#tell-me`) and is not a live Direct path.
+
+`edge:visit` is written by the worker for HTML GET requests, not `/api/event`:
+blob4 is `fetcher` / `crawler` / `human`, blob5 is the UA family
+(ChatGPT-User, GPTBot, …). Fetchers are not lumped with crawlers.
 
 MCP server events (written directly by the worker, not via `/api/event`) use
 the same shape with `index1 = 'mcp'`: `blob1` is `mcp:<tool>` (hyphenated,

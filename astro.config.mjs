@@ -34,6 +34,7 @@ export default defineConfig({
         !page.endsWith('/thanks/') &&
         !page.endsWith('/card/') &&
         !page.endsWith('/claude-meetup/') &&
+        !page.includes('/business-map') &&
         // Sends noindex; submitting it produces a Search Console coverage error.
         !page.endsWith('/email-confirmed/'),
       serialize: (item) => {
@@ -52,5 +53,9 @@ export default defineConfig({
     '/ai-assistant-workshop/thanks': '/ai-assistant/',
     '/ai-assistant-workshop-austin': '/ai-assistant/',
     '/ai-assistant/claude-code': '/ai-assistant/course/',
+    // Retired 2026-08-19: Business Map is internal delivery language only.
+    // Public Direct intake is the homepage conversation at /#tell-me.
+    '/business-map': '/#tell-me',
+    '/knowledge-os-product': '/#tell-me',
   },
 });

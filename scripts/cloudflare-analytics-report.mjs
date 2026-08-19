@@ -13,10 +13,13 @@ if (!accountId || !apiToken) {
 const query = `
 SELECT
   blob1 AS event,
+  blob2 AS path,
+  blob4 AS blob4,
+  blob5 AS ai_source,
   SUM(double1 * _sample_interval) AS hits
 FROM site_events
 WHERE timestamp > NOW() - INTERVAL '${days}' DAY
-GROUP BY event
+GROUP BY event, path, blob4, ai_source
 ORDER BY hits DESC
 `;
 
@@ -39,10 +42,25 @@ if (!response.ok) {
 
 const payload = await response.json();
 const rows = Array.isArray(payload?.data) ? payload.data : [];
-const totals = new Map(rows.map((row) => [
-  String(row.event || 'unknown'),
-  Number(row.hits || 0),
-]));
+
+const hitsOf = (row) => Number(row.hits || 0);
+const eventName = (row) => String(row.event || 'unknown');
+const rowPath = (row) => String(row.path || '');
+const aiSourceOf = (row) => String(row.ai_source || '').trim();
+const isAi = (row) => aiSourceOf(row) !== '';
+
+const normalizePath = (path) => {
+  const raw = String(path || '');
+  if (raw === '/business-map' || raw === '/business-map/') return null;
+  const trimmed = raw.replace(/\/+$/, '');
+  return trimmed || '/';
+};
+
+const totals = new Map();
+for (const row of rows) {
+  const event = eventName(row);
+  totals.set(event, (totals.get(event) || 0) + hitsOf(row));
+}
 
 const count = (event) => totals.get(event) || 0;
 const rate = (numerator, denominator) => denominator > 0
@@ -103,6 +121,86 @@ console.table([
   { event: 'Discovery/crawler handshakes', hits: mcpHandshakes },
   ...mcpToolCalls.map(([event, hits]) => ({ event, hits })),
 ]);
+
+const aiPageViews = rows
+  .filter((row) => eventName(row) === 'page:view' && isAi(row))
+  .reduce((sum, row) => sum + hitsOf(row), 0);
+
+const aiPageViewsBySource = new Map();
+const aiPageViewsByPath = new Map();
+for (const row of rows) {
+  if (eventName(row) !== 'page:view' || !isAi(row)) continue;
+  const source = aiSourceOf(row) || 'unknown';
+  const path = normalizePath(rowPath(row));
+  aiPageViewsBySource.set(source, (aiPageViewsBySource.get(source) || 0) + hitsOf(row));
+  if (path) aiPageViewsByPath.set(path, (aiPageViewsByPath.get(path) || 0) + hitsOf(row));
+}
+
+const directCaptures = rows
+  .filter((row) => eventName(row) === 'business-map:capture'
+    && normalizePath(rowPath(row)) === '/'
+    && isAi(row))
+  .reduce((sum, row) => sum + hitsOf(row), 0);
+
+const workshopSubmits = rows
+  .filter((row) => eventName(row) === 'workshop-host:submit' && isAi(row))
+  .reduce((sum, row) => sum + hitsOf(row), 0);
+
+const aiDirectViews = aiPageViewsByPath.get('/') || 0;
+const aiWorkshopViews = [...aiPageViewsByPath.entries()]
+  .filter(([path]) => path === '/workshops' || path.startsWith('/workshops/'))
+  .reduce((sum, [, hits]) => sum + hits, 0);
+
+console.log('');
+console.log('AI-attributed channels');
+console.log('Direct = business-map:capture on /. /business-map/ is retired and excluded.');
+console.table([
+  { stage: 'AI-referred page:view', events: aiPageViews, conversion: '—' },
+  { stage: 'AI-referred views on /', events: aiDirectViews, conversion: rate(aiDirectViews, aiPageViews) },
+  { stage: 'Direct email captures', events: directCaptures, conversion: rate(directCaptures, aiDirectViews) },
+  { stage: 'AI-referred views on /workshops/', events: aiWorkshopViews, conversion: rate(aiWorkshopViews, aiPageViews) },
+  { stage: 'Workshop host submits', events: workshopSubmits, conversion: rate(workshopSubmits, aiWorkshopViews) },
+]);
+
+if (aiPageViewsBySource.size) {
+  console.log('');
+  console.log('AI-referred page:view by source');
+  console.table(
+    [...aiPageViewsBySource.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([source, hits]) => ({ source, hits })),
+  );
+}
+
+const edgeRows = rows.filter((row) => eventName(row) === 'edge:visit');
+if (edgeRows.length) {
+  const edgeByKind = new Map();
+  const edgeByFamily = new Map();
+  for (const row of edgeRows) {
+    const kind = String(row.blob4 || 'unknown');
+    const family = String(row.ai_source || kind);
+    edgeByKind.set(kind, (edgeByKind.get(kind) || 0) + hitsOf(row));
+    if (kind !== 'human') {
+      edgeByFamily.set(`${kind}:${family}`, (edgeByFamily.get(`${kind}:${family}`) || 0) + hitsOf(row));
+    }
+  }
+  console.log('');
+  console.log('Edge visits');
+  console.table(
+    ['fetcher', 'crawler', 'human']
+      .filter((kind) => edgeByKind.has(kind))
+      .map((kind) => ({ kind, hits: edgeByKind.get(kind) })),
+  );
+  if (edgeByFamily.size) {
+    console.log('');
+    console.log('AI fetchers vs crawlers');
+    console.table(
+      [...edgeByFamily.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .map(([label, hits]) => ({ label, hits })),
+    );
+  }
+}
 
 console.log('Top events');
 console.table(

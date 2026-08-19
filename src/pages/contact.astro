@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Contact"
-  description="Contact Jonathan Malkin about the Business Map, a workshop for your room, partnerships, or a direct note."
+  description="Contact Jonathan Malkin about a stuck project, a workshop for your room, partnerships, or a direct note."
 >
   <div class="container contact-layout">
     <div class="contact-intro panel">
@@ -13,14 +13,14 @@ import Base from '../layouts/Base.astro';
 
       <p class="contact-lede">
         If there's a project you keep putting off because the information is
-        scattered, start with the Business Map. For workshops, partnerships,
-        or anything else, use the form.
+        scattered, tell me about it. For workshops, partnerships, or anything
+        else, use the form.
       </p>
 
       <div class="contact-routes" aria-label="Best next steps">
-        <a href="/business-map/#start" class="contact-route contact-route-primary" data-track="cta:business-map-contact">
+        <a href="/#tell-me" class="contact-route contact-route-primary" data-track="cta:business-map-contact">
           <span class="contact-route-label">The project that won't move?</span>
-          <span class="contact-route-title">Start with the Business Map</span>
+          <span class="contact-route-title">Tell me about it</span>
           <span class="contact-route-copy">A short intake: your email, then three questions. I read every one and reply.</span>
         </a>
         <a href="/workshops/" class="contact-route" data-track="cta:workshops-contact">
@@ -71,6 +71,7 @@ import Base from '../layouts/Base.astro';
         ></textarea>
       </div>
       <button type="submit" class="form-submit">Send</button>
+      <p class="contact-trust">I read every one myself.</p>
       <p class="contact-form-status" hidden role="status"></p>
     </form>
   </div>
@@ -180,6 +181,7 @@ import Base from '../layouts/Base.astro';
     }
 
     .form-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .contact-trust { color: var(--color-text-muted); font-size: 0.92rem; margin: 0.7rem 0 0; }
     .contact-form-status { color: var(--color-text-muted); margin: 0.75rem 0 0; }
 
     @media (max-width: 760px) {
