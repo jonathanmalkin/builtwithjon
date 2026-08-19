@@ -301,9 +301,9 @@ async function run() {
 
     await stop(worker);
     const todoGroups = JSON.parse(defaultGroupIds);
-    todoGroups["offer:business-map"] = "TODO-replace-with-real-sender-group-id";
+    todoGroups["source:direct"] = "TODO-replace-with-real-sender-group-id";
     worker = await startWorker({ groupIds: JSON.stringify(todoGroups) });
-    await test("15. Business Map placeholder group does not fail capture", async () => {
+    await test("15. Direct placeholder group does not fail capture", async () => {
       await reset();
       const response = await form("/api/subscribe", {
         email: "bizmap-todo@example.test",

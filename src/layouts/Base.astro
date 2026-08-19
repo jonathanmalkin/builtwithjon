@@ -141,11 +141,9 @@ const pageTitle = title === 'Jonathan Malkin'
 </script>
     <script is:inline>
 (function () {
-  // Keep in sync with wrangler.jsonc TURNSTILE_ENABLED. The managed widget on
-  // this sitekey still fails to issue a token (no iframe; challenge host
-  // brunhild.challenges.cloudflare.com is IPv6-only and often fails DNS).
-  // Loading it while the server is disabled still disabled every submit.
-  var REQUIRED = false;
+  // Keep in sync with wrangler.jsonc TURNSTILE_ENABLED. The managed widget is
+  // scoped to builtwithjon.com and the Worker validates its lead-form token.
+  var REQUIRED = true;
   if (!REQUIRED) return;
   var siteKey = '0x4AAAAAAEJkiadExu7m9ULG';
   var protectedActions = ['/api/subscribe', '/api/contact', '/api/scorecard-report'];

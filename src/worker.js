@@ -90,14 +90,14 @@ const FORM_MAP = {
   // form on purpose. company_website is the honeypot already handled globally
   // in handleSubscribe.
   "business-map": {
-    groups: ["offer:business-map"],
+    groups: ["source:direct"],
     fields: {},
     allowed: ["framing"],
     required: [],
     enums: { framing: ["", "product", "marketing", "onboarding", "exit"] },
   },
   "business-map-details": {
-    groups: ["offer:business-map"],
+    groups: ["source:direct"],
     fields: {
       blocked_project: "blocked_project",
       key_person: "key_person",
