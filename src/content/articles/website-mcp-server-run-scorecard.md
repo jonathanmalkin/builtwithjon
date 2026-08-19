@@ -4,8 +4,14 @@ date: 2026-07-13
 description: "builtwithjon.com now exposes a free, public MCP server, so Claude and other AI clients can run the Hidden Profit scorecard, calculate workflow leaks, and search 96 worked use cases without leaving the conversation."
 story: 2
 tags: ["mcp", "ai-agents", "small-business", "workflows", "scorecard"]
-draft: false
+draft: true
 ---
+
+<!-- Unpublished 2026-08-18: the /mcp endpoint was never built, so this article
+     advertised a server that returns 404. Dropped the MCP offering rather than
+     build it. Source kept in case the server is built later; /articles/website-mcp-server-run-scorecard/
+     301-redirects to /tools/ via public/_redirects. -->
+
 
 builtwithjon.com now has a free, public MCP server. Connect Claude or another MCP client and your AI can run my Hidden Profit scorecard, calculate what a missed-call or invoice-chase leak costs, and search 96 worked small-business use cases without leaving the conversation. It is read-only, requires no login, and stores none of the numbers you give it.
 

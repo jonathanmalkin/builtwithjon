@@ -2,6 +2,9 @@
 /articles/kink-quiz-vs-bdsm-test/ / 301
 /articles/what-is-kink-archetype/ / 301
 /articles/what-i-actually-do-with-claude-code/ / 301
+# MCP server article unpublished 2026-08-18 (endpoint never built). Send inbound to the live tools.
+/articles/website-mcp-server-run-scorecard/ /tools/ 301
+/articles/website-mcp-server-run-scorecard /tools/ 301
 # Approach trio + Knowledge OS pages retired 2026-08-15 (company-brain revamp).
 /knowledge-os-product/ /business-map/ 301
 /knowledge-os-product /business-map/ 301
