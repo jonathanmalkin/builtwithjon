@@ -17,7 +17,10 @@ function run(args) {
 }
 
 function csv(value) {
-  const text = typeof value === "string" ? value : JSON.stringify(value ?? "");
+  let text = typeof value === "string" ? value : JSON.stringify(value ?? "");
+  // Neutralize spreadsheet formula injection: values starting with = + - @ (or a
+  // leading tab/CR) are treated as formulas by Excel/Sheets. Prefix with a quote.
+  if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
   return `"${text.replace(/"/g, '""')}"`;
 }
 

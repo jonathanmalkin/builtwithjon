@@ -32,6 +32,12 @@
   margin: 0;
 }
 
+/* The [hidden] attribute must win over component display rules (e.g. .form-submit
+   uses display:inline-flex, which otherwise defeats JS that hides it on success). */
+[hidden] {
+  display: none !important;
+}
+
 html {
   font-size: 18px;
   line-height: 1.6;

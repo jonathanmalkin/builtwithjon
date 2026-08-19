@@ -181,6 +181,9 @@ const reportEndpoint = '/api/scorecard-report';
       card.setAttribute('data-axis', 'result');
       bar.style.width = '100%';
 
+      const esc = (s) => String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       const axisRow = (a) => {
         const t = tierFor(scores[a]);
         return `<div class="sc-axis-row" data-axis="${a}">
@@ -206,10 +209,10 @@ const reportEndpoint = '/api/scorecard-report';
             <form id="sc-gate-form" action="${reportEndpoint}" method="POST" novalidate data-track-form="scorecard-gate">
               <input type="hidden" name="_subject" value="Scorecard lead" />
               <input type="hidden" name="inquiry_type" value="scorecard-lead" />
-              <input type="hidden" name="segment" value="${answers.segment.value}" />
-              <input type="hidden" name="tier" value="${tier.label}" />
-              <input type="hidden" name="scores" value='${JSON.stringify(scores)}' />
-              <input type="hidden" name="answers" value='${JSON.stringify(Object.fromEntries(Object.entries(answers).map(([k,v]) => [k, v.label])))}' />
+              <input type="hidden" name="segment" value="${esc(answers.segment.value)}" />
+              <input type="hidden" name="tier" value="${esc(tier.label)}" />
+              <input type="hidden" name="scores" value="${esc(JSON.stringify(scores))}" />
+              <input type="hidden" name="answers" value="${esc(JSON.stringify(Object.fromEntries(Object.entries(answers).map(([k,v]) => [k, v.label]))))}" />
               <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="sc-hp" />
               <div class="sc-gate-fields">
                 <label class="sc-field"><span>First name</span><input type="text" name="name" autocomplete="given-name" class="sc-input" /></label>

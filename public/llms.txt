@@ -20,7 +20,6 @@ Engagements start with the Business Map: the client's people, process, and syste
 ## Offers
 
 - The Business Map (start here): https://builtwithjon.com/business-map/
-- Case study, anonymized: https://builtwithjon.com/case-study/
 - Workshops and speaking: https://builtwithjon.com/workshops/
 - FAQ: https://builtwithjon.com/faq/
 - The map-not-dump pattern: https://builtwithjon.com/map-not-dump/
