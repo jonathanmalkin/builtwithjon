@@ -9,6 +9,7 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  titleSuffix?: boolean;
   image?: string;
   article?: boolean;
   publishedTime?: string;
@@ -22,6 +23,7 @@ interface Props {
 const {
   title,
   description,
+  titleSuffix = true,
   image,
   article,
   publishedTime,
@@ -32,7 +34,7 @@ const {
   bare = false,
 } = Astro.props;
 
-const pageTitle = title === 'Jonathan Malkin'
+const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
   ? title
   : `${title} | Jonathan Malkin`;
 

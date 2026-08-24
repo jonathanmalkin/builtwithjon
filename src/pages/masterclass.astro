@@ -1,0 +1,276 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Integration point: replace the empty string with the published YouTube video
+// ID only. The iframe and player appear automatically once that ID is present.
+const YOUTUBE_VIDEO_ID = '';
+const hasMasterclassVideo = YOUTUBE_VIDEO_ID.length > 0;
+---
+
+<Base
+  title="How to Build Your Own AI Personal Assistant | Live Workshop"
+  titleSuffix={false}
+  description="Watch a 19-minute live build of a Claude Cowork assistant for daily briefs, meeting prep, email drafts, and reusable skills."
+>
+  <article class="masterclass">
+    <header class="masterclass-hero">
+      <p class="masterclass-label">19-minute class edit</p>
+      <h1>How to Build Your Own AI Personal Assistant</h1>
+      <p class="masterclass-lede">
+        A live build from a four-hour workshop in Austin. Watch me turn Claude Cowork into a personal work assistant for daily briefs, meeting prep, email drafts, and repeatable skills.
+      </p>
+      <p class="masterclass-currentness">
+        Recorded May 31, 2026. The interface has changed since the workshop. The pattern still holds: give the assistant a clear project, context, tools, permissions, and workflows.
+      </p>
+    </header>
+
+    <section class="masterclass-watch" aria-labelledby="masterclass-video-title">
+      <h2 id="masterclass-video-title">How to Build Your Own AI Personal Assistant masterclass</h2>
+      <div class="masterclass-player">
+        {
+          hasMasterclassVideo ? (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}`}
+              title="How to Build Your Own AI Personal Assistant masterclass"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          ) : (
+            <svg viewBox="0 0 96 96" aria-hidden="true" focusable="false">
+              <path d="M38 29.5 69 48 38 66.5Z" />
+            </svg>
+          )
+        }
+      </div>
+    </section>
+
+    <section class="masterclass-details" aria-labelledby="masterclass-details-heading">
+      <h2 id="masterclass-details-heading">What you will see</h2>
+      <div class="masterclass-copy">
+        <p>
+          Start with a live meeting brief built from Gmail and Google Calendar. Then follow the setup from project folder and instructions through connected tools, permissions, daily briefs, email drafts, phone Dispatch, and reusable skills.
+        </p>
+        <p>
+          The assistant prepares the work. You approve anything that sends, posts, purchases, deletes, or changes the calendar.
+        </p>
+      </div>
+    </section>
+
+    <section class="masterclass-close" aria-labelledby="masterclass-close-heading">
+      <h2 id="masterclass-close-heading">Give your AI a map, not a dump.</h2>
+      <p>Connections give Claude access. A map gives it a route through your work.</p>
+      <a href="/map-not-dump/" class="masterclass-cta" data-track="cta:masterclass-map">See the pattern</a>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .masterclass {
+    --masterclass-ink: #1B1813;
+    --masterclass-muted: #5A5347;
+    --masterclass-paper: #FFFDF8;
+    --masterclass-clay: #F6F2E9;
+    margin: clamp(2rem, 5vw, 5rem) auto clamp(4.5rem, 9vw, 8rem);
+    color: var(--masterclass-ink);
+  }
+
+  .masterclass-hero,
+  .masterclass-watch,
+  .masterclass-details,
+  .masterclass-close {
+    width: min(100%, 52rem);
+    margin-inline: auto;
+  }
+
+  .masterclass-hero {
+    padding: clamp(1.5rem, 4vw, 3.25rem);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--masterclass-paper);
+    box-shadow: 0 10px 30px -18px rgba(31, 23, 19, 0.30);
+  }
+
+  .masterclass-label {
+    margin: 0 0 0.7rem;
+    color: var(--masterclass-muted);
+    font-family: 'IBM Plex Mono', var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .masterclass h1,
+  .masterclass h2 {
+    color: var(--masterclass-ink);
+    font-family: 'Newsreader', Georgia, serif;
+  }
+
+  .masterclass h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-size: clamp(2.35rem, 7vw, 4.75rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  .masterclass-lede {
+    max-width: 43rem;
+    margin: clamp(1.25rem, 3vw, 1.8rem) 0 0;
+    color: var(--masterclass-muted);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .masterclass-currentness {
+    max-width: 43rem;
+    margin: 1.2rem 0 0;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--masterclass-muted);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .masterclass-watch {
+    margin-top: clamp(2.75rem, 6vw, 5rem);
+  }
+
+  .masterclass-watch h2,
+  .masterclass-details h2,
+  .masterclass-close h2 {
+    max-width: 23ch;
+    margin: 0 0 1rem;
+    font-size: clamp(1.65rem, 4vw, 2.45rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  .masterclass-player {
+    display: grid;
+    aspect-ratio: 16 / 9;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--masterclass-ink);
+    border-radius: 12px;
+    background: var(--masterclass-ink);
+    box-shadow: 0 20px 48px rgba(31, 23, 19, 0.18);
+  }
+
+  .masterclass-player svg {
+    width: clamp(3.5rem, 9vw, 5.5rem);
+    fill: var(--masterclass-paper);
+  }
+
+  .masterclass-player iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .masterclass-details {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: clamp(1.5rem, 5vw, 5rem);
+    margin-top: clamp(3.5rem, 8vw, 7rem);
+    padding-block: clamp(2rem, 5vw, 4rem);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .masterclass-details h2 {
+    margin: 0;
+  }
+
+  .masterclass-copy {
+    max-width: 38rem;
+    color: var(--masterclass-muted);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .masterclass-copy p {
+    margin: 0;
+  }
+
+  .masterclass-copy p + p {
+    margin-top: 1.15rem;
+  }
+
+  .masterclass-close {
+    margin-top: clamp(3.5rem, 8vw, 7rem);
+    padding: clamp(1.75rem, 5vw, 3.5rem);
+    border-radius: 12px;
+    background: var(--masterclass-clay);
+  }
+
+  .masterclass-close h2 {
+    max-width: 15ch;
+  }
+
+  .masterclass-close p {
+    max-width: 37rem;
+    margin: 0;
+    color: var(--masterclass-muted);
+    font-size: 16px;
+  }
+
+  .masterclass-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.8rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.15rem;
+    border-radius: 4px;
+    background: var(--masterclass-ink);
+    color: var(--masterclass-paper);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .masterclass-cta:hover {
+    background: var(--masterclass-ink);
+    color: var(--masterclass-paper);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  .masterclass-cta:focus-visible {
+    outline: 3px solid var(--color-jules-orange);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 680px) {
+    .masterclass {
+      margin-top: 1.5rem;
+    }
+
+    .masterclass-hero {
+      padding: 1.4rem;
+    }
+
+    .masterclass-details {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .masterclass-player {
+      animation: masterclass-player-arrive 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+
+  @keyframes masterclass-player-arrive {
+    from {
+      opacity: 0.72;
+      transform: translateY(0.7rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

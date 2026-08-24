@@ -14,9 +14,9 @@ import '@fontsource-variable/schibsted-grotesk';
 //   Bricolage Grotesque display + Schibsted Grotesk text (self-hosted
 //   variable fonts). One board language for every figure: ivory board, ink
 //   title bar, offset ink shadow, parchment chips, thin line icons.
-// STORY: "Everything you need to grow is already in the business" -> growth
-//   is a loop jammed by scattered knowledge -> we start by seeing the whole
-//   picture -> one build proved it -> tell me what's on your mind.
+// STORY: Name one piece of work that keeps getting stuck -> show how decisions
+//   and details move through the growth loop -> map one recent example -> show what a reviewed
+//   working record looks like -> invite the short intake.
 // FIRST VIEWPORT: Full-bleed workshop photo, ivory overlap card bottom-left,
 //   Jonathan recropped right of the card, one CTA.
 // FORM: Lab lineage design-lab-composite-v12.html; copy approved in-session
@@ -76,21 +76,136 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         />
       </div>
       <div class="h26-over">
-        <h1>Everything you need to grow is already in the business.</h1>
-        <p class="h26-lede">The relaunch, the webinar, the bid library: all waiting on knowledge that&rsquo;s scattered across heads and tools.</p>
-        <a class="h26-cta" href="#tell-me" data-track="cta:home-hero">Tell me about it</a>
-        <span class="h26-cap">I read every one myself.</span>
+        <h1>Fix the work that keeps getting stuck.</h1>
+        <p class="h26-lede">I help owner-led businesses fix handoffs, decisions, and repeat work that depend on one person remembering where everything lives.</p>
+        <a class="h26-cta" href="#tell-me" data-track="cta:home-hero">What&rsquo;s getting stuck?</a>
+      </div>
+    </section>
+
+    <section class="h26-mapband">
+      <div class="h26-inner">
+        <div>
+          <h2>Start with the last time it happened.</h2>
+          <p class="h26-body">Bring one recent example. We put the people, records, software, and decisions on one page so you can see where the work got stuck before anyone talks about new software.</p>
+          <a class="h26-cta" href="#tell-me" data-track="cta:home-picture">What&rsquo;s getting stuck?</a>
+        </div>
+        <figure class="h26-board" aria-label="A one-page view of one piece of work: people, source records, systems, and the point where important details were lost.">
+          <div class="h26-bar">One problem · one page</div>
+          <div class="h26-diagram">
+            <svg viewBox="0 0 640 352" role="img" aria-hidden="true">
+              <defs>
+                <marker id="map-la" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#191E26"/>
+                </marker>
+              </defs>
+              <g>
+                <rect x="18" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <circle cx="48" cy="44" r="11" fill="none" stroke="#191E26" stroke-width="1.8"/>
+                <path d="M30,78 q18,-16 36,0" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round"/>
+                <text x="78" y="48" class="h26-t-head">People</text>
+                <text x="78" y="70" class="h26-t-sub">Who knew what</text>
+              </g>
+              <g>
+                <rect x="227" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <path d="M247,52 h14 l8,-16 10,32 8,-16 h14" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="287" y="48" class="h26-t-head">Source records</text>
+                <text x="287" y="70" class="h26-t-sub">What was recorded</text>
+              </g>
+              <g>
+                <rect x="436" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
+                <rect x="456" y="38" width="28" height="10" rx="2" fill="none" stroke="#191E26" stroke-width="1.6"/>
+                <rect x="456" y="54" width="28" height="10" rx="2" fill="none" stroke="#191E26" stroke-width="1.6"/>
+                <text x="496" y="48" class="h26-t-head">Systems</text>
+                <text x="496" y="70" class="h26-t-sub">Where work moved</text>
+              </g>
+              <path d="M111,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
+              <path d="M320,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
+              <path d="M529,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
+              <g>
+                <rect x="18" y="154" width="604" height="176" rx="14" fill="#FBF8F1" stroke="#191E26" stroke-width="1.8"/>
+                <text x="40" y="182" class="h26-t-head">What happened</text>
+                <text x="40" y="204" class="h26-t-sub">Enough information to see the break and decide what should change.</text>
+                <rect x="40" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
+                <text x="124" y="245" class="h26-t-chip">who knew</text>
+                <rect x="220" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
+                <text x="304" y="245" class="h26-t-chip">which source</text>
+                <rect x="400" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
+                <text x="484" y="245" class="h26-t-chip">who decides</text>
+                <rect x="40" y="270" width="528" height="40" rx="8" fill="#FBF4EA" stroke="#C4392B" stroke-width="2" stroke-dasharray="6 4"/>
+                <text x="56" y="295" class="h26-t-head" style="font-size:13px;fill:#C4392B;">Details got lost here</text>
+                <text x="196" y="295" class="h26-t-sub">This is the smallest useful place to intervene.</text>
+              </g>
+            </svg>
+          </div>
+          <p class="h26-board-cap">First see the break. Then decide what is worth building.</p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="h26-proof">
+      <div class="h26-inner">
+        <div class="h26-proof-head">
+          <h2>One answer. Six places to look.</h2>
+          <p>The right version could be in any of them. First find it. Then see what changed and who owns the next step.</p>
+        </div>
+        <figure class="h26-knowledge-figure" aria-label="Information from email, spreadsheets, meeting notes, a shared drive, calls, and one person's memory is checked and turned into one clear working view.">
+          <div class="h26-bar">From scattered to clear</div>
+          <div class="h26-knowledge-canvas">
+            <section class="h26-before" aria-label="The answer is spread across six places">
+              <h3>The answer is somewhere in here</h3>
+              <div class="h26-source-cloud">
+                <span class="h26-source-card h26-email">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                  <span><b>Email thread</b><small>three replies later</small></span>
+                </span>
+                <span class="h26-source-card h26-sheet">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M10 3v18M4 15h16"/></svg>
+                  <span><b>Spreadsheet</b><small>which tab is current?</small></span>
+                </span>
+                <span class="h26-source-card h26-notes">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/></svg>
+                  <span><b>Meeting notes</b><small>decision not assigned</small></span>
+                </span>
+                <span class="h26-source-card h26-drive">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h7l2 2h9v10H3z"/><path d="M3 7V5h7l2 2"/></svg>
+                  <span><b>Shared drive</b><small>two versions</small></span>
+                </span>
+                <span class="h26-source-card h26-call">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3 4 5c0 8 7 15 15 15l2-3-5-3-2 2c-3-1-5-3-6-6l2-2z"/></svg>
+                  <span><b>Client call</b><small>what did we agree?</small></span>
+                </span>
+                <span class="h26-source-card h26-memory">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+                  <span><b>One person knows</b><small>until they are unavailable</small></span>
+                </span>
+              </div>
+            </section>
+
+            <div class="h26-change-arrow" aria-hidden="true">
+              <svg viewBox="0 0 76 48"><path d="M3 18h45V7l25 17-25 17V30H3z"/></svg>
+            </div>
+
+            <section class="h26-after" aria-label="One clear working view">
+              <h3>One working view</h3>
+              <div class="h26-view-row"><span>What we agreed</span><strong>source attached</strong></div>
+              <div class="h26-view-row"><span>What changed</span><strong>latest version</strong></div>
+              <div class="h26-view-row"><span>What is still open</span><strong>owner named</strong></div>
+              <div class="h26-view-row"><span>What happens next</span><strong>owner + date</strong></div>
+            </section>
+          </div>
+          <figcaption>You can see what happened, what is still open, and who owns the next step.</figcaption>
+        </figure>
       </div>
     </section>
 
     <section class="h26-loopband">
       <div class="h26-inner">
         <div>
-          <h2>Because growth is a loop.</h2>
-          <p class="h26-body">What your business knows feeds your <span class="h26-hl">products</span> and your <span class="h26-hl">marketing</span>. That wins customers, and customers teach you more. Scattered knowledge jams the loop at step one: understanding your own business.</p>
-          <a class="h26-cta" href="#tell-me" data-track="cta:home-loop">Tell me where yours is stuck</a>
+          <h2>Then the next round of work gets easier.</h2>
+          <p class="h26-body">A clearer handoff helps delivery. What the team learns feeds the next sale. The point is to stop rebuilding the same answers every time the work comes around again.</p>
+          <a class="h26-cta" href="#tell-me" data-track="cta:home-loop">What&rsquo;s getting stuck?</a>
         </div>
-        <figure class="h26-board" aria-label="The growth loop: understand your business, improve products, improve marketing, win customers, repeat. Stalled projects queue at the jammed first step.">
+        <figure class="h26-board" aria-label="The growth loop: sell and scope, hand off, deliver and adapt, learn and improve, repeat. Missing details slow the loop.">
           <div class="h26-bar">The growth loop</div>
           <div class="h26-loop-wrap">
             <svg viewBox="0 0 660 420" role="img" aria-hidden="true">
@@ -105,172 +220,65 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
               <path d="M142,166 Q166,100 252,84" fill="none" stroke="#191E26" stroke-width="2.4" marker-end="url(#la)"/>
               <g>
                 <rect x="246" y="34" width="168" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <circle cx="292" cy="71" r="16" fill="none" stroke="#191E26" stroke-width="2"/>
-                <circle cx="288" cy="67" r="6.5" fill="none" stroke="#191E26" stroke-width="2"/>
-                <line x1="293" y1="72" x2="301" y2="80" stroke="#191E26" stroke-width="2.4" stroke-linecap="round"/>
-                <text x="320" y="66" class="h26-t-head">Understand</text>
-                <text x="320" y="84" class="h26-t-sub">your business</text>
+                <text x="330" y="78" class="h26-loop-word">Sell</text>
               </g>
               <g>
                 <rect x="468" y="176" width="170" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <rect x="496" y="200" width="24" height="20" rx="3" fill="none" stroke="#191E26" stroke-width="2"/>
-                <path d="M496,207 h24 M508,200 v20" stroke="#191E26" stroke-width="1.6"/>
-                <text x="534" y="208" class="h26-t-head">Better</text>
-                <text x="534" y="226" class="h26-t-sub">products &amp; services</text>
+                <text x="553" y="219" class="h26-loop-word">Handoff</text>
               </g>
               <g>
                 <rect x="246" y="312" width="168" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <path d="M282,362 l14,-8 v20 l-14,-8 z M296,354 q14,-6 14,8 t-14,8" fill="none" stroke="#191E26" stroke-width="2" stroke-linejoin="round"/>
-                <text x="320" y="344" class="h26-t-head">Better</text>
-                <text x="320" y="362" class="h26-t-sub">marketing &amp; sales</text>
+                <text x="330" y="357" class="h26-loop-word">Deliver</text>
               </g>
               <g>
                 <rect x="32" y="176" width="152" height="74" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <circle cx="66" cy="204" r="7" fill="none" stroke="#191E26" stroke-width="2"/>
-                <path d="M55,224 q11,-12 22,0" fill="none" stroke="#191E26" stroke-width="2" stroke-linecap="round"/>
-                <path d="M80,206 h12 M86,200 v12" stroke="#191E26" stroke-width="2" stroke-linecap="round"/>
-                <text x="98" y="208" class="h26-t-head">More</text>
-                <text x="98" y="226" class="h26-t-sub">customers</text>
-              </g>
-              <g transform="rotate(-2 328 156)">
-                <rect x="268" y="136" width="120" height="40" rx="8" fill="#FBF4EA" stroke="#C4392B" stroke-width="2.2" stroke-dasharray="7 5"/>
-                <text x="328" y="153" class="h26-t-jam">SCATTERED</text>
-                <text x="328" y="168" class="h26-t-jam">KNOWLEDGE</text>
+                <text x="108" y="219" class="h26-loop-word">Learn</text>
               </g>
               <g>
-                <rect x="520" y="120" width="112" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
-                <text x="576" y="139" class="h26-t-chip">the relaunch</text>
-                <rect x="428" y="368" width="118" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
-                <text x="487" y="387" class="h26-t-chip">the webinar</text>
-                <rect x="560" y="290" width="96" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
-                <text x="608" y="309" class="h26-t-chip">bid library</text>
+                <rect x="240" y="179" width="180" height="62" rx="10" fill="#FBF4EA" stroke="#C4392B" stroke-width="2.2" stroke-dasharray="7 5"/>
+                <text x="330" y="204" class="h26-t-jam">SCATTERED</text>
+                <text x="330" y="225" class="h26-t-jam">KNOWLEDGE</text>
+              </g>
+              <g class="h26-loop-chip">
+                <rect x="502" y="120" width="130" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
+                <text x="567" y="139" class="h26-t-chip">client decision</text>
+                <rect x="418" y="368" width="142" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
+                <text x="489" y="387" class="h26-t-chip">delivery lesson</text>
+                <rect x="548" y="290" width="108" height="30" rx="7" fill="#FBF8F1" stroke="#D2C4A6"/>
+                <text x="602" y="309" class="h26-t-chip">handoff note</text>
                 <path d="M566,146 Q556,162 550,176" fill="none" stroke="#9A917C" stroke-width="1.6" stroke-dasharray="4 4"/>
                 <path d="M470,366 Q446,356 420,350" fill="none" stroke="#9A917C" stroke-width="1.6" stroke-dasharray="4 4"/>
                 <path d="M600,288 Q592,270 580,254" fill="none" stroke="#9A917C" stroke-width="1.6" stroke-dasharray="4 4"/>
               </g>
             </svg>
           </div>
-          <p class="h26-board-cap">The relaunch, the webinar, the bid library: all waiting on the same jammed step.</p>
+          <p class="h26-board-cap">Scattered knowledge makes the team rebuild the answer at every step.</p>
         </figure>
-      </div>
-    </section>
-
-    <section class="h26-mapband">
-      <div class="h26-inner">
-        <div>
-          <h2>So we start by seeing the whole picture.</h2>
-          <p class="h26-body">We put your <span class="h26-hl">people</span>, <span class="h26-hl">process</span>, and <span class="h26-hl">systems</span> on one page. That makes the jam visible and shows us what to build first.</p>
-          <a class="h26-cta" href="#tell-me" data-track="cta:home-picture">Let&rsquo;s look at it</a>
-        </div>
-        <figure class="h26-board" aria-label="A one-page view of a business: people, process, and systems, with one stalled project flagged.">
-          <div class="h26-bar">Your business · one page</div>
-          <div class="h26-diagram">
-            <svg viewBox="0 0 640 352" role="img" aria-hidden="true">
-              <defs>
-                <marker id="map-la" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="#191E26"/>
-                </marker>
-              </defs>
-              <g>
-                <rect x="18" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <circle cx="48" cy="44" r="11" fill="none" stroke="#191E26" stroke-width="1.8"/>
-                <path d="M30,78 q18,-16 36,0" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round"/>
-                <text x="78" y="48" class="h26-t-head">People</text>
-                <text x="78" y="70" class="h26-t-sub">Who knows what</text>
-              </g>
-              <g>
-                <rect x="227" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <path d="M247,52 h14 l8,-16 10,32 8,-16 h14" fill="none" stroke="#191E26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <text x="287" y="48" class="h26-t-head">Process</text>
-                <text x="287" y="70" class="h26-t-sub">How work gets done</text>
-              </g>
-              <g>
-                <rect x="436" y="16" width="186" height="92" rx="12" fill="#F3ECDD" stroke="#191E26" stroke-width="1.6"/>
-                <rect x="456" y="38" width="28" height="10" rx="2" fill="none" stroke="#191E26" stroke-width="1.6"/>
-                <rect x="456" y="54" width="28" height="10" rx="2" fill="none" stroke="#191E26" stroke-width="1.6"/>
-                <text x="496" y="48" class="h26-t-head">Systems</text>
-                <text x="496" y="70" class="h26-t-sub">Where work lives</text>
-              </g>
-              <path d="M111,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
-              <path d="M320,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
-              <path d="M529,108 v28" fill="none" stroke="#191E26" stroke-width="2.2" marker-end="url(#map-la)"/>
-              <g>
-                <rect x="18" y="154" width="604" height="176" rx="14" fill="#FBF8F1" stroke="#191E26" stroke-width="1.8"/>
-                <text x="40" y="182" class="h26-t-head">The whole picture</text>
-                <text x="40" y="204" class="h26-t-sub">Enough to see the jam and decide what to build first.</text>
-                <rect x="40" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
-                <text x="124" y="245" class="h26-t-chip">people</text>
-                <rect x="220" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
-                <text x="304" y="245" class="h26-t-chip">process</text>
-                <rect x="400" y="222" width="168" height="36" rx="8" fill="#F3ECDD" stroke="#D2C4A6"/>
-                <text x="484" y="245" class="h26-t-chip">systems</text>
-                <rect x="40" y="270" width="528" height="40" rx="8" fill="#FBF4EA" stroke="#C4392B" stroke-width="2" stroke-dasharray="6 4"/>
-                <text x="56" y="295" class="h26-t-head" style="font-size:13px;fill:#C4392B;">Still next month</text>
-                <text x="176" y="295" class="h26-t-sub">The project you keep putting off</text>
-              </g>
-            </svg>
-          </div>
-          <p class="h26-board-cap">Now we can see what is holding the project up.</p>
-        </figure>
-      </div>
-    </section>
-
-    <section class="h26-proof">
-      <div class="h26-inner">
-        <h2>Then we build. From &ldquo;it's just all over&rdquo; to a loop that moves.</h2>
-        <div class="h26-transform">
-          <div class="h26-mess" aria-label="Scattered source material from one anonymized build">
-            <span class="h26-scrap" style="top:4%; left:2%; transform:rotate(-3deg);">years of videos</span>
-            <span class="h26-scrap" style="top:16%; right:6%; transform:rotate(2deg);">support email</span>
-            <span class="h26-scrap" style="top:34%; left:10%; transform:rotate(1.5deg);">curriculum transcripts</span>
-            <span class="h26-scrap" style="top:50%; right:4%; transform:rotate(-2deg);">member questions</span>
-            <span class="h26-scrap" style="top:64%; left:2%; transform:rotate(2.5deg);">newsletters</span>
-            <span class="h26-scrap h26-q" style="top:78%; left:18%;">&ldquo;I open up about fifteen different things every month&rdquo;</span>
-            <span class="h26-scrap" style="top:42%; left:38%; transform:rotate(-1.5deg);">support calls</span>
-          </div>
-          <div class="h26-bigarrow" aria-hidden="true">
-            <svg viewBox="0 0 96 52"><path d="M2 12 L64 20 L64 6 L94 26 L64 46 L64 32 L2 40 Z" fill="#191E26"/></svg>
-          </div>
-          <figure class="h26-brain">
-            <div class="h26-bar">One system · client-owned</div>
-            <ul class="h26-brain-list">
-              <li><span>company-brain/</span><span class="n"></span></li>
-              <li style="padding-left:14px"><span>START-HERE.md</span><span class="n">the map</span></li>
-              <li><span>curriculum/</span><span class="n">organized</span></li>
-              <li><span>video-library/</span><span class="n">indexed</span></li>
-              <li><span>support-knowledge/</span><span class="n">privacy-treated</span></li>
-              <li><span>participant-wins/</span><span class="n">privacy-treated</span></li>
-            </ul>
-          </figure>
-        </div>
-        <div class="h26-foot">
-          <p>One build, anonymized. The owner is back to rebuilding the product that sat for years, and the loop is moving again.</p>
-        </div>
       </div>
     </section>
 
     <section class="h26-finale">
       <div class="h26-img-holder">
         <img
-          src="/home/austin-keynote.jpg"
-          width="1600"
-          height="1066"
-          alt="Jonathan Malkin presenting at the Austin Claude meetup."
+          src="/home/austin-portrait.jpg"
+          width="900"
+          height="600"
+          alt="Jonathan Malkin speaking onstage in Austin."
           loading="lazy"
         />
       </div>
       <div class="h26-over">
-        <h2>What do you still think about after you close the laptop?</h2>
-        <p class="h26-sub">Your email, then three questions. I read every one myself and reply. If it looks like a fit, we set up a call.</p>
-        <a class="h26-cta" href="#tell-me" data-track="cta:home-finale">Tell me about it</a>
+        <h2>One recent example is enough to start.</h2>
+        <p class="h26-sub">Bring one recent example: what happened, where the details lived, and what should have gone differently. I reply personally. If I can help, the next step is a call.</p>
+        <a class="h26-cta" href="#tell-me" data-track="cta:home-finale">What&rsquo;s getting stuck?</a>
       </div>
     </section>
 
     <section class="h26-intake" id="tell-me" aria-labelledby="tellme-h">
       <div class="h26-inner">
-        <h2 id="tellme-h">Three questions, right here.</h2>
+        <h2 id="tellme-h">What&rsquo;s getting stuck?</h2>
         <div class="h26-formboard">
-          <div class="h26-bar">The intake · I read every one myself</div>
+          <div class="h26-bar">Short intake</div>
           <div class="h26-formwrap">
             <form
               action="/api/subscribe"
@@ -278,7 +286,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
               class="intake bm-step1"
               data-track-form="business-map"
             >
-              <p class="intake-progress">Step 1 of 2 &middot; Your email holds your place</p>
+              <p class="intake-progress">Step 1 of 2 &middot; Email first</p>
               <input type="hidden" name="_subject" value="Website intake (step 1)" />
               <input type="hidden" name="inquiry_type" value="business-map-intake" />
               <input type="hidden" name="form_id" value="business-map" />
@@ -287,13 +295,13 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
               <div class="form-group">
                 <label for="bm-email">Email</label>
                 <input type="email" id="bm-email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
-                <p class="intake-hint">Two more questions follow. If you stop after this step, I still know you're interested.</p>
+                <p class="intake-hint">Three questions follow so I can give you a useful reply.</p>
               </div>
               <div class="form-group">
                 <label for="bm-name">Name <span class="form-optional">(optional)</span></label>
                 <input type="text" id="bm-name" name="name" class="form-input" autocomplete="name" />
               </div>
-              <button type="submit" class="form-submit">Tell me about it</button>
+              <button type="submit" class="form-submit">Submit</button>
               <p class="intake-status" hidden role="status"></p>
             </form>
 
@@ -304,7 +312,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
                 class="intake bm-step2"
                 data-track-form="business-map-details"
               >
-                <p class="intake-done" role="status">Got your email. One short step left.</p>
+                <p class="intake-done" role="status">Got it. Three questions and you're done.</p>
                 <p class="intake-progress">Step 2 of 2 &middot; Three questions</p>
                 <input type="hidden" name="_subject" value="Website intake (step 2)" />
                 <input type="hidden" name="inquiry_type" value="business-map-intake" />
@@ -313,18 +321,18 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
                 <input type="hidden" name="email" value="" />
                 <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
                 <div class="form-group">
-                  <label for="bm-blocked-project">What's the project you keep putting off?</label>
+                  <label for="bm-blocked-project">What keeps getting stuck or taking longer than it should?</label>
                   <textarea id="bm-blocked-project" name="blocked_project" rows="3" required maxlength="2000" class="form-input"></textarea>
                 </div>
                 <fieldset class="form-group">
-                  <legend>Do one or two people have all the info trapped in their heads?</legend>
+                  <legend>Does one person know where most of the information lives?</legend>
                   <div class="yesno">
                     <label><input type="radio" name="key_person" value="Yes" required /> Yes</label>
                     <label><input type="radio" name="key_person" value="No" /> No</label>
                   </div>
                 </fieldset>
                 <fieldset class="form-group">
-                  <legend>Is anyone on your team already building something like this?</legend>
+                  <legend>Is anyone on your team already fixing it?</legend>
                   <div class="yesno">
                     <label><input type="radio" name="already_building" value="Yes" required /> Yes</label>
                     <label><input type="radio" name="already_building" value="No" /> No</label>
@@ -346,7 +354,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   const step1 = document.querySelector('.bm-step1');
   const step2Template = document.getElementById('bm-step2-template');
   const step2Slot = document.querySelector('.bm-step2-slot');
-  const FRAMINGS = ['product', 'marketing', 'onboarding', 'exit'];
+  const FRAMINGS = ['product', 'marketing', 'onboarding', 'exit', 'construction'];
   const framingParam = new URLSearchParams(location.search).get('f');
   const framing = FRAMINGS.includes(framingParam) ? framingParam : '';
 
@@ -408,7 +416,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         step2.querySelectorAll('.form-group, button[type="submit"], .intake-progress, .intake-done').forEach((el) => {
           el.hidden = true;
         });
-        showStatus(step2, 'Got it. I read every intake myself and will reply.');
+        showStatus(step2, 'Got it. I will reply to the email you gave me.');
       } catch (err) {
         showStatus(step2, 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.');
         if (button) {
@@ -444,7 +452,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       showStatus(step1, 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.');
       if (button) {
         button.disabled = false;
-        button.textContent = 'Tell me about it';
+        button.textContent = 'Continue to the questions';
       }
     }
   });
@@ -479,14 +487,11 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
     text-decoration: none;
   }
   .h26-home2026 .h26-cta:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
-  .h26-home2026 .h26-cap { display: block; margin-top: 12px; font-size: .95rem; color: #5C6570; }
-  .h26-home2026 .h26-hl { background: linear-gradient(transparent 55%, var(--amber-soft) 55%); font-weight: 700; padding: 0 2px; }
-
   .h26-hero { position: relative; height: 600px; overflow: hidden; }
   .h26-hero .h26-img-holder { position: absolute; inset: 0; }
-  .h26-hero img { position: absolute; width: 145%; max-width: none; left: -12%; top: -30%; height: auto; }
+  .h26-hero img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 55% 42%; }
   .h26-hero .h26-over {
-    position: absolute; left: 5vw; bottom: 44px; max-width: 600px;
+    position: absolute; left: 5vw; bottom: 44px; width: min(520px, 38vw); box-sizing: border-box;
     background: var(--ivory); border-radius: 14px; padding: 38px 40px;
     box-shadow: 0 30px 80px -40px rgba(0,0,0,.55); z-index: 2;
   }
@@ -499,13 +504,14 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   .h26-loopband p.h26-body, .h26-mapband p.h26-body { font-size: 1.16rem; line-height: 1.6; color: var(--body-txt); max-width: 42ch; margin: 0 0 24px; }
 
   .h26-board { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); margin: 0; }
-  .h26-board .h26-bar, .h26-brain .h26-bar, .h26-formboard .h26-bar { background: var(--ink); color: var(--ivory); padding: 12px 18px; font: 700 12px/1 var(--txt); letter-spacing: .14em; text-transform: uppercase; }
+  .h26-board .h26-bar, .h26-knowledge-figure .h26-bar, .h26-formboard .h26-bar { background: var(--ink); color: var(--ivory); padding: 12px 18px; font: 700 12px/1 var(--txt); letter-spacing: .14em; text-transform: uppercase; }
   .h26-board-cap { padding: 0 18px 16px; font-size: .95rem; color: #5C6570; margin: 0; }
   .h26-loop-wrap { padding: 10px 8px 4px; }
   .h26-loop-wrap svg { width: 100%; height: auto; display: block; }
   .h26-t-head { font: 700 15px var(--disp); fill: #191E26; }
+  .h26-loop-word { font: 700 20px var(--disp); fill: #191E26; text-anchor: middle; }
   .h26-t-sub { font: 400 12.5px var(--txt); fill: #3F4752; }
-  .h26-t-jam { font: 700 12px var(--txt); fill: #C4392B; text-anchor: middle; }
+  .h26-t-jam { font: 700 15px var(--txt); fill: #C4392B; text-anchor: middle; }
   .h26-t-chip { font: 600 12.5px var(--txt); fill: #3F4752; text-anchor: middle; }
 
   .h26-mapband { background: var(--clay); padding: 68px 5vw; }
@@ -514,22 +520,27 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   .h26-diagram svg { display: block; width: 100%; height: auto; }
 
   .h26-proof { background: var(--amber); padding: 68px 5vw; }
-  .h26-proof h2 { font: 700 clamp(2rem, 3.6vw, 3rem)/1.05 var(--disp); letter-spacing: -.02em; margin: 0 0 36px; max-width: 24ch; }
-  .h26-transform { display: grid; grid-template-columns: 1.1fr 96px 1fr; gap: 22px; align-items: center; }
-  .h26-mess { position: relative; height: 300px; }
-  .h26-scrap {
-    position: absolute; background: var(--ivory); border: 1px solid #D8B96B;
-    border-radius: 7px; padding: 10px 14px; font: 500 .95rem/1.25 var(--txt);
-    color: #5A5140; box-shadow: 4px 8px 0 rgba(25,30,38,.12);
-  }
-  .h26-scrap.h26-q { font-weight: 600; color: var(--red); background: #FCF6E8; }
-  .h26-bigarrow svg { width: 100%; height: auto; display: block; }
-  .h26-brain { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); margin: 0; }
-  .h26-brain-list { list-style: none; padding: 18px 22px 20px; margin: 0; }
-  .h26-brain-list li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .9fr); gap: 8px 12px; padding: 5px 0; font: 500 .95rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .h26-brain-list .n { color: #8A8270; font-family: var(--txt); font-size: .88rem; }
-  .h26-proof .h26-foot { margin-top: 32px; }
-  .h26-proof .h26-foot p { font-size: 1.12rem; color: #3F300C; max-width: 52ch; margin: 0; }
+  .h26-proof-head { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 64px; align-items: end; margin-bottom: 34px; }
+  .h26-proof h2 { font: 700 clamp(2rem, 3.6vw, 3rem)/1.05 var(--disp); letter-spacing: -.02em; margin: 0; max-width: 18ch; }
+  .h26-proof-head p { color: #49380F; font-size: 1.12rem; line-height: 1.55; max-width: 62ch; margin: 0; }
+  .h26-knowledge-figure { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); margin: 0; }
+  .h26-knowledge-canvas { display: grid; grid-template-columns: minmax(0, 1.05fr) 84px minmax(0, .95fr); gap: 24px; align-items: center; padding: 32px; }
+  .h26-before h3, .h26-after h3 { font: 700 1.25rem/1.2 var(--disp); margin: 0 0 18px; }
+  .h26-source-cloud { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; background: var(--parch); border: 1px solid #CDBF9F; border-radius: 14px; padding: 16px; }
+  .h26-source-card { display: flex; align-items: center; gap: 10px; min-width: 0; box-sizing: border-box; background: #FFFEFB; border: 1px solid #AFA48D; border-radius: 9px; padding: 12px; box-shadow: 0 10px 22px rgba(25,30,38,.1); }
+  .h26-source-card svg { width: 30px; height: 30px; flex: 0 0 30px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .h26-source-card > span { display: grid; gap: 3px; min-width: 0; }
+  .h26-source-card b { font: 650 .9rem/1.15 var(--txt); }
+  .h26-source-card small { color: #6F654E; font: 500 .74rem/1.2 var(--txt); }
+  .h26-change-arrow { display: grid; place-items: center; }
+  .h26-change-arrow svg { width: 72px; height: auto; }
+  .h26-change-arrow path { fill: var(--ink); }
+  .h26-after { background: var(--ink); color: var(--ivory); border-radius: 14px; padding: 24px; }
+  .h26-after h3 { color: var(--ivory); }
+  .h26-view-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; background: var(--ivory); color: var(--ink); border-radius: 8px; padding: 16px; margin-top: 10px; }
+  .h26-view-row span { font: 650 .94rem/1.2 var(--txt); }
+  .h26-view-row strong { color: #6F654E; font: 550 .76rem/1.2 var(--txt); text-align: right; }
+  .h26-knowledge-figure figcaption { padding: 0 32px 24px; color: #5C6570; font-size: .96rem; line-height: 1.45; }
 
   .h26-intake { background: var(--parch); padding: 64px 5vw 72px; }
   .h26-intake h2 { font: 700 clamp(2rem, 3.4vw, 3rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 28px; }
@@ -552,26 +563,45 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
   .h26-finale { position: relative; height: 580px; overflow: hidden; }
   .h26-finale .h26-img-holder { position: absolute; inset: 0; }
-  .h26-finale img { position: absolute; width: 136%; max-width: none; left: 0; top: -28%; height: auto; }
+  .h26-finale img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 44%; }
   .h26-finale .h26-over {
-    position: absolute; left: 5vw; bottom: 44px; max-width: 540px;
+    position: absolute; left: 5vw; bottom: 44px; width: min(520px, 38vw); box-sizing: border-box;
     background: var(--ivory); border-radius: 14px; padding: 38px 40px;
     box-shadow: 0 30px 80px -40px rgba(0,0,0,.55); z-index: 2;
   }
   .h26-finale h2 { font: 700 clamp(2rem, 3.6vw, 3rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 12px; }
   .h26-finale .h26-sub { color: var(--body-txt); font-size: 1.1rem; line-height: 1.5; margin: 0 0 20px; }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1020px) {
     .h26-hero { overflow: visible; height: auto; }
     .h26-hero .h26-img-holder { position: relative; height: 420px; overflow: hidden; }
-    .h26-hero img { width: 180%; left: -49%; top: -5%; }
-    .h26-hero .h26-over { position: relative; z-index: 2; margin: -48px 4vw 24px; max-width: none; }
-    .h26-loopband .h26-inner, .h26-mapband .h26-inner, .h26-transform { grid-template-columns: 1fr; }
-    .h26-bigarrow { transform: rotate(90deg); width: 72px; margin: 0 auto; }
+    .h26-hero img { object-position: 30% 44%; }
+    .h26-hero .h26-over { position: relative; left: auto; bottom: auto; z-index: 2; width: auto; margin: 0 4vw 28px; }
+    .h26-loopband .h26-inner, .h26-mapband .h26-inner, .h26-proof-head, .h26-knowledge-canvas { grid-template-columns: 1fr; }
+    .h26-change-arrow { transform: rotate(90deg); }
     .h26-finale { height: auto; overflow: visible; }
     .h26-finale .h26-img-holder { position: relative; height: 380px; overflow: hidden; }
-    .h26-finale img { width: 170%; left: -21%; top: 0; }
-    .h26-finale .h26-over { position: relative; z-index: 2; margin: -48px 4vw 28px; max-width: none; }
+    .h26-finale img { object-position: 15% 44%; }
+    .h26-finale .h26-over { position: relative; left: auto; bottom: auto; z-index: 2; width: auto; margin: 0 4vw 28px; }
+  }
+
+  @media (max-width: 600px) {
+    .h26-hero .h26-img-holder { height: 340px; }
+    .h26-hero .h26-over, .h26-finale .h26-over { padding: 28px 24px; margin-left: 0; margin-right: 0; border-radius: 0; }
+    .h26-proof-head { gap: 14px; }
+    .h26-knowledge-canvas { gap: 24px; padding: 18px 16px 22px; }
+    .h26-source-cloud { gap: 11px; padding: 14px; }
+    .h26-source-card { padding: 10px; }
+    .h26-source-card svg { width: 25px; height: 25px; flex-basis: 25px; }
+    .h26-after { padding: 18px 16px; }
+    .h26-view-row { gap: 8px; padding: 14px 12px; }
+    .h26-knowledge-figure figcaption { padding: 0 16px 20px; }
+    .h26-loop-chip { display: none; }
+    .h26-loop-word { font-size: 23px; }
+    .h26-t-jam { font-size: 17px; }
+    .h26-home2026 .h26-cta { display: block; width: fit-content; margin-left: auto; margin-right: auto; text-align: center; }
+    .h26-intake :global(.form-submit) { display: block; width: fit-content; min-width: 140px; margin-left: auto; margin-right: auto; }
+    .h26-finale .h26-img-holder { height: 330px; }
   }
 </style>
 

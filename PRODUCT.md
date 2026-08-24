@@ -34,8 +34,8 @@ submit (`workshop-host:submit` on `/workshops/`).
 The site's jobs:
 
 1. Make the right owner recognize their situation before any technology is mentioned.
-2. Start a conversation through the Direct intake: email first, three questions, Jonathan reads
-   every one and replies. No advertised timeframe.
+2. Start a conversation through the Direct intake: email first, three questions, then a reply by
+   email. No advertised timeframe.
 3. Show operating judgment and practical evidence: the anonymized case study, the map-not-dump
    pattern, real event photography.
 4. Route rooms of owners to workshops and everyone else to a plain contact path.
@@ -79,7 +79,12 @@ through `deploy-builtwithjon` after Jonathan's explicit approval.
 Owners arrive from rooms, referrals, and search. The working evaluation ritual is: recognize the
 stuck project, send a short intake, wait for Jonathan's reply. Direct intake lives on `/`
 at `/#tell-me` (`?f=` framing and `data-track` values stay as built, including `business-map:*`
-event names). Jonathan reads every submission himself.
+event names). Submissions route to Jonathan for a direct reply.
+
+During the September 2026 general-contractor validation, `/construction/` is the focused entry for
+GC owners and operators. It presents three workflow hypotheses without claiming specialization or
+customer results, then routes into the same Direct intake with `f=construction`. The route stays
+provisional until the October 1 market decision.
 
 Durable product truth lives in this file, `Workspace/00-HQ/`, and
 `Workspace/04-Marketing/Website/copy-kernel-2026-08-15.md`. Current page briefs and lab HTML live

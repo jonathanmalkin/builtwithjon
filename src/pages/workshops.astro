@@ -141,7 +141,7 @@ const serviceSchema = buildProfessionalServiceSchema({
       </div>
       <div class="h26-over h26-over-form">
         <h2 id="tellme-h">Book a workshop.</h2>
-        <p class="h26-sub">A peer group, a meetup, or your own team. I read every one myself and reply.</p>
+        <p class="h26-sub">A peer group, a meetup, or your own team. Send the room details and I will reply by email.</p>
         <form
           action="/api/contact"
           method="POST"
@@ -204,7 +204,7 @@ const serviceSchema = buildProfessionalServiceSchema({
         el.hidden = true;
       });
       if (status) {
-        status.textContent = 'Got it. I read every one myself and will reply.';
+        status.textContent = 'Got it. I will reply by email.';
         status.hidden = false;
         status.classList.add('is-ok');
       }

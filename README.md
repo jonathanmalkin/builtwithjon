@@ -32,6 +32,27 @@ In the broader `Active-Work` workspace, use `Scripts/deploy-website.sh` to run t
 
 GitHub push alone does not publish the live site.
 
+## IndexNow
+
+After a deploy that changes one or more canonical, indexable pages, notify
+IndexNow with only those URLs:
+
+```bash
+npm run indexnow:submit -- https://builtwithjon.com/articles/example/
+```
+
+The script verifies that the deployed key file is live before it submits. Preview
+the exact bounded payload without any network call with:
+
+```bash
+npm run indexnow:submit -- --dry-run https://builtwithjon.com/articles/example/
+```
+
+It rejects other origins, query strings/fragments, and noindex/private routes.
+HTTP 200 means IndexNow received the notification; HTTP 202 means it received it
+and key validation is pending. Neither response guarantees that a search engine
+will index the URL.
+
 ## See Also
 
 - [Jules](https://github.com/jonathanmalkin/jules) — the Claude Code system that runs the business

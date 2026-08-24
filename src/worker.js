@@ -43,13 +43,31 @@ const PERMANENT_REDIRECTS = new Map([
   ["/knowledge-os-product/", "/#tell-me"],
   ["/business-map", "/#tell-me"],
   ["/business-map/", "/#tell-me"],
+  // Quiet pages retired 2026-08-19. Keep the incoming visitor on the closest
+  // surviving path before the static asset handler can serve the old page.
+  ["/hidden-profit-review", "/#tell-me"],
+  ["/hidden-profit-review/", "/#tell-me"],
+  ["/hidden-profit-review/thanks", "/#tell-me"],
+  ["/hidden-profit-review/thanks/", "/#tell-me"],
+  ["/hidden-profit-review/sample", "/scorecard/"],
+  ["/hidden-profit-review/sample/", "/scorecard/"],
+  ["/hidden-profit-review/profit-leak-assessment", "/scorecard/"],
+  ["/hidden-profit-review/profit-leak-assessment/", "/scorecard/"],
+  ["/hidden-profit-review/sample-assessment", "/scorecard/"],
+  ["/hidden-profit-review/sample-assessment/", "/scorecard/"],
+  ["/kits/follow-up-swipe-file", "/tools/leak-calculator/"],
+  ["/kits/follow-up-swipe-file/", "/tools/leak-calculator/"],
+  ["/kits/invoice-chase-kit", "/tools/leak-calculator/"],
+  ["/kits/invoice-chase-kit/", "/tools/leak-calculator/"],
+  ["/knowledge-os-proof", "/map-not-dump/"],
+  ["/knowledge-os-proof/", "/map-not-dump/"],
 ]);
-// Prefix redirects for retired sections with no single index page.
-// /hidden-profit-review/sample/ is intentionally NOT covered here (no splat)
-// so that static dir keeps serving.
-const PERMANENT_REDIRECT_PREFIXES = [];
+// Catch old, unlisted Hidden Profit Review child URLs while keeping its former
+// sample aliases on the scorecard via the exact rules above.
+const PERMANENT_REDIRECT_PREFIXES = [["/hidden-profit-review/", "/#tell-me"]];
 const ALLOWED_EVENT_NAMES = new Set([
   "page:view",
+  "cta:masterclass-map",
   "business-map:start", "business-map:submit", "business-map:capture", "business-map:success",
   "business-map-details:start", "business-map-details:submit",
   "cta:business-map-nav", "cta:business-map-footer", "cta:business-map-hero",
@@ -57,6 +75,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:business-map-resource", "cta:business-map-contact", "cta:business-map-scorecard",
   "cta:business-map-use-cases", "cta:workshops-contact",
   "cta:home-hero", "cta:home-loop", "cta:home-finale", "cta:home-picture",
+  "cta:construction-hero", "cta:construction-final",
   "cta:talk-nav", "cta:talk-footer",
   "cta:workshops-hero", "cta:workshops-room", "cta:workshops-finale",
   "cta:workshops-deck-map", "cta:workshops-deck-pa",
@@ -94,7 +113,7 @@ const FORM_MAP = {
     fields: {},
     allowed: ["framing"],
     required: [],
-    enums: { framing: ["", "product", "marketing", "onboarding", "exit"] },
+    enums: { framing: ["", "product", "marketing", "onboarding", "exit", "construction"] },
   },
   "business-map-details": {
     groups: ["source:direct"],
@@ -108,7 +127,7 @@ const FORM_MAP = {
     enums: {
       key_person: ["Yes", "No"],
       already_building: ["Yes", "No"],
-      framing: ["", "product", "marketing", "onboarding", "exit"],
+      framing: ["", "product", "marketing", "onboarding", "exit", "construction"],
     },
   },
   "hpr-waitlist": {
@@ -164,8 +183,11 @@ export default {
 
     const prefixMatch = PERMANENT_REDIRECT_PREFIXES.find(([prefix]) => url.pathname.startsWith(prefix));
     if (prefixMatch) {
-      url.pathname = prefixMatch[1];
-      return Response.redirect(url.toString(), 301);
+      const destination = new URL(prefixMatch[1], url.origin);
+      url.searchParams.forEach((value, key) => {
+        if (!destination.searchParams.has(key)) destination.searchParams.set(key, value);
+      });
+      return Response.redirect(destination.toString(), 301);
     }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {
@@ -731,8 +753,7 @@ function buildReport(payload, env) {
   const worst = axisReports.slice().sort((a, b) => b.score - a.score)[0];
   const firstName = firstNameOf(payload.name);
   const subject = `Your workflow leak report${firstName ? `, ${firstName}` : ""}`;
-  const ctaUrl = `${siteOrigin(env)}/hidden-profit-review/#waitlist`;
-  const sampleUrl = `${siteOrigin(env)}/hidden-profit-review/sample/`;
+  const ctaUrl = `${siteOrigin(env)}/#tell-me`;
   const useCasesUrl = `${siteOrigin(env)}/use-cases/`;
   const revenueProvided = payload.answers.q9 && payload.answers.q9 !== "Skip";
 
@@ -747,7 +768,6 @@ function buildReport(payload, env) {
     firstMove: FIRST_MOVES[worst.axis],
     revenueProvided,
     ctaUrl,
-    sampleUrl,
     useCasesUrl,
   };
 
@@ -1232,9 +1252,8 @@ function renderHtmlEmail(model) {
           <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">${escapeHtml(model.firstMove)} One working thing beats a grand plan.</p>
           <h2 style="margin:16px 0 8px;font:750 18px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">The next fidelity</h2>
           <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Everything above is the assumption version. The Hidden Profit Review is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the review measures."}</p>
-          <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">I run every review personally, so I take on a handful each month. The waitlist holds your spot, and invites go out in order.</p>
-          <p style="margin:0 0 18px;"><a href="${escapeAttribute(model.ctaUrl)}" style="display:inline-block;background:#8F4E24;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:12px 16px;font:700 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Join the review waitlist</a></p>
-          <p style="margin:0;font:400 14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">Not ready to talk? Fair. Here is <a href="${escapeAttribute(model.sampleUrl)}" style="color:#1D4ED8;">a complete worked example</a>. Or browse <a href="${escapeAttribute(model.useCasesUrl)}" style="color:#1D4ED8;">use cases</a> other ${escapeHtml(model.businessPlural)} started with.</p>
+          <p style="margin:0 0 18px;"><a href="${escapeAttribute(model.ctaUrl)}" style="display:inline-block;background:#8F4E24;color:#FFFFFF;text-decoration:none;border-radius:8px;padding:12px 16px;font:700 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Tell me about it</a></p>
+          <p style="margin:0;font:400 14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">Not ready to talk? Fair. Browse <a href="${escapeAttribute(model.useCasesUrl)}" style="color:#1D4ED8;">use cases</a> other ${escapeHtml(model.businessPlural)} started with.</p>
         </td>
       </tr>
       <tr>
@@ -1269,10 +1288,8 @@ function renderTextEmail(model) {
     "The next fidelity",
     `Everything above is the assumption version. The Hidden Profit Review is the same picture, measured with your real data, plus a first pilot plan you keep whether or not we work together again.${model.revenueProvided ? "" : " It is also where the dollar figure comes from. That needs your real numbers, which is exactly what the review measures."}`,
     "",
-    "I run every review personally, so I take on a handful each month. The waitlist holds your spot, and invites go out in order.",
     "",
-    `Join the review waitlist: ${model.ctaUrl}`,
-    `Complete worked example: ${model.sampleUrl}`,
+    `Tell me about it: ${model.ctaUrl}`,
     `Use cases: ${model.useCasesUrl}`,
     "",
     "Either way, you keep the report. Reply to this email if you want a second pair of eyes on any of it.",

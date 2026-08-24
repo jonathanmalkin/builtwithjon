@@ -21,7 +21,6 @@ Working together starts with a conversation about the project the owner keeps pu
 
 - Talk about a stuck project: https://builtwithjon.com/#tell-me
 - Workshops and speaking: https://builtwithjon.com/workshops/
-- FAQ: https://builtwithjon.com/faq/
 - The map-not-dump pattern: https://builtwithjon.com/map-not-dump/
 - Free AI personal assistant mini-course: https://builtwithjon.com/ai-assistant/
 

@@ -49,8 +49,8 @@ scorecard with descriptive anchor text.
 
 - Verify Google Search Console and Bing Webmaster Tools; submit the sitemap.
 - Use Bing AI Performance to track citations and grounding-query phrases.
-- Add IndexNow only after a separate approval; it is a freshness notification, not
-  a ranking mechanism.
+- Use IndexNow only for changed, canonical, indexable URLs after deployment; it
+  is a freshness notification, not a ranking mechanism.
 - Keep entity facts consistent across the site, article authorship, profiles, and
   relevant partner pages.
 - Earn relevant references from Austin business groups, workshop hosts, and

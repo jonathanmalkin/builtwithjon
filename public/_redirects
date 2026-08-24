@@ -14,6 +14,20 @@
 /business-map/ /#tell-me 301
 /business-map /#tell-me 301
 
+# Quiet-page retirements 2026-08-19. Preserve the closest still-live path.
+/hidden-profit-review/ /#tell-me 301
+/hidden-profit-review /#tell-me 301
+/hidden-profit-review/thanks/ /#tell-me 301
+/hidden-profit-review/thanks /#tell-me 301
+/hidden-profit-review/sample/ /scorecard/ 301
+/hidden-profit-review/sample /scorecard/ 301
+/kits/follow-up-swipe-file/ /tools/leak-calculator/ 301
+/kits/follow-up-swipe-file /tools/leak-calculator/ 301
+/kits/invoice-chase-kit/ /tools/leak-calculator/ 301
+/kits/invoice-chase-kit /tools/leak-calculator/ 301
+/knowledge-os-proof/ /map-not-dump/ 301
+/knowledge-os-proof /map-not-dump/ 301
+
 # /scan/* existed for part of 2026-08-05 and edges cached 301s into it. Catch
 # those so a stale redirect still lands on the scan card instead of a 404.
 /scan/card /card/ 301
@@ -40,19 +54,16 @@
 /workshop-setup/* /ai-assistant/ 301
 /workshop-setup /ai-assistant/ 301
 
-# AI Workflow Audit renamed to The Hidden Profit Review, slug /hidden-profit-review/ 2026-06-14.
-# Order matters: specific sample + thanks paths first, then the catch-all for the section.
-# The sample assessment itself (public/hidden-profit-review/sample/) is NOT retired
-# and keeps serving, so these two still point there.
-/ai-workflow-audit/sample-assessment/ /hidden-profit-review/sample/ 301
-/ai-workflow-audit/sample-assessment /hidden-profit-review/sample/ 301
-/ai-workflow-audit/profit-leak-assessment/ /hidden-profit-review/sample/ 301
-/ai-workflow-audit/profit-leak-assessment /hidden-profit-review/sample/ 301
-# Catch splat landing paths when an edge /ai-workflow-audit/* rule may shadow the specific rules above.
-/hidden-profit-review/profit-leak-assessment/ /hidden-profit-review/sample/ 301
-/hidden-profit-review/profit-leak-assessment /hidden-profit-review/sample/ 301
-/hidden-profit-review/sample-assessment/ /hidden-profit-review/sample/ 301
-/hidden-profit-review/sample-assessment /hidden-profit-review/sample/ 301
+# Historic audit and sample aliases now point directly to the retained scorecard
+# rather than chaining through a retired review page.
+/ai-workflow-audit/sample-assessment/ /scorecard/ 301
+/ai-workflow-audit/sample-assessment /scorecard/ 301
+/ai-workflow-audit/profit-leak-assessment/ /scorecard/ 301
+/ai-workflow-audit/profit-leak-assessment /scorecard/ 301
+/hidden-profit-review/profit-leak-assessment/ /scorecard/ 301
+/hidden-profit-review/profit-leak-assessment /scorecard/ 301
+/hidden-profit-review/sample-assessment/ /scorecard/ 301
+/hidden-profit-review/sample-assessment /scorecard/ 301
 
 # Old /ai-workflow-audit paths. Point straight at Direct intake so they do not
 # chain through the retired /business-map/ page.

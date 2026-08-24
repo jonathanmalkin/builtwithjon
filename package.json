@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "analytics:report": "node scripts/cloudflare-analytics-report.mjs",
     "leads:export": "node scripts/export-leads.mjs",
     "test:email": "node scripts/test-sender-email.mjs"

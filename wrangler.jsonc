@@ -6,12 +6,17 @@
   "assets": {
     "binding": "ASSETS",
     "directory": "dist",
-    // Route only protocol/API paths through the worker before static assets.
+    // Route protocol/API paths and retirement redirects through the worker
+    // before static assets can serve an old generated page.
     "run_worker_first": [
       "/api/subscribe",
       "/api/contact",
       "/api/scorecard-report",
-      "/api/event"
+      "/api/event",
+      "/hidden-profit-review*",
+      "/kits/follow-up-swipe-file*",
+      "/kits/invoice-chase-kit*",
+      "/knowledge-os-proof*"
     ]
   },
   "vars": {

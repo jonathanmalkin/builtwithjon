@@ -24,17 +24,30 @@ const articleDates = (() => {
   return dates;
 })();
 
+// These pages are intentionally reachable only by a direct link. Keeping them
+// out of the sitemap preserves that disposition without adding a noindex tag.
+const unlistedOrRetiredPaths = new Set([
+  '/faq/',
+  '/principles/',
+  '/dispositions/',
+  '/process/',
+  '/hidden-profit-review/',
+  '/kits/follow-up-swipe-file/',
+  '/kits/invoice-chase-kit/',
+  '/knowledge-os-proof/',
+]);
+
 export default defineConfig({
   site: 'https://builtwithjon.com',
   integrations: [
     mdx(),
     sitemap({
-      customPages: ['https://builtwithjon.com/hidden-profit-review/sample/'],
       filter: (page) =>
         !page.endsWith('/thanks/') &&
         !page.endsWith('/card/') &&
         !page.endsWith('/claude-meetup/') &&
         !page.includes('/business-map') &&
+        !unlistedOrRetiredPaths.has(new URL(page).pathname) &&
         // Sends noindex; submitting it produces a Search Console coverage error.
         !page.endsWith('/email-confirmed/'),
       serialize: (item) => {
