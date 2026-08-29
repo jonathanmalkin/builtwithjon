@@ -3,6 +3,13 @@
   "name": "jonathanmalkin-site",
   "main": "src/worker.js",
   "compatibility_date": "2026-03-18",
+  // Production is served only from the first-party custom domain. Disable the
+  // public workers.dev and per-version preview surfaces.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "builtwithjon.com", "custom_domain": true }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "dist",

@@ -67,18 +67,36 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   <div class="h26-home2026">
     <section class="h26-hero">
       <div class="h26-img-holder">
-        <img
-          src="/home/austin-workshop.jpg"
-          width="1600"
-          height="1066"
-          alt="Jonathan Malkin at the Capital Factory podium in Austin, the venue's gear-shaped stage wall behind him."
-          fetchpriority="high"
-        />
+        <picture>
+          <source
+            media="(min-width: 1021px)"
+            type="image/webp"
+            srcset="/home/austin-workshop-desktop-1200.webp 1200w, /home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w, /home/austin-workshop-desktop-3200.webp 3200w, /home/austin-workshop-desktop-3600.webp 3600w"
+            sizes="100vw"
+          />
+          <source
+            media="(min-width: 1021px)"
+            type="image/jpeg"
+            srcset="/home/austin-workshop-desktop.jpg"
+          />
+          <source
+            type="image/webp"
+            srcset="/home/austin-workshop-900.webp 900w, /home/austin-workshop-1200.webp 1200w, /home/austin-workshop-1600.webp 1600w, /home/austin-workshop-2200.webp 2200w, /home/austin-workshop-2880.webp 2880w"
+            sizes="100vw"
+          />
+          <img
+            src="/home/austin-workshop.jpg"
+            width="1600"
+            height="1067"
+            alt="Jonathan Malkin at the Capital Factory podium in Austin, the venue's gear-shaped stage wall behind him."
+            fetchpriority="high"
+          />
+        </picture>
       </div>
       <div class="h26-over">
         <h1>Fix the work that keeps getting stuck.</h1>
         <p class="h26-lede">I help owner-led businesses fix handoffs, decisions, and repeat work that depend on one person remembering where everything lives.</p>
-        <a class="h26-cta" href="#tell-me" data-track="cta:home-hero">What&rsquo;s getting stuck?</a>
+        <a class="h26-cta" href="#tell-me" data-track="cta:home-hero">Share an example</a>
       </div>
     </section>
 
@@ -86,8 +104,8 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
       <div class="h26-inner">
         <div>
           <h2>Start with the last time it happened.</h2>
-          <p class="h26-body">Bring one recent example. We put the people, records, software, and decisions on one page so you can see where the work got stuck before anyone talks about new software.</p>
-          <a class="h26-cta" href="#tell-me" data-track="cta:home-picture">What&rsquo;s getting stuck?</a>
+          <p class="h26-body">Bring one recent example. We put the people, records, software, and decisions on one page so you can see where the work broke down before anyone talks about new software.</p>
+          <a class="h26-cta" href="#tell-me" data-track="cta:home-picture">Find where it broke down</a>
         </div>
         <figure class="h26-board" aria-label="A one-page view of one piece of work: people, source records, systems, and the point where important details were lost.">
           <div class="h26-bar">One problem · one page</div>
@@ -203,7 +221,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
         <div>
           <h2>Then the next round of work gets easier.</h2>
           <p class="h26-body">A clearer handoff helps delivery. What the team learns feeds the next sale. The point is to stop rebuilding the same answers every time the work comes around again.</p>
-          <a class="h26-cta" href="#tell-me" data-track="cta:home-loop">What&rsquo;s getting stuck?</a>
+          <a class="h26-cta" href="#tell-me" data-track="cta:home-loop">Find peace of mind</a>
         </div>
         <figure class="h26-board" aria-label="The growth loop: sell and scope, hand off, deliver and adapt, learn and improve, repeat. Missing details slow the loop.">
           <div class="h26-bar">The growth loop</div>
@@ -259,24 +277,42 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
     <section class="h26-finale">
       <div class="h26-img-holder">
-        <img
-          src="/home/austin-portrait.jpg"
-          width="900"
-          height="600"
-          alt="Jonathan Malkin speaking onstage in Austin."
-          loading="lazy"
-        />
+        <picture>
+          <source
+            media="(min-width: 1021px)"
+            type="image/webp"
+            srcset="/home/austin-portrait-desktop-1200.webp 1200w, /home/austin-portrait-desktop-1600.webp 1600w, /home/austin-portrait-desktop-2000.webp 2000w, /home/austin-portrait-desktop-2400.webp 2400w, /home/austin-portrait-desktop-2880.webp 2880w, /home/austin-portrait-desktop-3200.webp 3200w, /home/austin-portrait-desktop-3600.webp 3600w"
+            sizes="100vw"
+          />
+          <source
+            media="(min-width: 1021px)"
+            type="image/jpeg"
+            srcset="/home/austin-portrait-desktop.jpg"
+          />
+          <source
+            type="image/webp"
+            srcset="/home/austin-portrait-900.webp 900w, /home/austin-portrait-1200.webp 1200w, /home/austin-portrait-1600.webp 1600w, /home/austin-portrait-2200.webp 2200w, /home/austin-portrait-2880.webp 2880w"
+            sizes="100vw"
+          />
+          <img
+            src="/home/austin-portrait.jpg"
+            width="1600"
+            height="1067"
+            alt="Jonathan Malkin speaking onstage in Austin."
+            loading="lazy"
+          />
+        </picture>
       </div>
       <div class="h26-over">
-        <h2>One recent example is enough to start.</h2>
+        <h2>Resolve the thorny issue before it repeats.</h2>
         <p class="h26-sub">Bring one recent example: what happened, where the details lived, and what should have gone differently. I reply personally. If I can help, the next step is a call.</p>
-        <a class="h26-cta" href="#tell-me" data-track="cta:home-finale">What&rsquo;s getting stuck?</a>
+        <a class="h26-cta" href="#tell-me" data-track="cta:home-finale">Resolve my thorny issue</a>
       </div>
     </section>
 
     <section class="h26-intake" id="tell-me" aria-labelledby="tellme-h">
       <div class="h26-inner">
-        <h2 id="tellme-h">What&rsquo;s getting stuck?</h2>
+        <h2 id="tellme-h">Share one recent example.</h2>
         <div class="h26-formboard">
           <div class="h26-bar">Short intake</div>
           <div class="h26-formwrap">
@@ -321,7 +357,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
                 <input type="hidden" name="email" value="" />
                 <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
                 <div class="form-group">
-                  <label for="bm-blocked-project">What keeps getting stuck or taking longer than it should?</label>
+                  <label for="bm-blocked-project">What keeps breaking down or taking longer than it should?</label>
                   <textarea id="bm-blocked-project" name="blocked_project" rows="3" required maxlength="2000" class="form-input"></textarea>
                 </div>
                 <fieldset class="form-group">
@@ -489,7 +525,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
   .h26-home2026 .h26-cta:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
   .h26-hero { position: relative; height: 600px; overflow: hidden; }
   .h26-hero .h26-img-holder { position: absolute; inset: 0; }
-  .h26-hero img { position: absolute; inset: 0 auto 0 0; width: 120%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 42%; }
+  .h26-hero img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 42%; }
   .h26-hero .h26-over {
     position: absolute; left: 5vw; bottom: 44px; width: min(520px, 38vw); box-sizing: border-box;
     background: var(--ivory); border-radius: 14px; padding: 38px 40px;
@@ -563,7 +599,7 @@ const professionalServiceSchema = buildProfessionalServiceSchema({
 
   .h26-finale { position: relative; height: 580px; overflow: hidden; }
   .h26-finale .h26-img-holder { position: absolute; inset: 0; }
-  .h26-finale img { position: absolute; inset: 0 auto 0 0; width: 120%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 44%; }
+  .h26-finale img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 44%; }
   .h26-finale .h26-over {
     position: absolute; left: 5vw; bottom: 44px; width: min(520px, 38vw); box-sizing: border-box;
     background: var(--ivory); border-radius: 14px; padding: 38px 40px;
