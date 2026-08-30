@@ -349,6 +349,10 @@ hr {
 /* Mobile hamburger menu */
 .menu-toggle {
   display: none;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   cursor: pointer;

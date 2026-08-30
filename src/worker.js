@@ -75,7 +75,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:business-map-resource", "cta:business-map-contact", "cta:business-map-scorecard",
   "cta:business-map-use-cases", "cta:workshops-contact",
   "cta:home-hero", "cta:home-loop", "cta:home-finale", "cta:home-picture",
-  "cta:construction-hero", "cta:construction-final",
+  "cta:construction-hero", "cta:construction-trace", "cta:construction-loop", "cta:construction-final",
   "cta:talk-nav", "cta:talk-footer",
   "cta:workshops-hero", "cta:workshops-room", "cta:workshops-finale",
   "cta:workshops-deck-map", "cta:workshops-deck-pa",

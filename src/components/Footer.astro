@@ -1,17 +1,19 @@
 ---
 const year = new Date().getFullYear();
 const showConstruction = import.meta.env.DEV;
+const showFooterCta = Astro.url.pathname !== '/construction/';
 ---
 
 <footer class="site-footer">
-  <div class="footer-cta">
-    <p>Start with one workflow or project that should work better.</p>
-    <a href="/#tell-me" class="hero-btn" data-track="cta:talk-footer">Start here</a>
-  </div>
+  {showFooterCta && (
+    <div class="footer-cta">
+      <p>Start with one workflow or project that should work better.</p>
+      <a href="/#tell-me" class="hero-btn" data-track="cta:talk-footer">Start here</a>
+    </div>
+  )}
   <nav class="footer-nav" aria-label="Footer">
     {showConstruction && <a href="/construction/">Construction</a>}
     <a href="/workshops/">Workshops</a>
-    <a href="/map-not-dump/">Map, not dump</a>
     <a href="/use-cases/">Use cases</a>
     <a href="/tools/">Tools</a>
     <a href="/tools/leak-calculator/">Leak calculator</a>

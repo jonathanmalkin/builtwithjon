@@ -189,7 +189,7 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
       sitekey: siteKey,
       action: 'lead-form',
       appearance: 'always',
-      size: 'normal',
+      size: window.matchMedia('(max-width: 520px)').matches ? 'compact' : 'flexible',
       retry: 'auto',
       callback: function () { setSubmitState(form, true); },
       'expired-callback': function () { setSubmitState(form, false); },
