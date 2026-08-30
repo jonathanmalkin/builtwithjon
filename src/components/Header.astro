@@ -1,6 +1,5 @@
 ---
 const pathname = Astro.url.pathname;
-const showConstruction = import.meta.env.DEV;
 ---
 
 <header class="site-header">
@@ -12,7 +11,7 @@ const showConstruction = import.meta.env.DEV;
     </button>
     <div class="nav-links" id="site-nav-links">
       <a href="/" aria-current={pathname === '/' ? 'page' : undefined}>Home</a>
-      {showConstruction && <a href="/construction/" aria-current={pathname.startsWith('/construction') ? 'page' : undefined}>Construction</a>}
+      <a href="/construction/" aria-current={pathname.startsWith('/construction') ? 'page' : undefined}>Construction</a>
       <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
       <a href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use cases</a>
     </div>
