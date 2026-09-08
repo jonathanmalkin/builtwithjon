@@ -11,7 +11,6 @@ const pathname = Astro.url.pathname;
     </button>
     <div class="nav-links" id="site-nav-links">
       <a href="/" aria-current={pathname === '/' ? 'page' : undefined}>Home</a>
-      <a href="/construction/" aria-current={pathname.startsWith('/construction') ? 'page' : undefined}>Construction</a>
       <a href="/workshops/" aria-current={pathname.startsWith('/workshops') ? 'page' : undefined}>Workshops</a>
       <a href="/use-cases/" aria-current={pathname.startsWith('/use-cases') ? 'page' : undefined}>Use cases</a>
     </div>
@@ -33,11 +32,21 @@ const pathname = Astro.url.pathname;
 </header>
 
 <script>
-  document.querySelector('.menu-toggle')?.addEventListener('click', function () {
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    const nextExpanded = !expanded;
-    this.setAttribute('aria-expanded', String(nextExpanded));
-    this.setAttribute('aria-label', nextExpanded ? 'Close menu' : 'Open menu');
-    document.querySelector('.nav-links')?.classList.toggle('open');
-  });
+  const toggle = document.querySelector('.menu-toggle');
+  const links = document.querySelector('.nav-links');
+  if (toggle && links) {
+    function setOpen(open) {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      links.classList.toggle('open', open);
+    }
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    links.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
 </script>

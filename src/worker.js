@@ -34,6 +34,8 @@ const TURNSTILE_ACTION = "lead-form";
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
+  ["/construction", "/"],
+  ["/construction/", "/"],
   ["/masterclass", "/ai-assistant/cowork/"],
   ["/masterclass/", "/ai-assistant/cowork/"],
   // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,

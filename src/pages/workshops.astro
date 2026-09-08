@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 import '@fontsource-variable/bricolage-grotesque';
@@ -46,8 +47,8 @@ const serviceSchema = buildProfessionalServiceSchema({
 
 <Base title="Workshops for Business Owners and Teams" description={description} image="/home/austin-workshop-desktop-1200.webp" imageWidth={1200} imageHeight={500} schema={personSchema} bare bodyClass="ws26">
   <Fragment slot="header">
-    <a class="skip" href="#main">Skip to content</a>
-    <header class="header"><a class="brand" href="/">Jonathan Malkin</a><button class="menu" aria-expanded="false" aria-controls="navigation">Menu</button><nav class="nav" id="navigation" aria-label="Main"><a href="#workshops">Workshops</a><a href="/#tell-me">Implementation</a><a href="#resources">Resources</a><a href="#about">About</a><a class="contact" href="#tell-me">Contact</a></nav></header>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
   </Fragment>
   <JsonLd schema={serviceSchema} />
 

@@ -1,26 +1,3 @@
-const menu = document.querySelector('.ws26 .menu');
-const nav = document.querySelector('.ws26 .nav');
-if (menu && nav) {
-  function closeMenu() {
-    nav.classList.remove('open');
-    menu.setAttribute('aria-expanded', 'false');
-    menu.textContent = 'Menu';
-  }
-  menu.addEventListener('click', () => {
-    const open = menu.getAttribute('aria-expanded') !== 'true';
-    nav.classList.toggle('open', open);
-    menu.setAttribute('aria-expanded', String(open));
-    menu.textContent = open ? 'Close' : 'Menu';
-  });
-  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') {
-      closeMenu();
-      menu.focus();
-    }
-  });
-}
-
 const form = document.querySelector('#workshop-inquiry');
 if (form) {
   const interest = form.querySelector('[name="workshop_interest"]');

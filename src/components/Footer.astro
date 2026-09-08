@@ -1,8 +1,7 @@
 ---
 const year = new Date().getFullYear();
-const showConstruction = import.meta.env.DEV;
 const { showCta = true } = Astro.props;
-const showFooterCta = showCta && Astro.url.pathname !== '/construction/';
+const showFooterCta = showCta;
 ---
 
 <footer class="site-footer">
@@ -13,7 +12,6 @@ const showFooterCta = showCta && Astro.url.pathname !== '/construction/';
     </div>
   )}
   <nav class="footer-nav" aria-label="Footer">
-    {showConstruction && <a href="/construction/">Construction</a>}
     <a href="/workshops/">Workshops</a>
     <a href="/scorecard/">Scorecard</a>
     <a href="/articles/">Articles</a>

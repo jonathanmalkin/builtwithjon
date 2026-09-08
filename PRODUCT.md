@@ -4,7 +4,7 @@
 
 ## Current authority update: September 8, 2026
 
-Jonathan’s latest correction keeps the published homepage and focuses the refresh on Workshops, with other pages changed only as needed. Lead with business impact and make a curiosity message the next step. Four 90-minute workshops and the distinct implementation offer remain valid. Use Personal AI Assistant consistently; meeting lifecycle belongs in its description. `Workspace/04-Marketing/Website/education-first-refresh.md` owns the revised scope and review gates. The homepage proposal is superseded. Jonathan approved selected A, the walking video excerpt and publication after a polish review panel on September 8. This release integrates that Workshops page and only the supporting label, metadata and empty-player corrections needed for consistency. Older positioning below is reference, not the current refresh brief.
+Jonathan’s latest correction keeps the published homepage and focuses the refresh on Workshops, with other pages changed only as needed. Lead with business impact and make a curiosity message the next step. Four 90-minute workshops and the distinct implementation offer remain valid. Use Personal AI Assistant consistently; meeting lifecycle belongs in its description. `Workspace/04-Marketing/Website/education-first-refresh.md` owns the revised scope and review gates. The homepage proposal is superseded. Jonathan approved selected A, the walking video excerpt and publication after a polish review panel on September 8. This release integrates that Workshops page and only the supporting label, metadata and empty-player corrections needed for consistency. The subsequent navigation correction restores the shared site header on Workshops. Jonathan retired the Construction page on September 8; its inbound route redirects to the homepage and its navigation entry is removed. Older positioning below is reference, not the current refresh brief.
 
 ## Platform
 
@@ -85,10 +85,7 @@ stuck project, send a short intake, wait for Jonathan's reply. Direct intake liv
 at `/#tell-me` (`?f=` framing and `data-track` values stay as built, including `business-map:*`
 event names). Submissions route to Jonathan for a direct reply.
 
-During the September 2026 general-contractor validation, `/construction/` is the focused entry for
-GC owners and operators. It presents three workflow hypotheses without claiming specialization or
-customer results, then routes into the same Direct intake with `f=construction`. The route stays
-provisional until the October 1 market decision.
+`/construction/` was retired at Jonathan’s request on September 8, 2026. Its inbound route redirects to the homepage and is excluded from navigation and the sitemap. Existing attribution and historical analytics remain intact.
 
 Durable product truth lives in this file, `Workspace/00-HQ/`, and
 `Workspace/04-Marketing/Website/copy-kernel-2026-08-15.md`. Current page briefs and lab HTML live
