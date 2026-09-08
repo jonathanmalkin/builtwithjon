@@ -2,6 +2,10 @@
 
 <!-- impeccable:product-schema 1 -->
 
+## Current authority update: September 8, 2026
+
+Jonathan’s latest correction keeps the published homepage and focuses the refresh on Workshops, with other pages changed only as needed. Lead with business impact and make a curiosity message the next step. Four 90-minute workshops and the distinct implementation offer remain valid. Use Personal AI Assistant consistently; meeting lifecycle belongs in its description. `Workspace/04-Marketing/Website/education-first-refresh.md` owns the revised scope and review gates. The homepage proposal is superseded. Jonathan approved selected A, the walking video excerpt and publication after a polish review panel on September 8. This release integrates that Workshops page and only the supporting label, metadata and empty-player corrections needed for consistency. Older positioning below is reference, not the current refresh brief.
+
 ## Platform
 
 web

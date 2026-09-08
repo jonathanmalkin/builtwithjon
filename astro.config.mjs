@@ -35,6 +35,7 @@ const unlistedOrRetiredPaths = new Set([
   '/kits/follow-up-swipe-file/',
   '/kits/invoice-chase-kit/',
   '/knowledge-os-proof/',
+  '/masterclass/',
 ]);
 
 export default defineConfig({

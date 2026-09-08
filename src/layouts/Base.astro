@@ -11,6 +11,8 @@ interface Props {
   description: string;
   titleSuffix?: boolean;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   article?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
@@ -18,6 +20,7 @@ interface Props {
   noindex?: boolean;
   hideFooter?: boolean;
   bare?: boolean;
+  bodyClass?: string;
 }
 
 const {
@@ -25,6 +28,8 @@ const {
   description,
   titleSuffix = true,
   image,
+  imageWidth,
+  imageHeight,
   article,
   publishedTime,
   modifiedTime,
@@ -32,6 +37,7 @@ const {
   noindex,
   hideFooter = false,
   bare = false,
+  bodyClass,
 } = Astro.props;
 
 const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
@@ -55,6 +61,8 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
       title={pageTitle}
       description={description}
       image={image}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
       article={article}
       publishedTime={publishedTime}
       modifiedTime={modifiedTime}
@@ -63,7 +71,7 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
     {schema && <JsonLd schema={schema} />}
     <!-- Cloudflare Web Analytics is injected at the edge through Automatic Setup. -->
   </head>
-  <body class={bare ? 'bare' : undefined}>
+  <body class={[bare ? 'bare' : '', bodyClass].filter(Boolean).join(' ') || undefined}>
     <script is:inline>
 (function () {
   var attribution = '';
@@ -245,9 +253,11 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
     </style>
     {!bare && <a href="#main" class="skip-link">Skip to content</a>}
     {!bare && <Header />}
-    <main id="main">
+    <slot name="header" />
+    <main id="main" tabindex={bodyClass ? -1 : undefined}>
       <slot />
     </main>
+    <slot name="footer" />
     {article && <EmailCapture />}
     {!bare && !hideFooter && <Footer />}
   </body>

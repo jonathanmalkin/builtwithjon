@@ -1,12 +1,12 @@
-YOUR PERSONAL ASSISTANT IN CLAUDE COWORK
+YOUR PERSONAL AI ASSISTANT IN CLAUDE COWORK
 
-The main guide is Start-Here.html. It includes the full setup walkthrough, your
+The main guide is https://builtwithjon.com/ai-assistant/cowork/. It includes the full setup walkthrough, your
 live Daily Brief, daily use, all skills, channels, report examples on the skill
 cards, and advanced technical details.
 
 Slides stay separate at:
 
-Workshop-Slides.html
+https://builtwithjon.com/ai-assistant/cowork/Workshop-Slides.html
 
 
 Pick a name first
@@ -48,7 +48,7 @@ morning routine (8:00 AM by default, on your default Claude model). You do not
 make any files by hand.
 
 One small thing you do by hand before setup: paste the assistant instructions
-block from Start-Here.html into the Project Instructions field, so your assistant
+block from https://builtwithjon.com/ai-assistant/cowork/ into the Project Instructions field, so your assistant
 always loads its instructions.
 
 The questions setup asks: your assistant's name (it suggests the Project name)

@@ -4,7 +4,7 @@
 
 ## About
 
-Jonathan Malkin is an Austin-based knowledge systems builder. After 20+ years in enterprise technology, including 8 years at Automation Anywhere scaling a global solutions engineering organization from 6 to 250 people, he turns knowledge trapped in an owner-led business into a system the team and their AI assistants both use. He calls the finished system a company brain: folders and files a team and its AI can both read and use. High-stakes decisions stay with people, and clients own the platform, the credentials, the data, and the final system.
+Jonathan Malkin is an Austin-based knowledge systems builder. After 20+ years in enterprise technology, including 8 years at Automation Anywhere, he turns knowledge trapped in an owner-led business into a system the team and their AI assistants both use. He calls the finished system a company brain: folders and files a team and its AI can both read and use. High-stakes decisions stay with people, and clients own the platform, the credentials, the data, and the final system.
 
 Working together starts with a conversation about the project the owner keeps putting off. If it is a fit, the work is a phased, client-owned build. He takes one build at a time.
 
@@ -15,14 +15,14 @@ Working together starts with a conversation about the project the owner keeps pu
 - Privacy treatment for sensitive business material, with required human review
 - Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
 - AI agents and AI operations inside a running business
-- Workshops for rooms of business owners: one live demo of a built system, honest scope
+- Four 90-minute workshops for business owners, teams and the organizations that serve them: business knowledge, recurring tasks, a Personal AI Assistant, and exploring where AI could help
 
 ## Offers
 
 - Talk about a stuck project: https://builtwithjon.com/#tell-me
-- Workshops and speaking: https://builtwithjon.com/workshops/
+- Four 90-minute workshops: Put Your Business Knowledge to Work; Build One Useful AI Workflow; Build Your Personal AI Assistant; See Where AI Could Help Your Business. Details and inquiries: https://builtwithjon.com/workshops/
 - The map-not-dump pattern: https://builtwithjon.com/map-not-dump/
-- Free AI personal assistant mini-course: https://builtwithjon.com/ai-assistant/
+- Personal AI Assistant self-serve setup guide: https://builtwithjon.com/ai-assistant/cowork/
 
 ## Content
 

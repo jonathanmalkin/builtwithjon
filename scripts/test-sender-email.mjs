@@ -1,15 +1,19 @@
 import { spawn } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
-import { request as httpRequest } from "node:http";
+import { createServer, request as httpRequest } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const basePort = Number(process.env.EMAIL_TEST_BASE_PORT || (20_000 + ((process.pid * 2) % 30_000)));
 const mockPort = basePort;
 const workerPort = basePort + 1;
+const senderProxyPort = basePort + 2;
 const mockBase = `http://127.0.0.1:${mockPort}`;
 const workerBase = `http://127.0.0.1:${workerPort}`;
+const senderProxyBase = `http://127.0.0.1:${senderProxyPort}`;
+const testOrigin = "https://builtwithjon.com";
 const stateDir = mkdtempSync(join(tmpdir(), `bwj-sender-test-${process.pid}-`));
+const senderBodies = [];
 const defaultGroupIds = JSON.stringify({
   "consent:pending": "pending",
   "consent:confirmed": "confirmed",
@@ -40,6 +44,40 @@ function start(command, args) {
   return spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], env: process.env });
 }
 
+async function startSenderProxy() {
+  const proxy = createServer(async (request, response) => {
+    const chunks = [];
+    for await (const chunk of request) chunks.push(chunk);
+    const body = Buffer.concat(chunks);
+    if (request.method === "POST" && request.url === "/v2/message/send") {
+      try { senderBodies.push(JSON.parse(body.toString())); } catch { senderBodies.push(null); }
+    }
+    const headers = { ...request.headers, host: `127.0.0.1:${mockPort}` };
+    delete headers.connection;
+    delete headers["keep-alive"];
+    delete headers["transfer-encoding"];
+    if (body.length) headers["content-length"] = String(body.length);
+    else delete headers["content-length"];
+    const upstream = httpRequest(`${mockBase}${request.url}`, {
+      method: request.method,
+      headers,
+    }, (upstreamResponse) => {
+      response.writeHead(upstreamResponse.statusCode || 502, upstreamResponse.headers);
+      upstreamResponse.pipe(response);
+    });
+    upstream.on("error", () => {
+      if (!response.headersSent) response.writeHead(502, { "content-type": "application/json" });
+      response.end(JSON.stringify({ message: "sender proxy failed" }));
+    });
+    upstream.end(body);
+  });
+  await new Promise((resolve, reject) => {
+    proxy.once("error", reject);
+    proxy.listen(senderProxyPort, "127.0.0.1", resolve);
+  });
+  return proxy;
+}
+
 async function waitFor(url, process, label) {
   let output = "";
   process.stdout?.on("data", (chunk) => { output += chunk; });
@@ -62,11 +100,12 @@ async function startWorker({
   hashSalt = "local-test-only-secret",
   timeoutMs = 8_000,
   turnstile = false,
+  senderBase = senderProxyBase,
 } = {}) {
   const args = [
     "dev", "--local", "--port", String(workerPort),
     "--persist-to", stateDir,
-    "--var", `SENDER_API_BASE:${mockBase}/v2`,
+    "--var", `SENDER_API_BASE:${senderBase}/v2`,
     "--var", `SENDER_GROUP_IDS:${groupIds}`,
     "--var", "SENDER_FROM:Built with Jon <jonathan@builtwithjon.com>",
     "--var", `SENDER_SENDS_ENABLED:${sender}`,
@@ -101,6 +140,7 @@ async function stop(process) {
 }
 
 async function reset() {
+  senderBodies.length = 0;
   await fetch(`${mockBase}/__reset`, { method: "POST" });
 }
 
@@ -128,11 +168,25 @@ async function form(path, fields) {
   return fetch(`${workerBase}${path}`, {
     method: "POST",
     headers: {
-      Origin: workerBase,
+      Origin: testOrigin,
       "content-type": "application/x-www-form-urlencoded",
       Accept: "application/json",
     },
     body: new URLSearchParams(fields),
+  });
+}
+
+async function formEntries(path, entries) {
+  const body = new URLSearchParams();
+  for (const [key, value] of entries) body.append(key, value);
+  return fetch(`${workerBase}${path}`, {
+    method: "POST",
+    headers: {
+      Origin: testOrigin,
+      "content-type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+    },
+    body,
   });
 }
 
@@ -142,7 +196,7 @@ async function chunkedForm(path, fields) {
     const request = httpRequest(`${workerBase}${path}`, {
       method: "POST",
       headers: {
-        Origin: workerBase,
+      Origin: testOrigin,
         "content-type": "application/x-www-form-urlencoded",
         Accept: "application/json",
         "transfer-encoding": "chunked",
@@ -173,6 +227,7 @@ async function scorecard(email, extra = {}) {
 async function run() {
   const mock = start("node", ["scripts/mock-email-apis.mjs", String(mockPort)]);
   let worker;
+  let senderProxy;
   const results = [];
   const test = async (name, fn) => {
     try {
@@ -186,6 +241,7 @@ async function run() {
 
   try {
     await waitFor(`${mockBase}/__requests`, mock, "Mock server");
+    senderProxy = await startSenderProxy();
     worker = await startWorker();
 
     await test("1. New asset signup creates a safe subscriber and owner notification", async () => {
@@ -260,7 +316,90 @@ async function run() {
       assert(sent[0].body.html?.containsEscapedScript && !sent[0].body.html?.containsRawScript, "HTML was not escaped");
     });
 
-    await test("8. Workshop permission is honored", async () => {
+    await test("8. Workshop interests render as separate approved notification fields", async () => {
+      await reset();
+      const approvedInterests = [
+        "Put Your Business Knowledge to Work",
+        "Build One Useful AI Workflow",
+        "Build Your Personal AI Assistant",
+        "See Where AI Could Help Your Business",
+      ];
+      for (const [index, workshopInterest] of approvedInterests.entries()) {
+        const response = await form("/api/contact", {
+          name: `Workshop Host ${index + 1}`,
+          email: `workshop-interest-${index + 1}@example.test`,
+          message: `Please include the agenda and timing for workshop ${index + 1}.`,
+          inquiry_type: "workshop-host",
+          workshop_interest: workshopInterest,
+          attribution: `s=workshop|interest=${index + 1}`,
+        });
+        assert(response.ok, `workshop contact ${index + 1} failed`);
+      }
+      assert(senderBodies.length === approvedInterests.length, "workshop notifications missing");
+      approvedInterests.forEach((workshopInterest, index) => {
+        const notification = senderBodies[index];
+        assert(notification.text?.includes(`Message: Please include the agenda and timing for workshop ${index + 1}.`), "visitor message was not preserved");
+        assert(notification.text?.includes(`Attribution: s=workshop|interest=${index + 1}`), "attribution was not preserved");
+        assert(notification.text?.includes(`Workshop interest: ${workshopInterest}`), "approved workshop name was not rendered separately");
+        assert(notification.html?.includes("Workshop interest") && notification.html?.includes(workshopInterest), "workshop interest missing from HTML notification");
+      });
+    });
+
+    await test("9. Empty workshop interest remains optional and does not add a lead field", async () => {
+      await reset();
+      const response = await form("/api/contact", {
+        name: "Uncertain Host",
+        email: "workshop-empty@example.test",
+        message: "I am still deciding what would help.",
+        inquiry_type: "workshop-host",
+        workshop_interest: "",
+      });
+      assert(response.ok, "empty workshop interest rejected");
+      assert(senderBodies.length === 1, "empty workshop notification missing");
+      assert(!senderBodies[0].text?.includes("Workshop interest:"), "empty workshop interest was stored");
+    });
+
+    await test("10. Unknown or duplicate workshop interest is rejected before Sender", async () => {
+      await reset();
+      const unknown = await form("/api/contact", {
+        name: "Unknown Host",
+        email: "workshop-unknown@example.test",
+        message: "Please help me choose.",
+        inquiry_type: "workshop-host",
+        workshop_interest: "unknown-workshop",
+      });
+      assert(unknown.status === 400, "unknown workshop interest accepted");
+      assert(senderBodies.length === 0, "unknown workshop interest reached Sender");
+      const duplicate = await formEntries("/api/contact", [
+        ["name", "Duplicate Host"],
+        ["email", "workshop-duplicate@example.test"],
+        ["message", "Please help me choose."],
+        ["inquiry_type", "workshop-host"],
+        ["workshop_interest", "Put Your Business Knowledge to Work"],
+        ["workshop_interest", "Put Your Business Knowledge to Work"],
+      ]);
+      assert(duplicate.status === 400, "duplicate workshop interest accepted");
+      assert(senderBodies.length === 0, "duplicate workshop interest reached Sender");
+    });
+
+    await test("11. Generic contact keeps its historical notification contract", async () => {
+      await reset();
+      const response = await form("/api/contact", {
+        name: "General Contact",
+        email: "generic-contact@example.test",
+        message: "A general question for the site.",
+        inquiry_type: "contact",
+        attribution: "s=homepage|c=contact",
+      });
+      assert(response.ok, "generic contact failed");
+      assert(senderBodies.length === 1, "generic contact notification missing");
+      const notification = senderBodies[0];
+      assert(notification.text?.includes("Message: A general question for the site."), "generic contact message changed");
+      assert(notification.text?.includes("Attribution: s=homepage|c=contact"), "generic contact attribution changed");
+      assert(!notification.text?.includes("Workshop interest:"), "generic contact gained workshop field");
+    });
+
+    await test("12. Workshop permission is honored", async () => {
       await reset();
       assert((await form("/api/subscribe", { email: "workshop@example.test", form_id: "workshop-next", comments: "Interested" })).ok, "workshop failed");
       let all = await requests();
@@ -272,7 +411,7 @@ async function run() {
       assert(pathRequests(all, "/v2/subscribers/groups/pending", "POST").length === 1, "opt-in did not enter pending");
     });
 
-    await test("9. Scorecard sends its report and one owner notification", async () => {
+    await test("13. Scorecard sends its report and one owner notification", async () => {
       await reset();
       assert((await scorecard("scorecard@example.test")).ok, "scorecard failed");
       assert((await scorecard("scorecard@example.test", { marketing_opt_in: "true" })).ok, "opt-in escalation failed");
@@ -281,7 +420,7 @@ async function run() {
       assert(pathRequests(all, "/v2/subscribers/groups/pending", "POST").length === 1, "scorecard opt-in missing");
     });
 
-    await test("10. Sender failures never falsely claim marketing capture", async () => {
+    await test("14. Sender failures never falsely claim marketing capture", async () => {
       await reset();
       await configure({ "/v2/subscribers": 500 });
       const asset = await form("/api/subscribe", { email: "failure@example.test", form_id: "kit-invoice-chase", marketing_opt_in: "true" });
@@ -291,7 +430,7 @@ async function run() {
       assert(newsletter.status === 503, "failed newsletter returned success");
     });
 
-    await test("11. Invalid and oversized input does not call Sender", async () => {
+    await test("15. Invalid and oversized input does not call Sender", async () => {
       await reset();
       assert((await form("/api/subscribe", { email: "bad", form_id: "newsletter" })).status === 400, "invalid email accepted");
       assert((await form("/api/subscribe", { email: "valid@example.test", form_id: "nope" })).status === 400, "unknown form accepted");
@@ -303,7 +442,7 @@ async function run() {
     const todoGroups = JSON.parse(defaultGroupIds);
     todoGroups["source:direct"] = "TODO-replace-with-real-sender-group-id";
     worker = await startWorker({ groupIds: JSON.stringify(todoGroups) });
-    await test("15. Direct placeholder group does not fail capture", async () => {
+    await test("16. Direct placeholder group does not fail capture", async () => {
       await reset();
       const response = await form("/api/subscribe", {
         email: "bizmap-todo@example.test",
@@ -321,7 +460,7 @@ async function run() {
 
     await stop(worker);
     worker = await startWorker({ emailDailyLimit: 1 });
-    await test("12. Per-email rate limit blocks repeated intake", async () => {
+    await test("17. Per-email rate limit blocks repeated intake", async () => {
       await reset();
       assert((await form("/api/subscribe", { email: "limited@example.test", form_id: "kit-invoice-chase" })).ok, "first request failed");
       assert((await form("/api/subscribe", { email: "limited@example.test", form_id: "kit-invoice-chase" })).status === 429, "second request was not limited");
@@ -329,7 +468,7 @@ async function run() {
 
     await stop(worker);
     worker = await startWorker({ sender: false });
-    await test("13. Missing Sender configuration fails closed for newsletter and reports", async () => {
+    await test("18. Missing Sender configuration fails closed for newsletter and reports", async () => {
       await reset();
       assert((await form("/api/subscribe", { email: "disabled@example.test", form_id: "newsletter" })).status === 503, "newsletter failed open");
       assert((await scorecard("disabled-scorecard@example.test")).status === 503, "scorecard failed open");
@@ -338,7 +477,7 @@ async function run() {
 
     await stop(worker);
     worker = await startWorker({ turnstile: true });
-    await test("14. Turnstile blocks missing or invalid tokens before lead processing", async () => {
+    await test("19. Turnstile blocks missing or invalid tokens before lead processing", async () => {
       await reset();
       assert((await form("/api/subscribe", { email: "missing-token@example.test", form_id: "newsletter" })).status === 403, "missing token accepted");
       assert((await form("/api/contact", { name: "Test", email: "invalid-token@example.test", message: "Hello", "cf-turnstile-response": "invalid-token" })).status === 403, "invalid token accepted");
@@ -351,12 +490,13 @@ async function run() {
     });
   } finally {
     await stop(worker);
+    await new Promise((resolve) => senderProxy?.close(resolve));
     await stop(mock);
     rmSync(stateDir, { recursive: true, force: true });
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 15 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
+  assert(results.length === 19 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
 }
 
 run().catch((error) => {

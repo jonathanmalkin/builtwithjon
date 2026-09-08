@@ -19,6 +19,12 @@ import {
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const SUBSCRIBE_PATH = "/api/subscribe";
 const CONTACT_PATH = "/api/contact";
+const WORKSHOP_INTERESTS = new Set([
+  "Put Your Business Knowledge to Work",
+  "Build One Useful AI Workflow",
+  "Build Your Personal AI Assistant",
+  "See Where AI Could Help Your Business",
+]);
 const MAX_FORM_BODY_BYTES = 32_000;
 const MAX_SCORECARD_BODY_BYTES = 32_000;
 const EVENT_PATH = "/api/event";
@@ -28,6 +34,8 @@ const TURNSTILE_ACTION = "lead-form";
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
+  ["/masterclass", "/ai-assistant/cowork/"],
+  ["/masterclass/", "/ai-assistant/cowork/"],
   // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,
   // 2026-08-15 revamp), so it is intentionally not in this map.
   ["/ai-assistant-workshop", "/ai-assistant/"],
@@ -79,6 +87,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:talk-nav", "cta:talk-footer",
   "cta:workshops-hero", "cta:workshops-room", "cta:workshops-finale",
   "cta:workshops-deck-map", "cta:workshops-deck-pa",
+  "cta:workshops-interest", "cta:workshops-guide",
   "workshop-host:start", "workshop-host:submit", "workshop-host:success",
   "contact:start", "contact:submit",
   "cta:scorecard-article", "cta:scorecard-article-s2", "cta:scorecard-article-s3",
@@ -477,11 +486,13 @@ async function handleContact(request, env) {
   const sourceUrl = safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/contact/`;
   const attribution = safeText(form.get("attribution"), 240);
   const inquiryType = safeText(form.get("inquiry_type"), 80);
+  const workshopInterest = safeText(form.get("workshop_interest"), 100);
   const lead = {
     email,
     name,
     form_id: "contact",
     inquiry_type: inquiryType,
+    ...(workshopInterest ? { workshop_interest: workshopInterest } : {}),
     message,
     source_url: sourceUrl,
     attribution,
@@ -495,7 +506,7 @@ async function handleContact(request, env) {
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
   if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
-  const contactId = await stableContactKey(name, email, message);
+  const contactId = await stableContactKey(name, email, message, workshopInterest);
   const senderKey = `contact:sender:${contactId}`;
   const senderDuplicate = await dedupeHit(env, senderKey);
   const contactSenderEnabled = senderEnabled(env);
@@ -519,8 +530,8 @@ async function handleContact(request, env) {
   return json({ ok: true, notified, archived: leadStored, stored: leadStored });
 }
 
-async function stableContactKey(name, email, message) {
-  return stableLeadKey({ name, email, message });
+async function stableContactKey(name, email, message, workshopInterest = "") {
+  return stableLeadKey({ name, email, message, ...(workshopInterest ? { workshop_interest: workshopInterest } : {}) });
 }
 
 async function stableLeadKey(value) {
@@ -841,6 +852,7 @@ function leadFieldLabel(key) {
     marketing_opt_in: "Marketing opt-in",
     submitted_at: "Submitted at",
     inquiry_type: "Inquiry type",
+    workshop_interest: "Workshop interest",
   };
   return labels[key] || key.replace(/_/g, " ").replace(/^./, (character) => character.toUpperCase());
 }
@@ -908,10 +920,14 @@ function validateContactForm(form) {
     company_website: 200,
     _subject: 240,
     inquiry_type: 80,
+    workshop_interest: 100,
     attribution: 240,
     "cf-turnstile-response": 2048,
   };
-  if ([...form.keys()].length > 9) return false;
+  if ([...form.keys()].length > 10) return false;
+  if (form.getAll("workshop_interest").length > 1) return false;
+  const workshopInterest = form.get("workshop_interest");
+  if (workshopInterest && (!WORKSHOP_INTERESTS.has(workshopInterest) || form.get("inquiry_type") !== "workshop-host")) return false;
   for (const [key, value] of form.entries()) {
     if (!(key in limits) || typeof value !== "string" || value.length > limits[key]) return false;
   }

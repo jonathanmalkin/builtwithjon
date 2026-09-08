@@ -1,477 +1,77 @@
 ---
 import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 import '@fontsource-variable/bricolage-grotesque';
 import '@fontsource-variable/schibsted-grotesk';
 
-// DIRECTION CONTRACT (2026-08-18 workshops host-entry)
-// THESIS: /workshops/ is the host door. A room organizer sees the session,
-//   flips the actual decks, and tells Jonathan about the room. Refuses the
-//   letter-column speaker page and the 15-minute funnel close.
-// OWN-WORLD: Homepage 2026-08-17 world: ivory / parchment / clay / amber,
-//   Bricolage Grotesque + Schibsted Grotesk, ivory boards with ink title
-//   bars and offset ink shadows, full-bleed photos with overlap cards that
-//   never cover Jonathan.
-// STORY: A public-room host or an in-company host sees the Personal
-//   Assistant workshop, tells those two rooms apart, and sends details.
-// FIRST VIEWPORT: Full-bleed Capital Factory podium photo, ivory overlap
-//   card bottom-left, one CTA to the host form.
-// FORM: Homepage band grammar extended to this route. code-led.
-// FINISH: unreviewed and undocumented is unfinished; this build ends with
-//   the finish review, the verdict, DESIGN.md, and every shipping raster
-//   carrying its provenance.
-
-const description =
-  'A hands-on personal assistant workshop for peer groups, meetups, and company teams. Participants build a first version with real work from their week. No pitch from the front of the room.';
-
+// Approved September 8, 2026: business impact first, four 90-minute workshops,
+// curiosity-led inquiry, documentary footage, and the existing warm photo palette.
+const description = 'Four 90-minute workshops for business owners and teams: organize knowledge, improve a recurring task, build a Personal AI Assistant, or explore where AI could help.';
 const personSchema = buildPersonSchema({
-  description: 'Jonathan Malkin runs a hands-on personal assistant workshop for rooms of owners and company teams. Participants build a first version and learn which actions still require them.',
-  url: 'https://builtwithjon.com/workshops/',
-  knowsAbout: [
-    'AI personal assistant workshops',
-    'AI workshops for business owners',
-    'company knowledge systems',
-  ],
+  description: 'Jonathan Malkin teaches practical workshops and builds useful systems through Built with Jon. Based in Austin, with 20+ years in enterprise technology.',
+  url: 'https://builtwithjon.com/about/',
 });
-
+const workshops = [
+  {
+    "name": "Put Your Business Knowledge to Work",
+    "description": "Make essential business information easier to find and use. Organize what matters about your customers, services, processes and priorities into a shared reference, then practice using it with a teammate and AI to answer questions and prepare work."
+  },
+  {
+    "name": "Build One Useful AI Workflow",
+    "description": "Give a recurring task a repeatable approach. Work through what you start with, what a useful result looks like, and where AI can help. Try the method and check the result."
+  },
+  {
+    "name": "Build Your Personal AI Assistant",
+    "description": "Prepare for meetings with the right information at hand and keep track of what comes next. Set up a personal assistant, turn meeting notes into clear next steps, and bring saved information and commitments into a daily brief."
+  },
+  {
+    "name": "See Where AI Could Help Your Business",
+    "description": "Look at everyday business tasks and discuss where a different approach could help. Explore practical AI examples and what they could mean for your own work, with room for questions."
+  }
+];
 const serviceSchema = buildProfessionalServiceSchema({
   description,
+  url: 'https://builtwithjon.com/workshops/',
   founder: personSchema,
-  makesOffer: [
-    {
-      '@type': 'Offer',
-      name: 'Personal assistant workshop',
-      description: 'A hands-on working session for a peer group, meetup, or company team. Participants build a personal assistant with real work from their week. Nothing is sold from the front of the room.',
-      url: 'https://builtwithjon.com/workshops/',
-    },
-  ],
+  makesOffer: workshops.map((workshop) => ({
+    '@type': 'Offer',
+    ...workshop,
+    description: `${workshop.description} Format: 90 minutes.`,
+    url: 'https://builtwithjon.com/workshops/#workshops',
+  })),
 });
 ---
 
-<Base
-  title="Personal Assistant Workshop for Your Room | Austin, TX"
-  description={description}
-  image="/og-workshops.jpg"
-  schema={personSchema}
->
+<Base title="Workshops for Business Owners and Teams" description={description} image="/home/austin-workshop-desktop-1200.webp" imageWidth={1200} imageHeight={500} schema={personSchema} bare bodyClass="ws26">
+  <Fragment slot="header">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header"><a class="brand" href="/">Jonathan Malkin</a><button class="menu" aria-expanded="false" aria-controls="navigation">Menu</button><nav class="nav" id="navigation" aria-label="Main"><a href="#workshops">Workshops</a><a href="/#tell-me">Implementation</a><a href="#resources">Resources</a><a href="#about">About</a><a class="contact" href="#tell-me">Contact</a></nav></header>
+  </Fragment>
   <JsonLd schema={serviceSchema} />
 
-  <div class="h26-ws">
-    <section class="h26-hero">
-      <div class="h26-img-holder">
-        <picture>
-          <source
-            media="(min-width: 1021px)"
-            type="image/webp"
-            srcset="/home/austin-workshop-desktop-1200.webp 1200w, /home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w, /home/austin-workshop-desktop-3200.webp 3200w, /home/austin-workshop-desktop-3600.webp 3600w"
-            sizes="100vw"
-          />
-          <source
-            media="(min-width: 1021px)"
-            type="image/jpeg"
-            srcset="/home/austin-workshop-desktop.jpg"
-          />
-          <source
-            type="image/webp"
-            srcset="/home/austin-workshop-900.webp 900w, /home/austin-workshop-1200.webp 1200w, /home/austin-workshop-1600.webp 1600w, /home/austin-workshop-2200.webp 2200w, /home/austin-workshop-2880.webp 2880w"
-            sizes="100vw"
-          />
-          <img
-            src="/home/austin-workshop.jpg"
-            width="1600"
-            height="1067"
-            alt="Jonathan Malkin leading a workshop at Capital Factory in Austin."
-            fetchpriority="high"
-          />
-        </picture>
-      </div>
-      <div class="h26-over">
-        <h1>Give your room something they can use the next morning.</h1>
-        <p class="h26-lede">Participants build an AI personal assistant around real work from their week. They leave with the first version working and know what still needs their approval.</p>
-        <a class="h26-cta" href="#tell-me" data-track="cta:workshops-hero">Tell me about your room</a>
-      </div>
-    </section>
-
-    <section class="h26-room" aria-labelledby="room-h">
-      <div class="h26-inner">
-        <div>
-          <h2 id="room-h">They build it in the room.</h2>
-          <p class="h26-body">This is a working session, not a talk about what AI might do. Participants set up their own assistant and try it on something that already needs their attention.</p>
-          <p class="h26-body">By the end, they know where its files live, what it can draft, and which decisions remain theirs.</p>
-          <a class="h26-cta" href="#tell-me" data-track="cta:workshops-room">Bring this to my room</a>
-        </div>
-        <figure class="h26-board" aria-label="What they leave with">
-          <div class="h26-bar">A useful starting point</div>
-          <div class="h26-bene-grid">
-            <div class="h26-bene"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24h22M8 20h16M11 16h10M16 5v5M8 8l3 3M24 8l-3 3"/></svg><h3>Morning brief</h3></div>
-            <div class="h26-bene"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="12" r="4"/><circle cx="22" cy="12" r="4"/><path d="M4 25c1-5 4-7 7-7s6 2 7 7M17 25c1-4 3-6 6-6 2 0 4 1 5 4"/></svg><h3>Meeting prep</h3></div>
-            <div class="h26-bene"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="24" height="18" rx="3"/><path d="m6 10 10 8 10-8"/></svg><h3>Email draft</h3></div>
-            <div class="h26-bene"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 5h18v22H7zM11 11h10M11 16h10M11 21h6"/></svg><h3>Notes captured</h3></div>
-          </div>
-        </figure>
-      </div>
-    </section>
-
-    <section class="h26-fit" aria-labelledby="fit-h">
-      <div class="h26-inner">
-        <div class="h26-fit-head">
-          <div>
-            <h2 id="fit-h">Make it fit the room you already lead.</h2>
-            <p>A peer group, company team, meetup, or retreat can all work. I adjust the pace and examples to the people in front of me.</p>
-          </div>
-        </div>
-        <div class="h26-format-board">
-          <div class="h26-bar">Three ways to run it</div>
-          <div class="h26-format-row"><strong>Talk + Q&amp;A</strong><span>45 to 60 minutes</span><small>Luncheon or monthly meeting</small></div>
-          <div class="h26-format-row"><strong>Working session</strong><span>90 minutes</span><small>People build during the session</small></div>
-          <div class="h26-format-row"><strong>Half day</strong><span>3 to 4 hours</span><small>More room for practice and questions</small></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="h26-decks" aria-labelledby="deck-h">
-      <div class="h26-inner">
-        <div class="h26-deck-head">
-          <h2 id="deck-h">See the workshop before you invite me.</h2>
-          <p>Flip through the working-session deck below, or <a href="/workshops/personal-assistant/" data-track="cta:workshops-deck-full">open it full screen</a>.</p>
-        </div>
-        <div class="h26-stage h26-stage-full">
-          <iframe
-            src="/workshops/decks/personal-assistant.html"
-            title="AI Personal Assistant Masterclass slide deck"
-            loading="lazy"
-          ></iframe>
-        </div>
-        <aside class="h26-talk">
-          <p>Need a shorter talk? <a href="/workshops/give-claude-a-map/" data-track="cta:workshops-deck-map">Give Claude a Map</a> is the 14-slide close from the Austin Claude meetup.</p>
-        </aside>
-      </div>
-    </section>
-
-    <section class="h26-who" aria-labelledby="who-h">
-      <div class="h26-inner">
-        <figure class="h26-who-pic">
-          <picture>
-            <source
-              type="image/webp"
-              srcset="/home/austin-portrait-900.webp 900w, /home/austin-portrait-1200.webp 1200w, /home/austin-portrait-1600.webp 1600w, /home/austin-portrait-2200.webp 2200w"
-              sizes="(max-width: 900px) 90vw, 42vw"
-            />
-            <img
-              src="/home/austin-portrait.jpg"
-              width="1600"
-              height="1067"
-              alt="Jonathan Malkin leading a session at Capital Factory in Austin."
-              loading="lazy"
-            />
-          </picture>
-        </figure>
-        <div>
-          <h2 id="who-h">I teach this because I build it.</h2>
-          <p class="h26-body">I have spent more than 20 years helping people put complicated technology to work. Today I build knowledge systems for real businesses and lead hands-on AI sessions for owners and operators in Austin.</p>
-          <p class="h26-body">The workshop uses the same practical boundaries as the client work: what the assistant can read, what it can draft, and what still needs a person’s approval. I stay after for the questions people want to ask once the session is over.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="h26-finale" id="tell-me" aria-labelledby="tellme-h">
-      <div class="h26-inner h26-over-form">
-        <h2 id="tellme-h">Tell me about your room.</h2>
-        <p class="h26-sub">Send the audience, rough size, and timing if you know them. I will reply by email and we can decide whether the session fits.</p>
-        <form
-          action="/api/contact"
-          method="POST"
-          class="intake host-form"
-          data-track-form="workshop-host"
-        >
-          <input type="hidden" name="_subject" value="Workshop host inquiry" />
-          <input type="hidden" name="inquiry_type" value="workshop-host" />
-          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
-          <div class="form-group h26-half">
-            <label for="ws-name">Name</label>
-            <input type="text" id="ws-name" name="name" required class="form-input" autocomplete="name" />
-          </div>
-          <div class="form-group h26-half">
-            <label for="ws-email">Email</label>
-            <input type="email" id="ws-email" name="email" required class="form-input" autocomplete="email" inputmode="email" spellcheck="false" />
-          </div>
-          <div class="form-group h26-full">
-            <label for="ws-note">Tell me about the room</label>
-            <textarea id="ws-note" name="message" rows="3" maxlength="2000" required class="form-input"></textarea>
-            <p class="intake-hint">Audience, rough size, and timing are enough to start.</p>
-          </div>
-          <div class="h26-full h26-form-actions">
-            <button type="submit" class="form-submit">Send the room details</button>
-            <p class="intake-status" hidden role="status"></p>
-            <p class="intake-hint">Prefer email? <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a></p>
-          </div>
-        </form>
-      </div>
-    </section>
-  </div>
+<section class="workshop-hero" aria-labelledby="hero-title"><picture class="hero-photo"><source media="(min-width:1001px)" srcset="/home/austin-workshop-desktop-2000.webp"><img src="/home/austin-workshop-900.webp" alt="Jonathan Malkin teaching at Capital Factory in Austin." width="900" height="600" fetchpriority="high"></picture><div class="intro"><h1 id="hero-title">The same work keeps filling your day. Finding a better way keeps getting pushed aside.</h1><p>Information is scattered, familiar tasks start from scratch, and follow-ups depend on memory. Working out how to change that becomes another job.</p><div class="actions"><a class="primary" href="#tell-me" data-track="cta:workshops-hero">Curious? Send me a message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a class="secondary" href="#workshops">See the four workshops</a></div></div>
+<a class="moment-cue" href="#moment"><span class="cue-frame"><img src="/workshops/media/workshop-walking-poster-v3.webp" width="960" height="540" alt="Jonathan Malkin moving between participants while teaching." loading="lazy"><span class="cue-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span></span><span class="cue-label">Watch a workshop moment</span><span class="cue-meta">10 seconds · captions · plays on this page</span></a>
+</section>
+<section class="workshops" id="workshops" tabindex="-1" aria-labelledby="workshops-title"><div class="section-head"><h2 id="workshops-title">What would help your business?</h2><p>Four workshops, each 90 minutes. Explore the options below. You do not need to choose one before getting in touch.</p></div><div class="offers">
+<article class="offer"><h3>Put Your Business Knowledge to Work</h3><div class="offer-copy"><p>Make essential business information easier to find and use. Organize what matters about your customers, services, processes and priorities into a shared reference, then practice using it with a teammate and AI to answer questions and prepare work.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="Put Your Business Knowledge to Work" aria-label="Ask about Put Your Business Knowledge to Work">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
+<article class="offer"><h3>Build One Useful AI Workflow</h3><div class="offer-copy"><p>Give a recurring task a repeatable approach. Work through what you start with, what a useful result looks like, and where AI can help. Try the method and check the result.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="Build One Useful AI Workflow" aria-label="Ask about Build One Useful AI Workflow">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
+<article class="offer"><h3>Build Your Personal AI Assistant</h3><div class="offer-copy"><p>Prepare for meetings with the right information at hand and keep track of what comes next. Set up a personal assistant, turn meeting notes into clear next steps, and bring saved information and commitments into a daily brief.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="Build Your Personal AI Assistant" aria-label="Ask about Build Your Personal AI Assistant">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
+<article class="offer"><h3>See Where AI Could Help Your Business</h3><div class="offer-copy"><p>Look at everyday business tasks and discuss where a different approach could help. Explore practical AI examples and what they could mean for your own work, with room for questions.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="See Where AI Could Help Your Business" aria-label="Ask about See Where AI Could Help Your Business">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
+</div></section>
+<section class="moment" id="moment" tabindex="-1" aria-labelledby="moment-title"><div class="moment-layout"><div><p class="kicker">A workshop moment</p><h2 id="moment-title">Watch a workshop moment.</h2><p>From the Personal AI Assistant workshop: helping participants use voice input.</p><p class="moment-meta">10 seconds · English captions · sound optional</p></div><figure class="moment-figure"><div class="moment-frame"><img class="excerpt-poster" src="/workshops/media/workshop-walking-poster-v3.webp" width="960" height="540" alt="Jonathan Malkin moving between participants at the Personal AI Assistant workshop." loading="lazy"><video id="verified-excerpt" controls playsinline muted preload="none" poster="/workshops/media/workshop-walking-poster-v3.webp" width="1280" height="720" aria-label="Personal AI Assistant workshop excerpt" hidden data-src="/workshops/media/workshop-walking-v3.mp4"><track kind="captions" src="/workshops/media/workshop-walking-v3.vtt" srclang="en" label="English" default></video></div><div class="excerpt-controls"><button class="excerpt-toggle" type="button" aria-controls="verified-excerpt">Play workshop excerpt</button><button class="excerpt-sound excerpt-toggle" type="button" aria-controls="verified-excerpt" hidden>Watch with sound</button></div><noscript><p><a href="/workshops/media/workshop-walking-v3.mp4">Open the workshop excerpt</a>.</p></noscript><p id="moment-status" role="status"></p></figure></div></section>
+<section class="about-doc" id="about" tabindex="-1" aria-labelledby="about-title"><div class="about-inner"><figure class="portrait"><img src="/home/austin-portrait-900.webp" width="900" height="600" alt="Jonathan Malkin speaking at an event in Austin, wearing a name badge and a lapel microphone." loading="lazy"><figcaption>Austin, Texas</figcaption></figure><div class="about-copy"><p class="kicker">About</p><h2 id="about-title">I teach this because I build it.</h2><p class="lead">After 20+ years in enterprise technology, I now teach practical workshops and build useful systems through Built with Jon. I work directly with businesses and with organizations that serve them.</p><p class="about-link"><a href="/about/">More about Jonathan <span aria-hidden="true">→</span></a></p></div></div></section>
+<section class="gallery" id="resources" tabindex="-1" aria-labelledby="materials-title"><div class="gallery-inner">
+<header class="gallery-head"><h2 id="materials-title">Explore at your own pace.</h2><p>Explore a sample daily brief and material from the Personal AI Assistant workshop.</p></header>
+<a class="tile tile-brief" data-track="cta:workshops-guide" href="/ai-assistant/cowork/"><span class="tile-shot"><img src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png" width="2080" height="2176" alt="A Daily Brief sample output: today&rsquo;s schedule, goal progress, meeting prep with briefs, a to-do list, email drafts awaiting approval, and items waiting on other people." loading="lazy"></span><span class="tile-meta"><strong>Personal AI Assistant setup guide <span aria-hidden="true">→</span></strong><span class="tile-desc">A self-serve guide to setting up an assistant in Claude Cowork.</span><span class="tile-tag">Sample output</span></span></a>
+<a class="tile tile-slides" data-track="cta:workshops-deck-pa" href="/workshops/personal-assistant/"><span class="tile-shot"><span class="slide-cover" aria-hidden="true"><span class="sc-top">Built with Jon · Workshop</span><span class="sc-title">Build Your Personal AI Assistant</span><span class="sc-rule"></span><span class="sc-foot">Workshop slides</span></span></span><span class="tile-meta"><strong>Personal AI Assistant workshop slides <span aria-hidden="true">→</span></strong><span class="tile-desc">Browse material from the existing workshop.</span><span class="tile-tag">Workshop deck</span></span></a>
+</div></section>
+<section class="workshops" id="tell-me" tabindex="-1" aria-labelledby="inquiry-title"><div class="section-head"><h2 id="inquiry-title">Curious? Tell me what caught your attention.</h2><p>A question is enough to start. Tell me what is on your mind, or about the group you have in mind.</p></div><form id="workshop-inquiry" action="/api/contact" method="POST" data-track-form="workshop-host"><input type="hidden" name="_subject" value="Workshop inquiry"><input type="text" name="company_website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true"><input type="hidden" name="inquiry_type" value="workshop-host"><input type="hidden" name="workshop_interest" value=""><p class="interest-note" id="interest-context" hidden>Interested in: <strong id="selected-interest"></strong> <button type="button" id="clear-interest">Clear</button></p><div class="inquiry-fields"><label>Name<input maxlength="120" name="name" autocomplete="name" aria-describedby="interest-context" required></label><label>Email<input maxlength="254" name="email" type="email" autocomplete="email" required></label><label class="message-label">Message<textarea maxlength="2000" name="message" rows="4" required></textarea></label></div><button class="primary" type="submit">Send a message</button><p class="email-alternative">Or email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a>.</p><p id="form-status" role="status" tabindex="-1"></p></form></section>
+  <Footer slot="footer" showCta={false} />
 </Base>
 
 <script>
-  const form = document.querySelector('.host-form');
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-    const button = form.querySelector('button[type="submit"]');
-    const status = form.querySelector('.intake-status');
-    if (button) {
-      button.disabled = true;
-      button.textContent = 'Sending...';
-    }
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
-      });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.ok === false) throw new Error('host_failed');
-      if (window.bwjTrack) window.bwjTrack('workshop-host:success');
-      form.querySelectorAll('.form-group, button[type="submit"]').forEach((el) => {
-        el.hidden = true;
-      });
-      if (status) {
-        status.textContent = 'Got it. I will reply by email.';
-        status.hidden = false;
-        status.classList.add('is-ok');
-      }
-    } catch {
-      if (status) {
-        status.textContent = 'That did not go through. Email jonathan@builtwithjon.com and I will follow up.';
-        status.hidden = false;
-      }
-      if (button) {
-        button.disabled = false;
-        button.textContent = 'Send the room details';
-      }
-    }
-  });
+  import '../scripts/workshop-page.js';
+  import '../scripts/workshop-video.js';
 </script>
-
-<style>
-  .h26-ws {
-    text-align: left;
-    --ink: #191E26;
-    --body-txt: #3F4752;
-    --ivory: #FBF8F1;
-    --parch: #F3ECDD;
-    --clay: #EDE2CC;
-    --amber: #E8A83C;
-    --amber-soft: #F2CE8A;
-    --red: #C4392B;
-    --disp: 'Bricolage Grotesque Variable', sans-serif;
-    --txt: 'Schibsted Grotesk Variable', sans-serif;
-    font-family: var(--txt);
-    color: var(--ink);
-    background: var(--ivory);
-    overflow-x: clip;
-  }
-  .h26-ws ::selection { background: var(--amber-soft); color: var(--ink); }
-  .h26-ws img { display: block; max-width: 100%; }
-  .h26-ws img[hidden] { display: none !important; }
-  .h26-ws .h26-inner { max-width: 1280px; margin: 0 auto; }
-  .h26-ws .h26-cta {
-    display: inline-block;
-    background: var(--ink);
-    color: var(--ivory);
-    font: 600 1.05rem/1 var(--txt);
-    padding: 18px 28px;
-    border-radius: 6px;
-    text-decoration: none;
-  }
-  .h26-ws .h26-cta:hover { color: var(--ivory); text-decoration: none; }
-  .h26-ws .h26-cta:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
-  .h26-ws .h26-cap { display: block; margin-top: 12px; font-size: .95rem; color: #5C6570; }
-  .h26-ws .visually-hidden {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-  }
-
-  /* Hero */
-  .h26-hero { position: relative; height: 600px; overflow: hidden; }
-  .h26-hero .h26-img-holder { position: absolute; inset: 0; }
-  .h26-hero img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 42%; }
-  .h26-hero .h26-over {
-    position: absolute; left: 5vw; bottom: 44px; width: min(560px, 40vw); box-sizing: border-box;
-    background: var(--ivory); border-radius: 14px; padding: 38px 40px;
-    box-shadow: 0 30px 80px -40px rgba(0,0,0,.55); z-index: 2;
-  }
-  .h26-hero h1 { font: 700 clamp(2.3rem, 4.3vw, 3.5rem)/1.04 var(--disp); letter-spacing: -.025em; margin: 0 0 14px; }
-  .h26-hero .h26-lede { font-size: 1.16rem; line-height: 1.48; color: var(--body-txt); margin: 0 0 22px; }
-
-  /* Room */
-  .h26-room { background: var(--parch); padding: 64px 5vw; }
-  .h26-room .h26-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: center; }
-  .h26-room h2, .h26-fit h2, .h26-decks h2, .h26-who h2 {
-    font: 700 clamp(2rem, 3.4vw, 3rem)/1.04 var(--disp);
-    letter-spacing: -.02em;
-    margin: 0 0 16px;
-  }
-  .h26-room p.h26-body, .h26-who p.h26-body {
-    font-size: 1.16rem; line-height: 1.6; color: var(--body-txt); max-width: 42ch; margin: 0 0 20px;
-  }
-
-  /* Benefit grid */
-  .h26-bene-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 12px; padding: 16px 18px 20px;
-  }
-  .h26-bene {
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    background: var(--parch); border: 1px solid #D2C4A6; border-radius: 8px;
-    padding: 24px 16px; text-align: center;
-  }
-  .h26-bene svg { width: 38px; height: 38px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .h26-bene h3 { margin: 0; font: 700 1.1rem/1.2 var(--disp); color: var(--ink); }
-
-  /* Board */
-  .h26-board {
-    background: var(--ivory);
-    border: 1.5px solid var(--ink);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 8px 14px 0 var(--ink);
-    margin: 0;
-  }
-  .h26-bar {
-    background: var(--ink);
-    color: var(--ivory);
-    padding: 12px 18px;
-    font: 700 12px/1 var(--txt);
-    letter-spacing: .14em;
-    text-transform: uppercase;
-  }
-  .h26-board-cap { padding: 0 18px 16px; font-size: .95rem; color: #5C6570; margin: 12px 0 0; }
-  .h26-board-cap a { color: var(--ink); font-weight: 600; }
-
-  /* Fit + formats */
-  .h26-fit { background: var(--amber); padding: 68px 5vw; }
-  .h26-fit-head { max-width: 780px; margin-bottom: 32px; }
-  .h26-fit-head p { color: #49380F; font-size: 1.12rem; line-height: 1.55; max-width: 62ch; margin: 0; }
-  .h26-format-board { background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden; box-shadow: 8px 14px 0 var(--ink); }
-  .h26-format-row { display: grid; grid-template-columns: minmax(190px, .8fr) minmax(150px, .55fr) minmax(260px, 1.2fr); gap: 24px; align-items: center; padding: 22px 26px; border-top: 1px solid #D2C4A6; }
-  .h26-format-row:first-of-type { border-top: 0; }
-  .h26-format-row strong { font: 700 1.18rem/1.2 var(--disp); }
-  .h26-format-row span { color: var(--ink); font-weight: 650; }
-  .h26-format-row small { color: var(--body-txt); font-size: .98rem; line-height: 1.4; }
-
-  /* Decks */
-  .h26-decks { background: var(--clay); padding: 68px 5vw 54px; }
-  .h26-deck-head { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 64px; align-items: end; margin-bottom: 30px; }
-  .h26-deck-head h2 { max-width: 17ch; }
-  .h26-deck-head p { color: var(--body-txt); font-size: 1.12rem; line-height: 1.55; max-width: 58ch; margin: 0; }
-  .h26-deck-head a { color: var(--ink); font-weight: 650; }
-
-  .h26-stage iframe { width: 100%; height: 100%; border: 0; display: block; background: #fbf6ec; }
-  .h26-stage-full {
-    width: 100%; margin: 0 auto;
-    aspect-ratio: 16 / 9;
-    background: #fbf6ec;
-    border: 1.5px solid var(--ink); border-radius: 16px; overflow: hidden;
-    box-shadow: 8px 14px 0 var(--ink);
-  }
-
-  .h26-talk {
-    max-width: 920px;
-    margin: 28px auto 0;
-    text-align: center;
-    font-size: 1.05rem;
-    line-height: 1.5;
-    color: var(--body-txt);
-  }
-  .h26-talk a { color: var(--ink); font-weight: 600; }
-
-  /* Who */
-  .h26-who { background: var(--ivory); padding: 68px 5vw; }
-  .h26-who .h26-inner { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
-  .h26-who-pic { margin: 0; border-radius: 16px; overflow: hidden; border: 1.5px solid var(--ink); box-shadow: 8px 14px 0 var(--ink); }
-  .h26-who-pic picture { display: block; aspect-ratio: 4 / 3; }
-  .h26-who-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 24%; }
-
-  /* Finale + form */
-  .h26-finale { background: var(--parch); padding: 68px 5vw 78px; }
-  .h26-over-form {
-    max-width: 820px;
-    background: var(--ivory); border: 1.5px solid var(--ink); border-radius: 16px;
-    padding: 34px 36px; box-shadow: 8px 14px 0 var(--ink);
-  }
-  .h26-finale h2 { font: 700 clamp(2rem, 3.4vw, 2.6rem)/1.04 var(--disp); letter-spacing: -.02em; margin: 0 0 10px; }
-  .h26-finale .h26-sub { color: var(--body-txt); font-size: 1.05rem; line-height: 1.5; margin: 0 0 22px; }
-  .h26-over-form .host-form { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
-  .h26-over-form .h26-full { grid-column: 1 / -1; }
-  .h26-over-form .form-group { margin: 0 0 16px; }
-  .h26-over-form label { font: 600 1rem/1.3 var(--txt); color: var(--ink); display: block; margin-bottom: 7px; }
-  .h26-over-form .form-input {
-    width: 100%; font: 500 1.02rem/1.4 var(--txt); color: var(--ink);
-    background: #FFFEFB; border: 1.5px solid #C9BFA8; border-radius: 8px; padding: 11px 13px;
-  }
-  .h26-over-form .form-input:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; }
-  .h26-over-form textarea.form-input { resize: vertical; }
-  .h26-over-form .intake-hint { font-size: .9rem; color: #5C6570; margin: 12px 0 0; }
-  .h26-over-form .form-group .intake-hint { margin-top: 7px; }
-  .h26-over-form .intake-hint a { color: var(--ink); font-weight: 600; }
-  .h26-over-form .form-optional { font-weight: 400; color: #5C6570; }
-  .h26-over-form .form-submit {
-    display: inline-block; background: var(--ink); color: var(--ivory);
-    font: 600 1.02rem/1 var(--txt); padding: 16px 26px; border: 0; border-radius: 6px; cursor: pointer;
-  }
-  .h26-over-form .form-submit:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
-  .h26-over-form .intake-status { margin: 12px 0 0; font-size: 1rem; color: var(--red); }
-  .h26-over-form .intake-status.is-ok { color: #2E7D4F; font-weight: 600; }
-  .h26-over-form .form-honeypot { position: absolute; left: -9999px; }
-  .h26-form-actions { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; }
-  .h26-form-actions .intake-hint { flex-basis: 100%; }
-
-  @media (max-width: 1020px) {
-    .h26-hero { overflow: visible; height: auto; }
-    .h26-hero .h26-img-holder { position: relative; height: 420px; overflow: hidden; }
-    .h26-hero img { inset: 0; width: 100%; object-position: 30% 44%; }
-    .h26-hero .h26-over { position: relative; left: auto; bottom: auto; z-index: 2; width: auto; margin: 0 4vw 28px; }
-    .h26-room .h26-inner, .h26-who .h26-inner {
-      grid-template-columns: 1fr;
-    }
-    .h26-deck-head { grid-template-columns: 1fr; gap: 16px; }
-    .h26-over-form { max-width: none; }
-  }
-
-  @media (max-width: 600px) {
-    .h26-hero .h26-img-holder { height: 340px; }
-    .h26-hero .h26-over { padding: 28px 24px; margin-left: 0; margin-right: 0; border-radius: 0; }
-    .h26-ws .h26-cta { display: block; width: fit-content; margin-left: auto; margin-right: auto; text-align: center; }
-    .h26-room, .h26-fit, .h26-decks, .h26-who, .h26-finale { padding-left: 5vw; padding-right: 5vw; }
-    .h26-bene-grid { padding: 12px; gap: 10px; }
-    .h26-bene { padding: 20px 10px; }
-    .h26-bene h3 { font-size: 1rem; }
-    .h26-format-row { grid-template-columns: 1fr; gap: 5px; padding: 20px; }
-    .h26-format-row span { font-size: .94rem; }
-    .h26-talk { text-align: left; }
-    .h26-over-form { padding: 28px 22px; }
-    .h26-over-form .host-form { grid-template-columns: 1fr; }
-    .h26-over-form .h26-half, .h26-over-form .h26-full { grid-column: 1; }
-    .h26-form-actions { justify-content: center; text-align: center; }
-  }
-</style>
-
-<style is:global>
-  body {
-    max-width: none !important;
-    padding: 0 !important;
-    background: #FBF8F1 !important;
-  }
-  .site-header nav,
-  .site-footer {
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-</style>

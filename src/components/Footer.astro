@@ -1,7 +1,8 @@
 ---
 const year = new Date().getFullYear();
 const showConstruction = import.meta.env.DEV;
-const showFooterCta = Astro.url.pathname !== '/construction/';
+const { showCta = true } = Astro.props;
+const showFooterCta = showCta && Astro.url.pathname !== '/construction/';
 ---
 
 <footer class="site-footer">

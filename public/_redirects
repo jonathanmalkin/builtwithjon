@@ -71,3 +71,7 @@
 /ai-workflow-audit/thanks /#tell-me 301
 /ai-workflow-audit/* /#tell-me 301
 /ai-workflow-audit /#tell-me 301
+
+# Full masterclass remains unpublished; keep incoming links useful.
+/masterclass /ai-assistant/cowork/ 301
+/masterclass/ /ai-assistant/cowork/ 301

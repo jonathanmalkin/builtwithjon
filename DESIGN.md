@@ -252,3 +252,14 @@ It is scoped to `src/pages/index.astro` and `src/pages/workshops.astro` (plus th
   `8px 14px 0 var(--ink)`, parchment chips, thin line icons, radius 6-16px.
 - Photos: full-bleed with ivory overlap card bottom-left; the subject is recropped right of the
   card and never covered.
+
+
+## Workshops refresh — September 8, 2026
+
+The approved Workshops page keeps the existing warm photography, Bricolage Grotesque and Schibsted Grotesk. Its hero leads with recurring work and the difficulty of making time to improve it; the next step is a curiosity message. Four editorial rows describe the four 90-minute workshops. A short documentary clip follows the rows, then an offset portrait and a two-column resource gallery with shared preview and caption baselines. The homepage remains unchanged.
+
+Implementation is scoped to `body.ws26` in `src/styles/global.css`; the unique `workshop-hero` class avoids the older global hero rules. The desktop hero teaser is hidden through 1000px. Mobile presents the photograph above an overlapping copy panel, followed directly by workshop choices. The video starts once, muted, only when visible on a desktop with a fine pointer; mobile, reduced motion, Save-Data and slow connections retain the poster until explicit play. User pause is respected, and sound playback restarts the excerpt. Same-page actions transfer keyboard focus to their section, inquiry field or video control.
+
+The production page uses the existing contact route, Turnstile, attribution and notifications. Optional selected interest is a separate allowlisted field. Errors retain the visitor’s input and reset a used security token; successful submission focuses the confirmation. Review-only banners, form simulation and comparison links are absent from the release.
+
+Media provenance: hero and portrait reuse the existing `public/home/` photographs. `public/workshops/media/workshop-walking-v3.mp4` is the approved 10-second derivative of the May 31 Personal Assistant class edit, source 12:27.340–12:37.340; its poster is source 12:33.4, and its three English caption cues use the corrected source transcript. The original recording and earlier candidates remain in the Active-Work source library. The source permissions were recorded July 13; Jonathan approved this derivative and publication September 8. No generated frames or new claims were added. The social preview uses the existing teaching photograph rather than the retired completion-guarantee artwork.
