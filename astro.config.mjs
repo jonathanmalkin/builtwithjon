@@ -47,6 +47,7 @@ export default defineConfig({
       filter: (page) =>
         !page.endsWith('/thanks/') &&
         !page.endsWith('/card/') &&
+        !page.endsWith('/qr/') &&
         !page.endsWith('/claude-meetup/') &&
         !page.includes('/business-map') &&
         !unlistedOrRetiredPaths.has(new URL(page).pathname) &&

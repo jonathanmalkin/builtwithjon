@@ -13,7 +13,9 @@
     "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "analytics:report": "node scripts/cloudflare-analytics-report.mjs",
     "leads:export": "node scripts/export-leads.mjs",
-    "test:email": "node scripts/test-sender-email.mjs"
+    "test:email": "node scripts/test-sender-email.mjs",
+    "contact:qr": "node scripts/generate-contact-qr.mjs",
+    "test:contact": "node scripts/test-contact-exchange.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.8",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
+    "qrcode": "^1.5.4",
     "wrangler": "^4.110.0"
   }
 }

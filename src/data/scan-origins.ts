@@ -1,7 +1,8 @@
 // The two QR codes in circulation, each already encoding its own URL: the
 // business card points at /card, the Aug 10 meetup deck slide at
-// /claude-meetup. Both render the same ScanCard; only the inbound email
-// labelling differs, so a reply tells you which code someone scanned.
+// /claude-meetup. Both keep working with the text-first ScanCard.
+// The new /qr page displays a direct SMS QR, which bypasses the website.
+// Source labels apply only to submitted forms, not unobserved SMS sends.
 
 export interface ScanOrigin {
   /** Shown in the inbound email so you can tell scan sources apart. */
