@@ -4915,3 +4915,36 @@ body.ws26{--ivory:#fbf8f1;--parch:#f3ecdd;--clay:#ede2cc;--ink:#191e26;--body:#4
   .site-header .menu-toggle {display:none;}
   .site-header .nav-links {display:flex;}
 }
+
+/* Contact exchange: keep the conversation above optional detail collection. */
+.exchange-page { max-width: 30rem; margin: 0 auto; padding: 1.5rem 1.1rem 2rem; }
+.exchange-identity { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--ucl-line-2); }
+.exchange-identity img { width: 4.9rem; height: 4.9rem; flex: none; object-fit: cover; border-radius: var(--ucl-r-md); }
+.exchange-label { font-family: var(--ucl-mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-2); }
+.exchange-identity h1 { font-family: var(--ucl-serif); font-size: clamp(1.7rem, 6vw, 2.25rem); line-height: 1.05; margin: .3rem 0; }
+.exchange-identity p:last-child { color: var(--ucl-ink-2); font-size: .9rem; }
+.exchange-primary h2 { font-size: 1.55rem; margin: 1.3rem 0 1rem; }
+.exchange-button { display: flex; width: 100%; min-height: 3rem; align-items: center; justify-content: center; padding: .7rem 1rem; border: 1px solid var(--ucl-ink); border-radius: var(--ucl-r-md); background: var(--ucl-paper-card); color: var(--ucl-ink); font: 650 1rem/1.4 var(--font-body); text-align: center; cursor: pointer; }
+.exchange-button:hover { background: var(--ucl-paper); color: var(--ucl-ink); text-decoration: none; }
+.exchange-button-primary { background: var(--ucl-ink); color: var(--ucl-paper); }
+.exchange-button-primary:hover { background: var(--ucl-ink-2); color: var(--ucl-paper); }
+.exchange-button:disabled { opacity: .6; cursor: default; }
+.exchange-hint { font-size: .85rem; color: var(--ucl-ink-2); margin: .6rem 0 1rem; line-height: 1.5; }
+.exchange-number { text-align: center; font-variant-numeric: tabular-nums; margin: .65rem 0 1.3rem; color: var(--ucl-ink-2); }
+.exchange-details { border-block: 1px solid var(--ucl-line-2); padding: 1rem 0; }
+.exchange-details summary, .exchange-more summary { min-height: 2rem; cursor: pointer; font-weight: 600; }
+.exchange-details > p { margin: .6rem 0 1rem; color: var(--ucl-ink-2); }
+.exchange-form label { display: block; font-size: .9rem; margin: .8rem 0; }
+.exchange-form label span { font-weight: 400; color: var(--ucl-ink-2); }
+.exchange-form input:not([type="hidden"]), .exchange-form textarea { display: block; width: 100%; margin-top: .35rem; padding: .7rem; min-height: 2.8rem; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); font: inherit; font-size: 1rem; background: var(--ucl-paper-card); color: var(--ucl-ink); }
+.exchange-form textarea { resize: vertical; }
+.exchange-form .exchange-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.exchange-more { margin: 1rem 0; }
+.exchange-status, .exchange-preview { padding: .8rem; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); font-size: .85rem; line-height: 1.5; }
+.exchange-preview { margin: 0 0 1rem; }
+.exchange-footer { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.2rem; font-size: .9rem; }
+.exchange-footer a { padding: .4rem 0; text-decoration: underline; text-underline-offset: .2rem; }
+.exchange-qr { text-align: center; }
+.exchange-qr h1 { font-family: var(--ucl-serif); font-size: 2.8rem; margin: .7rem 0 .4rem; }
+.exchange-qr-image { width: 100%; max-width: 24rem; height: auto; display: block; margin: 1rem auto .4rem; background: white; }
+@media (max-width: 360px) { .exchange-page { padding-inline: .8rem; } .exchange-identity { gap: .65rem; } .exchange-identity img { width: 3.5rem; height: 3.5rem; } }

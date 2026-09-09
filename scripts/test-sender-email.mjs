@@ -382,6 +382,33 @@ async function run() {
       assert(senderBodies.length === 0, "duplicate workshop interest reached Sender");
     });
 
+    await test("QR contact accepts phone-only details and deduplicates notification", async () => {
+      await reset();
+      const fields = { name: "Alex Test", phone: "(512) 555-0123", inquiry_type: "scan:card", submission_id: "3d19c152-6c12-42f7-a690-2f2a7e92d181", company: "Example & Co", linkedin: "https://www.linkedin.com/in/alex-test" };
+      const first = await form("/api/contact", fields);
+      const result = await first.json();
+      assert(first.ok && result.stored && result.notified, "phone-only capture did not save and notify");
+      assert((await form("/api/contact", fields)).ok, "retry failed");
+      assert(senderBodies.length === 1, "retry duplicated notification");
+      const notification = senderBodies[0];
+      assert(notification.text.includes("BEGIN BWJ CONTACT EXCHANGE JSON"), "capture envelope missing");
+      const envelope = JSON.parse(notification.text.split("BEGIN BWJ CONTACT EXCHANGE JSON\n")[1].split("\nEND BWJ CONTACT EXCHANGE JSON")[0]);
+      assert(envelope.phone === "+15125550123" && envelope.company === "Example & Co", "contact fields lost");
+      assert(envelope.capture_schema === "bwj.contact-exchange.v1" && /^[a-f0-9]{64}$/.test(envelope.capture_id), "capture identity invalid");
+      assert(notification.html.includes('href="sms:+15125550123"'), "tap-to-text missing");
+      assert(pathRequests(await requests(), "/v2/subscribers", "POST").length === 0, "QR contact subscribed to marketing");
+    });
+    await test("QR contact rejects malformed and duplicate fields without changing generic requirements", async () => {
+      await reset();
+      const fields = { name: "Alex Test", phone: "+442079460123", inquiry_type: "scan:meetup" };
+      assert((await form("/api/contact", fields)).ok, "international phone rejected");
+      for (const extra of [{ phone: "abc" }, { name: "" }, { email: "broken" }, { linkedin: "https://linkedin.com.evil.test/in/alex" }, { submission_id: "../oops" }, { message: "x".repeat(2001) }]) {
+        assert((await form("/api/contact", { ...fields, ...extra })).status === 400, "invalid QR field accepted");
+      }
+      assert((await formEntries("/api/contact", [...Object.entries(fields), ["phone", "+15125550124"]])).status === 400, "duplicate phone accepted");
+      assert((await form("/api/contact", { name: "Alex", email: "alex@example.test", inquiry_type: "contact" })).status === 400, "generic required message relaxed");
+    });
+
     await test("11. Generic contact keeps its historical notification contract", async () => {
       await reset();
       const response = await form("/api/contact", {
@@ -496,7 +523,7 @@ async function run() {
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 19 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
+  assert(results.length === 21 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
 }
 
 run().catch((error) => {

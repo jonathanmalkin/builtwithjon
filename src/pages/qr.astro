@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT } from '../data/contact-card.js';
+---
+<Base title="Text Jonathan" description="Scan to start a text conversation with Jonathan Malkin." noindex bare>
+  <div class="exchange-page exchange-qr">
+    <p class="exchange-label">Built with Jon</p>
+    <h1>Text Jonathan.</h1>
+    <p>Scan. Add your name. Tap Send.</p>
+    <img class="exchange-qr-image" src="/contact/qr-text.png" width="600" height="600" alt="QR code opening a text to Jonathan at 512-387-4308" />
+    <p class="exchange-number">{CONTACT.displayPhone}</p>
+    <a class="exchange-button exchange-button-primary" href="/card/">Open my contact card</a>
+    <p class="exchange-hint">If your camera opens a blank message, add your name and where we met.</p>
+    <div class="exchange-footer"><a href="/contact/qr-text.png" download="jonathan-text-qr.png">Download QR</a><a href="/contact/qr-text.svg" download="jonathan-text-qr.svg">Print version</a></div>
+  </div>
+</Base>

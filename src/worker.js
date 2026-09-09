@@ -15,6 +15,7 @@ import {
   senderTransactionalSend,
   senderUpsertSubscriber,
 } from "./lib/sender";
+import { SCAN_ORIGINS, normalizePhone, validLinkedIn } from "./lib/scan-contact.js";
 
 const SCORECARD_REPORT_PATH = "/api/scorecard-report";
 const SUBSCRIBE_PATH = "/api/subscribe";
@@ -481,8 +482,11 @@ async function handleContact(request, env) {
   const name = safeText(form.get("name"), 120);
   const email = normalizeEmail(form.get("email"));
   const message = safeText(form.get("message"), 8_000);
-  if (!name || !email || !message) return json({ ok: false, error: "required_fields_missing" }, 400);
-  const rate = await enforceRateLimits(env, request, email, "contact");
+  const scan = SCAN_ORIGINS.has(form.get("inquiry_type"));
+  const phone = scan ? normalizePhone(form.get("phone")) : null;
+  if (!name || (scan ? !phone : (!email || !message))) return json({ ok: false, error: "required_fields_missing" }, 400);
+  if (scan && form.get("email") && !email) return json({ ok: false, error: "invalid_email" }, 400);
+  const rate = await enforceRateLimits(env, request, email || phone, "contact");
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
   const submittedAt = new Date().toISOString();
   const sourceUrl = safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/contact/`;
@@ -499,7 +503,19 @@ async function handleContact(request, env) {
     source_url: sourceUrl,
     attribution,
     submitted_at: submittedAt,
+    ...(scan ? {
+      capture_kind: "qr-contact",
+      capture_schema: "bwj.contact-exchange.v1",
+      phone,
+      company: safeText(form.get("company"), 160),
+      linkedin: safeText(form.get("linkedin"), 300),
+      submission_id: safeText(form.get("submission_id"), 36) || crypto.randomUUID(),
+    } : {}),
   };
+  if (scan) lead.capture_id = await stableLeadKey({
+    name, email, phone, message, inquiryType,
+    company: lead.company, linkedin: lead.linkedin, submission_id: lead.submission_id,
+  });
   let leadStored = false;
   try {
     leadStored = await storeLead(env, lead);
@@ -508,7 +524,7 @@ async function handleContact(request, env) {
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
   if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
-  const contactId = await stableContactKey(name, email, message, workshopInterest);
+  const contactId = scan ? lead.capture_id : await stableContactKey(name, email, message, workshopInterest);
   const senderKey = `contact:sender:${contactId}`;
   const senderDuplicate = await dedupeHit(env, senderKey);
   const contactSenderEnabled = senderEnabled(env);
@@ -813,7 +829,8 @@ async function sendReportEmailSender(report, env) {
 
 async function sendOwnerLeadNotification(env, lead) {
   const formId = safeText(lead.form_id, 80) || "website-form";
-  const formLabel = FORM_LABELS[formId] || formId;
+  const isQrContact = lead.capture_kind === "qr-contact";
+  const formLabel = isQrContact ? "QR contact exchange" : (FORM_LABELS[formId] || formId);
   const rows = Object.entries(lead).filter(([, value]) =>
     value !== "" && value !== null && value !== undefined
   );
@@ -821,6 +838,7 @@ async function sendOwnerLeadNotification(env, lead) {
     `New website lead: ${formLabel}`,
     "",
     ...rows.map(([key, value]) => `${leadFieldLabel(key)}: ${leadFieldValue(value)}`),
+    ...(isQrContact ? ["", `Text this person: sms:${lead.phone}`, "", "BEGIN BWJ CONTACT EXCHANGE JSON", JSON.stringify(lead), "END BWJ CONTACT EXCHANGE JSON"] : []),
   ].join("\n");
   const htmlRows = rows.map(([key, value]) => `
     <tr>
@@ -831,7 +849,9 @@ async function sendOwnerLeadNotification(env, lead) {
     <div style="max-width:680px;margin:0 auto;padding:24px;background:#fff;color:#1F1713;">
       <p style="margin:0 0 8px;color:#8F4E24;font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;">Built with Jon website</p>
       <h1 style="margin:0 0 20px;font:700 24px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">New lead: ${escapeHtml(formLabel)}</h1>
+      ${isQrContact ? `<p><a href="sms:${escapeHtml(lead.phone)}">Text ${escapeHtml(lead.name)}</a></p>` : ""}
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:1px solid #E5D7C3;">${htmlRows}</table>
+      ${isQrContact ? `<pre style="white-space:pre-wrap;overflow-wrap:anywhere">BEGIN BWJ CONTACT EXCHANGE JSON\n${escapeHtml(JSON.stringify(lead))}\nEND BWJ CONTACT EXCHANGE JSON</pre>` : ""}
     </div>`;
   return senderTransactionalSend(env, {
     to: "jonathan@builtwithjon.com",
@@ -915,6 +935,7 @@ function validateMappedForm(form, config) {
 }
 
 function validateContactForm(form) {
+  const scan = SCAN_ORIGINS.has(form.get("inquiry_type"));
   const limits = {
     name: 120,
     email: 254,
@@ -925,8 +946,15 @@ function validateContactForm(form) {
     workshop_interest: 100,
     attribution: 240,
     "cf-turnstile-response": 2048,
+    ...(scan ? { phone: 32, company: 160, linkedin: 300, submission_id: 36 } : {}),
   };
-  if ([...form.keys()].length > 10) return false;
+  if ([...form.keys()].length > (scan ? 14 : 10)) return false;
+  if (scan) {
+    if (form.get("linkedin") && !validLinkedIn(form.get("linkedin"))) return false;
+    if (form.get("submission_id") && !/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(form.get("submission_id"))) return false;
+    if (String(form.get("message") || "").length > 2000) return false;
+    for (const key of Object.keys(limits)) if (form.getAll(key).length > 1) return false;
+  }
   if (form.getAll("workshop_interest").length > 1) return false;
   const workshopInterest = form.get("workshop_interest");
   if (workshopInterest && (!WORKSHOP_INTERESTS.has(workshopInterest) || form.get("inquiry_type") !== "workshop-host")) return false;
@@ -1056,6 +1084,14 @@ async function storeLead(env, record) {
     return false;
   }
   const submittedAt = record.submitted_at || new Date().toISOString();
+  if (record.capture_kind === "qr-contact") {
+    // A retry of the same submission preserves its identity and original date.
+    const key = `lead:qr:${record.capture_id}`;
+    if (!(await env.LEADS.get(key))) {
+      await env.LEADS.put(key, JSON.stringify(record), { expirationTtl: 63_072_000 });
+    }
+    return true;
+  }
   const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
   const suffix = [...crypto.getRandomValues(new Uint8Array(6))]
     .map((value) => alphabet[value % alphabet.length])
