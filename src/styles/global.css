@@ -4916,35 +4916,78 @@ body.ws26{--ivory:#fbf8f1;--parch:#f3ecdd;--clay:#ede2cc;--ink:#191e26;--body:#4
   .site-header .nav-links {display:flex;}
 }
 
-/* Contact exchange: keep the conversation above optional detail collection. */
-.exchange-page { max-width: 30rem; margin: 0 auto; padding: 1.5rem 1.1rem 2rem; }
-.exchange-identity { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--ucl-line-2); }
-.exchange-identity img { width: 4.9rem; height: 4.9rem; flex: none; object-fit: cover; border-radius: var(--ucl-r-md); }
-.exchange-label { font-family: var(--ucl-mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ucl-ink-2); }
-.exchange-identity h1 { font-family: var(--ucl-serif); font-size: clamp(1.7rem, 6vw, 2.25rem); line-height: 1.05; margin: .3rem 0; }
-.exchange-identity p:last-child { color: var(--ucl-ink-2); font-size: .9rem; }
-.exchange-primary h2 { font-size: 1.55rem; margin: 1.3rem 0 1rem; }
-.exchange-button { display: flex; width: 100%; min-height: 3rem; align-items: center; justify-content: center; padding: .7rem 1rem; border: 1px solid var(--ucl-ink); border-radius: var(--ucl-r-md); background: var(--ucl-paper-card); color: var(--ucl-ink); font: 650 1rem/1.4 var(--font-body); text-align: center; cursor: pointer; }
-.exchange-button:hover { background: var(--ucl-paper); color: var(--ucl-ink); text-decoration: none; }
-.exchange-button-primary { background: var(--ucl-ink); color: var(--ucl-paper); }
-.exchange-button-primary:hover { background: var(--ucl-ink-2); color: var(--ucl-paper); }
-.exchange-button:disabled { opacity: .6; cursor: default; }
-.exchange-hint { font-size: .85rem; color: var(--ucl-ink-2); margin: .6rem 0 1rem; line-height: 1.5; }
-.exchange-number { text-align: center; font-variant-numeric: tabular-nums; margin: .65rem 0 1.3rem; color: var(--ucl-ink-2); }
-.exchange-details { border-block: 1px solid var(--ucl-line-2); padding: 1rem 0; }
-.exchange-details summary, .exchange-more summary { min-height: 2rem; cursor: pointer; font-weight: 600; }
-.exchange-details > p { margin: .6rem 0 1rem; color: var(--ucl-ink-2); }
-.exchange-form label { display: block; font-size: .9rem; margin: .8rem 0; }
-.exchange-form label span { font-weight: 400; color: var(--ucl-ink-2); }
-.exchange-form input:not([type="hidden"]), .exchange-form textarea { display: block; width: 100%; margin-top: .35rem; padding: .7rem; min-height: 2.8rem; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); font: inherit; font-size: 1rem; background: var(--ucl-paper-card); color: var(--ucl-ink); }
-.exchange-form textarea { resize: vertical; }
+/* Contact exchange: the visitor's details first, then a personal text. Phone-first sizes. */
+body.contact-exchange { max-width: none; padding: 0; background: var(--ucl-paper); color: var(--ucl-ink); }
+.contact-exchange main { min-height: 100svh; display: flex; flex-direction: column; }
+.contact-exchange .exchange-page { width: 100%; max-width: 27rem; margin: 0 auto; padding: clamp(1.25rem, 4svh, 2.75rem) 1.25rem 2.25rem; font-size: 1.05rem; line-height: 1.5; }
+.exchange-page p { margin: 0; }
+.exchange-page .exchange-preview { padding: .75rem .95rem; margin: 0 0 1.4rem; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); background: var(--ucl-paper-card); font-size: .95rem; line-height: 1.45; color: var(--ucl-ink-2); }
+.exchange-identity { display: flex; align-items: center; gap: 1rem; }
+.exchange-identity img { width: 4.5rem; height: 4.5rem; flex: none; object-fit: cover; border-radius: 50%; }
+.exchange-identity .exchange-name { font: 500 1.55rem/1.15 var(--ucl-serif); letter-spacing: -.015em; color: var(--ucl-ink); margin: 0 0 .15rem; }
+.exchange-identity .exchange-byline { color: var(--ucl-ink-2); font-size: 1rem; line-height: 1.4; }
+.exchange-page h1 { font: 500 clamp(2.05rem, 7vw, 2.5rem)/1.08 var(--ucl-serif); letter-spacing: -.025em; margin: 1.5rem 0 .35rem; text-wrap: balance; }
+.exchange-page .exchange-intro { color: var(--ucl-ink-2); font-size: 1.1rem; line-height: 1.45; max-width: 32ch; text-wrap: pretty; }
+.exchange-form { margin-top: 1.1rem; padding: 1.1rem 1.1rem 1rem; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-xl); box-shadow: 0 6px 18px -12px rgba(31, 23, 19, .22); }
+.exchange-field { display: block; margin: 0 0 .85rem; }
+.exchange-field label { display: block; font-size: 1rem; font-weight: 600; line-height: 1.3; margin: 0 0 .4rem; }
+.exchange-field label em { font-style: normal; font-weight: 400; color: var(--ucl-ink-2); }
+.exchange-field .exchange-label-optional { font-weight: 500; color: var(--ucl-ink-2); }
+.exchange-field input { display: block; width: 100%; min-height: 3.25rem; padding: .75rem .9rem; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); font: 400 1.125rem/1.4 var(--ucl-sans); background: var(--ucl-paper); color: var(--ucl-ink); caret-color: var(--ucl-ink); transition: border-color .15s ease, background-color .15s ease; }
+.exchange-field input:focus-visible { outline: 2px solid var(--ucl-ink); outline-offset: 2px; border-color: var(--ucl-ink); background: var(--ucl-paper-card); }
+.exchange-page .exchange-hint { font-size: .95rem; color: var(--ucl-ink-2); line-height: 1.45; margin: .5rem 0 0; text-wrap: pretty; }
 .exchange-form .exchange-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.exchange-more { margin: 1rem 0; }
-.exchange-status, .exchange-preview { padding: .8rem; background: var(--ucl-paper-card); border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-md); font-size: .85rem; line-height: 1.5; }
-.exchange-preview { margin: 0 0 1rem; }
-.exchange-footer { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.2rem; font-size: .9rem; }
-.exchange-footer a { padding: .4rem 0; text-decoration: underline; text-underline-offset: .2rem; }
+.exchange-button { display: flex; gap: .5rem; width: 100%; min-height: 3.4rem; align-items: center; justify-content: center; padding: .85rem 1rem; border: 1px solid var(--ucl-ink); border-radius: var(--ucl-r-md); background: var(--ucl-paper-card); color: var(--ucl-ink); font: 600 1.1rem/1.3 var(--ucl-sans); text-align: center; cursor: pointer; text-decoration: none; transition: background-color .15s ease, transform .15s ease; }
+.exchange-button svg { width: 1.15rem; height: 1.15rem; }
+.exchange-button-primary { background: var(--ucl-ink); color: var(--ucl-paper-card); }
+.exchange-button-primary:hover { background: #000; border-color: #000; color: var(--ucl-paper-card); text-decoration: none; }
+.exchange-button-primary:active { transform: translateY(1px); }
+.exchange-button-secondary { margin-top: 1.25rem; }
+.exchange-button-secondary:hover { border-color: #000; color: #000; text-decoration: none; }
+.exchange-button:disabled { opacity: .5; cursor: default; transform: none; }
+.exchange-page .exchange-assurance { font-size: .95rem; color: var(--ucl-ink-2); margin: .8rem 0 0; text-align: center; line-height: 1.45; }
+.exchange-security { font-size: 1rem; color: var(--ucl-ink-2); }
+.exchange-security [data-security-status] { margin: 0 0 .75rem; line-height: 1.45; }
+.exchange-security [data-security-widget] { max-width: 100%; }
+.exchange-security [data-security-widget]:empty { display: none; }
+.exchange-security [data-security-retry] { margin: -.35rem 0 .75rem; }
+.exchange-link-button { font: 500 1rem/1.3 var(--ucl-sans); color: var(--ucl-ink); min-height: 44px; border: 0; padding: .4rem .1rem; background: none; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.exchange-link-button:hover { color: #000; }
+.exchange-page .exchange-status { padding: .85rem 1rem; margin: .9rem 0 0; background: var(--ucl-paper); border: 1px solid var(--ucl-ink); border-radius: var(--ucl-r-md); font-size: 1rem; line-height: 1.5; color: var(--ucl-ink); }
+.exchange-success { padding-top: 1.5rem; }
+.exchange-success .exchange-check { display: block; width: 3rem; height: 3rem; padding: .6rem; box-sizing: border-box; border: 1.5px solid var(--ucl-ink); border-radius: 50%; color: var(--ucl-ink); }
+.exchange-success h1 { margin-top: 1.1rem; }
+.exchange-page .exchange-success .exchange-intro { margin: 0 0 1.4rem; }
+.exchange-footer { margin-top: 1.75rem; padding-top: 1rem; border-top: 1px solid var(--ucl-line); }
+.exchange-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.75rem; }
+.exchange-action { display: inline-flex; align-items: center; gap: .5rem; min-height: 48px; padding: .5rem .1rem; font-size: 1.05rem; font-weight: 500; color: var(--ucl-ink); text-decoration: none; }
+.exchange-action svg { width: 1.25rem; height: 1.25rem; color: var(--ucl-ink-2); }
+.exchange-action:hover { color: #000; text-decoration: underline; text-underline-offset: .22em; text-decoration-thickness: 1px; }
+.exchange-page .exchange-footnote { margin: .4rem 0 0; text-align: center; font-size: .95rem; line-height: 1.5; color: var(--ucl-ink-2); }
+[data-saved] .exchange-before-save, [data-saved] .exchange-footer { display: none; }
+.exchange-desktop-note { display: none; }
+[data-desktop] .exchange-desktop-note { display: block; }
+[data-desktop] .exchange-actions .exchange-desktop-note { display: inline-flex; }
+[data-desktop] .exchange-phone-only, [data-desktop] [data-next-sms] { display: none; }
+.exchange-inline-button { font: inherit; color: var(--ucl-ink); background: none; border: 0; padding: .5rem 0; margin: -.5rem 0; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.exchange-page .exchange-copy-status { margin: .6rem 0 0; text-align: center; font-size: .95rem; line-height: 1.5; color: var(--ucl-ink); }
+.exchange-next + .exchange-next { margin: 0; }
+.exchange-page :focus-visible { outline: 2px solid var(--ucl-ink); outline-offset: 4px; }
+.exchange-page h1:focus { outline: none; }
+.exchange-page ::selection { color: var(--ucl-paper-card); background: var(--ucl-ink); }
+.exchange-page { scrollbar-color: var(--ucl-line-2) var(--ucl-paper); }
+/* Owner display: Jonathan opens this on his phone and holds it up. The code leads. */
 .exchange-qr { text-align: center; }
-.exchange-qr h1 { font-family: var(--ucl-serif); font-size: 2.8rem; margin: .7rem 0 .4rem; }
-.exchange-qr-image { width: 100%; max-width: 24rem; height: auto; display: block; margin: 1rem auto .4rem; background: white; }
-@media (max-width: 360px) { .exchange-page { padding-inline: .8rem; } .exchange-identity { gap: .65rem; } .exchange-identity img { width: 3.5rem; height: 3.5rem; } }
+.exchange-qr h1 { margin-top: 0; }
+.exchange-qr .exchange-intro { max-width: none; margin: 0 auto; }
+.exchange-qr-link { display: block; max-width: 24rem; margin: 1.25rem auto .5rem; }
+.exchange-qr-image { width: 100%; height: auto; display: block; background: white; border: 1px solid var(--ucl-line-2); border-radius: var(--ucl-r-xl); }
+.exchange-page .exchange-qr-owner { margin: .75rem 0 0; font-size: 1rem; color: var(--ucl-ink-2); }
+.exchange-qr-name { color: var(--ucl-ink-2); font-size: 1rem; margin-top: .1rem; }
+.exchange-downloads { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.75rem; border-top: 1px solid var(--ucl-line); padding-top: .6rem; margin-top: 1.25rem; font-size: 1rem; }
+.exchange-downloads a { display: inline-flex; min-height: 44px; align-items: center; }
+@media (max-width: 360px) { .contact-exchange .exchange-page { padding-inline: 1rem; } .exchange-form { padding-inline: .9rem; } .exchange-identity { gap: .75rem; } .exchange-identity img { width: 3.75rem; height: 3.75rem; } .exchange-identity .exchange-name { font-size: 1.35rem; } }
+@media (min-width: 700px) { .contact-exchange main { justify-content: center; } .contact-exchange .exchange-page { padding-block: 3rem; } }
+@media (prefers-reduced-motion: no-preference) { .exchange-success { animation: exchange-arrive .3s cubic-bezier(.16, 1, .3, 1); } @keyframes exchange-arrive { from { transform: translateY(6px); } to { transform: translateY(0); } } }
+@media print { .exchange-downloads { display: none; } .exchange-qr-image { max-width: 3.5in; margin-inline: auto; } }
+

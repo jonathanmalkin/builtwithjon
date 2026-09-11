@@ -1,84 +1,77 @@
 ---
-import { CONTACT, smsLink } from '../data/contact-card.js';
+import { Icon } from 'astro-icon/components';
+import { CONTACT, smsLink, emailLink, FALLBACK_TEXT } from '../data/contact-card.js';
 interface Props { subject: string; inquiryType: string; label?: string; }
 const { inquiryType } = Astro.props;
 const preview = import.meta.env.CONTACT_PREVIEW === 'true';
 ---
-<div class="exchange-page">
-  {preview && <p class="exchange-preview">Test preview. Texting and saving my contact work. Form delivery starts after launch.</p>}
+<div class="exchange-page" data-exchange>
+  {preview && <p class="exchange-preview">Preview. Try the form, then open a text. Nothing you enter is submitted.</p>}
   <header class="exchange-identity">
     <img src="/images/jonathan-malkin.jpg" width="88" height="88" alt="Jonathan Malkin" />
-    <div><p class="exchange-label">Built with Jon</p><h1>Jonathan Malkin</h1><p>Austin, Texas</p></div>
+    <div><p class="exchange-name">Jonathan Malkin</p><p class="exchange-byline">Built with Jon · Austin, Texas</p></div>
   </header>
-  <section class="exchange-primary" aria-label="Start a conversation">
-    <h2>Let’s stay in touch.</h2>
-    <a class="exchange-button exchange-button-primary" data-sms-link href={smsLink()}>Text Jonathan</a>
-    <p class="exchange-hint">Add your name and where we met, then tap Send.</p>
-    <a class="exchange-button" href="/jonathan-malkin.vcf">Save my contact</a>
-    <p class="exchange-number">{CONTACT.displayPhone}</p>
-  </section>
-  <details class="exchange-details">
-    <summary>Share your contact details</summary>
-    <p>Leave your details here if you’d rather skip the text.</p>
-    <form action={preview ? undefined : '/api/contact'} method="POST" class="exchange-form" data-preview={preview ? 'true' : undefined}>
+  <section class="exchange-task" data-exchange-entry aria-labelledby="exchange-title">
+    <h1 id="exchange-title">Let’s stay in touch.</h1>
+    <p class="exchange-intro">Add your info, then send me a quick text.</p>
+    <form action={preview ? undefined : '/api/contact'} method="POST" class="exchange-form" data-security-owner="exchange" data-preview={preview ? 'true' : undefined} data-site-key="0x4AAAAAAEJkiadExu7m9ULG">
       <input type="hidden" name="inquiry_type" value={inquiryType} />
       <input type="hidden" name="submission_id" value="" />
       <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="exchange-honeypot" />
-      <label for="exchange-name">Your name<input id="exchange-name" name="name" autocomplete="name" required maxlength="120" /></label>
-      <label for="exchange-phone">Mobile number<input id="exchange-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="32" placeholder="512-555-0123" /></label>
-      <label for="exchange-email">Email <span>(optional)</span><input id="exchange-email" name="email" type="email" autocomplete="email" maxlength="254" /></label>
-      <label for="exchange-context">Where we met / what we discussed <span>(optional)</span><textarea id="exchange-context" name="message" rows="2" maxlength="2000"></textarea></label>
-      <details class="exchange-more"><summary>More details</summary>
-        <label for="exchange-company">Company <span>(optional)</span><input id="exchange-company" name="company" autocomplete="organization" maxlength="160" /></label>
-        <label for="exchange-linkedin">LinkedIn profile <span>(optional)</span><input id="exchange-linkedin" name="linkedin" type="url" placeholder="https://www.linkedin.com/in/your-name" maxlength="300" /></label>
-      </details>
-      <button type="submit" class="exchange-button exchange-button-primary">{preview ? 'Check my details' : 'Share my details'}</button>
-      <p class="exchange-hint">For staying in touch. This does not sign you up for marketing emails.</p>
-      <p class="exchange-status" role="status" tabindex="-1" hidden></p>
+      <div class="exchange-field">
+        <label for="exchange-name">Your name</label>
+        <input id="exchange-name" name="name" autocomplete="name" required maxlength="120" />
+      </div>
+      <div class="exchange-field">
+        <label for="exchange-phone">Mobile number</label>
+        <input id="exchange-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="32" aria-describedby="exchange-reach-hint" />
+        <p id="exchange-reach-hint" class="exchange-hint">Mobile or email works. Mobile is faster for a text.</p>
+      </div>
+      <div class="exchange-field">
+        <label for="exchange-email">Email</label>
+        <input id="exchange-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" aria-describedby="exchange-reach-hint" />
+      </div>
+      <div class="exchange-field">
+        <label for="exchange-context" class="exchange-label-optional">Where we met <em>(optional)</em></label>
+        <input id="exchange-context" name="message" maxlength="2000" autocomplete="off" />
+      </div>
+      <div class="exchange-security" data-security-wrap hidden>
+        <p data-security-status role="status">Checking your connection…</p>
+        <div data-security-widget></div>
+        <button type="button" class="exchange-link-button" data-security-retry hidden>Retry the check</button>
+      </div>
+      <button type="submit" class="exchange-button exchange-button-primary" disabled>{preview ? 'Try sharing my details' : 'Share my details'}</button>
+      <p class="exchange-assurance">Only I see this, and only to stay in touch. No marketing emails.</p>
+      <p class="exchange-status" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
+      <noscript><p class="exchange-hint">To share details here, turn on JavaScript. You can also text me below.</p></noscript>
     </form>
-  </details>
-  <footer class="exchange-footer"><a href={CONTACT.linkedin} rel="me noopener" target="_blank">LinkedIn</a><a href={`mailto:${CONTACT.email}`}>Email Jonathan</a></footer>
+  </section>
+  <section class="exchange-success" data-exchange-success aria-labelledby="exchange-saved-title" hidden>
+    <Icon name="lucide:check" class="exchange-check" aria-hidden="true" />
+    <h1 id="exchange-saved-title" tabindex="-1">{preview ? 'That’s how it works.' : 'Got it. Thanks!'}</h1>
+    <p class="exchange-intro" data-saved-intro>{preview ? 'Nothing was submitted. The text and contact links below still work.' : 'Saved. Now send me a quick text so you’re in my phone too.'}</p>
+    <div class="exchange-next" data-next-sms>
+      <a class="exchange-button exchange-button-primary" data-sms-next href={smsLink(FALLBACK_TEXT)}><Icon name="lucide:message-circle" aria-hidden="true" />Text Jonathan</a>
+      <p class="exchange-assurance">Your messaging app opens with a note ready. You tap Send. <button type="button" class="exchange-inline-button" data-copy-note>Note missing? Copy it.</button></p>
+    </div>
+    <div class="exchange-next" data-next-email hidden>
+      <a class="exchange-button exchange-button-primary" data-email-next href={emailLink()}><Icon name="lucide:mail" aria-hidden="true" />Email Jonathan</a>
+      <p class="exchange-assurance">Your mail app opens with a note ready. You tap Send.</p>
+    </div>
+    <p class="exchange-assurance exchange-desktop-note">On a phone, text me at <strong>{CONTACT.displayPhone}</strong>. Or <a data-email-next href={emailLink()}>send an email</a>.</p>
+    <p class="exchange-copy-status" role="status" hidden></p>
+    <a class="exchange-button exchange-button-secondary" href="/jonathan-malkin.vcf"><Icon name="lucide:user-round-plus" aria-hidden="true" />Save Jonathan’s contact</a>
+    <p class="exchange-assurance">Opens a contact card with my number and email. You tap Add.</p>
+  </section>
+  <footer class="exchange-footer">
+    <div class="exchange-actions">
+      <a class="exchange-action exchange-before-save" href="/jonathan-malkin.vcf"><Icon name="lucide:user-round-plus" aria-hidden="true" />Save my contact</a>
+      <a class="exchange-action exchange-before-save exchange-phone-only" data-sms-fallback href={smsLink(FALLBACK_TEXT)}><Icon name="lucide:message-circle" aria-hidden="true" />Text me instead</a>
+      <a class="exchange-action exchange-before-save exchange-desktop-note" href={emailLink()}><Icon name="lucide:mail" aria-hidden="true" />Email me instead</a>
+    </div>
+    <p class="exchange-footnote exchange-before-save">Texting or emailing first? Add your name so I know it’s you.</p>
+  </footer>
 </div>
 <script>
-  import { INTRO_TEXT, smsLink } from '../data/contact-card.js';
-  import { normalizePhone, validLinkedIn } from '../lib/scan-contact.js';
-  const apple = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  const textLink = document.querySelector<HTMLAnchorElement>('[data-sms-link]');
-  if (textLink) textLink.href = smsLink(INTRO_TEXT, apple);
-  const form = document.querySelector<HTMLFormElement>('.exchange-form');
-  const status = form?.querySelector<HTMLParagraphElement>('.exchange-status');
-  const phone = form?.querySelector<HTMLInputElement>('[name="phone"]');
-  const linkedin = form?.querySelector<HTMLInputElement>('[name="linkedin"]');
-  const submission = form?.querySelector<HTMLInputElement>('[name="submission_id"]');
-  if (submission) submission.value = crypto.randomUUID();
-  phone?.addEventListener('input', () => phone.setCustomValidity(''));
-  linkedin?.addEventListener('input', () => linkedin.setCustomValidity(''));
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!phone || !status) return;
-    phone.setCustomValidity(normalizePhone(phone.value) ? '' : 'Enter a valid mobile number, including the country code outside the US or Canada.');
-    linkedin?.setCustomValidity(!linkedin.value || validLinkedIn(linkedin.value) ? '' : 'Use a LinkedIn profile URL such as https://www.linkedin.com/in/your-name.');
-    if (!form.reportValidity()) return;
-    if (form.dataset.preview === 'true') {
-      status.textContent = 'Your details pass validation. Nothing was submitted in this preview.';
-      status.hidden = false;
-      return;
-    }
-    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (button) button.disabled = true;
-    try {
-      const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-      const result = await response.json();
-      if (!response.ok || !result.stored) throw new Error('not_saved');
-      status.textContent = 'Your details are saved. You can text me above to start a conversation.';
-      form.querySelectorAll<HTMLInputElement | HTMLButtonElement | HTMLTextAreaElement>('input, button, textarea').forEach(el => el.disabled = true);
-    } catch {
-      status.textContent = 'That did not go through. Your details are still here. Try again or text me above.';
-      if (button) button.disabled = false;
-      const widget = form.dataset.turnstileWidget;
-      if (widget && (window as any).turnstile) (window as any).turnstile.reset(widget);
-    }
-    status.hidden = false;
-    status.focus();
-  });
+  import '../scripts/contact-exchange';
 </script>

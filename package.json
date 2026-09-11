@@ -15,7 +15,8 @@
     "leads:export": "node scripts/export-leads.mjs",
     "test:email": "node scripts/test-sender-email.mjs",
     "contact:qr": "node scripts/generate-contact-qr.mjs",
-    "test:contact": "node scripts/test-contact-exchange.mjs"
+    "test:contact": "node scripts/test-contact-exchange.mjs",
+    "test:contact:browser": "node scripts/test-contact-browser.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.8",

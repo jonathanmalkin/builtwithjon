@@ -161,7 +161,7 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
   var scanQueued = false;
 
   function eligible(form) {
-    if (!REQUIRED || !form || form.dataset.turnstileProtected) return false;
+    if (!REQUIRED || !form || form.dataset.turnstileProtected || form.dataset.securityOwner === 'exchange') return false;
     try { return protectedActions.indexOf(new URL(form.action, location.href).pathname) !== -1; }
     catch (err) { return false; }
   }

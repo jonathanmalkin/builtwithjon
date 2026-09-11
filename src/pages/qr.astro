@@ -1,16 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
-import { CONTACT } from '../data/contact-card.js';
+const preview = import.meta.env.CONTACT_PREVIEW === 'true';
 ---
-<Base title="Text Jonathan" description="Scan to start a text conversation with Jonathan Malkin." noindex bare>
+<Base title="Exchange details with Jonathan" description="Scan to share your details with Jonathan Malkin." noindex bare bodyClass="contact-exchange">
   <div class="exchange-page exchange-qr">
-    <p class="exchange-label">Built with Jon</p>
-    <h1>Text Jonathan.</h1>
-    <p>Scan. Add your name. Tap Send.</p>
-    <img class="exchange-qr-image" src="/contact/qr-text.png" width="600" height="600" alt="QR code opening a text to Jonathan at 512-387-4308" />
-    <p class="exchange-number">{CONTACT.displayPhone}</p>
-    <a class="exchange-button exchange-button-primary" href="/card/">Open my contact card</a>
-    <p class="exchange-hint">If your camera opens a blank message, add your name and where we met.</p>
-    <div class="exchange-footer"><a href="/contact/qr-text.png" download="jonathan-text-qr.png">Download QR</a><a href="/contact/qr-text.svg" download="jonathan-text-qr.svg">Print version</a></div>
+    {preview && <p class="exchange-preview">Preview: this QR points to builtwithjon.com. The updated page is not published yet.</p>}
+    <h1>Scan to stay in touch.</h1>
+    <a class="exchange-qr-link" href="/card/" aria-label="Open Jonathan’s contact exchange"><img class="exchange-qr-image" src="/contact/qr-website.png" width="1000" height="1000" alt="QR code for builtwithjon.com/card/" /></a>
+    <p class="exchange-qr-owner">Jonathan Malkin · builtwithjon.com/card</p>
+    <div class="exchange-downloads"><a href="/contact/qr-website.png" download="jonathan-contact-qr.png">Download image</a><a href="/contact/qr-website.svg" download="jonathan-contact-qr.svg">Print version</a></div>
   </div>
 </Base>

@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { recoveryOptions, recoveryMatches } from "../src/lib/qr-recovery.js";
 
 const wrangler = "./node_modules/.bin/wrangler";
 const local = process.argv.includes("--local");
@@ -22,6 +23,31 @@ function csv(value) {
   // leading tab/CR) are treated as formulas by Excel/Sheets. Prefix with a quote.
   if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
   return `"${text.replace(/"/g, '""')}"`;
+}
+
+if (process.argv.includes("--qr")) {
+  let options;
+  try { options = recoveryOptions(process.argv.slice(2)); }
+  catch (error) { process.stderr.write(`${error.message}\n`); process.exit(2); }
+  const keys = JSON.parse(run(["kv", "key", "list", "--binding=LEADS", "--prefix=lead:qr:", ...targetArgs]));
+  let scanned = 0, emitted = 0;
+  for (const item of keys) {
+    if (scanned >= options.scanLimit || emitted >= options.limit) break;
+    scanned++;
+    const lead = JSON.parse(run(["kv", "key", "get", item.name, "--binding=LEADS", "--text", ...targetArgs]));
+    // Older entries may have no metadata. Read at most one delivery record per lead.
+    const result = spawnSync(wrangler, ["kv", "key", "get", `delivery:qr:${lead.capture_id}`, "--binding=LEADS", "--text", ...targetArgs], { encoding: "utf8" });
+    let delivery = null;
+    if (result.status === 0 && result.stdout.trim()) {
+      try { delivery = JSON.parse(result.stdout); } catch { /* Retain unknown, not notified. */ }
+    }
+    if (recoveryMatches(lead, delivery, options)) {
+      process.stdout.write(JSON.stringify({ source_key: item.name, lead, delivery: delivery || { status: "unknown" } }) + "\n");
+      emitted++;
+    }
+  }
+  process.stderr.write(`QR recovery: ${scanned}/${keys.length} listed keys inspected; ${emitted} records exported. ${scanned < keys.length ? 'INCOMPLETE: limit reached; narrow or increase bounded coverage before claiming all failures were recovered.' : 'Listed keys exhausted.'}\n`);
+  process.exit(0);
 }
 
 const columns = [

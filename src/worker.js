@@ -93,6 +93,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:workshops-interest", "cta:workshops-guide",
   "workshop-host:start", "workshop-host:submit", "workshop-host:success",
   "contact:start", "contact:submit",
+  "cta:wou-paid-assessment", "cta:wou-send-list", "wou:print", "wou-list:start", "wou-list:submit", "wou-list:success",
   "cta:scorecard-article", "cta:scorecard-article-s2", "cta:scorecard-article-s3",
   "cta:scorecard-contact", "cta:scorecard-final", "cta:scorecard-footer",
   "cta:scorecard-frontdoor", "cta:scorecard-hero", "cta:scorecard-nav",
@@ -483,17 +484,19 @@ async function handleContact(request, env) {
   const email = normalizeEmail(form.get("email"));
   const message = safeText(form.get("message"), 8_000);
   const scan = SCAN_ORIGINS.has(form.get("inquiry_type"));
+  // QR exchange: name plus at least one way to reach the person. Mobile is preferred; email alone is accepted.
   const phone = scan ? normalizePhone(form.get("phone")) : null;
-  if (!name || (scan ? !phone : (!email || !message))) return json({ ok: false, error: "required_fields_missing" }, 400);
+  if (scan && form.get("phone") && !phone) return json({ ok: false, error: "invalid_phone" }, 400);
   if (scan && form.get("email") && !email) return json({ ok: false, error: "invalid_email" }, 400);
-  const rate = await enforceRateLimits(env, request, email || phone, "contact");
+  if (!name || (scan ? !(phone || email) : (!email || !message))) return json({ ok: false, error: "required_fields_missing" }, 400);
+  const rate = await enforceRateLimits(env, request, email || phone, "contact", scan);
   if (!rate.ok) return json({ ok: false, error: "rate_limited" }, 429);
   const submittedAt = new Date().toISOString();
   const sourceUrl = safeUrl(request.headers.get("Referer")) || `${new URL(request.url).origin}/contact/`;
   const attribution = safeText(form.get("attribution"), 240);
   const inquiryType = safeText(form.get("inquiry_type"), 80);
   const workshopInterest = safeText(form.get("workshop_interest"), 100);
-  const lead = {
+  let lead = {
     email,
     name,
     form_id: "contact",
@@ -518,7 +521,9 @@ async function handleContact(request, env) {
   });
   let leadStored = false;
   try {
-    leadStored = await storeLead(env, lead);
+    const stored = await storeLead(env, lead);
+    leadStored = Boolean(stored);
+    if (scan && stored) lead = stored;
   } catch (error) {
     logOperational("lead_store_failed", { route: "contact" });
     return json({ ok: false, error: "lead_store_failed" }, 502);
@@ -526,25 +531,50 @@ async function handleContact(request, env) {
   if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
   const contactId = scan ? lead.capture_id : await stableContactKey(name, email, message, workshopInterest);
   const senderKey = `contact:sender:${contactId}`;
-  const senderDuplicate = await dedupeHit(env, senderKey);
-  const contactSenderEnabled = senderEnabled(env);
-  const senderBudgetAvailable = !contactSenderEnabled || senderDuplicate || (await consumeSenderBudget(env)).ok;
-  if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "contact" });
-
-  let senderSucceeded = senderDuplicate;
-  if (contactSenderEnabled && senderBudgetAvailable && !senderDuplicate) {
+  let delivery = null;
+  let deliveryReadable = true;
+  if (scan) {
     try {
-      validateSenderConfig(env);
-      await sendOwnerLeadNotification(env, lead);
-      senderSucceeded = true;
-      await markDedupe(env, senderKey);
-    } catch (error) {
-      logOperational("contact_sender_failed", { operation: error?.operation, status: error?.status });
-    }
+      const raw = await env.LEADS.get(`delivery:qr:${contactId}`);
+      delivery = raw ? JSON.parse(raw) : null;
+    } catch { deliveryReadable = false; logOperational("contact_delivery_read_failed", { capture_id: contactId }); }
   }
-
+  const senderDuplicate = delivery?.status === "notified" || await dedupeHit(env, senderKey);
+  // A prior in-flight/uncertain send needs provider reconciliation, not an automatic resend.
+  const needsReview = scan && (!deliveryReadable || ["sending", "uncertain"].includes(delivery?.status));
+  const contactSenderEnabled = senderEnabled(env);
+  const senderBudgetAvailable = !contactSenderEnabled || senderDuplicate || needsReview || (await consumeSenderBudget(env)).ok;
+  if (!senderBudgetAvailable) logOperational("sender_budget_exhausted", { route: "contact" });
+  const recordDelivery = async (status, reason, attempts = delivery?.attempts || 0) => {
+    if (!scan) return true;
+    try {
+      const next = { capture_id: contactId, status, reason, attempts, updated_at: new Date().toISOString(), submitted_at: lead.submitted_at };
+      await env.LEADS.put(`delivery:qr:${contactId}`, JSON.stringify(next), { expirationTtl: 63_072_000 });
+      delivery = next;
+      return true;
+    } catch { logOperational("contact_delivery_write_failed", { capture_id: contactId, status }); return false; }
+  };
+  let senderSucceeded = senderDuplicate;
+  if (contactSenderEnabled && senderBudgetAvailable && !senderDuplicate && !needsReview) {
+    const canSend = await recordDelivery("sending", "provider_request", (delivery?.attempts || 0) + 1);
+    if (canSend) {
+      try {
+        validateSenderConfig(env);
+        await sendOwnerLeadNotification(env, lead);
+        senderSucceeded = true;
+        await recordDelivery("notified", "provider_accepted");
+        await markDedupe(env, senderKey);
+      } catch (error) {
+        // Preserve acceptance even if the subsequent dedupe write fails.
+        if (!senderSucceeded) await recordDelivery(error?.status >= 400 ? "failed" : "uncertain", "provider_error");
+        logOperational("contact_sender_failed", { operation: error?.operation, status: error?.status });
+      }
+    }
+  } else if (scan && !senderDuplicate && !needsReview) {
+    await recordDelivery("pending", contactSenderEnabled ? "budget_exhausted" : "sender_disabled");
+  }
   const notified = senderSucceeded;
-  if (!notified) logOperational("contact_archived_not_notified", { route: "contact" });
+  if (!notified) logOperational("contact_archived_not_notified", { route: "contact", ...(scan ? { capture_id: contactId } : {}) });
   return json({ ok: true, notified, archived: leadStored, stored: leadStored });
 }
 
@@ -838,7 +868,7 @@ async function sendOwnerLeadNotification(env, lead) {
     `New website lead: ${formLabel}`,
     "",
     ...rows.map(([key, value]) => `${leadFieldLabel(key)}: ${leadFieldValue(value)}`),
-    ...(isQrContact ? ["", `Text this person: sms:${lead.phone}`, "", "BEGIN BWJ CONTACT EXCHANGE JSON", JSON.stringify(lead), "END BWJ CONTACT EXCHANGE JSON"] : []),
+    ...(isQrContact ? ["", lead.phone ? `Text this person: sms:${lead.phone}` : `Email this person: mailto:${lead.email}`, "", "BEGIN BWJ CONTACT EXCHANGE JSON", JSON.stringify(lead), "END BWJ CONTACT EXCHANGE JSON"] : []),
   ].join("\n");
   const htmlRows = rows.map(([key, value]) => `
     <tr>
@@ -849,7 +879,7 @@ async function sendOwnerLeadNotification(env, lead) {
     <div style="max-width:680px;margin:0 auto;padding:24px;background:#fff;color:#1F1713;">
       <p style="margin:0 0 8px;color:#8F4E24;font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;">Built with Jon website</p>
       <h1 style="margin:0 0 20px;font:700 24px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">New lead: ${escapeHtml(formLabel)}</h1>
-      ${isQrContact ? `<p><a href="sms:${escapeHtml(lead.phone)}">Text ${escapeHtml(lead.name)}</a></p>` : ""}
+      ${isQrContact ? (lead.phone ? `<p><a href="sms:${escapeHtml(lead.phone)}">Text ${escapeHtml(lead.name)}</a></p>` : `<p><a href="mailto:${escapeHtml(lead.email)}">Email ${escapeHtml(lead.name)}</a></p>`) : ""}
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:1px solid #E5D7C3;">${htmlRows}</table>
       ${isQrContact ? `<pre style="white-space:pre-wrap;overflow-wrap:anywhere">BEGIN BWJ CONTACT EXCHANGE JSON\n${escapeHtml(JSON.stringify(lead))}\nEND BWJ CONTACT EXCHANGE JSON</pre>` : ""}
     </div>`;
@@ -1087,10 +1117,10 @@ async function storeLead(env, record) {
   if (record.capture_kind === "qr-contact") {
     // A retry of the same submission preserves its identity and original date.
     const key = `lead:qr:${record.capture_id}`;
-    if (!(await env.LEADS.get(key))) {
-      await env.LEADS.put(key, JSON.stringify(record), { expirationTtl: 63_072_000 });
-    }
-    return true;
+    const existing = await env.LEADS.get(key);
+    if (existing) return JSON.parse(existing);
+    await env.LEADS.put(key, JSON.stringify(record), { expirationTtl: 63_072_000 });
+    return record;
   }
   const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
   const suffix = [...crypto.getRandomValues(new Uint8Array(6))]
@@ -1199,17 +1229,17 @@ async function markDedupe(env, key) {
   }
 }
 
-async function enforceRateLimits(env, request, email, route) {
+async function enforceRateLimits(env, request, email, route, qr = false) {
   if (!env.SUBSCRIBE_DEDUPE || env.FORM_RATE_LIMITS_ENABLED === "false") return { ok: true };
   try {
     const ip = safeText(request.headers.get("CF-Connecting-IP") || "local", 80);
     const now = new Date();
     const hour = now.toISOString().slice(0, 13);
     const day = now.toISOString().slice(0, 10);
-    const ipLimit = positiveInt(env.FORM_RATE_LIMIT_IP_HOURLY, 20);
+    const ipLimit = qr ? positiveInt(env.QR_RATE_LIMIT_IP_HOURLY, 60) : positiveInt(env.FORM_RATE_LIMIT_IP_HOURLY, 20);
     const emailLimit = positiveInt(env.FORM_RATE_LIMIT_EMAIL_DAILY, 5);
     const checks = [
-      [await privateKey(env, "limit", `ip:${ip}:${hour}`), ipLimit, 3_600],
+      [await privateKey(env, "limit", `ip:${qr ? "qr:" : ""}${ip}:${hour}`), ipLimit, 3_600],
       [await privateKey(env, "limit", `email:${email}:${route}:${day}`), emailLimit, 86_400],
     ];
     for (const [key, limit, ttl] of checks) {
