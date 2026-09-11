@@ -100,7 +100,8 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:scorecard-waitlist", "cta:usecases-article", "cta:waitlist-article",
   "cta:waitlist-contact", "cta:waitlist-final", "cta:waitlist-scorecard",
   "hpr-waitlist:start", "hpr-waitlist:submit", "hpr-waitlist:success", "hpr:sample-click",
-  "lead-magnet:start", "lead-magnet:submit", "leakcalc:unlock",
+  "lead-magnet:start", "lead-magnet:submit", "lead-magnet:success", "leakcalc:unlock",
+  "cta:lead-magnet-hero", "cta:lead-magnet-open", "cta:lead-magnet-pdf",
   "newsletter:start", "newsletter:submit",
   "private-workshop:start", "private-workshop:submit", "private-workshop:success",
   "scorecard:view", "scorecard:start", "scorecard:result", "scorecard:gate-success", "scorecard-gate:start", "scorecard-gate:submit",
@@ -154,6 +155,30 @@ const FORM_MAP = {
   "kit-follow-up-swipe-file": { groups: ["asset:follow-up-swipe-file"], fields: {}, allowed: ["which_kit"] },
   "tool-leak-calculator": { groups: ["asset:leak-calculator"], fields: {}, allowed: ["which_kit"] },
   "starter-kit-cowork": { groups: ["asset:starter-kit-cowork"], fields: {}, allowed: ["which_kit"] },
+  // Paid-ads demand test lead magnets (September 2026). Copy authority:
+  // Workspace/04-Marketing/Campaigns/2026-09-09-paid-ads-demand-test/Copy.md.
+  // `deliver` sends the requested asset to the subscriber by transactional email.
+  "ads-repeat-questions": {
+    groups: ["asset:repeat-questions-log"],
+    fields: { interest: "interest", use_case: "use_case" },
+    allowed: ["which_kit", "interest", "use_case"],
+    required: ["name"],
+    deliver: "repeat-questions",
+  },
+  "ads-step-away": {
+    groups: ["asset:handoff-checklist"],
+    fields: { interest: "interest", use_case: "use_case" },
+    allowed: ["which_kit", "interest", "use_case"],
+    required: ["name"],
+    deliver: "step-away",
+  },
+  "ads-next-hire": {
+    groups: ["asset:next-hire-kit"],
+    fields: { interest: "interest", use_case: "use_case" },
+    allowed: ["which_kit", "interest", "use_case"],
+    required: ["name"],
+    deliver: "next-hire",
+  },
   "course-waitlist": {
     groups: ["offer:email-course"],
     fields: { role: "role", team_size: "team_size", company: "company", cohort: "cohort" },
@@ -172,9 +197,57 @@ const FORM_LABELS = {
   "kit-follow-up-swipe-file": "Follow-up Swipe File",
   "tool-leak-calculator": "Leak Calculator",
   "starter-kit-cowork": "Cowork Starter Kit",
+  "ads-repeat-questions": "The Repeat-Questions Log (paid ads)",
+  "ads-step-away": "The One-Workflow Handoff Checklist (paid ads)",
+  "ads-next-hire": "The Next-Hire Training Kit (paid ads)",
   "course-waitlist": "AI Assistant email course waitlist",
   contact: "Contact inquiry",
   scorecard: "AI Readiness Scorecard",
+};
+// Delivery emails for the paid-ads lead magnets. Text is approved copy; keep it in sync with Copy.md.
+const LEAD_MAGNET_DELIVERY = {
+  "repeat-questions": {
+    subject: "Your Repeat-Questions Log",
+    title: "The Repeat-Questions Log",
+    noun: "worksheet",
+    pages: "one page",
+    url: "https://builtwithjon.com/worksheets/repeat-questions-log/",
+    pdf: "https://builtwithjon.com/downloads/repeat-questions-log.pdf",
+    steps: [
+      ["Log every question", "that lands on you for five working days. Who asked, what they needed, how long it took. Do not fix anything yet."],
+      ["Sort the list", "on Friday into the three piles on page one."],
+      ["Pick the first ten", "from the approved-answer pile and follow the last section."],
+    ],
+    reply: "Reply to this email with the question you hear most. I read every one.",
+  },
+  "step-away": {
+    subject: "Your One-Workflow Handoff Checklist",
+    title: "The One-Workflow Handoff Checklist",
+    noun: "checklist",
+    pages: "one page",
+    url: "https://builtwithjon.com/worksheets/handoff-checklist/",
+    pdf: "https://builtwithjon.com/downloads/handoff-checklist.pdf",
+    steps: [
+      ["Run the five-question filter", "and pick one workflow. Recurring, already working, one operator."],
+      ["Watch one real run", "and fill in the hidden-parts page while it happens."],
+      ["Write the short guide and run the cold handoff test.", "The other person finishes without asking you anything, or it is not done yet."],
+    ],
+    reply: "Reply and tell me which workflow you picked. I read every one.",
+  },
+  "next-hire": {
+    subject: "Your Next-Hire Training Kit",
+    title: "The Next-Hire Training Kit",
+    noun: "kit",
+    pages: "two pages",
+    url: "https://builtwithjon.com/worksheets/next-hire-kit/",
+    pdf: "https://builtwithjon.com/downloads/next-hire-kit.pdf",
+    steps: [
+      ["Fill the material inventory", "for one job. Recordings, documents, accepted past work, explanatory emails."],
+      ["Build one module", "with the template: done well looks like, sources, one exercise, one check."],
+      ["Hand the template to the next person", "and have them build module two."],
+    ],
+    reply: "Reply and tell me which job you picked. I read every one.",
+  },
 };
 
 export default {
@@ -406,8 +479,9 @@ async function handleSubscribe(request, env) {
   const consentDuplicate = !wantsMarketing || await dedupeHit(env, consentKey);
   const needsSenderNotification = !senderNotificationDuplicate;
   const needsSenderCapture = ((formId !== "workshop-next") && !senderCaptureDuplicate) || !consentDuplicate;
+  const delivered = await deliverLeadMagnet(env, lead, config, formId);
   if (!needsSenderNotification && !needsSenderCapture) {
-    return json({ ok: true, duplicate: true });
+    return json({ ok: true, duplicate: true, delivered });
   }
   const senderBudgetAvailable = senderEnabled(env)
     && ((!needsSenderNotification && !needsSenderCapture) || (await consumeSenderBudget(env)).ok);
@@ -464,7 +538,71 @@ async function handleSubscribe(request, env) {
     notified: senderNotificationSucceeded,
     marketing_pending: consentSucceeded,
     marketing_captured: !wantsMarketing || consentSucceeded,
+    delivered,
   });
+}
+
+// Send the requested lead magnet to the subscriber. Transactional, deduped per email and form
+// for the dedupe window, and never blocks the lead: a failure is logged and the thank-you page
+// still shows the asset. Returns true when the email was sent now or already sent recently.
+async function deliverLeadMagnet(env, lead, config, formId) {
+  const magnet = config?.deliver ? LEAD_MAGNET_DELIVERY[config.deliver] : null;
+  if (!magnet || !senderEnabled(env)) return false;
+  const deliveryKey = `lead-magnet-delivery:${lead.email}:${formId}`;
+  if (await dedupeHit(env, deliveryKey)) return true;
+  if (!(await consumeSenderBudget(env)).ok) {
+    logOperational("sender_budget_exhausted", { route: "lead-magnet-delivery" });
+    return false;
+  }
+  try {
+    validateSenderConfig(env);
+    await senderTransactionalSend(env, {
+      to: lead.email,
+      subject: magnet.subject,
+      replyTo: "jonathan@builtwithjon.com",
+      ...buildLeadMagnetEmail(lead, magnet),
+      variables: { source: formId },
+      checkRecipientStatus: true,
+    });
+    await markDedupe(env, deliveryKey);
+    return true;
+  } catch (error) {
+    logOperational("lead_magnet_delivery_failed", { operation: error?.operation, status: error?.status, formId });
+    return false;
+  }
+}
+
+function buildLeadMagnetEmail(lead, magnet) {
+  const firstname = splitName(lead.name).firstname || "there";
+  const text = [
+    `Hi ${firstname},`,
+    "",
+    `Here is your ${magnet.noun}: ${magnet.title}`,
+    magnet.url,
+    `It prints on ${magnet.pages}. PDF: ${magnet.pdf}`,
+    "",
+    "How to use it this week:",
+    "",
+    ...magnet.steps.map(([action, rest], index) => `${index + 1}. ${action} ${rest}`),
+    "",
+    magnet.reply,
+    "",
+    "Jonathan",
+    "Built with Jon, Austin",
+  ].join("\n");
+  const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+  const steps = magnet.steps.map(([action, rest]) =>
+    `<li style="margin:0 0 10px;"><strong>${escapeHtml(action)}</strong> ${escapeHtml(rest)}</li>`).join("");
+  const html = `
+    <div style="max-width:600px;margin:0 auto;padding:24px;background:#fff;color:#1F1713;font:400 16px/1.55 ${font};">
+      <p style="margin:0 0 16px;">Hi ${escapeHtml(firstname)},</p>
+      <p style="margin:0 0 16px;">Here is your ${escapeHtml(magnet.noun)}: <a href="${magnet.url}" style="color:#1B1813;font-weight:600;">${escapeHtml(magnet.title)}</a>. It prints on ${escapeHtml(magnet.pages)} (<a href="${magnet.pdf}" style="color:#5A5347;">PDF version</a>).</p>
+      <p style="margin:0 0 8px;"><strong>How to use it this week:</strong></p>
+      <ol style="margin:0 0 16px;padding-left:22px;">${steps}</ol>
+      <p style="margin:0 0 16px;">${escapeHtml(magnet.reply)}</p>
+      <p style="margin:0;">Jonathan<br><span style="color:#8B8475;">Built with Jon, Austin</span></p>
+    </div>`;
+  return { text, html };
 }
 
 async function handleContact(request, env) {
@@ -905,6 +1043,9 @@ function leadFieldLabel(key) {
     submitted_at: "Submitted at",
     inquiry_type: "Inquiry type",
     workshop_interest: "Workshop interest",
+    interest: "In their words",
+    use_case: "Use case",
+    which_kit: "Asset",
   };
   return labels[key] || key.replace(/_/g, " ").replace(/^./, (character) => character.toUpperCase());
 }

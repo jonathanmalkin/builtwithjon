@@ -1,0 +1,143 @@
+---
+// Landing page for one paid-ads lead magnet. Copy comes from src/data/lead-magnets.ts.
+// Form posts to the existing /api/subscribe Worker route (Turnstile, honeypot, rate limits,
+// LEADS KV, Sender.net, owner notification, delivery email) and redirects to /<slug>/thanks/.
+import Base from '../layouts/Base.astro';
+import Footer from './Footer.astro';
+import type { LeadMagnet } from '../data/lead-magnets';
+import { aboutBlock } from '../data/lead-magnets';
+
+interface Props { magnet: LeadMagnet }
+const { magnet } = Astro.props;
+const thanksUrl = `/${magnet.slug}/thanks/`;
+const pageUrl = `https://builtwithjon.com/${magnet.slug}/`;
+const formDomId = `lm-form-${magnet.slug}`;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: magnet.title,
+  url: pageUrl,
+  description: magnet.metaDescription,
+};
+---
+
+<Base title={magnet.title} description={magnet.metaDescription} schema={schema} hideFooter>
+  <div class="container lm-page">
+    <section class="lm-hero">
+      <p class="eyebrow">{magnet.eyebrow}</p>
+      <h1>{magnet.headline}</h1>
+      <p class="lede">{magnet.lede}</p>
+      <a class="hero-btn lm-jump" href="#get" data-track="cta:lead-magnet-hero">{magnet.button}</a>
+    </section>
+
+    <section class="lm-inside panel" aria-labelledby="lm-inside-h">
+      <h2 id="lm-inside-h">{magnet.insideHeading}</h2>
+      <ul class="lm-list">
+        {magnet.inside.map((item) => (
+          <li><strong>{item.lead}</strong> {item.body}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="lm-form panel" id="get" aria-labelledby="lm-form-h">
+      <h2 id="lm-form-h">{magnet.formHeading}</h2>
+      <p class="form-hint lm-form-lede">{magnet.formLede}</p>
+      <form
+        id={formDomId}
+        action="/api/subscribe"
+        method="POST"
+        class="lm-fields"
+        data-thanks={thanksUrl}
+        data-track-form="lead-magnet"
+      >
+        <input type="hidden" name="_subject" value={`Lead magnet: ${magnet.title}`} />
+        <input type="hidden" name="inquiry_type" value="lead-magnet" />
+        <input type="hidden" name="form_id" value={magnet.formId} />
+        <input type="hidden" name="which_kit" value={magnet.kitId} />
+        <input type="hidden" name="use_case" value={magnet.slug} />
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
+
+        <div class="form-group">
+          <label for={`${formDomId}-name`}>First name</label>
+          <input type="text" id={`${formDomId}-name`} name="name" class="form-input" autocomplete="given-name" maxlength="120" required />
+        </div>
+        <div class="form-group">
+          <label for={`${formDomId}-email`}>Email</label>
+          <input type="email" id={`${formDomId}-email`} name="email" class="form-input" autocomplete="email" inputmode="email" spellcheck="false" maxlength="254" required />
+        </div>
+        <div class="form-group">
+          <label for={`${formDomId}-interest`}>{magnet.interestLabel}</label>
+          <input type="text" id={`${formDomId}-interest`} name="interest" class="form-input" maxlength="240" />
+        </div>
+        <label class="form-consent lm-consent"><input type="checkbox" name="marketing_opt_in" value="true" /> <span>{magnet.consent}</span></label>
+        <button type="submit" class="form-submit lm-submit">{magnet.button}</button>
+        <p class="lm-error" hidden role="alert">That did not go through. Email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a> and I will send it directly.</p>
+        <p class="lm-privacy">No spam, no call booking, no sales sequence. <a href="/privacy">Privacy policy</a>.</p>
+      </form>
+    </section>
+
+    <section class="lm-about" aria-labelledby="lm-about-h">
+      <img class="lm-portrait" src="/images/jonathan-malkin.jpg" width="120" height="120" alt="Jonathan Malkin" loading="lazy" />
+      <div>
+        <h2 id="lm-about-h">{aboutBlock.heading}</h2>
+        <p>{aboutBlock.body}</p>
+      </div>
+    </section>
+  </div>
+
+  <Footer slot="footer" showCta={false} />
+
+  <script is:inline define:vars={{ formDomId, thanksUrl }}>
+    (function () {
+      var form = document.getElementById(formDomId);
+      if (!form) return;
+      var submit = form.querySelector('.lm-submit');
+      var errorEl = form.querySelector('.lm-error');
+      var label = submit ? submit.textContent : '';
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (errorEl) errorEl.hidden = true;
+        if (submit) { submit.disabled = true; submit.textContent = 'Sending...'; }
+        var data = new FormData(form);
+        data.set('source_url', window.location.href);
+        fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+          .then(function (response) {
+            if (!response.ok) throw new Error('lead_magnet_failed');
+            window.location.assign(thanksUrl);
+          })
+          .catch(function () {
+            if (errorEl) errorEl.hidden = false;
+            if (submit) { submit.disabled = false; submit.textContent = label; }
+          });
+      });
+    })();
+  </script>
+
+  <style>
+    .lm-page { padding: 2rem 0 3rem; }
+    .lm-hero { margin: 0 0 1.75rem; }
+    .lm-hero h1 { font-family: var(--ucl-serif); font-weight: 500; font-size: clamp(2.1rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.025em; margin: 0.35rem 0 0.9rem; }
+    .lm-hero .lede { font-size: 1.15rem; max-width: 40rem; }
+    .lm-jump { margin-top: 0.25rem; }
+    .lm-inside, .lm-form { padding: 1.5rem; margin: 0 0 1.5rem; }
+    .lm-inside h2, .lm-form h2, .lm-about h2 { font-family: var(--ucl-serif); font-weight: 500; font-size: 1.45rem; letter-spacing: -0.015em; margin: 0 0 0.75rem; }
+    .lm-list { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .lm-list li { line-height: 1.5; }
+    .lm-form-lede { margin: 0 0 1rem; }
+    .lm-fields { display: flex; flex-direction: column; gap: 0.25rem; }
+    .lm-fields .form-group { margin-bottom: 0.75rem; }
+    .lm-consent { margin: 0.25rem 0 1rem; }
+    .lm-submit { width: auto; align-self: flex-start; min-width: 14rem; }
+    .lm-error { color: var(--ucl-eliminate); margin: 0.75rem 0 0; }
+    .lm-privacy { color: var(--color-text-muted); font-size: 0.82rem; margin: 0.9rem 0 0; }
+    .lm-about { display: flex; gap: 1.25rem; align-items: flex-start; padding: 0.5rem 0 0; }
+    .lm-about p { color: var(--color-text-muted); margin: 0; max-width: 38rem; }
+    .lm-portrait { border-radius: 999px; flex: 0 0 auto; width: 96px; height: 96px; object-fit: cover; }
+    @media (max-width: 600px) {
+      .lm-inside, .lm-form { padding: 1.15rem; }
+      .lm-submit { width: 100%; }
+      .lm-about { flex-direction: column; }
+    }
+  </style>
+</Base>

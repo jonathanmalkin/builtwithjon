@@ -44,7 +44,7 @@
     "QR_RATE_LIMIT_IP_HOURLY": "60",
     "FORM_RATE_LIMIT_EMAIL_DAILY": "5",
     "FORM_RATE_LIMIT_GLOBAL_DAILY": "100",
-    "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\",\"source:direct\":\"av5MOg\"}"
+    "SENDER_GROUP_IDS": "{\"consent:pending\":\"er5RX2\",\"consent:confirmed\":\"dw5mZr\",\"source:newsletter\":\"ax5v9l\",\"offer:hidden-profit-review\":\"dy5rM6\",\"asset:invoice-chase-kit\":\"az5K9q\",\"asset:follow-up-swipe-file\":\"aAoPA9\",\"asset:leak-calculator\":\"dBpLQQ\",\"asset:starter-kit-cowork\":\"bDr9P6\",\"offer:email-course\":\"eEv9GW\",\"source:scorecard\":\"dGx5gK\",\"community:ai-club\":\"aKBZmG\",\"source:direct\":\"av5MOg\",\"asset:repeat-questions-log\":\"TODO create group in Sender\",\"asset:handoff-checklist\":\"TODO create group in Sender\",\"asset:next-hire-kit\":\"TODO create group in Sender\"}"
   },
   "kv_namespaces": [
     { "binding": "SUBSCRIBE_DEDUPE", "id": "8707fb62aa5147b68f6fae18b437a26a" },

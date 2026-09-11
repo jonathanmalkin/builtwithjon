@@ -40,6 +40,12 @@ const {
   bodyClass,
 } = Astro.props;
 
+// Advertising measurement tags load only when their IDs are set at build time
+// (PUBLIC_META_PIXEL_ID, PUBLIC_LINKEDIN_PARTNER_ID in .env). Leave both unset and
+// the site stays exactly as it was. Disclosure lives in /privacy.
+const metaPixelId = (import.meta.env.PUBLIC_META_PIXEL_ID || '').trim();
+const linkedinPartnerId = (import.meta.env.PUBLIC_LINKEDIN_PARTNER_ID || '').trim();
+
 const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
   ? title
   : `${title} | Jonathan Malkin`;
@@ -70,6 +76,27 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
     />
     {schema && <JsonLd schema={schema} />}
     <!-- Cloudflare Web Analytics is injected at the edge through Automatic Setup. -->
+    {metaPixelId && (
+      <script is:inline define:vars={{ metaPixelId }}>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', metaPixelId);
+        fbq('track', 'PageView');
+      </script>
+    )}
+    {metaPixelId && (
+      <noscript><img height="1" width="1" style="display:none" alt="" src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} /></noscript>
+    )}
+    {linkedinPartnerId && (
+      <script is:inline define:vars={{ linkedinPartnerId }}>
+        window._linkedin_partner_id = linkedinPartnerId;
+        window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+        window._linkedin_data_partner_ids.push(linkedinPartnerId);
+        (function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}var s=document.getElementsByTagName('script')[0];var b=document.createElement('script');b.type='text/javascript';b.async=true;b.src='https://snap.licdn.com/li.lms-analytics/insight.min.js';s.parentNode.insertBefore(b,s);})(window.lintrk);
+      </script>
+    )}
+    {linkedinPartnerId && (
+      <noscript><img height="1" width="1" style="display:none" alt="" src={`https://px.ads.linkedin.com/collect/?pid=${linkedinPartnerId}&fmt=gif`} /></noscript>
+    )}
   </head>
   <body class={[bare ? 'bare' : '', bodyClass].filter(Boolean).join(' ') || undefined}>
     <script is:inline>

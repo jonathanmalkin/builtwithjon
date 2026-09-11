@@ -1,0 +1,42 @@
+---
+// Thank-you page for one paid-ads lead magnet. Shows the asset immediately (the site is static)
+// and fires the conversion signals: Meta standard Lead event (if the Pixel is configured),
+// the first-party lead-magnet:success beacon, and a URL any LinkedIn conversion rule can match.
+import Base from '../layouts/Base.astro';
+import Footer from './Footer.astro';
+import type { LeadMagnet } from '../data/lead-magnets';
+
+interface Props { magnet: LeadMagnet }
+const { magnet } = Astro.props;
+const description = `${magnet.title} is on its way by email. Open it here as well.`;
+---
+
+<Base title={magnet.thanks.headline} description={description} noindex hideFooter>
+  <div class="container lm-thanks">
+    <section class="book-hero panel">
+      <p class="book-kicker">{magnet.thanks.kicker}</p>
+      <h1>{magnet.thanks.headline}</h1>
+      <p class="book-sub">{magnet.thanks.body}</p>
+      <p class="lm-links">
+        <a class="hero-btn" href={magnet.fileHtml} data-track="cta:lead-magnet-open">Open {magnet.title}</a>
+        <a class="hero-btn hero-btn-outline" href={magnet.filePdf} download data-track="cta:lead-magnet-pdf">PDF version</a>
+      </p>
+      <p class="book-reassure">{magnet.thanks.second}</p>
+    </section>
+  </div>
+
+  <Footer slot="footer" showCta={false} />
+
+  <script is:inline define:vars={{ slug: magnet.slug }}>
+    (function () {
+      try { if (window.fbq) window.fbq('track', 'Lead', { content_name: slug, content_category: 'lead-magnet' }); } catch (e) {}
+      try { if (window.bwjTrack) window.bwjTrack('lead-magnet:success'); } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    .lm-thanks { padding: 3rem 0; }
+    .lm-thanks h1 { font-family: var(--ucl-serif); font-weight: 500; }
+    .lm-links { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: 0 0 1rem; }
+  </style>
+</Base>

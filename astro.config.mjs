@@ -37,6 +37,10 @@ const unlistedOrRetiredPaths = new Set([
   '/knowledge-os-proof/',
   '/masterclass/',
   '/construction/',
+  // Paid-ads landing pages: reachable from ads and direct links, not listed.
+  '/repeat-questions/',
+  '/step-away/',
+  '/next-hire/',
 ]);
 
 export default defineConfig({
