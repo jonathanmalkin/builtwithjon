@@ -267,3 +267,13 @@ Media provenance: hero and portrait reuse the existing `public/home/` photograph
 ## Navigation correction — September 8, 2026
 
 Workshops uses the shared `Header.astro` component and the homepage’s header width, typography and page destinations. Its prototype-only menu and styles are removed. Shared navigation is Home, Workshops and Use cases, plus the existing social links; Construction was retired at Jonathan’s request and redirects to the homepage. Workshop content actions remain section links with focus handoffs and a scroll offset for the sticky shared header. Mobile navigation closes on route selection or Escape, and remains available without JavaScript.
+
+## Open Door Learning revamp — October 6, 2026
+
+The site-wide visual world is now the one approved for the homepage in August and extended to Workshops in September, carried to every rebuilt page under `body.odl` (the last block of `src/styles/global.css`). Shell: `src/layouts/Odl.astro` wraps `Base` with `bare` and the shared `Header.astro` (one-line Open Door Learning logo at 44px, five pages) and `Footer.astro` (parchment, stacked logo, pages plus Contact, email, social, "Open Door Learning LLC. Formerly Built with Jon."). Both components carry their own scoped styles so older pages that still load the old world get the same chrome.
+
+Tokens, unchanged from the addendum above, plus copper `#8F4E24` for the door leaf and step numerals and `--line-strong #B9A781` for tile borders. Grounds alternate ivory, parchment and clay by section; one amber band per page at most (hosts on Home). Type: display Bricolage Grotesque 700 to 800, h1 clamp 2.2 to 3.5rem, h2 clamp 1.9 to 2.75rem; text Schibsted Grotesk 1.0625rem/1.55, lede 1.16rem, captions .95rem; body measure 64ch.
+
+Patterns: `hero` (full-bleed photo, ivory card bottom-left, subject right of the card; stacks on phones under a 360px crop), `split` (copy beside media on parchment), `steps` (numbered, only where sequence matters), `rows` (editorial list with a 1.5px ink top rule), `tiles` (materials, image or ink text cover, 16:10), `duo`, `portrait`, `facts`, `qa`, `aside-band`, `pull`, and the one `MessageForm` component (`src/components/MessageForm.astro`, posting to `/api/contact` through `src/scripts/odl-form.js`). No kickers or eyebrows, no icon grids, no gradient text, no offset shadows; photo cards use one soft shadow. Focus rings are amber; selection is amber-soft.
+
+Copy and facts shared across pages live in `src/data/odl.ts`. Rules from `PRODUCT.md` (October 5): no prices, no host or client names without clearance, no measured results, no em dashes.

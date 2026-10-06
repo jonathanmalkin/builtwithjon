@@ -21,11 +21,27 @@
       "/api/scorecard-report",
       "/api/event",
       "/hidden-profit-review*",
-      "/kits/follow-up-swipe-file*",
-      "/kits/invoice-chase-kit*",
+      "/kits*",
       "/knowledge-os-proof*",
       "/masterclass*",
-      "/construction*"
+      "/construction*",
+      "/materials*",
+      // Open Door Learning rebrand retirements, 2026-10-06. Exact paths for the
+      // /ai-assistant hub and Claude Code page so kept /ai-assistant/cowork/
+      // and /ai-assistant/course/ files still serve straight from assets.
+      "/faq*",
+      "/principles*",
+      "/process*",
+      "/dispositions*",
+      "/use-cases*",
+      "/scorecard*",
+      "/tools*",
+      "/jules*",
+      "/ai-assistant",
+      "/ai-assistant/",
+      "/ai-assistant/claude-code",
+      "/ai-assistant/claude-code/",
+      "/ai-assistant-workshop*"
     ]
   },
   "vars": {

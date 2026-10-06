@@ -1,172 +1,78 @@
 ---
-import Base from '../layouts/Base.astro';
-import { Icon } from 'astro-icon/components';
+// About, October 2026 revamp. The "Jonathan first" page, for both audiences.
+// Order decided October 6: portrait, story, Why Open Door Learning, where to
+// go next, form. First person; the former name appears nowhere on the site.
+// Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
+// Copy is draft until Jonathan approves it page by page.
+import Odl from '../layouts/Odl.astro';
+import MessageForm from '../components/MessageForm.astro';
 import { buildPersonSchema } from '../lib/schema.js';
+import { SITE, BIO } from '../data/odl';
 
+const description = 'Jonathan Malkin is an AI educator and builder in Austin, Texas. Twenty years in enterprise technology, now teaching owners, executives and their teams hands-on.';
 const personSchema = buildPersonSchema({
-  description:
-    'Jonathan Malkin spent 20+ years getting enterprise teams to actually adopt new technology, including eight years through the RPA wave at Automation Anywhere. He now runs hands-on AI workshops where teams build a real workflow against their own work.',
+  description: BIO.medium,
+  url: `${SITE.url}/about/`,
+  knowsAbout: ['AI workshops for business owners', 'AI training for executives and teams', 'enterprise technology adoption', 'personal AI assistants', 'applied AI in small business'],
 });
 ---
 
-<Base
-  title="About"
-  description="Jonathan Malkin spent 20+ years getting enterprise teams to adopt new technology, including the RPA wave at Automation Anywhere. He now runs hands-on AI workshops where your team builds something real."
-  schema={personSchema}
->
-  <section class="hero-split container-wide">
-    <div class="hero-split-copy">
-      <p class="eyebrow">Who runs the workshop</p>
-      <h1>Adoption is the hard part. That's the part I've done for 20 years.</h1>
-      <p class="subtitle">
-        Jonathan Malkin has spent two decades getting enterprise teams to actually use new technology, not just buy it.
-        The workshops teach the AI workflows he already runs every day.
-      </p>
-      <div class="hero-links">
-        <a href="/contact/" class="hero-btn">Ask about a team workshop</a>
-      </div>
-    </div>
-    <figure class="hero-split-media">
-      <img
-        src="/home/workshop-room.jpg"
-        width="1600"
-        height="900"
-        alt="A full room watching Jonathan present a live AI demo on screen at AI Tinkerers in Sao Paulo."
-        loading="eager"
-        decoding="async"
-      />
-      <figcaption>Live demo at AI Tinkerers, Sao Paulo</figcaption>
-    </figure>
-  </section>
+<Odl title={`About ${SITE.person}`} description={description} image="/home/austin-portrait.jpg" imageWidth={1600} imageHeight={1067} schema={personSchema}>
 
-  <section class="container section-band" aria-labelledby="category-heading">
-    <p class="eyebrow">What to call the work</p>
-    <h2 id="category-heading">One concrete job.</h2>
-    <p class="section-intro">
-      I help owner-led businesses turn knowledge trapped in people and scattered tools into
-      systems their team and AI can actually use. I call the finished system a company brain.
-      The work starts by seeing the whole picture: your people, process, and systems on one
-      page, plus a clear decision about what to build first. <a href="/#tell-me">Tell me about it</a>.
-    </p>
-  </section>
-
-  <section class="container section-band">
-    <div class="proof-strip">
-      <div class="proof-item">
-        <strong>20+ years</strong>
-        in enterprise technology, focused on adoption across Finance, HR, IT, Operations, Sales, and Marketing.
-      </div>
-      <div class="proof-item">
-        <strong>6 to 250</strong>
-        scaled a global solutions engineering organization at Automation Anywhere.
-      </div>
-      <div class="proof-item">
-        <strong>Built and running</strong>
-        a daily AI operating system that ships code, drafts content, and runs real products.
-      </div>
-    </div>
-  </section>
-
-  <section class="container section-band">
-    <p class="eyebrow">Where the credibility comes from</p>
-    <h2>Eight years inside the last big automation wave</h2>
-    <p class="section-intro">
-      From 2017 to 2025, Jonathan watched RPA move from one-off departmental wins to governed, federated programs.
-      The tools are newer now. The hard questions, adoption, ownership, exceptions, and governance, are very familiar.
-    </p>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-time">2017 &ndash; 2018</div>
-        <div class="timeline-content">
-          <strong>Sales Engineer, Automation Anywhere.</strong>
-          On the front line of selling automation, translating messy operational pain into scoped, explainable builds.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">2019 &ndash; 2021</div>
-        <div class="timeline-content">
-          <strong>Director of Operations, Presales.</strong>
-          Scaled the global solutions engineering organization from 6 people to 250, the adoption engine behind the product.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">2021 &ndash; 2023</div>
-        <div class="timeline-content">
-          <strong>Automation Architect, Strategic Accounts.</strong>
-          Designing automation programs for the largest customers, where governance and operating models matter most.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">2023 &ndash; 2025</div>
-        <div class="timeline-content">
-          <strong>Automation &amp; AI Architect, Healthcare.</strong>
-          Bringing AI into highly regulated workflows, then going independent in 2025 to build full-time.
-        </div>
-      </div>
-    </div>
-    <p>
-      That work crossed functions and borders: banking, airlines, and telecommunications; teams in the United States, Germany, and Brazil.
-      Jonathan lived in Sao Paulo for five months in 2012, so working across cultures and time zones is practical experience, not a slide-deck abstraction.
-    </p>
-  </section>
-
-  <section class="container section-band">
-    <p class="eyebrow">What that means for your workshop</p>
-    <h2>The workshop teaches what already works in production</h2>
-    <p class="section-intro">
-      Jonathan runs his own AI operating system across research, content, coding, scheduling, review, and memory.
-      The consulting point of view comes from <a href="/jules/">systems he actually uses</a>, not slides.
-    </p>
-    <div class="process-roadmap">
-      <div class="process-step agent" data-step="1">
-        <h3>Understand the real work</h3>
-        <p>Sit with operators and map the actual workflow before touching a tool. Most AI projects skip this and fail here.</p>
-      </div>
-      <div class="process-step guardrail" data-step="2">
-        <h3>Decide what AI should touch</h3>
-        <p>Automate, govern, delegate, or leave human. Make ownership explicit and keep a person in the review path.</p>
-      </div>
-      <div class="process-step review" data-step="3">
-        <h3>Build the smallest useful thing</h3>
-        <p>Ship a working build that proves the pattern and survives after the demo, not a throwaway proof of concept.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="container section-band">
-    <p class="eyebrow">Proof, not theory</p>
-    <h2>Built in public, demoed live</h2>
-    <p class="section-intro">
-      In April 2026, Jonathan gave an <a href="https://austin.aitinkerers.org/talks/rsvp_f0lg_KSKY8s">AI Tinkerers demo</a> of
-      <a href="/jules/">Jules</a>, his AI collaborator system. AI Tinkerers is a builder-first room: live systems and technical scrutiny over polished positioning.
-    </p>
-    <figure class="image-frame">
-      <img
-        src="/home/jules-demo.jpg"
-        width="1400"
-        height="787"
-        alt="Close view of a live AI assistant demo on screen, showing Jonathan alongside a real-time AI avatar."
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption>
-        Jules running live on stage. The same operating system behind <a href="/jules/">Jules</a> and Knowledge OS is what the workshops draw from.
-      </figcaption>
-    </figure>
-  </section>
-
-  <section class="container">
-    <div class="service-cta">
+  <section class="sec band-parch" aria-labelledby="hero-h">
+    <div class="inner split media-left" style="padding:0">
       <div>
-        <p class="eyebrow">Let's talk</p>
-        <h2>Want your team building with AI, not just talking about it?</h2>
-        <p class="section-intro">
-          Tell me about your team and what's slowing you down. I'll help shape the right session, on your real work, in your industry.
-        </p>
+        <h1 id="hero-h">{SITE.person}</h1>
+        <p class="role">{SITE.titleLower}</p>
+        <p class="lede" style="margin-bottom:16px">{SITE.positioning}</p>
+        <p class="cap" style="margin-bottom:26px">20+ years in enterprise technology. Based in {SITE.city}. Working as {SITE.company}.</p>
+        <div class="actions">
+          <a class="btn" href="/workshops/" data-track="cta:about-hero">See the workshops <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
       </div>
-      <div class="service-cta-actions">
-        <a href="/contact/" class="hero-btn">Start a conversation</a>
+      <figure class="photo" style="aspect-ratio:3/2">
+        <picture>
+          <source type="image/webp" srcset="/home/austin-portrait-900.webp 900w, /home/austin-portrait-1200.webp 1200w, /home/austin-portrait-1600.webp 1600w, /home/austin-portrait-2200.webp 2200w" sizes="(max-width: 860px) 100vw, 52vw" />
+          <img src="/home/austin-portrait.jpg" width="1600" height="1067" fetchpriority="high" alt="Jonathan Malkin speaking at an event in Austin, wearing a name badge and a lapel microphone." />
+        </picture>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="story-h">
+    <div class="inner narrow">
+      <h2 id="story-h">Twenty years of getting people to use the thing</h2>
+      <div class="story">
+        <p>I have spent more than twenty years in enterprise technology. Most of that time went to one problem: getting large companies to actually use what they bought. I did that work across finance, HR, IT, operations, sales and marketing.</p>
+        <p>Eight of those years were at Automation Anywhere, through the wave of automation software. The hard part was never the software. It was the people, and the handoffs between them.</p>
+        <p>In June 2025 I went independent. Now I teach owners, executives and their teams, based in Austin, because the same gap exists in a twelve-person company as in a twelve-thousand-person one. The smaller company just has less cover.</p>
       </div>
     </div>
   </section>
-</Base>
+
+  <section class="sec band-parch" aria-labelledby="odl-h">
+    <div class="inner narrow">
+      <h2 id="odl-h">Why Open Door Learning</h2>
+      <div class="door-line">
+        <img src="/brand/odl-symbol.svg" width="34" height="48" alt="" loading="lazy" />
+        <p class="pull">Anyone can walk in and start where they are. Nobody is behind.</p>
+      </div>
+      <div class="story">
+        <p>The name is the promise. Whether you have never opened ChatGPT or you use it every day, the session meets you there and takes you one useful step further.</p>
+        <p>The door stays open afterwards, too. You leave with the materials, so you can repeat on Monday what you built in the room, without me beside you.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="band-clay">
+    <MessageForm kind="contact" id="message" heading="Say hello" intro="A question, an introduction, or a room you think I should know about." track="contact" />
+  </div>
+</Odl>
+
+<style>
+  .role{font:600 clamp(1.3rem,2vw,1.7rem)/1.2 var(--disp);letter-spacing:-.015em;color:var(--copper);margin:-6px 0 20px}
+  .story{margin-top:24px}
+  .story p{font-size:1.1rem;line-height:1.6}
+  .story p+p{margin-top:16px}
+  .story a{color:var(--ink);font-weight:600;text-decoration:underline}
+</style>

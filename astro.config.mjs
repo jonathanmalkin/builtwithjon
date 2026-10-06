@@ -62,16 +62,36 @@ export default defineConfig({
     icon(),
   ],
   redirects: {
-    // Retired workshop URLs now lead to the current AI assistant offer.
-    // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,
-    // 2026-08-15 revamp), so it is intentionally not in this map.
-    '/ai-assistant-workshop': '/ai-assistant/',
-    '/ai-assistant-workshop/thanks': '/ai-assistant/',
-    '/ai-assistant-workshop-austin': '/ai-assistant/',
-    '/ai-assistant/claude-code': '/ai-assistant/course/',
+    // Static fallbacks for removed page files. The worker (src/worker.js
+    // PERMANENT_REDIRECTS) answers these paths first with a real 301.
+    // NOTE: '/workshops' itself is a real page, so it is intentionally not here.
+    '/ai-assistant-workshop': '/workshops/',
+    '/ai-assistant-workshop/thanks': '/workshops/',
+    '/ai-assistant-workshop-austin': '/workshops/',
     // Retired 2026-08-19: Business Map is internal delivery language only.
     // Public Direct intake is the homepage conversation at /#tell-me.
     '/business-map': '/#tell-me',
     '/knowledge-os-product': '/#tell-me',
+    // Materials folded into Speaking, October 6, 2026.
+    '/materials': '/speaking/#decks',
+    // Open Door Learning rebrand, 2026-10-06: page files moved out of src/pages.
+    '/ai-assistant': '/workshops/',
+    '/ai-assistant/claude-code': '/ai-assistant/cowork/',
+    '/faq': '/making-ai-useful/',
+    '/principles': '/making-ai-useful/',
+    '/process': '/making-ai-useful/',
+    '/dispositions': '/making-ai-useful/',
+    '/use-cases': '/making-ai-useful/',
+    '/scorecard': '/',
+    '/tools': '/',
+    '/tools/leak-calculator': '/',
+    '/knowledge-os-proof': '/map-not-dump/',
+    '/hidden-profit-review': '/',
+    '/hidden-profit-review/thanks': '/',
+    '/kits/follow-up-swipe-file': '/',
+    '/kits/invoice-chase-kit': '/',
+    '/masterclass': '/ai-assistant/cowork/',
+    '/construction': '/',
+    '/jules': '/about/',
   },
 });

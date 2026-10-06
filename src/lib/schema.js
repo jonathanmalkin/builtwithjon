@@ -8,10 +8,13 @@
 
 export const SITE_URL = 'https://builtwithjon.com';
 export const PERSON_NAME = 'Jonathan Malkin';
-// Decided 2026-08-15 with the company-brain positioning. "AI consultant",
-// "Operating Partner", and fractional-led titles are retired; this is the one
-// jobTitle used everywhere.
-export const JOB_TITLE = 'Knowledge Systems Builder';
+// Decided 2026-10-05 with the Open Door Learning revamp (PRODUCT.md). "AI
+// consultant", "Knowledge Systems Builder", "Operating Partner" and
+// fractional-led titles are retired; this is the one jobTitle used everywhere.
+export const JOB_TITLE = 'AI Educator and Builder';
+export const ORG_NAME = 'Open Door Learning';
+export const PERSON_ID = `${SITE_URL}/#jonathan-malkin`;
+export const ORG_ID = `${SITE_URL}/#open-door-learning`;
 
 const DEFAULT_SAME_AS = [
   'https://github.com/jonathanmalkin',
@@ -27,8 +30,10 @@ export function buildPersonSchema({ description, url = `${SITE_URL}/about/`, sam
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': PERSON_ID,
     name: PERSON_NAME,
     jobTitle: JOB_TITLE,
+    worksFor: { '@type': 'Organization', '@id': ORG_ID, name: ORG_NAME, url: SITE_URL },
     description,
     url,
     sameAs,
@@ -47,7 +52,7 @@ export function buildPersonSchema({ description, url = `${SITE_URL}/about/`, sam
  * }} options
  */
 export function buildProfessionalServiceSchema({
-  name = 'Built with Jon',
+  name = ORG_NAME,
   url = SITE_URL,
   description,
   founder,
@@ -62,6 +67,7 @@ export function buildProfessionalServiceSchema({
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
+    '@id': ORG_ID,
     name,
     url,
     description,

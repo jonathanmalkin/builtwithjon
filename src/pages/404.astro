@@ -1,16 +1,18 @@
 ---
-import Base from '../layouts/Base.astro';
+import Odl from '../layouts/Odl.astro';
 ---
 
-<Base
-  title="Page Not Found"
-  description="The page you're looking for doesn't exist."
-  noindex={true}
->
-  <div class="container">
-    <h1>404</h1>
-    <p>This page doesn't exist. Maybe it moved, maybe it never did.</p>
-    <p>If there's a project you keep putting off, <a href="/#tell-me">tell me about it</a>. If you have a room of owners, <a href="/workshops/">bring a workshop</a>.</p>
-    <p><a href="/">Back to home &rarr;</a></p>
-  </div>
-</Base>
+<Odl title="Page not found" description="That page does not exist. Maybe it moved, maybe it never did." noindex={true}>
+  <section class="sec band-parch">
+    <div class="inner narrow">
+      <h1>That page is not here.</h1>
+      <p class="lede" style="margin-top:16px">Maybe it moved, maybe it never existed. The site was reorganized in October 2026 around the workshops.</p>
+      <div class="actions" style="margin-top:28px">
+        <a class="btn" href="/">Home <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="go" href="/workshops/">Workshops</a>
+        <a class="go" href="/speaking/">Speaking</a>
+        <a class="go" href="/contact/">Contact</a>
+      </div>
+    </div>
+  </section>
+</Odl>

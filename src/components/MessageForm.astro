@@ -1,0 +1,68 @@
+---
+// The one message form, used on Home, Workshops, Host a workshop, Making AI
+// useful and Contact. Posts to the existing /api/contact route in src/worker.js.
+//   kind="workshop"  inquiry_type=workshop-host, optional allowlisted interest
+//   kind="host"      inquiry_type=workshop-host with a host subject line
+//   kind="contact"   inquiry_type=contact
+// Submission, status and the interest field are handled by src/scripts/odl-form.js.
+
+interface Props {
+  kind?: 'workshop' | 'host' | 'contact';
+  id?: string;
+  heading?: string;
+  intro?: string;
+  placeholder?: string;
+  button?: string;
+  track?: string;
+}
+
+const {
+  kind = 'workshop',
+  id = 'message',
+  heading = 'Send a message',
+  intro = 'A question is enough to start. Tell me what caught your attention, or what you are trying to get done.',
+  placeholder,
+  button = 'Send a message',
+  track = 'workshop-host',
+} = Astro.props;
+
+const subject = kind === 'host' ? 'Host a workshop inquiry' : kind === 'contact' ? 'Contact inquiry' : 'Workshop inquiry';
+const inquiryType = kind === 'contact' ? 'contact' : 'workshop-host';
+const hint = placeholder ?? (kind === 'host'
+  ? 'Who is in your group, roughly how many, and when you are thinking of.'
+  : kind === 'contact'
+    ? 'Whatever I should know.'
+    : 'What you have tried, and what you want it to do.');
+---
+
+<section class="sec" id={id} tabindex="-1" aria-labelledby={`${id}-h`}>
+  <div class="inner msg">
+    <div>
+      <h2 id={`${id}-h`}>{heading}</h2>
+      <p class="lede">{intro}</p>
+      <p class="alt">I reply by email, usually within two business days.</p>
+    </div>
+    <form class="odl-form" action="/api/contact" method="POST" data-odl-form data-track-form={track} novalidate>
+      <input type="hidden" name="_subject" value={subject} />
+      <input type="hidden" name="inquiry_type" value={inquiryType} />
+      {kind === 'workshop' && <input type="hidden" name="workshop_interest" value="" />}
+      <input type="text" name="company_website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      {kind === 'workshop' && (
+        <p class="interest" data-interest-note hidden>Asking about: <strong data-interest-label></strong> <button type="button" data-interest-clear>Clear</button></p>
+      )}
+      <div class="fields" data-fields>
+        <label>Name<input name="name" maxlength="120" autocomplete="name" required /></label>
+        <label>Email<input name="email" type="email" maxlength="254" autocomplete="email" required /></label>
+        {kind === 'host' && <label>Organization<input name="organization" maxlength="160" autocomplete="organization" /></label>}
+        {kind === 'host' && <label>Group size, roughly<input name="group_size" maxlength="40" inputmode="numeric" /></label>}
+        <label class="wide">Message<textarea name="message" maxlength="2000" rows="5" required placeholder={hint}></textarea></label>
+      </div>
+      <button class="btn" type="submit">{button} <span class="arrow" aria-hidden="true">→</span></button>
+      <p class="status" data-status role="status" tabindex="-1"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  import '../scripts/odl-form.js';
+</script>

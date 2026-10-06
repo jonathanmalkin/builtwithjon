@@ -25,6 +25,9 @@ const WORKSHOP_INTERESTS = new Set([
   "Build One Useful AI Workflow",
   "Build Your Personal AI Assistant",
   "See Where AI Could Help Your Business",
+  "Hand Off Your First Task to an AI Agent",
+  "Set Your Team’s AI Direction",
+  "Give Your AI Agents a Map",
 ]);
 const MAX_FORM_BODY_BYTES = 32_000;
 const MAX_SCORECARD_BODY_BYTES = 32_000;
@@ -35,47 +38,65 @@ const TURNSTILE_ACTION = "lead-form";
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
+  // Open Door Learning rebrand, October 6, 2026. Every page outside the new site
+  // map 301s to the nearest new page before static assets can serve it.
+  ["/faq", "/making-ai-useful/"],
+  ["/faq/", "/making-ai-useful/"],
+  ["/principles", "/making-ai-useful/"],
+  ["/principles/", "/making-ai-useful/"],
+  ["/process", "/making-ai-useful/"],
+  ["/process/", "/making-ai-useful/"],
+  ["/dispositions", "/making-ai-useful/"],
+  ["/dispositions/", "/making-ai-useful/"],
+  ["/use-cases", "/making-ai-useful/"],
+  ["/use-cases/", "/making-ai-useful/"],
+  ["/scorecard", "/"],
+  ["/scorecard/", "/"],
+  ["/tools", "/"],
+  ["/tools/", "/"],
+  ["/tools/leak-calculator", "/"],
+  ["/tools/leak-calculator/", "/"],
+  ["/jules", "/about/"],
+  ["/jules/", "/about/"],
+  ["/ai-assistant", "/workshops/"],
+  ["/ai-assistant/", "/workshops/"],
+  ["/ai-assistant/claude-code", "/ai-assistant/cowork/"],
+  ["/ai-assistant/claude-code/", "/ai-assistant/cowork/"],
+  // Earlier retirements, repointed so none chains through a retired page.
   ["/construction", "/"],
   ["/construction/", "/"],
+  // Materials folded into Speaking, October 6, 2026.
+  ["/materials", "/speaking/#decks"],
+  ["/materials/", "/speaking/#decks"],
   ["/masterclass", "/ai-assistant/cowork/"],
   ["/masterclass/", "/ai-assistant/cowork/"],
-  // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,
-  // 2026-08-15 revamp), so it is intentionally not in this map.
-  ["/ai-assistant-workshop", "/ai-assistant/"],
-  ["/ai-assistant-workshop/", "/ai-assistant/"],
-  ["/ai-assistant-workshop/thanks", "/ai-assistant/"],
-  ["/ai-assistant-workshop/thanks/", "/ai-assistant/"],
-  ["/ai-assistant-workshop-austin", "/ai-assistant/"],
-  ["/ai-assistant-workshop-austin/", "/ai-assistant/"],
-  ["/ai-assistant/claude-code", "/ai-assistant/course/"],
-  ["/ai-assistant/claude-code/", "/ai-assistant/course/"],
-  // Direct public door is /#tell-me. Keep business-map:* event names as-is.
+  ["/ai-assistant-workshop", "/workshops/"],
+  ["/ai-assistant-workshop/", "/workshops/"],
+  ["/ai-assistant-workshop/thanks", "/workshops/"],
+  ["/ai-assistant-workshop/thanks/", "/workshops/"],
+  ["/ai-assistant-workshop-austin", "/workshops/"],
+  ["/ai-assistant-workshop-austin/", "/workshops/"],
+  ["/knowledge-os-proof", "/map-not-dump/"],
+  ["/knowledge-os-proof/", "/map-not-dump/"],
+  ["/hidden-profit-review", "/"],
+  ["/hidden-profit-review/", "/"],
+  ["/kits/follow-up-swipe-file", "/"],
+  ["/kits/follow-up-swipe-file/", "/"],
+  ["/kits/invoice-chase-kit", "/"],
+  ["/kits/invoice-chase-kit/", "/"],
+  // Direct public door is the homepage conversation. Keep business-map:* event names as-is.
   ["/knowledge-os-product", "/#tell-me"],
   ["/knowledge-os-product/", "/#tell-me"],
   ["/business-map", "/#tell-me"],
   ["/business-map/", "/#tell-me"],
-  // Quiet pages retired 2026-08-19. Keep the incoming visitor on the closest
-  // surviving path before the static asset handler can serve the old page.
-  ["/hidden-profit-review", "/#tell-me"],
-  ["/hidden-profit-review/", "/#tell-me"],
-  ["/hidden-profit-review/thanks", "/#tell-me"],
-  ["/hidden-profit-review/thanks/", "/#tell-me"],
-  ["/hidden-profit-review/sample", "/scorecard/"],
-  ["/hidden-profit-review/sample/", "/scorecard/"],
-  ["/hidden-profit-review/profit-leak-assessment", "/scorecard/"],
-  ["/hidden-profit-review/profit-leak-assessment/", "/scorecard/"],
-  ["/hidden-profit-review/sample-assessment", "/scorecard/"],
-  ["/hidden-profit-review/sample-assessment/", "/scorecard/"],
-  ["/kits/follow-up-swipe-file", "/tools/leak-calculator/"],
-  ["/kits/follow-up-swipe-file/", "/tools/leak-calculator/"],
-  ["/kits/invoice-chase-kit", "/tools/leak-calculator/"],
-  ["/kits/invoice-chase-kit/", "/tools/leak-calculator/"],
-  ["/knowledge-os-proof", "/map-not-dump/"],
-  ["/knowledge-os-proof/", "/map-not-dump/"],
 ]);
-// Catch old, unlisted Hidden Profit Review child URLs while keeping its former
-// sample aliases on the scorecard via the exact rules above.
-const PERMANENT_REDIRECT_PREFIXES = [["/hidden-profit-review/", "/#tell-me"]];
+// Catch unlisted children of retired sections (old Hidden Profit Review
+// samples, every tool and kit page).
+const PERMANENT_REDIRECT_PREFIXES = [
+  ["/hidden-profit-review/", "/"],
+  ["/tools/", "/"],
+  ["/kits/", "/"],
+];
 const ALLOWED_EVENT_NAMES = new Set([
   "page:view",
   "cta:masterclass-map",
@@ -496,12 +517,16 @@ async function handleContact(request, env) {
   const attribution = safeText(form.get("attribution"), 240);
   const inquiryType = safeText(form.get("inquiry_type"), 80);
   const workshopInterest = safeText(form.get("workshop_interest"), 100);
+  const organization = inquiryType === "workshop-host" ? safeText(form.get("organization"), 160) : "";
+  const groupSize = inquiryType === "workshop-host" ? safeText(form.get("group_size"), 40) : "";
   let lead = {
     email,
     name,
     form_id: "contact",
     inquiry_type: inquiryType,
     ...(workshopInterest ? { workshop_interest: workshopInterest } : {}),
+    ...(organization ? { organization } : {}),
+    ...(groupSize ? { group_size: groupSize } : {}),
     message,
     source_url: sourceUrl,
     attribution,
@@ -905,6 +930,8 @@ function leadFieldLabel(key) {
     submitted_at: "Submitted at",
     inquiry_type: "Inquiry type",
     workshop_interest: "Workshop interest",
+    organization: "Organization",
+    group_size: "Group size",
   };
   return labels[key] || key.replace(/_/g, " ").replace(/^./, (character) => character.toUpperCase());
 }
@@ -974,11 +1001,13 @@ function validateContactForm(form) {
     _subject: 240,
     inquiry_type: 80,
     workshop_interest: 100,
+    organization: 160,
+    group_size: 40,
     attribution: 240,
     "cf-turnstile-response": 2048,
     ...(scan ? { phone: 32, company: 160, linkedin: 300, submission_id: 36 } : {}),
   };
-  if ([...form.keys()].length > (scan ? 14 : 10)) return false;
+  if ([...form.keys()].length > (scan ? 14 : 12)) return false;
   if (scan) {
     if (form.get("linkedin") && !validLinkedIn(form.get("linkedin"))) return false;
     if (form.get("submission_id") && !/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(form.get("submission_id"))) return false;

@@ -1,38 +1,49 @@
-# Jonathan Malkin
+# Open Door Learning
 
-> I help owner-led businesses turn knowledge trapped in people and scattered tools into systems their team and AI can actually use.
+> Jonathan Malkin, AI educator and builder in Austin, Texas. He works with owners and executives who are using AI and want to make it more useful in their business. He teaches them and their teams to solve real business problems with AI, and builds solutions when needed.
 
 ## About
 
-Jonathan Malkin is an Austin-based knowledge systems builder. After 20+ years in enterprise technology, including 8 years at Automation Anywhere, he turns knowledge trapped in an owner-led business into a system the team and their AI assistants both use. He calls the finished system a company brain: folders and files a team and its AI can both read and use. High-stakes decisions stay with people, and clients own the platform, the credentials, the data, and the final system.
+Jonathan Malkin teaches hands-on AI workshops for owners, executives and their teams, working as Open Door Learning. Each person works on a real task from their own week, on their own laptop, with help beside them, and leaves with something that works: a working tool or workflow, a skill applied to their own work, or a clear decision about where to start. He spent more than twenty years in enterprise technology, including eight years at Automation Anywhere, before going independent in June 2025. He is based in Austin and teaches in person there and online for groups elsewhere.
 
-Working together starts with a conversation about the project the owner keeps putting off. If it is a fit, the work is a phased, client-owned build. He takes one build at a time.
+## Who it is for
 
-## Key Topics
+- Owners and executives who have tried AI and want it to do real work in the business.
+- Hosts: chambers, associations, peer groups, co-working communities and companies that gather owners and executives and want useful AI education for them.
+- Event organizers and podcast hosts looking for a practical speaker on AI in business.
 
-- Company brain systems: turning scattered business knowledge into organized, AI-readable files
-- Seeing people, process, and systems on one page, then deciding what to build first
-- Privacy treatment for sensitive business material, with required human review
-- Claude Code: skills, hooks, rules, CLAUDE.md configuration, subagent orchestration
-- AI agents and AI operations inside a running business
-- Four 90-minute workshops for business owners, teams and the organizations that serve them: business knowledge, recurring tasks, a Personal AI Assistant, and exploring where AI could help
+## Workshops
 
-## Offers
+Seven workshops in three kinds of room, 90 minutes each. Details and a message form: https://builtwithjon.com/workshops/
 
-- Talk about a stuck project: https://builtwithjon.com/#tell-me
-- Four 90-minute workshops: Put Your Business Knowledge to Work; Build One Useful AI Workflow; Build Your Personal AI Assistant; See Where AI Could Help Your Business. Details and inquiries: https://builtwithjon.com/workshops/
-- The map-not-dump pattern: https://builtwithjon.com/map-not-dump/
-- Personal AI Assistant self-serve setup guide: https://builtwithjon.com/ai-assistant/cowork/
+Hands-on build workshops (laptops open, one real task each):
+- Put Your Business Knowledge to Work: a shared reference the team and their AI can both use.
+- Build One Useful AI Workflow: a repeatable method for one recurring task.
+- Build Your Personal AI Assistant: an assistant set up for meeting preparation, next steps and a daily brief.
+- Hand Off Your First Task to an AI Agent: one recurring task running under the participant’s own approval rules, and a short list of what an agent may and may not do.
 
-## Content
+Leadership sessions (no laptops; decisions written down):
+- See Where AI Could Help Your Business: a short list of places to start, drawn from the participant's own week.
+- Set Your Team’s AI Direction: a one-page AI direction for the team: the rules, three first projects with owners, and what to check in ninety days.
 
+For IT and technical teams:
+- Give Your AI Agents a Map: a folder structure and instruction files an agent can find its way around, running with two tools on the team's own files.
+
+## Pages
+
+- Home: https://builtwithjon.com/
+- Workshops: https://builtwithjon.com/workshops/
+- For the group you gather (chambers, associations, peer groups, portfolios, teams): https://builtwithjon.com/host-a-workshop/
+- Speaking: talks, decks and the headshot: https://builtwithjon.com/speaking/
+- Making AI useful in your business: https://builtwithjon.com/making-ai-useful/
+- About Jonathan Malkin: https://builtwithjon.com/about/
+- Contact: https://builtwithjon.com/contact/
 - Articles: https://builtwithjon.com/articles/
 - RSS: https://builtwithjon.com/rss.xml
-- Jules System: https://builtwithjon.com/jules/
 
 ## Links
 
-- GitHub: https://github.com/jonathanmalkin
-- X/Twitter: https://x.com/builtwithjon
 - LinkedIn: https://linkedin.com/in/jonathanmalkin
-- Jules Source: https://github.com/jonathanmalkin/jules
+- X: https://x.com/builtwithjon
+- GitHub: https://github.com/jonathanmalkin
+- Email: jonathan@builtwithjon.com

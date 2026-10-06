@@ -1,0 +1,32 @@
+---
+// Page shell for the Open Door Learning world (October 2026 revamp). Wraps
+// Base with the shared header and footer, the self-hosted fonts and the
+// body.odl styles in global.css. Every rebuilt page uses this.
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/schibsted-grotesk';
+
+interface Props {
+  title: string;
+  description: string;
+  titleSuffix?: boolean;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  schema?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const { title, description, titleSuffix = true, image = '/og-workshops.jpg', imageWidth = 1200, imageHeight = 630, schema, noindex } = Astro.props;
+---
+
+<Base title={title} description={description} titleSuffix={titleSuffix} image={image} imageWidth={imageWidth} imageHeight={imageHeight} schema={schema} noindex={noindex} bare bodyClass="odl">
+  <Fragment slot="header">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+  </Fragment>
+  <slot />
+  <Footer slot="footer" />
+</Base>
