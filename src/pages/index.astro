@@ -32,7 +32,7 @@ const serviceSchema = buildProfessionalServiceSchema({
 
   <section class="hero home-hero" aria-labelledby="hero-h">
     <picture>
-      <source media="(min-width: 861px)" type="image/webp" srcset="/home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w, /home/austin-workshop-desktop-3200.webp 3200w, /home/austin-workshop-desktop-3600.webp 3600w" sizes="max(100vw, 1980px)" />
+      <source media="(min-width: 861px)" type="image/webp" srcset="/home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w" sizes="max(100vw, 1980px)" />
       <source type="image/webp" srcset="/home/austin-workshop-900.webp 900w, /home/austin-workshop-1200.webp 1200w, /home/austin-workshop-1600.webp 1600w" sizes="100vw" />
       <img src="/home/austin-workshop.jpg" width="1600" height="1067" alt="Jonathan Malkin teaching from the podium at a workshop in Austin." fetchpriority="high" />
     </picture>
@@ -52,14 +52,11 @@ const serviceSchema = buildProfessionalServiceSchema({
           <h2 id="room-h">Hands-on AI workshops for owners, executives and their teams</h2>
           <p class="lede" style="margin-top:16px">You work on a real task from your own week, on your own laptop, with help beside you. No slides about the future of work. Ninety minutes, and you leave with something that works.</p>
         </div>
-        <figure>
-          <div class="frame">
-            <video controls muted playsinline preload="none" poster="/workshops/media/workshop-walking-poster-v3.webp" width="1280" height="720" aria-label="Ten seconds from a workshop">
-              <source src="/workshops/media/workshop-walking-v3.mp4" type="video/mp4" />
-              <track kind="captions" src="/workshops/media/workshop-walking-v3.vtt" srclang="en" label="English" default />
-            </video>
-          </div>
-          <figcaption>Ten seconds from a workshop in Austin: helping people use voice input. Captions on, sound optional.</figcaption>
+        <figure class="photo" style="aspect-ratio:3/2">
+          <picture>
+            <source type="image/webp" srcset="/home/room-working-800.webp 800w, /home/room-working-1200.webp 1200w, /home/room-working-1800.webp 1800w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+            <img src="/home/room-working.jpg" width="1600" height="1067" loading="lazy" alt="A workshop in Austin, seen from the back of the room: people along a long table working on their own laptops while Jonathan Malkin teaches at the screen." />
+          </picture>
         </figure>
       </div>
       <ol class="steps" style="margin-top:clamp(36px,4vw,56px)">
@@ -76,7 +73,10 @@ const serviceSchema = buildProfessionalServiceSchema({
   <section class="sec" aria-labelledby="co-h">
     <div class="inner duo">
       <figure class="photo" style="aspect-ratio:4/3">
-        <img src="/home/austin-hero.jpg" width="1082" height="1360" loading="lazy" alt="Jonathan Malkin speaking to a room, holding a presentation clicker." style="object-position:50% 20%" />
+        <picture>
+          <source type="image/webp" srcset="/home/austin-hero-600.webp 600w, /home/austin-hero-900.webp 900w, /home/austin-hero-1082.webp 1082w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+          <img src="/home/austin-hero.jpg" width="1082" height="1360" loading="lazy" alt="Jonathan Malkin speaking to a room, holding a presentation clicker." style="object-position:50% 20%" />
+        </picture>
       </figure>
       <div>
         <h2 id="co-h">For your company</h2>
@@ -91,14 +91,17 @@ const serviceSchema = buildProfessionalServiceSchema({
   <section class="sec band-amber" aria-labelledby="host-h">
     <div class="inner duo">
       <div>
-        <h2 id="host-h">For the group you gather</h2>
-        <p class="lede">You run a chamber, an association, a peer group, a co-working community or a portfolio of companies, and your people are asking about AI. I bring a session that is useful to them and reflects well on you. Nobody gets a sales pitch.</p>
+        <h2 id="host-h">For your members</h2>
+        <p class="lede">You run a chamber, an association, a peer group, a co-working community or a portfolio of companies, and your people are asking about AI. I bring a session that is useful to them and reflects well on you.</p>
         <div class="actions">
-          <a class="btn" href="/host-a-workshop/" data-track="cta:home-host">Bring a workshop to your group <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn" href="/host-a-workshop/" data-track="cta:home-host">Bring a workshop to your members <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
       <figure class="photo" style="aspect-ratio:4/3">
-        <img src="/home/austin-keynote.jpg" width="1600" height="1066" loading="lazy" alt="Jonathan Malkin presenting beside a laptop, with his name on the screen behind him." />
+        <picture>
+          <source type="image/webp" srcset="/home/podium-800.webp 800w, /home/podium-1200.webp 1200w, /home/podium-1800.webp 1800w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+          <img src="/home/podium.jpg" width="1600" height="1067" loading="lazy" alt="Jonathan Malkin at the podium at Capital Factory in Austin, speaking to a seated audience." style="object-position:50% 35%" />
+        </picture>
       </figure>
     </div>
   </section>
@@ -119,17 +122,17 @@ const serviceSchema = buildProfessionalServiceSchema({
   </section>
 
   <div class="band-parch" id="tell-me">
-    <MessageForm kind="workshop" id="message" heading="Curious? Start with a message" intro="Tell me what you have tried, what you want AI to do in your business, or about the group you have in mind. I will suggest where to start." />
+    <MessageForm kind="workshop" id="message" heading="Curious? Start with a message" intro="Tell me what you have tried, what you want AI to do in your business, or about the people you have in mind. I will suggest where to start." />
   </div>
 </Odl>
 
 <style>
   /* Desktop hero: the photo is drawn a quarter larger than the hero and placed
      so Jonathan's face (55.5% across the 2.4:1 frame) sits at the centre of
-     the space to the right of the card, at every width. */
+     the space to the right of the card, clamped so the photo always covers. */
   @media(min-width:861px){
-    .home-hero{--h:max(540px,min(660px,80vh));--s:calc(var(--h) * 3)}
+    .home-hero{--s:max(calc(var(--h) * 3),100vw)}
     .home-hero picture{overflow:hidden}
-    .home-hero picture img{position:absolute;width:max(var(--s),100vw);height:auto;aspect-ratio:2.4;object-fit:cover;object-position:50% 50%;top:calc(var(--h) * -.05);left:min(0px,calc((var(--gutter) + min(620px,47vw) + 100vw) / 2 - var(--s) * .555))}
+    .home-hero picture img{position:absolute;width:var(--s);height:auto;aspect-ratio:2.4;object-fit:cover;object-position:50% 50%;top:calc(var(--h) * .39 - var(--s) * .1458);left:clamp(calc(100vw - var(--s)),calc((max(5vw,calc((100vw - 1240px) / 2)) + min(620px,47vw) + 100vw) / 2 - var(--s) * .555),0px)}
   }
 </style>

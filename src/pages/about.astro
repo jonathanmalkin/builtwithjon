@@ -9,7 +9,7 @@ import MessageForm from '../components/MessageForm.astro';
 import { buildPersonSchema } from '../lib/schema.js';
 import { SITE, BIO } from '../data/odl';
 
-const description = 'Jonathan Malkin is an AI educator and builder in Austin, Texas. Twenty years in enterprise technology, now teaching owners, executives and their teams hands-on.';
+const description = 'Jonathan Malkin is an AI educator and builder in Austin, Texas. More than twenty years in enterprise technology, now teaching owners, executives and their teams hands-on.';
 const personSchema = buildPersonSchema({
   description: BIO.medium,
   url: `${SITE.url}/about/`,
@@ -25,14 +25,14 @@ const personSchema = buildPersonSchema({
         <h1 id="hero-h">{SITE.person}</h1>
         <p class="role">{SITE.titleLower}</p>
         <p class="lede" style="margin-bottom:16px">{SITE.positioning}</p>
-        <p class="cap" style="margin-bottom:26px">20+ years in enterprise technology. Based in {SITE.city}. Working as {SITE.company}.</p>
+        <p class="cap" style="margin-bottom:26px">More than twenty years in enterprise technology. Based in {SITE.city}. Working as {SITE.company}.</p>
         <div class="actions">
           <a class="btn" href="/workshops/" data-track="cta:about-hero">See the workshops <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
       <figure class="photo" style="aspect-ratio:3/2">
         <picture>
-          <source type="image/webp" srcset="/home/austin-portrait-900.webp 900w, /home/austin-portrait-1200.webp 1200w, /home/austin-portrait-1600.webp 1600w, /home/austin-portrait-2200.webp 2200w" sizes="(max-width: 860px) 100vw, 52vw" />
+          <source type="image/webp" srcset="/home/austin-portrait-900.webp 900w, /home/austin-portrait-1200.webp 1200w, /home/austin-portrait-1600.webp 1600w, /home/austin-portrait-2200.webp 2200w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
           <img src="/home/austin-portrait.jpg" width="1600" height="1067" fetchpriority="high" alt="Jonathan Malkin speaking at an event in Austin, wearing a name badge and a lapel microphone." />
         </picture>
       </figure>

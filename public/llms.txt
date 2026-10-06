@@ -4,17 +4,17 @@
 
 ## About
 
-Jonathan Malkin teaches hands-on AI workshops for owners, executives and their teams, working as Open Door Learning. Each person works on a real task from their own week, on their own laptop, with help beside them, and leaves with something that works: a working tool or workflow, a skill applied to their own work, or a clear decision about where to start. He spent more than twenty years in enterprise technology, including eight years at Automation Anywhere, before going independent in June 2025. He is based in Austin and teaches in person there and online for groups elsewhere.
+Jonathan Malkin teaches hands-on AI workshops for owners, executives and their teams, working as Open Door Learning. Each person works on a real task from their own week, on their own laptop, with help beside them, and leaves with something that works: a working tool or workflow, a skill applied to their own work, or a clear decision about where to start. He spent more than twenty years in enterprise technology, including eight years at Automation Anywhere, before going independent in June 2025. He is based in Austin and teaches in person there. He also teaches online; online sessions are shaped for a call, so their format and content differ from the in-person workshops.
 
 ## Who it is for
 
 - Owners and executives who have tried AI and want it to do real work in the business.
-- Hosts: chambers, associations, peer groups, co-working communities and companies that gather owners and executives and want useful AI education for them.
+- Hosts: chambers, associations, peer groups, co-working communities and portfolios that gather owners and executives and want useful AI education for their members.
 - Event organizers and podcast hosts looking for a practical speaker on AI in business.
 
 ## Workshops
 
-Seven workshops in three kinds of room, 90 minutes each. Details and a message form: https://builtwithjon.com/workshops/
+Three kinds of room. Most sessions run ninety minutes; the technical one can run a half day. Details and a message form: https://builtwithjon.com/workshops/
 
 Hands-on build workshops (laptops open, one real task each):
 - Put Your Business Knowledge to Work: a shared reference the team and their AI can both use.
@@ -33,7 +33,7 @@ For IT and technical teams:
 
 - Home: https://builtwithjon.com/
 - Workshops: https://builtwithjon.com/workshops/
-- For the group you gather (chambers, associations, peer groups, portfolios, teams): https://builtwithjon.com/host-a-workshop/
+- For your members (chambers, associations, peer groups, co-working communities, portfolios): https://builtwithjon.com/host-a-workshop/
 - Speaking: the principles Jonathan teaches from, talks and decks: https://builtwithjon.com/speaking/
 - Making AI useful in your business: https://builtwithjon.com/making-ai-useful/
 - Common questions about the workshops and hosting one: https://builtwithjon.com/faq/

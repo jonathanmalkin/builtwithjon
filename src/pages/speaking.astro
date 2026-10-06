@@ -7,7 +7,7 @@ import { buildPersonSchema } from '../lib/schema.js';
 import MessageForm from '../components/MessageForm.astro';
 import { SITE, TALKS, BIO, MATERIALS, PRINCIPLES } from '../data/odl';
 
-const description = 'For event organizers and podcast hosts: talks and demos by Jonathan Malkin on making AI useful in a business, with the principles I teach from, recent talks and the decks.';
+const description = 'Talks and demos by Jonathan Malkin on making AI useful in a business: the principles I teach from, recent talks and the decks.';
 const personSchema = buildPersonSchema({
   description: BIO.medium,
   url: `${SITE.url}/speaking/`,
@@ -28,7 +28,10 @@ const personSchema = buildPersonSchema({
         </div>
       </div>
       <figure class="photo" style="aspect-ratio:3/2">
-        <img src="/home/austin-keynote.jpg" width="1600" height="1066" fetchpriority="high" alt="Jonathan Malkin presenting beside a laptop, with his name on the screen behind him." />
+        <picture>
+          <source type="image/webp" srcset="/home/austin-keynote-800.webp 800w, /home/austin-keynote-1200.webp 1200w, /home/austin-keynote-1600.webp 1600w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+          <img src="/home/austin-keynote.jpg" width="1600" height="1066" fetchpriority="high" alt="Jonathan Malkin presenting beside a laptop, with his name on the screen behind him." />
+        </picture>
       </figure>
     </div>
   </section>
@@ -84,7 +87,7 @@ const personSchema = buildPersonSchema({
           <li>
             <a class="tile" href={m.href}>
               <span class="tile-shot"><img src={m.cover.src} alt={m.cover.alt} loading="lazy" width="800" height="500" /></span>
-              <span class="tile-body"><strong>{m.title}</strong><p>{m.desc}</p><span class="chip">{m.tag}</span></span>
+              <span class="tile-body"><strong>{m.title}</strong><span class="tile-desc">{m.desc}</span><span class="chip">{m.tag}</span></span>
             </a>
           </li>
         ))}

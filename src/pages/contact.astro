@@ -1,53 +1,19 @@
 ---
-// Contact, October 2026 revamp. Replaces the earlier contact page.
+// Contact, October 2026 revamp. One heading, one line and the same message
+// form as every other page (October 6 review round).
 // Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
 // Copy is draft until Jonathan approves it page by page.
 import Odl from '../layouts/Odl.astro';
 import MessageForm from '../components/MessageForm.astro';
 import { buildPersonSchema } from '../lib/schema.js';
-import { SITE } from '../data/odl';
+import { BIO } from '../data/odl';
 
-const description = 'Get in touch with Jonathan Malkin about a workshop, a group you gather, a talk, or anything else. He replies by email.';
-const personSchema = buildPersonSchema({
-  description: `${SITE.person} is an AI educator and builder in ${SITE.city}. ${SITE.positioning}`,
-});
-const pointers = [
-  { h: 'For your business or team', p: 'Hands-on workshops where each person works on a real task.', href: '/workshops/', label: 'See the workshops', track: 'cta:contact-workshops' },
-  { h: 'For the group you gather', p: 'A session for your members or your team.', href: '/host-a-workshop/', label: 'Host a workshop', track: 'cta:contact-host' },
-];
+const description = 'Get in touch with Jonathan Malkin about a workshop, a session for your members, a talk, or anything else. He replies by email.';
+const personSchema = buildPersonSchema({ description: BIO.medium });
 ---
 
 <Odl title="Contact" description={description} schema={personSchema}>
-  <section class="sec band-parch" aria-labelledby="contact-h">
-    <div class="inner narrow opening">
-      <h1 id="contact-h">Get in touch.</h1>
-      <p class="lede">For a workshop, a group you gather, a talk, or anything else. I reply by email.</p>
-      <p class="lede mail"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
-    </div>
-  </section>
-
-  <section class="sec tight" aria-label="Where to start">
-    <div class="inner">
-      <ul class="rows">
-        {pointers.map((x) => (
-          <li>
-            <h2>{x.h}</h2>
-            <div>
-              <p>{x.p}</p>
-              <a class="go" href={x.href} data-track={x.track}>{x.label} <span class="arrow" aria-hidden="true">→</span></a>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
   <div class="band-parch">
-    <MessageForm kind="contact" id="message" heading="Send a note" intro="Whatever I should know. A sentence is enough." button="Send" track="contact" />
+    <MessageForm kind="contact" id="message" level={1} heading="Get in touch." intro="About a workshop, a session for your members, a talk, or anything else. A sentence is enough." button="Send" track="contact" />
   </div>
 </Odl>
-
-<style>
-  :global(body.odl) .opening h1{margin-bottom:18px}
-  :global(body.odl) .opening .mail{margin-top:14px;font-weight:600;overflow-wrap:anywhere}
-</style>

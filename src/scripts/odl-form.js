@@ -58,7 +58,7 @@ document.querySelectorAll('form[data-odl-form]').forEach((form) => {
       status.className = 'status err';
       status.textContent = error.message === 'verification_failed'
         ? 'Please complete the security check and try again. Your message is still here.'
-        : 'That did not go through. Your message is still here. Please try again, or email jonathan@builtwithjon.com.';
+        : 'That did not go through. Your message is still here. Please try again in a moment.';
       const widget = form.dataset.turnstileWidget;
       if (widget && window.turnstile) window.turnstile.reset(widget);
       button.disabled = Boolean(widget && window.turnstile);

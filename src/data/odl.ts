@@ -25,7 +25,7 @@ export const SITE = {
 // as the same thing.
 export const NAV = [
   { href: '/workshops/', label: 'Workshops' },
-  { href: '/host-a-workshop/', label: 'For your group' },
+  { href: '/host-a-workshop/', label: 'For your members' },
   { href: '/speaking/', label: 'Speaking' },
   { href: '/about/', label: 'About' },
 ];
@@ -47,14 +47,14 @@ export const FORMATS = [
     name: 'Hands-on build workshops',
     how: 'Laptops open. Each person brings one real task from their own week, builds on it with help beside them, and leaves with something that works. Ninety minutes.',
     who: 'For owners, executives and their teams.',
-    image: { src: '/home/austin-workshop.jpg', alt: 'Jonathan Malkin teaching a room of owners in Austin, people working on laptops.' },
+    image: { src: '/home/austin-workshop.jpg', base: '/home/austin-workshop', widths: [900, 1200, 1600], alt: 'Jonathan Malkin teaching from the podium at a workshop in Austin.' },
   },
   {
     id: 'lead',
     name: 'Leadership sessions',
     how: 'No laptops needed. The owner and the people who run the business work through where AI fits, what it may and may not do, and what to start first. You leave with decisions written down. Ninety minutes.',
     who: 'For an owner and the leadership team.',
-    image: { src: '/home/austin-hero.jpg', alt: 'Jonathan Malkin speaking to a room, holding a presentation clicker.' },
+    image: { src: '/home/austin-hero.jpg', base: '/home/austin-hero', widths: [600, 900, 1082], pos: '50% 18%', alt: 'Jonathan Malkin speaking to a room, holding a presentation clicker.' },
   },
   {
     id: 'tech',
@@ -201,7 +201,7 @@ export const BIO = {
 export const PRINCIPLES = [
   { title: 'You are not behind.', text: 'Every week brings a new way to feel behind: a new model, a new agent, a new tool. Most of it does not change what your business needs. Start where you are.' },
   { title: 'Keep it simple.', text: 'Add structure only when the work needs it. One assistant doing one job well beats a team of agents nobody can follow.' },
-  { title: 'Well-organized files come first.', text: 'AI gives general answers when it has general information. Put what your business knows where people and AI can both find it. Give it a map, not a dump.' },
+  { title: 'Well-organized files come first.', text: 'AI gives general answers when it has general information. Put what your business knows where people and AI can both find it.' },
   { title: 'Start with one real task.', text: 'Pick work that comes back every week and gets rebuilt from scratch each time. Get that one task working before talking about a strategy.' },
   { title: 'People stay in control.', text: 'AI drafts and prepares. A person reviews, decides and owns the result.' },
 ];
@@ -210,10 +210,12 @@ export const PRINCIPLES = [
 // carries the FAQPage schema; Making AI useful shows the general group.
 export const FAQ = {
   general: [
-    { question: 'Do we need to know a lot about AI first?', answer: 'No. Sessions are set to the room’s starting point. If you have used ChatGPT a few times, that is enough.' },
+    { question: 'Do we need to know a lot about AI first?', answer: 'No. First-timers are welcome. Sessions are set to the room’s starting point, and if you have used ChatGPT a few times, that is plenty.' },
     { question: 'Which AI tool do you teach?', answer: 'The one that fits the task and what you already have. The methods carry across ChatGPT, Claude, Copilot and Gemini.' },
+    { question: 'Is my business information safe in a workshop?', answer: 'What you share with an AI provider is up to you. I work with the tools you already use, so if you have a provider you trust, use that one.' },
     { question: 'How long is a workshop?', answer: 'Ninety minutes for most. The technical workshop can run as a half day for a team that wants to leave with it running.' },
-    { question: 'Is this only for Austin?', answer: 'I am based in Austin and teach in person here, and online for groups elsewhere.' },
+    { question: 'Is this only for Austin?', answer: 'No. I am based in Austin and teach in person here.' },
+    { question: 'Do you teach online?', answer: 'Yes. Online sessions are shaped for a call rather than a room, so the format and content differ from the in-person workshops. Tell me who would be on the call and what you want them to leave with, and I will suggest what fits.' },
     { question: 'What does it cost?', answer: 'It depends on the group and the format. Send a message and I will ask a few questions first.' },
   ],
   hosts: [

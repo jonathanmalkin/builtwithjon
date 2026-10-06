@@ -1,5 +1,5 @@
 ---
-// The one message form, used on Home, Workshops, Host a workshop, Making AI
+// The one message form, used on Home, Workshops, For your members, Making AI
 // useful and Contact. Posts to the existing /api/contact route in src/worker.js.
 //   kind="workshop"  inquiry_type=workshop-host, optional allowlisted interest
 //   kind="host"      inquiry_type=workshop-host with a host subject line
@@ -14,6 +14,7 @@ interface Props {
   placeholder?: string;
   button?: string;
   track?: string;
+  level?: 1 | 2;
 }
 
 const {
@@ -24,12 +25,14 @@ const {
   placeholder,
   button = 'Send a message',
   track = 'workshop-host',
+  level = 2,
 } = Astro.props;
+const H = `h${level}`;
 
 const subject = kind === 'host' ? 'Host a workshop inquiry' : kind === 'contact' ? 'Contact inquiry' : 'Workshop inquiry';
 const inquiryType = kind === 'contact' ? 'contact' : 'workshop-host';
 const hint = placeholder ?? (kind === 'host'
-  ? 'Who is in your group, roughly how many, and when you are thinking of.'
+  ? 'Who your members are, roughly how many, and the dates you have in mind.'
   : kind === 'contact'
     ? 'Whatever I should know.'
     : 'What you have tried, and what you want it to do.');
@@ -38,7 +41,7 @@ const hint = placeholder ?? (kind === 'host'
 <section class="sec" id={id} tabindex="-1" aria-labelledby={`${id}-h`}>
   <div class="inner msg">
     <div>
-      <h2 id={`${id}-h`}>{heading}</h2>
+      <H id={`${id}-h`}>{heading}</H>
       <p class="lede">{intro}</p>
       <p class="alt">I reply by email, usually within two business days.</p>
     </div>
@@ -53,8 +56,8 @@ const hint = placeholder ?? (kind === 'host'
       <div class="fields" data-fields>
         <label>Name<input name="name" maxlength="120" autocomplete="name" required /></label>
         <label>Email<input name="email" type="email" maxlength="254" autocomplete="email" required /></label>
-        {kind === 'host' && <label>Organization<input name="organization" maxlength="160" autocomplete="organization" /></label>}
-        {kind === 'host' && <label>Group size, roughly<input name="group_size" maxlength="40" inputmode="numeric" /></label>}
+        {kind === 'host' && <label><span>Organization <span class="opt">(optional)</span></span><input name="organization" maxlength="160" autocomplete="organization" /></label>}
+        {kind === 'host' && <label><span>Group size, roughly <span class="opt">(optional)</span></span><input name="group_size" maxlength="40" inputmode="numeric" /></label>}
         <label class="wide">Message<textarea name="message" maxlength="2000" rows="5" required placeholder={hint}></textarea></label>
       </div>
       <button class="btn" type="submit">{button} <span class="arrow" aria-hidden="true">→</span></button>

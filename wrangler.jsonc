@@ -13,6 +13,8 @@
   "assets": {
     "binding": "ASSETS",
     "directory": "dist",
+    // Unknown paths get the site 404 page with a 404 status.
+    "not_found_handling": "404-page",
     // Route protocol/API paths and retirement redirects through the worker
     // before static assets can serve an old generated page.
     "run_worker_first": [

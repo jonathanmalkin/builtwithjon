@@ -54,7 +54,6 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
     --h-ink: #191E26;
     --h-ivory: #FBF8F1;
     --h-line: #D2C4A6;
-    --h-amber: #E8A83C;
     position: sticky;
     top: 0;
     z-index: 20;
@@ -70,16 +69,16 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 12px 5vw;
-    max-width: 1600px;
-    margin: 0 auto;
+    padding: 12px max(5vw, calc((100% - 1240px) / 2));
   }
   .odl-logo { display: inline-flex; border-radius: 4px; }
   .odl-logo img { display: block; height: 44px; width: auto; }
   .odl-nav { display: flex; gap: clamp(14px, 2.2vw, 30px); }
   .odl-nav a {
-    font: 550 1rem/1 inherit;
     font-family: inherit;
+    font-weight: 550;
+    font-size: 1rem;
+    line-height: 1;
     color: var(--h-ink);
     text-decoration: none;
     padding: 10px 0;
@@ -87,13 +86,15 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
     white-space: nowrap;
   }
   .odl-nav a:hover { border-bottom-color: var(--h-ink); }
-  .odl-nav a[aria-current='page'] { border-bottom-color: var(--h-amber); }
+  .odl-nav a[aria-current='page'] { border-bottom-color: #8F4E24; }
   .odl-menu {
     display: none;
     align-items: center;
     gap: 8px;
-    font: 600 .95rem/1 inherit;
     font-family: inherit;
+    font-weight: 600;
+    font-size: .95rem;
+    line-height: 1;
     color: var(--h-ink);
     background: none;
     border: 1.5px solid var(--h-ink);
@@ -105,11 +106,13 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
   .odl-menu-close { display: none; }
   .open .odl-menu-close { display: block; }
   .open .odl-menu-open { display: none; }
-  .odl-header :focus-visible { outline: 3px solid var(--h-amber); outline-offset: 3px; border-radius: 3px; }
+  .odl-header :focus-visible { outline: 3px solid var(--h-ink); outline-offset: 3px; border-radius: 3px; }
 
   @media (max-width: 860px) {
-    .odl-header-inner { flex-wrap: wrap; gap: 8px 16px; padding: 12px 5vw; }
     .odl-logo img { height: 36px; }
+  }
+  @media (max-width: 720px) {
+    .odl-header-inner { flex-wrap: wrap; gap: 8px 16px; padding: 12px 5vw; }
     .odl-nav { width: 100%; flex-wrap: wrap; gap: 0 22px; padding: 4px 0 2px; }
     .has-js .odl-menu { display: inline-flex; }
     .has-js .odl-nav { display: none; }

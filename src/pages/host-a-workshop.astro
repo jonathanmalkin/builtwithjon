@@ -1,6 +1,7 @@
 ---
-// Host a workshop, October 2026 revamp. For hosts: chambers, associations,
-// peer groups, co-working communities and companies training a team.
+// For your members, October 2026 revamp. For hosts: chambers, associations,
+// peer groups, co-working communities and portfolios. Company teams go to
+// /workshops/.
 // Four sections since October 6, 14:50: hero, what your group gets, the
 // three kinds of rooms, the form. The questions moved to /faq/; how it works
 // and rooms like yours were cut. No prices here.
@@ -10,10 +11,10 @@ import Odl from '../layouts/Odl.astro';
 import MessageForm from '../components/MessageForm.astro';
 import { WORKSHOPS, FORMATS } from '../data/odl';
 
-const description = 'Bring a hands-on AI workshop to your chamber, association, peer group, portfolio or team. Plain language, no sales pitch, a useful result for each person.';
+const description = 'Bring a hands-on AI workshop to your chamber, association, peer group or portfolio. Plain language and a useful result for each person.';
 
 const gets = [
-  { title: 'A session set to where the room actually is.', text: 'From people opening an AI tool for the first time to people who use one every day. I ask about the group beforehand and pitch the session to match.' },
+  { title: 'A session set to where the room actually is.', text: 'From people opening an AI tool for the first time to people who use one every day. I ask about the group beforehand and set the session to match.' },
   { title: 'Hands-on time on their own work.', text: 'Each person works on their own tasks, on their own laptop, with the AI tool they already use.' },
   { title: 'One practical result per person.', text: 'A working tool or workflow, a skill applied to their own work, or a clear decision about where to start.' },
 ];
@@ -21,14 +22,17 @@ const gets = [
 const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.format === f.id).map((w) => w.name) }));
 ---
 
-<Odl title="AI Workshops for the Group You Gather" description={description}>
+<Odl title="AI Workshops for Your Members" description={description}>
   <section class="hero host-hero" aria-labelledby="hero-h">
-    <img src="/home/austin-hero.jpg" width="1082" height="1360" alt="Jonathan Malkin speaking to a room, holding a presentation clicker, with a name badge and a headset microphone." fetchpriority="high" />
+    <picture>
+      <source type="image/webp" srcset="/home/austin-hero-600.webp 600w, /home/austin-hero-900.webp 900w, /home/austin-hero-1082.webp 1082w" sizes="(max-width: 860px) 100vw, min(58vw, 900px)" />
+      <img src="/home/austin-hero.jpg" width="1082" height="1360" alt="Jonathan Malkin speaking to a room, holding a presentation clicker, with a name badge and a headset microphone." fetchpriority="high" />
+    </picture>
     <div class="hero-card">
       <h1 id="hero-h">A practical AI session for the people you serve.</h1>
-      <p class="lede">You gather owners, executives or a team: a chamber, an association, a peer group, a portfolio of companies. They are asking about AI. You want a session that is useful to them and reflects well on you. I teach hands-on workshops where each person works on their own business and leaves with something they can use.</p>
+      <p class="lede">You run a chamber, an association, a peer group or a portfolio of companies, and your members are asking about AI. I teach hands-on workshops where each person works on their own business and leaves with something they can use.</p>
       <div class="actions">
-        <a class="btn" href="#message" data-track="cta:host-hero">Tell me about your group <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn" href="#message" data-track="cta:host-hero">Tell me about your members <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -36,7 +40,7 @@ const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.fo
   <section class="sec" aria-labelledby="gets-h">
     <div class="inner duo" style="align-items:start">
       <div>
-        <h2 id="gets-h">What your group gets</h2>
+        <h2 id="gets-h">What your members get</h2>
         <ul class="gets">
           {gets.map((g) => (
             <li>
@@ -47,7 +51,10 @@ const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.fo
         </ul>
       </div>
       <figure class="photo" style="aspect-ratio:4/3">
-        <img src="/home/austin-keynote.jpg" width="1600" height="1066" loading="lazy" alt="Jonathan Malkin presenting beside a laptop, with his name on the screen behind him." />
+        <picture>
+          <source type="image/webp" srcset="/home/podium-800.webp 800w, /home/podium-1200.webp 1200w, /home/podium-1800.webp 1800w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+          <img src="/home/podium.jpg" width="1600" height="1067" loading="lazy" alt="Jonathan Malkin at the podium at Capital Factory in Austin, speaking to a seated audience." style="object-position:50% 35%" />
+        </picture>
       </figure>
     </div>
   </section>
@@ -75,16 +82,20 @@ const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.fo
     </div>
   </section>
 
-  <MessageForm kind="host" id="message" heading="Tell me about your group" intro="Who is in it, roughly how many, and when you are thinking of. If you want to know who you would be putting in front of your members first, there is more about me on the About page." button="Send" />
+  <MessageForm kind="host" id="message" heading="Tell me about your members" intro="Who they are, roughly how many, and the dates you have in mind. If you want to know who you would be putting in front of your members first, there is more about me on the About page." button="Send" />
 </Odl>
 
 <style>
   @media(min-width:861px){
     .host-hero{background:var(--ink)}
-    .host-hero>img{left:auto;right:0;width:58%;object-position:50% 15%;-webkit-mask-image:linear-gradient(to right,transparent,#000 22%);mask-image:linear-gradient(to right,transparent,#000 22%)}
+    .host-hero>picture{left:auto;right:max(0px,calc((100% - 1240px)/2 - 180px));width:min(58%,900px);-webkit-mask-image:linear-gradient(to right,transparent,#000 22%);mask-image:linear-gradient(to right,transparent,#000 22%)}
+    .host-hero img{object-position:50% 15%}
+  }
+  @media(min-width:1601px){
+    .host-hero>picture{-webkit-mask-image:linear-gradient(to right,transparent,#000 22%,#000 86%,transparent);mask-image:linear-gradient(to right,transparent,#000 22%,#000 86%,transparent)}
   }
   @media(max-width:860px){
-    .host-hero>img{object-position:50% 20%}
+    .host-hero img{object-position:50% 20%}
   }
   .gets{list-style:none;margin-top:28px;border-top:1.5px solid var(--ink)}
   .gets>li{padding:20px 0 22px;border-bottom:1px solid var(--line)}

@@ -1,6 +1,7 @@
 ---
 // Workshops, October 2026 revamp. For owners and executives.
-// Three sections (October 6, 13:00): hero with the clip, the three kinds of
+// Three sections (October 6, 13:00): hero with a room photo (the clip was
+// cut October 6, 18:47), the three kinds of
 // rooms with their workshops as short rows, the form. Particulars that were
 // here (practical details, the promise) were cut at Jonathan's request.
 // Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
@@ -18,7 +19,7 @@ const serviceSchema = buildProfessionalServiceSchema({
   description,
   url: `${SITE.url}/workshops/`,
   founder: personSchema,
-  makesOffer: WORKSHOPS.map((w) => ({ '@type': 'Offer', name: w.name, description: `${w.summary} Format: 90 minutes.`, url: `${SITE.url}/workshops/#workshops` })),
+  makesOffer: WORKSHOPS.map((w) => ({ '@type': 'Offer', name: w.name, description: w.summary, url: `${SITE.url}/workshops/#workshops` })),
 });
 ---
 
@@ -29,20 +30,17 @@ const serviceSchema = buildProfessionalServiceSchema({
     <div class="inner split" style="padding:0">
       <div>
         <h1 id="hero-h">Hands-on AI workshops for owners, executives and their teams.</h1>
-        <p class="lede">You work on a real task from your own week, on your own laptop, with help beside you. Ninety minutes, and you leave with something you can use on Monday. In person in Austin, online for groups elsewhere.</p>
+        <p class="lede">You work on a real task from your own week, on your own laptop, with help beside you. Ninety minutes, and you leave with something you can use on Monday. In person in Austin. Online sessions are available too. Ask and I will tell you what fits.</p>
         <div class="actions">
           <a class="btn" href="#message" data-track="cta:workshops-hero">Ask about a workshop <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
-      <figure>
-        <div class="frame">
-          <video controls muted playsinline preload="none" poster="/workshops/media/workshop-walking-poster-v3.webp" width="1280" height="720" aria-label="Ten seconds from a workshop">
-            <source src="/workshops/media/workshop-walking-v3.mp4" type="video/mp4" />
-            <track kind="captions" src="/workshops/media/workshop-walking-v3.vtt" srclang="en" label="English" default />
-          </video>
-        </div>
-        <figcaption>Ten seconds from a workshop in Austin: helping people use voice input. Captions on, sound optional.</figcaption>
-      </figure>
+      <figure class="photo" style="aspect-ratio:3/2">
+          <picture>
+            <source type="image/webp" srcset="/home/room-working-800.webp 800w, /home/room-working-1200.webp 1200w, /home/room-working-1800.webp 1800w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+            <img src="/home/room-working.jpg" width="1600" height="1067" fetchpriority="high" alt="A workshop in Austin, seen from the back of the room: people along a long table working on their own laptops while Jonathan Malkin teaches at the screen." />
+          </picture>
+        </figure>
     </div>
   </section>
 
@@ -52,11 +50,14 @@ const serviceSchema = buildProfessionalServiceSchema({
         <h2 id="ws-h">Three kinds of rooms</h2>
         <p>Pick by who will be in the room. You do not need to choose before getting in touch; tell me what is on your mind and I will suggest where to start.</p>
       </div>
-      {FORMATS.map((f, i) => (
+      {FORMATS.map((f) => (
         <div class="format" id={`format-${f.id}`}>
           <div class="format-intro">
             <figure class="photo" style="aspect-ratio:3/2">
-              <img src={f.image.src} alt={f.image.alt} width="1200" height="800" loading={i === 0 ? 'eager' : 'lazy'} />
+              <picture>
+                {f.image.base && <source type="image/webp" srcset={f.image.widths.map((w) => `${f.image.base}-${w}.webp ${w}w`).join(', ')} sizes="(max-width: 700px) 92vw, min(38vw, 500px)" />}
+                <img src={f.image.src} alt={f.image.alt} width="1200" height="800" loading="lazy" style={f.image.pos ? `object-position:${f.image.pos}` : undefined} />
+              </picture>
             </figure>
             <div>
               <h3>{f.name}</h3>
@@ -67,7 +68,7 @@ const serviceSchema = buildProfessionalServiceSchema({
           <ul class="rows short">
             {WORKSHOPS.filter((w) => w.format === f.id).map((w) => (
               <li>
-                <h4><a href="#message" data-interest={w.name} data-track="cta:workshops-interest">{w.name} <span class="arrow" aria-hidden="true">→</span></a></h4>
+                <h4><a href="#message" data-interest={w.name} data-track="cta:workshops-interest"><span class="vh">Ask about </span>{w.name} <span class="arrow" aria-hidden="true">→</span></a></h4>
                 <p>You leave with {w.leaveWith.charAt(0).toLowerCase() + w.leaveWith.slice(1)}</p>
               </li>
             ))}
@@ -84,13 +85,13 @@ const serviceSchema = buildProfessionalServiceSchema({
 
 <style>
   .format+.format{margin-top:clamp(48px,6vw,88px)}
-  .format-intro{display:grid;grid-template-columns:var(--two);gap:clamp(24px,4vw,64px);align-items:center;margin-bottom:24px}
+  .format-intro{display:grid;grid-template-columns:var(--two);gap:var(--col-gap);align-items:center;margin-bottom:24px}
   .format-intro h3{font:600 clamp(1.6rem,2.6vw,2.3rem)/1.1 var(--disp);letter-spacing:-.02em;margin-bottom:14px}
   .format-intro .lede{margin-bottom:10px}
   .rows.short>li{padding:18px 0}
   .rows.short h4{font:600 1.2rem/1.25 var(--disp);letter-spacing:-.015em;max-width:24ch}
-  .rows.short h4 a{color:var(--ink);text-decoration:none}
+  .rows.short h4 a{display:inline-block;padding:9px 0;margin:-9px 0;color:var(--ink);text-decoration:none}
   .rows.short h4 a:hover{text-decoration:underline}
   .rows.short p{color:var(--body-txt)}
-  @media(max-width:860px){.format-intro{grid-template-columns:1fr}}
+  @media(max-width:700px){.format-intro{grid-template-columns:1fr}}
 </style>
