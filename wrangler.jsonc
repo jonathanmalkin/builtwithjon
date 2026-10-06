@@ -29,7 +29,6 @@
       // Open Door Learning rebrand retirements, 2026-10-06. Exact paths for the
       // /ai-assistant hub and Claude Code page so kept /ai-assistant/cowork/
       // and /ai-assistant/course/ files still serve straight from assets.
-      "/faq*",
       "/principles*",
       "/process*",
       "/dispositions*",

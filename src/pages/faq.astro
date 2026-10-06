@@ -1,0 +1,52 @@
+---
+// Common questions, October 6, 2026. Moved off the host page at Jonathan's
+// request so the answers have one address that search and AI engines can
+// cite. Questions live in src/data/odl.ts (FAQ). No prices here.
+// Copy is draft until Jonathan approves it page by page.
+import Odl from '../layouts/Odl.astro';
+import MessageForm from '../components/MessageForm.astro';
+import { buildFaqPageSchema } from '../lib/schema.js';
+import { FAQ } from '../data/odl';
+
+const description = 'Common questions about Jonathan Malkin’s hands-on AI workshops: who they are for, how long they run, which tools, group size, and what a host provides.';
+const groups = [
+  { id: 'workshops', title: 'About the workshops', items: FAQ.general },
+  { id: 'hosts', title: 'Bringing one to your group', items: FAQ.hosts },
+];
+const faqSchema = buildFaqPageSchema([...FAQ.general, ...FAQ.hosts]);
+---
+
+<Odl title="Common Questions About the AI Workshops" description={description} schema={faqSchema}>
+  <section class="sec band-parch" aria-labelledby="hero-h">
+    <div class="inner narrow">
+      <h1 id="hero-h">Common questions</h1>
+      <p class="lede" style="margin-top:16px">Short answers about the workshops and about bringing one to your group. If yours is not here, ask at the bottom of the page.</p>
+    </div>
+  </section>
+
+  {groups.map((g) => (
+    <section class="sec" id={g.id} aria-labelledby={`${g.id}-h`}>
+      <div class="inner">
+        <div class="sec-head">
+          <h2 id={`${g.id}-h`}>{g.title}</h2>
+        </div>
+        <ul class="qa">
+          {g.items.map((q) => (
+            <li>
+              <h3>{q.question}</h3>
+              <p>{q.answer}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  <div class="band-parch">
+    <MessageForm kind="workshop" id="message" heading="Ask your own question" intro="Tell me what you are trying to work out. I will answer it, or suggest where to start." />
+  </div>
+</Odl>
+
+<style>
+  #hosts{padding-top:0}
+</style>

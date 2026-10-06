@@ -30,9 +30,9 @@ const serviceSchema = buildProfessionalServiceSchema({
   <JsonLd schema={websiteSchema} />
   <JsonLd schema={serviceSchema} />
 
-  <section class="hero" aria-labelledby="hero-h">
+  <section class="hero home-hero" aria-labelledby="hero-h">
     <picture>
-      <source media="(min-width: 861px)" type="image/webp" srcset="/home/austin-workshop-desktop-1200.webp 1200w, /home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w" sizes="100vw" />
+      <source media="(min-width: 861px)" type="image/webp" srcset="/home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w, /home/austin-workshop-desktop-3200.webp 3200w, /home/austin-workshop-desktop-3600.webp 3600w" sizes="max(100vw, 1980px)" />
       <source type="image/webp" srcset="/home/austin-workshop-900.webp 900w, /home/austin-workshop-1200.webp 1200w, /home/austin-workshop-1600.webp 1600w" sizes="100vw" />
       <img src="/home/austin-workshop.jpg" width="1600" height="1067" alt="Jonathan Malkin teaching from the podium at a workshop in Austin." fetchpriority="high" />
     </picture>
@@ -110,8 +110,7 @@ const serviceSchema = buildProfessionalServiceSchema({
       </figure>
       <div>
         <h2 id="jm-h">Jonathan Malkin</h2>
-        <p class="lede" style="margin-top:14px">{SITE.positioning}</p>
-        <p style="margin-top:14px">More than twenty years in enterprise technology, helping large companies actually use what they bought. Now I do the same for owners and their teams, in a room, on their own work. Based in Austin, working as Open Door Learning.</p>
+        <p class="lede" style="margin-top:14px">More than twenty years in enterprise technology, helping large companies actually use what they bought. Now I do the same for owners and their teams, in a room, on their own work. Based in Austin, working as Open Door Learning.</p>
         <div class="actions" style="margin-top:22px">
           <a class="go" href="/about/">About Jonathan <span class="arrow" aria-hidden="true">→</span></a>
         </div>
@@ -123,3 +122,14 @@ const serviceSchema = buildProfessionalServiceSchema({
     <MessageForm kind="workshop" id="message" heading="Curious? Start with a message" intro="Tell me what you have tried, what you want AI to do in your business, or about the group you have in mind. I will suggest where to start." />
   </div>
 </Odl>
+
+<style>
+  /* Desktop hero: the photo is drawn a quarter larger than the hero and placed
+     so Jonathan's face (55.5% across the 2.4:1 frame) sits at the centre of
+     the space to the right of the card, at every width. */
+  @media(min-width:861px){
+    .home-hero{--h:max(540px,min(660px,80vh));--s:calc(var(--h) * 3)}
+    .home-hero picture{overflow:hidden}
+    .home-hero picture img{position:absolute;width:max(var(--s),100vw);height:auto;aspect-ratio:2.4;object-fit:cover;object-position:50% 50%;top:calc(var(--h) * -.05);left:min(0px,calc((var(--gutter) + min(620px,47vw) + 100vw) / 2 - var(--s) * .555))}
+  }
+</style>

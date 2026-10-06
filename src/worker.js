@@ -40,8 +40,6 @@ const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
   // Open Door Learning rebrand, October 6, 2026. Every page outside the new site
   // map 301s to the nearest new page before static assets can serve it.
-  ["/faq", "/making-ai-useful/"],
-  ["/faq/", "/making-ai-useful/"],
   ["/principles", "/making-ai-useful/"],
   ["/principles/", "/making-ai-useful/"],
   ["/process", "/making-ai-useful/"],

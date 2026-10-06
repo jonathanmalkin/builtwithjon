@@ -27,7 +27,6 @@ const articleDates = (() => {
 // These pages are intentionally reachable only by a direct link. Keeping them
 // out of the sitemap preserves that disposition without adding a noindex tag.
 const unlistedOrRetiredPaths = new Set([
-  '/faq/',
   '/principles/',
   '/dispositions/',
   '/process/',
@@ -77,7 +76,6 @@ export default defineConfig({
     // Open Door Learning rebrand, 2026-10-06: page files moved out of src/pages.
     '/ai-assistant': '/workshops/',
     '/ai-assistant/claude-code': '/ai-assistant/cowork/',
-    '/faq': '/making-ai-useful/',
     '/principles': '/making-ai-useful/',
     '/process': '/making-ai-useful/',
     '/dispositions': '/making-ai-useful/',

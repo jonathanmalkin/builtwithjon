@@ -143,43 +143,6 @@ export const STEPS = [
   },
 ];
 
-// Rooms, described by type. No host names. Dates and places are public facts;
-// the hosts are not named until each one clears it.
-export const ROOMS = [
-  {
-    name: 'A hands-on class for a founder and operator community',
-    when: 'May 2026, Austin',
-    short:
-      'Each person set up a personal AI assistant for meeting preparation and follow-through, on their own laptop.',
-    long:
-      'A Sunday class for a community of founders and operators. Each person set up a personal AI assistant for meeting preparation and follow-through, on their own laptop, using the AI tool they already had. The ten-second clip on this page is from this class.',
-  },
-  {
-    name: 'A cohort program for companies',
-    when: 'Running, autumn 2026, online',
-    short:
-      'A multi-week applied AI program. Each company sends an owner and the person leading AI inside the business. I teach individual sessions and hold office hours after each.',
-    long:
-      'A multi-week applied AI program for a group of companies. Each company sends an owner and the person leading AI inside the business. I teach individual sessions, one hour each, and hold office hours after every one. In one session each person set up a workspace of plain files and folders that holds what their AI assistant needs to know about their people, companies and priorities, then used it to prepare for a real meeting.',
-  },
-  {
-    name: 'A build day for owners and technical members',
-    when: 'Booked, November 2026, Austin',
-    short:
-      'Owners are paired with someone technical around one real problem from the owner’s business. Each pair builds one working tool in about two hours.',
-    long:
-      'Members of a co-working community pair up ahead of time: an owner and someone technical, agreed on one real problem from the owner’s business. On the day, each pair builds one working AI tool for it in about two hours, and a few pairs show the room what they made. Nobody builds before the day; the point is to do it together.',
-  },
-  {
-    name: 'A free public workshop',
-    when: 'Booked, November 2026, Austin',
-    short:
-      'A two-hour hands-on session for local owners and operators, hosted by an organization that already serves them. Education only.',
-    long:
-      'A two-hour hands-on session for local small-business owners and operators, hosted and promoted by an organization that already serves them. About ninety minutes of teaching, the rest for questions and setup. Education only: nobody is pitched from the front of the room.',
-  },
-];
-
 // Decks from workshops and talks. Guides, templates and the write-up stay at
 // their URLs but are off the page until the personal assistant workshop is
 // revamped and a writing section exists (decided October 6, 2026).
@@ -230,4 +193,33 @@ export const BIO = {
     'I am an AI educator and builder in Austin, Texas. I teach owners, executives and their teams to solve real business problems with AI, and I build solutions when needed. Before going independent in 2025 I spent more than twenty years in enterprise technology, including eight years at Automation Anywhere. I work as Open Door Learning.',
   intro:
     'Our speaker today is Jonathan Malkin, an AI educator and builder here in Austin. He spent more than twenty years in enterprise technology helping big companies actually use the tools they bought. Now he teaches owners, executives and their teams to solve real business problems with AI, hands-on, on their own work. Please welcome Jonathan.',
+};
+
+// The principles Jonathan teaches from, shown on Speaking. Drawn from the
+// approved presentation "You are not left behind. Keeping it simple." and
+// the five points on Making AI useful. Draft wording until he approves it.
+export const PRINCIPLES = [
+  { title: 'You are not behind.', text: 'Every week brings a new way to feel behind: a new model, a new agent, a new tool. Most of it does not change what your business needs. Start where you are.' },
+  { title: 'Keep it simple.', text: 'Add structure only when the work needs it. One assistant doing one job well beats a team of agents nobody can follow.' },
+  { title: 'Well-organized files come first.', text: 'AI gives general answers when it has general information. Put what your business knows where people and AI can both find it. Give it a map, not a dump.' },
+  { title: 'Start with one real task.', text: 'Pick work that comes back every week and gets rebuilt from scratch each time. Get that one task working before talking about a strategy.' },
+  { title: 'People stay in control.', text: 'AI drafts and prepares. A person reviews, decides and owns the result.' },
+];
+
+// One home for the common questions (October 6). /faq/ shows both groups and
+// carries the FAQPage schema; Making AI useful shows the general group.
+export const FAQ = {
+  general: [
+    { question: 'Do we need to know a lot about AI first?', answer: 'No. Sessions are set to the room’s starting point. If you have used ChatGPT a few times, that is enough.' },
+    { question: 'Which AI tool do you teach?', answer: 'The one that fits the task and what you already have. The methods carry across ChatGPT, Claude, Copilot and Gemini.' },
+    { question: 'How long is a workshop?', answer: 'Ninety minutes for most. The technical workshop can run as a half day for a team that wants to leave with it running.' },
+    { question: 'Is this only for Austin?', answer: 'I am based in Austin and teach in person here, and online for groups elsewhere.' },
+    { question: 'What does it cost?', answer: 'It depends on the group and the format. Send a message and I will ask a few questions first.' },
+  ],
+  hosts: [
+    { question: 'How many people can attend?', answer: 'Hands-on works best from about ten to thirty. A larger room gets a talk with one exercise everyone does at their seat.' },
+    { question: 'Who pays when a group hosts a workshop?', answer: 'Hosts pay directly, bring a sponsor, or charge participants. I ask a few questions and propose terms in writing.' },
+    { question: 'What do we need to provide?', answer: 'A room with a screen and reliable wifi, a rough count of who is coming, and for hands-on sessions a laptop per person with an account for the AI tool they use.' },
+    { question: 'Can you tailor it to our industry?', answer: 'Yes, when I can use examples from the participants’ own tasks.' },
+  ],
 };

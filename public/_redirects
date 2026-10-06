@@ -82,8 +82,6 @@
 
 # Open Door Learning rebrand, October 6, 2026. Every page outside the new site
 # map 301s to the nearest new page. Mirrors PERMANENT_REDIRECTS in src/worker.js.
-/faq/ /making-ai-useful/ 301
-/faq /making-ai-useful/ 301
 /principles/ /making-ai-useful/ 301
 /principles /making-ai-useful/ 301
 /process/ /making-ai-useful/ 301

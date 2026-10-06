@@ -1,11 +1,11 @@
 ---
+import { FAQ } from '../data/odl';
 // Making AI useful, October 2026 revamp. For owners arriving from search who
 // have tried AI and want it to do real work.
 // Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
 // Copy is draft until Jonathan approves it page by page.
 import Odl from '../layouts/Odl.astro';
 import MessageForm from '../components/MessageForm.astro';
-import { buildFaqPageSchema } from '../lib/schema.js';
 
 const title = 'Tried AI and it didn’t stick? How to make it useful in your business';
 const description = 'You tried ChatGPT and it stalled. Five things that help AI do real work in a business, and three ways to get hands-on help in Austin.';
@@ -19,21 +19,15 @@ const helps = [
 ];
 
 const ways = [
-  { h: 'Workshops', p: 'Six 90-minute sessions for owners and teams. Each ends with something you can use.', href: '/workshops/', label: 'See the workshops', track: 'cta:useful-workshops' },
-  { h: 'For the group you gather', p: 'A session for a chamber, an association, a peer group or a company team.', href: '/host-a-workshop/', label: 'Host a workshop', track: 'cta:useful-host' },
+  { h: 'Workshops', p: 'Ninety-minute sessions for owners, executives and their teams. Each ends with something you can use.', href: '/workshops/', label: 'See the workshops', track: 'cta:useful-workshops' },
+  { h: 'For the group you gather', p: 'A session for a chamber, an association, a peer group or a company team.', href: '/host-a-workshop/', label: 'Bring a workshop to your group', track: 'cta:useful-host' },
   { h: 'When something needs building', p: 'Some problems need more than a workshop. It starts with a conversation about the problem.', href: '#message', label: 'Tell me about it', track: 'cta:useful-build' },
 ];
 
-const questions = [
-  { question: 'Do we need to know a lot about AI first?', answer: 'No. Sessions are set to the room’s starting point. If you have used ChatGPT a few times, that is enough.' },
-  { question: 'Which AI tool do you teach?', answer: 'The one that fits the task and what you already have. The methods carry across ChatGPT, Claude, Copilot and Gemini.' },
-  { question: 'Is this only for Austin?', answer: 'I am based in Austin and teach in person here, and online for groups elsewhere.' },
-  { question: 'What does it cost?', answer: 'It depends on the group and the format. Send a message and I will ask a few questions first.' },
-];
-const faqSchema = buildFaqPageSchema(questions);
+const questions = FAQ.general;
 ---
 
-<Odl title={title} description={description} schema={faqSchema}>
+<Odl title={title} description={description}>
   <section class="sec band-parch" aria-labelledby="useful-h">
     <div class="inner narrow opening">
       <h1 id="useful-h">You&rsquo;ve tried AI. Now you want it to be useful.</h1>

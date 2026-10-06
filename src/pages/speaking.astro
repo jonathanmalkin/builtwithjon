@@ -5,61 +5,15 @@
 import Odl from '../layouts/Odl.astro';
 import { buildPersonSchema } from '../lib/schema.js';
 import MessageForm from '../components/MessageForm.astro';
-import { SITE, TALKS, BIO, MATERIALS } from '../data/odl';
+import { SITE, TALKS, BIO, MATERIALS, PRINCIPLES } from '../data/odl';
 
-const description = 'For event organizers and podcast hosts: talks and demos by Jonathan Malkin on making AI useful in a business, with topics, formats, the decks and a headshot.';
+const description = 'For event organizers and podcast hosts: talks and demos by Jonathan Malkin on making AI useful in a business, with the principles I teach from, recent talks and the decks.';
 const personSchema = buildPersonSchema({
   description: BIO.medium,
   url: `${SITE.url}/speaking/`,
   knowsAbout: ['AI for business owners and executives', 'applied AI in small business', 'organizing business knowledge for AI', 'personal AI assistants'],
 });
 
-const topics = [
-  {
-    title: 'Tried AI. Didn’t stick.',
-    text: 'Why AI stalls in a business after the first few weeks, and the three habits that get it into the daily work.',
-    leave: 'One change to make on Monday.',
-    who: 'For owners and executives.',
-  },
-  {
-    title: 'One task, not a transformation.',
-    text: 'How to choose one recurring task, define what a useful result looks like, and decide whether AI earns its place.',
-    leave: 'A task chosen and a yardstick for it.',
-    who: 'Works as a talk or a hands-on session.',
-  },
-  {
-    title: 'Give Claude a map, not a dump.',
-    text: 'Why general tools give general answers, and how to organize what your business knows so people and AI can both use it.',
-    leave: 'A folder map sketched for your own business.',
-  },
-  {
-    title: 'An assistant that knows your week.',
-    text: 'A live walk through preparing for meetings, turning notes into next steps, and a daily brief.',
-    leave: 'The setup steps to repeat at your desk.',
-  },
-  {
-    title: 'Two Agents, One Brain.',
-    text: 'A live demo of two AI agents working from one shared structure of plain files and folders, and what that structure needs to look like.',
-    leave: 'A structure to copy.',
-    who: 'For technical audiences. Fifteen minutes.',
-  },
-];
-
-const details = [
-  { name: 'Talk with questions', detail: '20 to 60 minutes.' },
-  { name: 'Hands-on workshop', detail: '90 minutes. Everyone works on a task from their own week.' },
-  { name: 'Podcast or panel', detail: 'Your format and your length.' },
-  { name: 'Live demo for a technical audience', detail: '15 minutes.' },
-  { name: 'Remote or in person', detail: 'Both. Online sessions run on your platform or mine, with the same hands-on format.' },
-  { name: 'Based in', detail: `${SITE.city}. I travel for the right room.` },
-  { name: 'Technical needs', detail: 'A screen with HDMI or wireless display, and wifi. I bring my laptop and adapters, and a lapel mic for rooms over about forty.' },
-];
-
-const bios = [
-  { id: 'bio-short', label: 'Short', note: 'One sentence, for a program or a listing.', text: BIO.short },
-  { id: 'bio-medium', label: 'Medium', note: 'A paragraph, for an event page or show notes.', text: BIO.medium },
-  { id: 'bio-intro', label: 'Introduction', note: 'To read aloud before the talk.', text: BIO.intro },
-];
 ---
 
 <Odl title="Speaking: Jonathan Malkin, AI Educator in Austin" description={description} image="/home/austin-keynote.jpg" imageWidth={1600} imageHeight={1066} schema={personSchema}>
@@ -83,19 +37,13 @@ const bios = [
     <div class="inner">
       <div class="sec-head">
         <h2 id="topics-h">What I talk about</h2>
-        <p>Five topics, each shaped to the room. Every one includes something the audience can try the same week.</p>
+        <p>Five principles I come back to in every room. A talk takes one or two of them and shows the work.</p>
       </div>
       <ul class="rows">
-        {topics.map((t) => (
+        {PRINCIPLES.map((t) => (
           <li>
-            <div>
-              <h3>{t.title}</h3>
-              {t.who && <span class="meta">{t.who}</span>}
-            </div>
-            <div>
-              <p>{t.text}</p>
-              <span class="leave">The audience leaves with: {t.leave}</span>
-            </div>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
           </li>
         ))}
       </ul>
@@ -144,32 +92,9 @@ const bios = [
     </div>
   </section>
 
-  <section class="sec band-clay" aria-labelledby="org-h">
-    <div class="inner duo" style="align-items:start">
-      <div>
-        <h2 id="org-h">For organizers</h2>
-        <p>Tell me the slot you have and who will be in the room. I will suggest the format that fits.</p>
-        <figure class="photo headshot">
-          <img src="/images/jonathan-malkin.jpg" width="800" height="800" loading="lazy" alt="Jonathan Malkin, headshot." />
-          <figcaption><a href="/images/jonathan-malkin.jpg">Download the headshot</a>, or the <a href="/home/austin-portrait.jpg">stage photo</a>. {SITE.person}; Malkin is said MAL-kin.</figcaption>
-        </figure>
-      </div>
-      <ul class="facts">
-        {details.map((f) => (
-          <li><strong>{f.name}</strong><span>{f.detail}</span></li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <MessageForm kind="contact" id="message" heading="Invite me to speak" intro="The date, the audience and the format you have in mind. I will come back with what fits." button="Send the invitation" track="contact" />
+  <MessageForm kind="contact" id="message" heading="Invite me to speak" intro="The date, the audience and the slot you have. I will suggest the format that fits." button="Send the invitation" track="contact" />
 </Odl>
 
 <style>
-  .facts a,.aside-band p a,.sec-head p a,.headshot a{color:var(--ink);font-weight:600;text-decoration:underline}
-  .headshot{margin-top:28px;max-width:260px}
-  .headshot img{display:block;width:100%;height:auto;border-radius:14px}
-  .headshot figcaption{margin-top:10px;font-size:.95rem;color:var(--cap)}
+  .sec-head p a{color:var(--ink);font-weight:600;text-decoration:underline}
 </style>
-
-

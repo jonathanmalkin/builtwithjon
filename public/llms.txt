@@ -34,8 +34,9 @@ For IT and technical teams:
 - Home: https://builtwithjon.com/
 - Workshops: https://builtwithjon.com/workshops/
 - For the group you gather (chambers, associations, peer groups, portfolios, teams): https://builtwithjon.com/host-a-workshop/
-- Speaking: talks, decks and the headshot: https://builtwithjon.com/speaking/
+- Speaking: the principles Jonathan teaches from, talks and decks: https://builtwithjon.com/speaking/
 - Making AI useful in your business: https://builtwithjon.com/making-ai-useful/
+- Common questions about the workshops and hosting one: https://builtwithjon.com/faq/
 - About Jonathan Malkin: https://builtwithjon.com/about/
 - Contact: https://builtwithjon.com/contact/
 - Articles: https://builtwithjon.com/articles/

@@ -1,48 +1,56 @@
 ---
-// Shared site footer, October 2026. Parchment ground, the stacked logo, the
-// five pages plus Contact, email and social links, legal line. Carries its own
-// styles so it renders the same on pages that do not load the body.odl world.
+// Shared site footer, October 2026. Ink ground so the page has a clear end
+// (the last band above it is usually parchment), the light one-line logo, the
+// four pages set large, the quieter links beside them, then a legal row.
+// Carries its own styles so it renders the same on pages that do not load the
+// body.odl world.
 import { NAV, SITE, SOCIAL } from '../data/odl';
+import '@fontsource-variable/bricolage-grotesque';
 import '@fontsource-variable/schibsted-grotesk';
 
 const year = new Date().getFullYear();
+const more = [
+  { href: '/making-ai-useful/', label: 'Making AI useful' },
+  { href: '/faq/', label: 'Common questions' },
+  { href: '/contact/', label: 'Contact' },
+];
 ---
 
 <footer class="odl-footer">
   <div class="odl-footer-inner">
     <div class="odl-footer-brand">
-      <a href="/" aria-label="Open Door Learning, home"><img src="/brand/odl-logo-stacked.svg" alt="Open Door Learning" width="200" height="144" /></a>
-      <p>{SITE.person}, {SITE.titleLower}. {SITE.city}.</p>
+      <a href="/" aria-label="Open Door Learning, home"><img src="/brand/odl-logo-one-line-light.svg" alt="Open Door Learning" width="806" height="144" loading="lazy" /></a>
+      <p>Hands-on AI workshops for owners, executives and their teams. {SITE.person}, {SITE.city}.</p>
     </div>
     <nav class="odl-footer-nav" aria-label="Footer">
-      {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href="/making-ai-useful/">Making AI useful</a>
-      <a href="/contact/">Contact</a>
+      <ul class="odl-footer-main">
+        {NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+      <ul class="odl-footer-more">
+        {more.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
     </nav>
-    <div class="odl-footer-contact">
-      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-      <div class="odl-footer-social">
-        {SOCIAL.map((s) => <a href={s.href} rel="me">{s.label}</a>)}
-        <a href="/rss.xml">RSS</a>
-      </div>
-    </div>
   </div>
   <div class="odl-footer-legal">
     <p>&copy; {year} {SITE.legal}</p>
-    <p><a href="/privacy/">Privacy</a> <a href="/terms/">Terms</a></p>
+    <ul>
+      {SOCIAL.map((s) => <li><a href={s.href} rel="me">{s.label}</a></li>)}
+      <li><a href="/rss.xml">RSS</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+      <li><a href="/terms/">Terms</a></li>
+    </ul>
   </div>
 </footer>
 
 <style>
   .odl-footer {
     --f-ink: #191E26;
-    --f-body: #3F4752;
-    --f-parch: #F3ECDD;
-    --f-line: #D2C4A6;
+    --f-ivory: #FBF7EE;
+    --f-soft: #C9C2B3;
+    --f-line: rgba(251, 247, 238, .16);
     --f-amber: #E8A83C;
-    background: var(--f-parch);
-    border-top: 1px solid var(--f-line);
-    color: var(--f-ink);
+    background: var(--f-ink);
+    color: var(--f-ivory);
     font-family: 'Schibsted Grotesk Variable', sans-serif;
     font-size: 1rem;
     line-height: 1.5;
@@ -50,39 +58,49 @@ const year = new Date().getFullYear();
     padding: 0;
   }
   :global(body:not(.odl)) .odl-footer { width: 100vw; margin-left: calc(50% - 50vw); margin-top: 3rem; }
-  .odl-footer a { color: inherit; text-underline-offset: .18em; text-decoration-thickness: .08em; }
-  .odl-footer a:hover { color: #8F4E24; }
-  .odl-footer :focus-visible { outline: 3px solid var(--f-amber); outline-offset: 3px; border-radius: 3px; }
+  .odl-footer ul { list-style: none; margin: 0; padding: 0; }
+  .odl-footer a { color: inherit; text-decoration: none; }
+  .odl-footer a:hover { color: var(--f-amber); }
+  .odl-footer :focus-visible { outline: 3px solid var(--f-amber); outline-offset: 4px; border-radius: 3px; }
   .odl-footer-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
-    gap: 32px 48px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 40px clamp(24px, 4vw, 64px);
+    align-items: start;
     max-width: 1600px;
     margin: 0 auto;
-    padding: clamp(40px, 5vw, 64px) 5vw clamp(28px, 3vw, 40px);
+    padding: clamp(48px, 6vw, 80px) 5vw clamp(40px, 5vw, 64px);
   }
-  .odl-footer-brand img { display: block; height: 96px; width: auto; margin-bottom: 18px; }
-  .odl-footer-brand p { margin: 0; color: var(--f-body); max-width: 32ch; }
-  .odl-footer-nav { display: grid; gap: 8px; align-content: start; }
-  .odl-footer-nav a { text-decoration: none; font-weight: 550; padding: 4px 0; }
-  .odl-footer-nav a:hover { text-decoration: underline; }
-  .odl-footer-contact { display: grid; gap: 14px; align-content: start; }
-  .odl-footer-social { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .odl-footer-brand img { display: block; height: 44px; width: auto; margin-bottom: 20px; }
+  .odl-footer-brand p { margin: 0; color: var(--f-soft); max-width: 34ch; }
+  .odl-footer-nav { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px clamp(24px, 4vw, 64px); }
+  .odl-footer-main { display: grid; gap: 6px; }
+  .odl-footer-main a {
+    display: inline-block;
+    padding: 2px 0;
+    font: 600 clamp(1.5rem, 2.4vw, 2rem)/1.15 'Bricolage Grotesque Variable', 'Schibsted Grotesk Variable', sans-serif;
+    letter-spacing: -.02em;
+  }
+  .odl-footer-more { display: grid; gap: 4px; align-content: start; padding-top: 6px; }
+  .odl-footer-more a { display: inline-block; padding: 5px 0; font-weight: 550; color: var(--f-soft); }
   .odl-footer-legal {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 8px 24px;
+    align-items: center;
+    gap: 10px 32px;
     max-width: 1600px;
     margin: 0 auto;
-    padding: 16px 5vw 28px;
+    padding: 20px 5vw 28px;
     border-top: 1px solid var(--f-line);
     font-size: .92rem;
-    color: var(--f-body);
+    color: var(--f-soft);
   }
-  .odl-footer-legal p { margin: 0; }
-  .odl-footer-legal a + a { margin-left: 16px; }
+  .odl-footer-legal p { margin: 0; color: var(--f-soft); }
+  .odl-footer-legal ul { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+  .odl-footer-legal a { display: inline-block; padding: 4px 0; }
   @media (max-width: 760px) {
-    .odl-footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .odl-footer-inner { grid-template-columns: 1fr; }
+    .odl-footer-nav { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
