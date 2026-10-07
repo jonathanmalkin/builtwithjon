@@ -6,8 +6,8 @@ Personal site for Jonathan Malkin. Portfolio, articles, Jules showcase.
 
 - **Framework:** Astro v6 (static output)
 - **Hosting:** Cloudflare Workers project `jonathanmalkin-site`. Push to `main`, then deploy with Wrangler.
-- **Domains:** builtwithjon.com (primary), jonathanmalkin.com (301 redirect)
-- **Email:** jonathan@builtwithjon.com, jules@builtwithjon.com (Cloudflare Email Routing → Gmail)
+- **Domains:** opendoorlearningai.com (primary since October 2026). builtwithjon.com redirects to it through the worker in `redirect-worker/`, which also passes `/api/*` through to the site worker. jonathanmalkin.com and builtwithjohn.com redirect by zone rules.
+- **Email:** jonathan@builtwithjon.com on Google Workspace. Site mail is sent through Sender from that address.
 - **Repo:** github.com/jonathanmalkin/builtwithjon
 - **Content:** Markdown with frontmatter in `src/content/articles/`
 - **Styling:** Hand-written CSS, system font stack, dark mode via prefers-color-scheme

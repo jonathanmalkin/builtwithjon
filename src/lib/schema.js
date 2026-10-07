@@ -6,7 +6,7 @@
 // to builders; page-specific content (offers, descriptions, FAQ copy) is
 // still supplied by the calling page.
 
-export const SITE_URL = 'https://builtwithjon.com';
+export const SITE_URL = 'https://opendoorlearningai.com';
 export const PERSON_NAME = 'Jonathan Malkin';
 // Decided 2026-10-05 with the Open Door Learning revamp (PRODUCT.md). "AI
 // consultant", "Knowledge Systems Builder", "Operating Partner" and

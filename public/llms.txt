@@ -14,7 +14,7 @@ Jonathan Malkin teaches hands-on AI workshops for owners, executives and their t
 
 ## Workshops
 
-Three kinds of room. Most sessions run ninety minutes; the technical one can run a half day. Details and a message form: https://builtwithjon.com/workshops/
+Three kinds of room. Most sessions run ninety minutes; the technical one can run a half day. Details and a message form: https://opendoorlearningai.com/workshops/
 
 Hands-on build workshops (laptops open, one real task each):
 - Put Your Business Knowledge to Work: a shared reference the team and their AI can both use.
@@ -31,16 +31,16 @@ For IT and technical teams:
 
 ## Pages
 
-- Home: https://builtwithjon.com/
-- Workshops: https://builtwithjon.com/workshops/
-- For your members (chambers, associations, peer groups, co-working communities, portfolios): https://builtwithjon.com/host-a-workshop/
-- Speaking: the principles Jonathan teaches from, talks and decks: https://builtwithjon.com/speaking/
-- Making AI useful in your business: https://builtwithjon.com/making-ai-useful/
-- Common questions about the workshops and hosting one: https://builtwithjon.com/faq/
-- About Jonathan Malkin: https://builtwithjon.com/about/
-- Contact: https://builtwithjon.com/contact/
-- Articles: https://builtwithjon.com/articles/
-- RSS: https://builtwithjon.com/rss.xml
+- Home: https://opendoorlearningai.com/
+- Workshops: https://opendoorlearningai.com/workshops/
+- For your members (chambers, associations, peer groups, co-working communities, portfolios): https://opendoorlearningai.com/host-a-workshop/
+- Speaking: the principles Jonathan teaches from, talks and decks: https://opendoorlearningai.com/speaking/
+- Making AI useful in your business: https://opendoorlearningai.com/making-ai-useful/
+- Common questions about the workshops and hosting one: https://opendoorlearningai.com/faq/
+- About Jonathan Malkin: https://opendoorlearningai.com/about/
+- Contact: https://opendoorlearningai.com/contact/
+- Articles: https://opendoorlearningai.com/articles/
+- RSS: https://opendoorlearningai.com/rss.xml
 
 ## Links
 

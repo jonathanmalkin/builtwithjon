@@ -68,7 +68,7 @@ try {
   assert.equal(retryEnvelope.submitted_at, original.submitted_at);
   assert.equal(retryEnvelope.capture_id, original.capture_id);
   console.log('PASS original capture timestamp and durable delivery state after retry');
-  assert.equal(CARD_URL, 'https://builtwithjon.com/card/');
+  assert.equal(CARD_URL, 'https://opendoorlearningai.com/card/');
   const draft = introText('Renée & Taylor', 'We met at the café.');
   assert.ok(draft.includes('Renée & Taylor')); assert.ok(!draft.includes('['));
   assert.equal(introText('Alex'), 'Hi Jonathan! It’s Alex. From your QR card.');

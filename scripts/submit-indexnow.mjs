@@ -1,6 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises';
 
-const siteOrigin = new URL('https://builtwithjon.com');
+const siteOrigin = new URL('https://opendoorlearningai.com');
 const endpoint = 'https://api.indexnow.org/indexnow';
 const key = '23de13f42d48764bae55b0ac7a24791c';
 const keyLocation = new URL(`/${key}.txt`, siteOrigin).href;
@@ -22,7 +22,7 @@ const quietPaths = new Set([
 
 const usage = `Usage: npm run indexnow:submit -- [--dry-run] <changed-url> [changed-url ...]
 
-Submit only canonical, changed builtwithjon.com URLs after ${keyLocation} is live.
+Submit only canonical, changed opendoorlearningai.com URLs after ${keyLocation} is live.
 The script rejects private/noindex routes.`;
 
 function fail(message) {

@@ -10,7 +10,7 @@ for file in CommandLine.arguments.dropFirst() {
     request.symbologies = [.qr]
     try VNImageRequestHandler(url: URL(fileURLWithPath: file)).perform([request])
     guard let results = request.results, results.count == 1,
-          results[0].payloadStringValue == "https://builtwithjon.com/card/" else {
+          results[0].payloadStringValue == "https://opendoorlearningai.com/card/" else {
         FileHandle.standardError.write(Data("QR validation failed: \(file)\n".utf8))
         exit(1)
     }

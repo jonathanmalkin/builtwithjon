@@ -19,4 +19,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://builtwithjon.com/sitemap-index.xml
+Sitemap: https://opendoorlearningai.com/sitemap-index.xml
