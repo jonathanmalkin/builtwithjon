@@ -116,7 +116,7 @@ try {
   await page.locator('[type="submit"]:enabled').click(); await page.locator('[data-exchange-success]:visible').waitFor();
   // Email-only visitors get an email step, not a text step they cannot complete.
   assert.equal(await page.locator('[data-next-email]').isVisible(),true); assert.equal(await page.locator('[data-next-sms]').isVisible(),false);
-  assert.ok(decodeURIComponent(await page.locator('[data-next-email] [data-email-next]').getAttribute('href')).startsWith('mailto:jonathan@builtwithjon.com?subject=Staying in touch&body=Hi Jonathan! It’s Alex.'));
+  assert.ok(decodeURIComponent(await page.locator('[data-next-email] [data-email-next]').getAttribute('href')).startsWith('mailto:jonathan@opendoorlearningai.com?subject=Staying in touch&body=Hi Jonathan! It’s Alex.'));
   await page.addStyleTag({content:'html {font-size:200% !important}'});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),390);
   await page.screenshot({path:`${out}/card-enlarged-text.png`,fullPage:true});

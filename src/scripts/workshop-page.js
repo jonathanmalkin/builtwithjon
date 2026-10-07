@@ -51,7 +51,7 @@ if (form) {
       status.className = 'form-error';
       status.textContent = error.message === 'verification_failed'
         ? 'Please complete the security check and try again. Your message is still here.'
-        : 'That did not go through. Your message is still here. Please try again, or email jonathan@builtwithjon.com.';
+        : 'That did not go through. Your message is still here. Please try again, or email jonathan@opendoorlearningai.com.';
       // Tokens are single use, including when a later delivery step fails.
       const widget = form.dataset.turnstileWidget;
       if (widget && window.turnstile) window.turnstile.reset(widget);

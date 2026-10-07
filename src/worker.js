@@ -885,7 +885,7 @@ function buildReport(payload, env) {
 
   return {
     to: payload.email,
-    reply_to: "jonathan@builtwithjon.com",
+    reply_to: "jonathan@opendoorlearningai.com",
     subject,
     html: renderHtmlEmail(model),
     text: renderTextEmail(model),
@@ -938,7 +938,7 @@ async function sendOwnerLeadNotification(env, lead) {
       ${isQrContact ? `<pre style="white-space:pre-wrap;overflow-wrap:anywhere">BEGIN BWJ CONTACT EXCHANGE JSON\n${escapeHtml(JSON.stringify(lead))}\nEND BWJ CONTACT EXCHANGE JSON</pre>` : ""}
     </div>`;
   return senderTransactionalSend(env, {
-    to: "jonathan@builtwithjon.com",
+    to: "jonathan@opendoorlearningai.com",
     subject: `New website lead: ${formLabel}`,
     replyTo: normalizeEmail(lead.email) || undefined,
     text,
@@ -1404,7 +1404,7 @@ function renderHtmlEmail(model) {
         <td style="padding:18px 28px 24px;border-top:1px solid #E5D7C3;">
           <p style="margin:0 0 8px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Either way, you keep the report. Reply to this email if you want a second pair of eyes on any of it.</p>
           <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Jonathan<br>Open Door Learning</p>
-          <p style="margin:0;font:400 12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">You got this because you ran the scorecard at opendoorlearningai.com. <a href="${escapeAttribute(siteOrigin(model))}/privacy" style="color:#1D4ED8;">Privacy policy</a> · jonathan@builtwithjon.com</p>
+          <p style="margin:0;font:400 12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">You got this because you ran the scorecard at opendoorlearningai.com. <a href="${escapeAttribute(siteOrigin(model))}/privacy" style="color:#1D4ED8;">Privacy policy</a> · jonathan@opendoorlearningai.com</p>
         </td>
       </tr>
     </table>

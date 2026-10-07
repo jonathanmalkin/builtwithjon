@@ -11,7 +11,7 @@ export const SITE = {
   person: 'Jonathan Malkin',
   title: 'AI Educator and Builder',
   titleLower: 'AI educator and builder',
-  email: 'jonathan@builtwithjon.com',
+  email: 'jonathan@opendoorlearningai.com',
   city: 'Austin, Texas',
   url: 'https://opendoorlearningai.com',
   // Word for word from Identity.md.
