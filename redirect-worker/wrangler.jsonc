@@ -1,0 +1,17 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "builtwithjon-redirect",
+  "main": "worker.js",
+  "compatibility_date": "2026-03-18",
+  "workers_dev": false,
+  "preview_urls": false,
+  // Deploy the site worker (jonathanmalkin-site) on opendoorlearningai.com
+  // first. Deploying this worker then takes builtwithjon.com over from it.
+  "routes": [
+    { "pattern": "builtwithjon.com", "custom_domain": true },
+    { "pattern": "www.opendoorlearningai.com", "custom_domain": true }
+  ],
+  "services": [
+    { "binding": "SITE", "service": "jonathanmalkin-site" }
+  ]
+}

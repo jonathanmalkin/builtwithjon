@@ -34,11 +34,11 @@ const authorSchema = {
   '@type': 'Person',
   name: 'Jonathan Malkin',
   jobTitle: 'AI Educator and Builder',
-  url: 'https://builtwithjon.com/about/',
+  url: 'https://opendoorlearningai.com/about/',
   worksFor: {
     '@type': 'Organization',
     name: 'Open Door Learning',
-    url: 'https://builtwithjon.com/',
+    url: 'https://opendoorlearningai.com/',
   },
   sameAs: [
     'https://github.com/jonathanmalkin',
@@ -56,7 +56,7 @@ const articleSchema = {
   dateModified: (updated ?? date).toISOString(),
   author: authorSchema,
   publisher: authorSchema,
-  ...(image ? { image: new URL(image, 'https://builtwithjon.com').href } : {}),
+  ...(image ? { image: new URL(image, 'https://opendoorlearningai.com').href } : {}),
 };
 ---
 

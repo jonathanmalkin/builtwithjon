@@ -8,7 +8,9 @@
   "workers_dev": false,
   "preview_urls": false,
   "routes": [
-    { "pattern": "builtwithjon.com", "custom_domain": true }
+    // builtwithjon.com, the former primary address, is served by the redirect
+    // worker in redirect-worker/, which sends every page here.
+    { "pattern": "opendoorlearningai.com", "custom_domain": true }
   ],
   "assets": {
     "binding": "ASSETS",
@@ -46,9 +48,9 @@
     ]
   },
   "vars": {
-    "SITE_ORIGIN": "https://builtwithjon.com",
+    "SITE_ORIGIN": "https://opendoorlearningai.com",
     // Keep in sync with Base.astro REQUIRED. The dashboard widget is Managed,
-    // scoped to builtwithjon.com, and the Worker has TURNSTILE_SECRET_KEY.
+    // scoped to opendoorlearningai.com and builtwithjon.com, and the Worker has TURNSTILE_SECRET_KEY.
     "TURNSTILE_ENABLED": "true",
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEJkiadExu7m9ULG",
     "SENDER_FROM": "Open Door Learning <jonathan@builtwithjon.com>",

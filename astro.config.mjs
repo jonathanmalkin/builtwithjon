@@ -51,7 +51,7 @@ const unlistedOrRetiredPaths = new Set([
 ]);
 
 export default defineConfig({
-  site: 'https://builtwithjon.com',
+  site: 'https://opendoorlearningai.com',
   markdown: {
     // github-dark's comment colour fails WCAG AA contrast (3.0:1); the
     // -default variant keeps the look and passes (6.2:1).

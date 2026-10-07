@@ -1,7 +1,7 @@
 // Shared by the page, downloadable vCard and QR generator.
 export const CONTACT = {
   name: 'Jonathan Malkin', phone: '+15123874308', displayPhone: '512-387-4308',
-  email: 'jonathan@builtwithjon.com', website: 'https://builtwithjon.com',
+  email: 'jonathan@builtwithjon.com', website: 'https://opendoorlearningai.com',
   linkedin: 'https://www.linkedin.com/in/jonathanmalkin',
 };
 // The visitor edits the brackets before sending. A scan never sends an SMS.

@@ -13,7 +13,7 @@ export const SITE = {
   titleLower: 'AI educator and builder',
   email: 'jonathan@builtwithjon.com',
   city: 'Austin, Texas',
-  url: 'https://builtwithjon.com',
+  url: 'https://opendoorlearningai.com',
   // Word for word from Identity.md.
   positioning:
     'I work with owners and executives who are using AI and want to make it more useful in their business. I teach them and their teams to solve real business problems with AI, and I build solutions when needed.',

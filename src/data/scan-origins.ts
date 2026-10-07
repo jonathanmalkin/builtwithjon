@@ -13,12 +13,12 @@ export interface ScanOrigin {
 
 export const CARD_ORIGIN: ScanOrigin = {
   label: 'business card',
-  subject: 'Business card scan: builtwithjon.com/card',
+  subject: 'Business card scan: opendoorlearningai.com/card',
   inquiryType: 'scan:card',
 };
 
 export const MEETUP_ORIGIN: ScanOrigin = {
   label: 'Claude Meetup',
-  subject: 'Claude Meetup scan: builtwithjon.com/claude-meetup',
+  subject: 'Claude Meetup scan: opendoorlearningai.com/claude-meetup',
   inquiryType: 'scan:meetup',
 };

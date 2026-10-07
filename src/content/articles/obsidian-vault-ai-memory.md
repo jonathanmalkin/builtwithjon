@@ -12,7 +12,7 @@ Most people do the same three things. They collect their markdown into one folde
 
 The gap between those two things is six deliberate setup steps. Five of them are the kind of thing a careful PKM person already half-does: a real home, a real folder structure, wikilinks, structured notes. The sixth is the one almost everyone skips, and it is the one that actually matters. You have to stand up an MCP server so an AI agent can query the vault directly, without you copying and pasting note contents into a chat window.
 
-I built this alongside a larger memory project (three AI surfaces sharing one substrate, documented in full at [builtwithjon.com/articles/memory-systems-history](/articles/memory-systems-history/)). This piece is the vault walkthrough pulled out and expanded, with the real config, the real summarizer code, and the real eval numbers, including a measurement bug I had to confess. The receipts are at the bottom.
+I built this alongside a larger memory project (three AI surfaces sharing one substrate, documented in full at [opendoorlearningai.com/articles/memory-systems-history](/articles/memory-systems-history/)). This piece is the vault walkthrough pulled out and expanded, with the real config, the real summarizer code, and the real eval numbers, including a measurement bug I had to confess. The receipts are at the bottom.
 
 ---
 
@@ -297,7 +297,7 @@ A notes app stops at step 1. Some careful PKM setups reach step 3. Almost nobody
 
 You do not need a vector database, an embeddings pipeline, or a Docker stack to make a markdown vault readable by an AI. You need one place, a real structure, wikilinks, deterministic notes, a filesystem MCP server, and an eval. Six steps. The fifth is the one to stop skipping.
 
-The full memory-systems story, including the engines I ran alongside this vault, the ones I tore down, and the head-to-head numbers, lives in the flagship piece at [builtwithjon.com/articles/memory-systems-history](/articles/memory-systems-history/).
+The full memory-systems story, including the engines I ran alongside this vault, the ones I tore down, and the head-to-head numbers, lives in the flagship piece at [opendoorlearningai.com/articles/memory-systems-history](/articles/memory-systems-history/).
 
 ---
 

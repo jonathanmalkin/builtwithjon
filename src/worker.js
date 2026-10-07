@@ -35,7 +35,7 @@ const EVENT_PATH = "/api/event";
 const MAX_EVENT_BODY_BYTES = 2048;
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const TURNSTILE_ACTION = "lead-form";
-const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
+const AGENT_DOWNLOAD_URL = "https://opendoorlearningai.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
   // Open Door Learning rebrand, October 6, 2026. Every page outside the new site
@@ -211,6 +211,8 @@ const INQUIRY_LABELS = {
   "workshop-host": "Workshop inquiry",
   contact: "Contact inquiry",
 };
+// builtwithjon.com was the primary address until the October 2026 move.
+const FORMER_HOSTNAMES = ["builtwithjon.com"];
 const HOST_INQUIRY_TYPES = new Set(["host", "workshop-host"]);
 const INTEREST_INQUIRY_TYPES = new Set(["workshop", "workshop-host"]);
 
@@ -1077,14 +1079,16 @@ async function validateTurnstile(request, form, env) {
       return false;
     }
     const result = await response.json();
-    const expectedHostname = new URL(env.SITE_ORIGIN || "https://builtwithjon.com").hostname;
+    // The former domain stays valid: a page open there before the move can
+    // still submit through the redirect worker's /api pass-through.
+    const expectedHostnames = new Set([new URL(siteOrigin(env)).hostname, ...FORMER_HOSTNAMES]);
     const valid = result.success === true
       && result.action === TURNSTILE_ACTION
-      && result.hostname === expectedHostname;
+      && expectedHostnames.has(result.hostname);
     if (!valid) {
       logOperational("turnstile_rejected", {
         actionMatches: result.action === TURNSTILE_ACTION,
-        hostnameMatches: result.hostname === expectedHostname,
+        hostnameMatches: expectedHostnames.has(result.hostname),
         errorCount: Array.isArray(result["error-codes"]) ? result["error-codes"].length : 0,
       });
     }
@@ -1400,7 +1404,7 @@ function renderHtmlEmail(model) {
         <td style="padding:18px 28px 24px;border-top:1px solid #E5D7C3;">
           <p style="margin:0 0 8px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Either way, you keep the report. Reply to this email if you want a second pair of eyes on any of it.</p>
           <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Jonathan<br>Open Door Learning</p>
-          <p style="margin:0;font:400 12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">You got this because you ran the scorecard at builtwithjon.com. <a href="${escapeAttribute(siteOrigin(model))}/privacy" style="color:#1D4ED8;">Privacy policy</a> · jonathan@builtwithjon.com</p>
+          <p style="margin:0;font:400 12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">You got this because you ran the scorecard at opendoorlearningai.com. <a href="${escapeAttribute(siteOrigin(model))}/privacy" style="color:#1D4ED8;">Privacy policy</a> · jonathan@builtwithjon.com</p>
         </td>
       </tr>
     </table>
@@ -1518,7 +1522,7 @@ function originAllowed(request) {
   if (!origin) return false;
   try {
     const url = new URL(origin);
-    if (["https://builtwithjon.com", "https://www.builtwithjon.com",
+    if (["https://opendoorlearningai.com", "https://builtwithjon.com", "https://www.builtwithjon.com",
       "https://jonathanmalkin-site.jonathan-d-malkin.workers.dev"].includes(url.origin)) return true;
     return url.protocol === "http:"
       && ["127.0.0.1", "localhost"].includes(url.hostname)
@@ -1560,5 +1564,5 @@ function lower(value) {
 }
 
 function siteOrigin(env) {
-  return env.SITE_ORIGIN || "https://builtwithjon.com";
+  return env.SITE_ORIGIN || "https://opendoorlearningai.com";
 }
