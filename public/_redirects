@@ -1,7 +1,13 @@
 /articles/8-dimensions-of-kink/ / 301
+/articles/8-dimensions-of-kink / 301
 /articles/kink-quiz-vs-bdsm-test/ / 301
+/articles/kink-quiz-vs-bdsm-test / 301
 /articles/what-is-kink-archetype/ / 301
+/articles/what-is-kink-archetype / 301
 /articles/what-i-actually-do-with-claude-code/ / 301
+/articles/what-i-actually-do-with-claude-code / 301
+# Crawlers that guess the conventional sitemap name.
+/sitemap.xml /sitemap-index.xml 301
 # MCP server article unpublished 2026-08-18 (endpoint never built). Tools retired 2026-10-06; send inbound to Articles.
 /articles/website-mcp-server-run-scorecard/ /articles/ 301
 /articles/website-mcp-server-run-scorecard /articles/ 301
@@ -55,11 +61,8 @@
 /workshop-setup/* /ai-assistant/cowork/ 301
 /workshop-setup /ai-assistant/cowork/ 301
 
-# Historic audit and sample aliases. Scorecard retired 2026-10-06; send home.
-/ai-workflow-audit/sample-assessment/ / 301
-/ai-workflow-audit/sample-assessment / 301
-/ai-workflow-audit/profit-leak-assessment/ / 301
-/ai-workflow-audit/profit-leak-assessment / 301
+# Historic sample aliases. Scorecard retired 2026-10-06; send home. The
+# /ai-workflow-audit/ aliases are covered by the splat below.
 /hidden-profit-review/profit-leak-assessment/ / 301
 /hidden-profit-review/profit-leak-assessment / 301
 /hidden-profit-review/sample-assessment/ / 301
@@ -103,6 +106,8 @@
 /ai-assistant /workshops/ 301
 /ai-assistant/claude-code/ /ai-assistant/cowork/ 301
 /ai-assistant/claude-code /ai-assistant/cowork/ 301
+/ai-assistant/claude-code/provider-setup /ai-assistant/cowork/ 301
+/ai-assistant/claude-code/provider-setup.html /ai-assistant/cowork/ 301
 /ai-assistant-workshop/thanks/ /workshops/ 301
 /ai-assistant-workshop/thanks /workshops/ 301
 /ai-assistant-workshop/ /workshops/ 301

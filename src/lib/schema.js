@@ -19,14 +19,24 @@ export const ORG_ID = `${SITE_URL}/#open-door-learning`;
 const DEFAULT_SAME_AS = [
   'https://github.com/jonathanmalkin',
   'https://x.com/builtwithjon',
-  'https://linkedin.com/in/jonathanmalkin',
+  'https://www.linkedin.com/in/jonathanmalkin',
 ];
 
 /**
  * @param {{ description: string, url?: string, sameAs?: string[] } & Record<string, unknown>} options
  *   Extra keys (e.g. knowsAbout) pass through onto the returned schema object.
  */
-export function buildPersonSchema({ description, url = `${SITE_URL}/about/`, sameAs = DEFAULT_SAME_AS, ...extra } = {}) {
+// One list for every page, so the same @id never carries different facts.
+const DEFAULT_KNOWS_ABOUT = [
+  'AI workshops for business owners',
+  'AI training for executives and teams',
+  'applied AI in small business',
+  'organizing business knowledge for AI',
+  'personal AI assistants',
+  'enterprise technology adoption',
+];
+
+export function buildPersonSchema({ description, url = `${SITE_URL}/about/`, sameAs = DEFAULT_SAME_AS, knowsAbout = DEFAULT_KNOWS_ABOUT, ...extra } = {}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -37,6 +47,7 @@ export function buildPersonSchema({ description, url = `${SITE_URL}/about/`, sam
     description,
     url,
     sameAs,
+    knowsAbout,
     ...extra,
   };
 }

@@ -96,13 +96,16 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin' || suffixedTitle.l
     return String(value || '').replace(/[^A-Za-z0-9_\-|=.%+ ]/g, '').trim();
   }
 
+  // Storage can be blocked. Reading it must not stop the URL being read.
   try {
     var stored = localStorage.getItem(storageKey) || '';
     var separator = stored.indexOf('|');
     var expiresAt = separator > 0 ? Number(stored.slice(0, separator)) : 0;
     if (expiresAt > Date.now()) attribution = clean(stored.slice(separator + 1)).slice(0, 240);
     else if (stored) localStorage.removeItem(storageKey);
+  } catch (err) {}
 
+  try {
     var params = new URLSearchParams(location.search);
     var parts = [];
     fields.forEach(function (field) {
@@ -180,7 +183,28 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin' || suffixedTitle.l
       button.disabled = !ready;
     });
     var status = form.querySelector('.bwj-security-status');
-    if (status) status.textContent = ready ? 'Security check complete.' : 'Completing security check…';
+    if (status) {
+      status.classList.remove('is-error');
+      status.textContent = ready ? 'Security check complete.' : 'Completing security check…';
+    }
+  }
+
+  // The check failed or never loaded: say so where the visitor can see it.
+  function fail(form, message) {
+    var status = form.querySelector('.bwj-security-status');
+    if (!status) {
+      status = document.createElement('p');
+      status.className = 'bwj-security-status';
+      status.setAttribute('role', 'status');
+      var submit = form.querySelector('button[type="submit"], input[type="submit"]');
+      if (submit) submit.insertAdjacentElement('beforebegin', status);
+      else form.appendChild(status);
+    }
+    form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(function (button) {
+      button.disabled = true;
+    });
+    status.textContent = message;
+    status.classList.add('is-error');
   }
 
   function protect(form) {
@@ -211,7 +235,7 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin' || suffixedTitle.l
       callback: function () { setSubmitState(form, true); },
       'expired-callback': function () { setSubmitState(form, false); },
       'timeout-callback': function () { setSubmitState(form, false); },
-      'error-callback': function () { setSubmitState(form, false); },
+      'error-callback': function () { fail(form, 'The security check could not finish. Reload the page to try again.'); },
     });
     form.dataset.turnstileWidget = String(widgetId);
     form.addEventListener('submit', function (event) {
@@ -244,6 +268,11 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin' || suffixedTitle.l
     script.async = true;
     script.defer = true;
     script.onload = scan;
+    script.onerror = function () {
+      document.querySelectorAll('form').forEach(function (form) {
+        if (eligible(form)) fail(form, 'The security check did not load, so this form cannot send yet. Turn off any content blocker for this site and reload the page.');
+      });
+    };
     document.head.appendChild(script);
   }
 
@@ -258,6 +287,7 @@ const pageTitle = !titleSuffix || title === 'Jonathan Malkin' || suffixedTitle.l
 </script>
     <style is:inline>
       .bwj-security-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+      .bwj-security-status.is-error { position: static; width: auto; height: auto; margin: .75rem 0; overflow: visible; clip: auto; white-space: normal; color: #8A1F11; font-size: .95rem; font-weight: 600; }
       .bwj-turnstile { margin-block: .5rem; max-width: 100%; }
     </style>
     {!bare && <a href="#main" class="skip-link">Skip to content</a>}

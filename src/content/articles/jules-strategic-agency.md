@@ -5,8 +5,6 @@ date: 2026-03-08
 description: "A structured Claude Code personality with voice registers, decision authority, standing orders, proactive behaviors, and a builder's trap detector. Full implementation shared."
 story: 1
 tags: ["claude-code", "personality", "decision-framework", "autonomous", "strategic-agency"]
-platforms:
-  reddit: "https://www.reddit.com/r/ClaudeCode/comments/..."
 draft: false
 ---
 

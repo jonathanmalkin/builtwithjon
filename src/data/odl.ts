@@ -18,6 +18,8 @@ export const SITE = {
   positioning:
     'I work with owners and executives who are using AI and want to make it more useful in their business. I teach them and their teams to solve real business problems with AI, and I build solutions when needed.',
   cue: 'We’ve tried AI. Now we need help making it work in our business.',
+  // The one description of the business used in structured data on every page.
+  summary: 'Hands-on AI workshops in Austin for owners, executives and their teams. Work on a real task from your own week and leave with something that works.',
 };
 
 // Four items (October 6, 13:00): Materials folded into Speaking; the host page
@@ -31,7 +33,7 @@ export const NAV = [
 ];
 
 export const SOCIAL = [
-  { href: 'https://linkedin.com/in/jonathanmalkin', label: 'LinkedIn' },
+  { href: 'https://www.linkedin.com/in/jonathanmalkin', label: 'LinkedIn' },
   { href: 'https://x.com/builtwithjon', label: 'X' },
   { href: 'https://github.com/jonathanmalkin', label: 'GitHub' },
 ];
@@ -47,13 +49,16 @@ export const FORMATS = [
     name: 'Hands-on build workshops',
     how: 'Laptops open. Each person brings one real task from their own week, builds on it with help beside them, and leaves with something that works. Ninety minutes.',
     who: 'For owners, executives and their teams.',
-    image: { src: '/home/austin-workshop.jpg', base: '/home/austin-workshop', widths: [900, 1200, 1600], alt: 'Jonathan Malkin teaching from the podium at a workshop in Austin.' },
+    image: { src: '/home/austin-workshop.jpg', base: '/home/austin-workshop', widths: [900, 1200, 1600], alt: 'Jonathan Malkin presenting on stage in Austin, beside a laptop on a lectern.' },
   },
   {
     id: 'lead',
     name: 'Leadership sessions',
     how: 'No laptops needed. The owner and the people who run the business work through where AI fits, what it may and may not do, and what to start first. You leave with decisions written down. Ninety minutes.',
     who: 'For an owner and the leadership team.',
+    // The host page speaks to the organizer, so its copy says "they".
+    hostHow: 'No laptops needed. Owners and the people who run their businesses work through where AI fits, what it may and may not do, and what to start first. They leave with decisions written down. Ninety minutes.',
+    hostWho: 'For owners and leadership teams.',
     image: { src: '/home/austin-hero.jpg', base: '/home/austin-hero', widths: [600, 900, 1082], pos: '50% 18%', alt: 'Jonathan Malkin speaking to a room, holding a presentation clicker.' },
   },
   {
@@ -110,14 +115,14 @@ export const WORKSHOPS = [
     format: 'lead',
     summary:
       'Where AI is already in use in your business, where it should be, what it may and may not do, and who owns what. Write it on one page: the rules, the first three projects with an owner each, and how you will know in ninety days whether they worked.',
-    leaveWith: 'A one-page AI direction for the team: the rules, three first projects with owners, and what to check in ninety days.',
+    leaveWith: 'A one-page AI direction for the team: the rules, three first projects with a person responsible for each, and what to check in ninety days.',
   },
   {
     name: 'Give Your AI Agents a Map',
     format: 'tech',
     summary:
       'Set up the shared structure of files, folders and instructions that people and AI agents both work from, so every AI tool in the business reads the same brain. Connect two agents to it on your own files and watch them use it the same way.',
-    leaveWith: 'A folder structure and instruction files an agent can find its way around, running with two tools on your own files.',
+    leaveWith: 'A folder structure and instruction files an agent can find its way around, tested with two AI tools on your own files.',
   },
 ];
 
@@ -214,12 +219,12 @@ export const FAQ = {
     { question: 'Which AI tool do you teach?', answer: 'The one that fits the task and what you already have. The methods carry across ChatGPT, Claude, Copilot and Gemini.' },
     { question: 'Is my business information safe in a workshop?', answer: 'What you share with an AI provider is up to you. I work with the tools you already use, so if you have a provider you trust, use that one.' },
     { question: 'How long is a workshop?', answer: 'Ninety minutes for most. The technical workshop can run as a half day for a team that wants to leave with it running.' },
-    { question: 'Is this only for Austin?', answer: 'No. I am based in Austin and teach in person here.' },
+    { question: 'Is this only for Austin?', answer: 'No. I teach in person in Austin and online for groups elsewhere.' },
     { question: 'Do you teach online?', answer: 'Yes. Online sessions are shaped for a call rather than a room, so the format and content differ from the in-person workshops. Tell me who would be on the call and what you want them to leave with, and I will suggest what fits.' },
     { question: 'What does it cost?', answer: 'It depends on the group and the format. Send a message and I will ask a few questions first.' },
   ],
   hosts: [
-    { question: 'How many people can attend?', answer: 'Hands-on works best from about ten to thirty. A larger room gets a talk with one exercise everyone does at their seat.' },
+    { question: 'How many people can attend?', answer: 'Hands-on works best with about ten to thirty people. A larger room gets a talk with one exercise everyone does at their seat.' },
     { question: 'Who pays when a group hosts a workshop?', answer: 'Hosts pay directly, bring a sponsor, or charge participants. I ask a few questions and propose terms in writing.' },
     { question: 'What do we need to provide?', answer: 'A room with a screen and reliable wifi, a rough count of who is coming, and for hands-on sessions a laptop per person with an account for the AI tool they use.' },
     { question: 'Can you tailor it to our industry?', answer: 'Yes, when I can use examples from the participants’ own tasks.' },

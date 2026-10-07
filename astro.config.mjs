@@ -66,6 +66,8 @@ export default defineConfig({
         !page.endsWith('/card/') &&
         !page.endsWith('/qr/') &&
         !page.endsWith('/claude-meetup/') &&
+        // Follow-up form for past attendees; nothing links to it.
+        !page.endsWith('/next/') &&
         !page.includes('/business-map') &&
         !unlistedOrRetiredPaths.has(new URL(page).pathname) &&
         // Sends noindex; submitting it produces a Search Console coverage error.

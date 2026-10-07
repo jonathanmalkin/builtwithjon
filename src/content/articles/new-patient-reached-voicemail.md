@@ -48,4 +48,4 @@ If your call volume genuinely exceeds what current staff can pick up — not occ
 
 ## Find your clinic's leak
 
-This is the deals leak — the new-patient pipeline emptying out before anyone ever talks to a patient. The [3-minute scorecard](/scorecard/) also scores the other two for a health and wellness practice: [what empty chairs cost from no-shows](/articles/empty-chairs-no-show-math/), and [the clinical days lost to prior authorization](/articles/two-clinical-days-prior-auth/). See how it plays out across [other practice types](/making-ai-useful/), or run your own number now — free, no call, no pitch.
+This is the deals leak — the new-patient pipeline emptying out before anyone ever talks to a patient. The other two for a health and wellness practice are [what empty chairs cost from no-shows](/articles/empty-chairs-no-show-math/) and [the clinical days lost to prior authorization](/articles/two-clinical-days-prior-auth/). If you want help working out which one to fix first, [send me a message](/contact/).

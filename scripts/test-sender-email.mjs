@@ -107,7 +107,7 @@ async function startWorker({
     "--persist-to", stateDir,
     "--var", `SENDER_API_BASE:${senderBase}/v2`,
     "--var", `SENDER_GROUP_IDS:${groupIds}`,
-    "--var", "SENDER_FROM:Built with Jon <jonathan@builtwithjon.com>",
+    "--var", "SENDER_FROM:Open Door Learning <jonathan@builtwithjon.com>",
     "--var", `SENDER_SENDS_ENABLED:${sender}`,
     "--var", `SENDER_CAPTURE_ENABLED:${sender}`,
     "--var", "FORM_RATE_LIMITS_ENABLED:true",

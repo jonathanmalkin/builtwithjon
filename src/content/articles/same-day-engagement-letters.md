@@ -43,4 +43,4 @@ If your firm's real bottleneck is that engagement data lives in three disconnect
 
 ## Find out if this is your leak
 
-This is the cash leak in the same three-leak framing as [the inquiry that never got answered](/articles/inquiry-that-booked-your-competitor/) and [the non-billable admin eating your billable week](/articles/non-billable-admin-audit/) — inquiries, hours, and invoices are the three places a professional services firm loses money without anyone deciding to lose it. The [3-minute scorecard](/scorecard/) scores all three for your firm and tells you which one to fix first, alongside the [professional services use cases](/making-ai-useful/) that map to each. Free, no call, no pitch.
+This is the cash leak in the same three-leak framing as [the inquiry that never got answered](/articles/inquiry-that-booked-your-competitor/) and [the non-billable admin eating your billable week](/articles/non-billable-admin-audit/) — inquiries, hours, and invoices are the three places a professional services firm loses money without anyone deciding to lose it. If you want help working out which one to fix first, [send me a message](/contact/).

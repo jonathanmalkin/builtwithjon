@@ -12,7 +12,7 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
 <header class="odl-header">
   <div class="odl-header-inner">
     <a class="odl-logo" href="/" aria-label="Open Door Learning, home">
-      <img src="/brand/odl-logo-one-line.svg" alt="Open Door Learning" width="290" height="55" />
+      <img src="/brand/odl-logo-one-line.svg" alt="Open Door Learning" width="308" height="55" />
     </a>
     <button class="odl-menu" type="button" aria-expanded="false" aria-controls="odl-nav" hidden>
       <span class="odl-menu-label">Menu</span>
@@ -45,6 +45,14 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
         setOpen(false);
         toggle.focus();
       }
+    });
+    // Close when the visitor moves on: a tap outside, or focus leaving the header.
+    document.addEventListener('pointerdown', (event) => {
+      if (toggle.getAttribute('aria-expanded') === 'true' && event.target instanceof Node && !header.contains(event.target)) setOpen(false);
+    });
+    header.addEventListener('focusout', (event) => {
+      const next = event.relatedTarget;
+      if (toggle.getAttribute('aria-expanded') === 'true' && next instanceof Node && !header.contains(next)) setOpen(false);
     });
   }
 </script>
@@ -113,6 +121,7 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
   }
   @media (max-width: 720px) {
     .odl-header-inner { flex-wrap: wrap; gap: 8px 16px; padding: 12px 5vw; }
+    .odl-nav a { padding: 14px 0; }
     .odl-nav { width: 100%; flex-wrap: wrap; gap: 0 22px; padding: 4px 0 2px; }
     .has-js .odl-menu { display: inline-flex; }
     .has-js .odl-nav { display: none; }
@@ -120,5 +129,16 @@ const current = (href: string) => (href === '/' ? pathname === '/' : pathname.st
     .has-js.open .odl-nav a { padding: 14px 0; font-size: 1.1rem; border-bottom: 1px solid var(--h-line); }
     .has-js.open .odl-nav a:last-child { border-bottom-color: transparent; }
     .has-js.open .odl-nav a[aria-current='page'] { border-bottom-color: var(--h-line); color: #8F4E24; }
+  }
+  /* The narrowest phones: keep the logo and Menu on one row. */
+  @media (max-width: 359px) {
+    .odl-logo img { height: 30px; }
+  }
+  /* Short screens (a phone on its side, heavy zoom): the header scrolls away. */
+  @media (max-height: 420px) {
+    .odl-header { position: static; }
+  }
+  @media (min-width: 721px) {
+    .odl-nav a { padding: 13px 0; }
   }
 </style>

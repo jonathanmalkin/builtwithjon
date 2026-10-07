@@ -14,8 +14,8 @@ export async function GET(context: APIContext) {
   const articles = contentArticles.sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 
   return rss({
-    title: 'Jonathan Malkin',
-    description: 'Articles on Claude Code, AI systems, automation workflows, and implementation strategy.',
+    title: 'Open Door Learning',
+    description: 'Articles by Jonathan Malkin on making AI useful in a business: Claude Code, AI systems and automation workflows.',
     site: context.site!,
     items: articles,
   });

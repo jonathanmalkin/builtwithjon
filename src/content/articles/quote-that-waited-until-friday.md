@@ -1,7 +1,7 @@
 ---
 title: "The Quote That Waited Until Friday"
 date: 2026-07-03
-description: "Quotes get squeezed into the gaps between jobs, sent whenever there's a spare ten minutes, and followed up on rarely. There's no reliable trade-specific hours figure for this — what's proven is that response speed itself decides who gets the job. The math on what a delay costs, using your own numbers."
+description: "Quotes get squeezed into the gaps between jobs, sent whenever there's a spare ten minutes, and followed up on rarely. There's no reliable trade-specific hours figure for this. What's proven is that response speed itself decides who gets the job. The math on what a delay costs, using your own numbers."
 story: 2
 tags: ["smb", "home-services", "workflows", "quote-follow-up"]
 draft: false
@@ -58,4 +58,4 @@ This is the time-axis leak — the follow-up that never happens because the day 
 
 ## Find your shop's number
 
-The [3-minute scorecard](/scorecard/) scores all three leaks for a home services business — the calls you lose, the quotes that go quiet, and the invoices that drag — and tells you which one is costing the most right now. Free, no call, no pitch.
+If you want help working out which one to fix first, [send me a message](/contact/).

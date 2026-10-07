@@ -54,4 +54,4 @@ And if you're a single-provider practice with a tight, known patient panel, you 
 
 ## Find your clinic's number
 
-This is the cash leak — the one that shows up as a schedule that looks full but a bank balance that doesn't match. The [3-minute scorecard](/scorecard/) also scores the other two: the clinical hours going to [prior authorization instead of patients](/articles/two-clinical-days-prior-auth/), and [the new patient who called twice and booked somewhere else](/articles/new-patient-reached-voicemail/). Free, no call, no pitch — see [how these leaks show up across use cases](/making-ai-useful/) or run your own number now.
+This is the cash leak — the one that shows up as a schedule that looks full but a bank balance that doesn't match. The other two leaks are the clinical hours going to [prior authorization instead of patients](/articles/two-clinical-days-prior-auth/), and [the new patient who called twice and booked somewhere else](/articles/new-patient-reached-voicemail/). If you want help working out which one to fix first, [send me a message](/contact/).

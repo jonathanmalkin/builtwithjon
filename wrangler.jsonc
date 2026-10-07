@@ -51,7 +51,7 @@
     // scoped to builtwithjon.com, and the Worker has TURNSTILE_SECRET_KEY.
     "TURNSTILE_ENABLED": "true",
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEJkiadExu7m9ULG",
-    "SENDER_FROM": "Built with Jon <jonathan@builtwithjon.com>",
+    "SENDER_FROM": "Open Door Learning <jonathan@builtwithjon.com>",
     // Sender is the sole website email provider. Marketing campaigns must target
     // consent:confirmed, never All Subscribers or a source/offer group alone.
     "SENDER_CAPTURE_ENABLED": "true",

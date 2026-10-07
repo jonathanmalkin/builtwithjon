@@ -110,6 +110,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:home-company", "cta:home-host", "cta:host-hero", "cta:speaking-hero", "cta:about-hero",
   "cta:useful-hero", "cta:useful-workshops", "cta:useful-host", "cta:useful-build",
   "useful:start", "useful:submit", "useful:success",
+  "course-waitlist:start", "course-waitlist:submit", "course-waitlist:success",
   "cta:construction-hero", "cta:construction-trace", "cta:construction-loop", "cta:construction-final",
   "cta:talk-nav", "cta:talk-footer",
   "cta:workshops-hero", "cta:workshops-room", "cta:workshops-finale",
@@ -206,7 +207,7 @@ export default {
     const url = new URL(request.url);
 
     if (AGENT_SHORT_PATHS.has(url.pathname)) {
-      return Response.redirect(AGENT_DOWNLOAD_URL, 302);
+      return redirect(AGENT_DOWNLOAD_URL, 302);
     }
 
     const permanentTarget = PERMANENT_REDIRECTS.get(url.pathname) || PERMANENT_REDIRECT_BARE.get(url.pathname);
@@ -215,7 +216,7 @@ export default {
       url.searchParams.forEach((value, key) => {
         if (!dest.searchParams.has(key)) dest.searchParams.set(key, value);
       });
-      return Response.redirect(dest.toString(), 301);
+      return redirect(dest.toString(), 301);
     }
 
     const prefixMatch = PERMANENT_REDIRECT_PREFIXES.find(([prefix]) => url.pathname.startsWith(prefix));
@@ -224,7 +225,7 @@ export default {
       url.searchParams.forEach((value, key) => {
         if (!destination.searchParams.has(key)) destination.searchParams.set(key, value);
       });
-      return Response.redirect(destination.toString(), 301);
+      return redirect(destination.toString(), 301);
     }
 
     if (url.pathname === SCORECARD_REPORT_PATH) {
@@ -376,7 +377,7 @@ async function handleSubscribe(request, env) {
     return json({ ok: false, error: "verification_failed" }, 403);
   }
   const formId = safeText(form.get("form_id"), 80);
-  const config = FORM_MAP[formId];
+  const config = Object.hasOwn(FORM_MAP, formId) ? FORM_MAP[formId] : null;
   if (!config) return json({ ok: false, error: "unknown_form_id" }, 400);
   if (!validateMappedForm(form, config)) return json({ ok: false, error: "invalid_form_fields" }, 400);
   const email = normalizeEmail(form.get("email"));
@@ -733,6 +734,13 @@ async function handleEvent(request, env) {
     return json({ ok: false, error: "invalid_body" }, 400);
   }
 
+  // Only plain strings reach the checks below; anything else is a bad body.
+  const isText = (value) => value == null || typeof value === "string";
+  if (!body || typeof body !== "object" || Array.isArray(body)
+    || !isText(body.e) || !isText(body.p) || !isText(body.a) || !isText(body.r)) {
+    return json({ ok: false, error: "invalid_body" }, 400);
+  }
+
   const event = String(body?.e || "");
   const eventAllowed = ALLOWED_EVENT_NAMES.has(event)
     || ALLOWED_CALCULATOR_EVENTS.has(event)
@@ -786,12 +794,12 @@ async function handleEvent(request, env) {
 
 function normalizePayload(form, request) {
   const rawSegment = safeText(form.get("segment"), 40) || "general";
-  const segment = SEGMENTS[rawSegment] ? rawSegment : "general";
+  const segment = Object.hasOwn(SEGMENTS, rawSegment) ? rawSegment : "general";
   const scores = normalizeScores(parseJsonField(form.get("scores"), {}));
   const answers = normalizeAnswers(parseJsonField(form.get("answers"), {}));
   const computedTier = tierFor(compositeScore(scores));
   const submittedTier = safeText(form.get("tier"), 40);
-  const tier = TIER_VERDICTS[submittedTier] ? submittedTier : computedTier;
+  const tier = Object.hasOwn(TIER_VERDICTS, submittedTier) ? submittedTier : computedTier;
   const url = new URL(request.url);
 
   return {
@@ -1475,9 +1483,21 @@ function json(body, status = 200, extraHeaders = {}) {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store",
       "X-Robots-Tag": "noindex",
+      ...WORKER_SECURITY_HEADERS,
       ...extraHeaders,
     },
   });
+}
+
+// public/_headers only covers static assets, so responses built here carry
+// the basic protections themselves.
+const WORKER_SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "Strict-Transport-Security": "max-age=31536000",
+};
+
+function redirect(location, status) {
+  return new Response(null, { status, headers: { Location: location, ...WORKER_SECURITY_HEADERS } });
 }
 
 function originAllowed(request) {

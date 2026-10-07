@@ -42,7 +42,7 @@ const hint = placeholder ?? (kind === 'host'
   <div class="inner msg">
     <div>
       <H id={`${id}-h`}>{heading}</H>
-      <p class="lede">{intro}</p>
+      <p class="lede"><slot name="intro">{intro}</slot></p>
       <p class="alt">I reply by email, usually within two business days.</p>
     </div>
     <form class="odl-form" action="/api/contact" method="POST" data-odl-form data-track-form={track} novalidate>
@@ -57,9 +57,10 @@ const hint = placeholder ?? (kind === 'host'
         <label>Name<input name="name" maxlength="120" autocomplete="name" required /></label>
         <label>Email<input name="email" type="email" maxlength="254" autocomplete="email" required /></label>
         {kind === 'host' && <label><span>Organization <span class="opt">(optional)</span></span><input name="organization" maxlength="160" autocomplete="organization" /></label>}
-        {kind === 'host' && <label><span>Group size, roughly <span class="opt">(optional)</span></span><input name="group_size" maxlength="40" inputmode="numeric" /></label>}
+        {kind === 'host' && <label><span>Group size, roughly <span class="opt">(optional)</span></span><input name="group_size" maxlength="40" /></label>}
         <label class="wide">Message<textarea name="message" maxlength="2000" rows="5" required placeholder={hint}></textarea></label>
       </div>
+      <noscript><p class="alt">This form needs JavaScript for its security check. Turn it on and reload the page.</p></noscript>
       <button class="btn" type="submit">{button} <span class="arrow" aria-hidden="true">→</span></button>
       <p class="status" data-status role="status" tabindex="-1"></p>
     </form>

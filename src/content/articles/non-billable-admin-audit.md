@@ -54,4 +54,4 @@ If your audit shows the hours going to genuinely human work — client conversat
 
 ## Find your firm's number
 
-The [3-minute scorecard](/scorecard/) runs this logic across all three leaks for a professional services firm — the inquiries that go unanswered, the expert hours going non-billable, and the invoices and engagement letters that drag — and tells you which one to fix first. Free, no call, no pitch, and considerably faster than a week of 15-minute tallies (though I still recommend the tally).
+If you want help working out which one to fix first, [send me a message](/contact/).

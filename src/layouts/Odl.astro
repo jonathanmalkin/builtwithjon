@@ -19,7 +19,7 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description, titleSuffix = true, image = '/og-workshops.jpg', imageWidth = 1200, imageHeight = 630, schema, noindex } = Astro.props;
+const { title, description, titleSuffix = true, image = '/og-workshops.jpg', imageWidth, imageHeight, schema, noindex } = Astro.props;
 ---
 
 <Base title={title} description={description} titleSuffix={titleSuffix} image={image} imageWidth={imageWidth} imageHeight={imageHeight} schema={schema} noindex={noindex} bare bodyClass="odl">

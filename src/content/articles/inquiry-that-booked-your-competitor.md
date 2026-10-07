@@ -43,4 +43,4 @@ If your inquiries are mostly urgent, after-hours, and genuinely need a live huma
 
 ## Find out if this is your leak
 
-This is the deals leak in the same three-leak framing as [the non-billable admin that eats your week](/articles/non-billable-admin-audit/) and [the engagement letter that goes out late](/articles/same-day-engagement-letters/) — inquiries, hours, and invoices are the three places a professional services firm loses money without anyone deciding to lose it. The [3-minute scorecard](/scorecard/) scores all three for your firm and tells you which one to fix first, alongside the [professional services use cases](/making-ai-useful/) that map to each. Free, no call, no pitch.
+This is the deals leak in the same three-leak framing as [the non-billable admin that eats your week](/articles/non-billable-admin-audit/) and [the engagement letter that goes out late](/articles/same-day-engagement-letters/) — inquiries, hours, and invoices are the three places a professional services firm loses money without anyone deciding to lose it. If you want help working out which one to fix first, [send me a message](/contact/).

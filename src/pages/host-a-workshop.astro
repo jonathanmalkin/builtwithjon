@@ -15,7 +15,7 @@ const description = 'Bring a hands-on AI workshop to your chamber, association, 
 
 const gets = [
   { title: 'A session set to where the room actually is.', text: 'From people opening an AI tool for the first time to people who use one every day. I ask about the group beforehand and set the session to match.' },
-  { title: 'Hands-on time on their own work.', text: 'Each person works on their own tasks, on their own laptop, with the AI tool they already use.' },
+  { title: 'Hands-on time on their own work.', text: 'In the hands-on workshops each person works on their own tasks, on their own laptop, with whichever AI tool they have.' },
   { title: 'One practical result per person.', text: 'A working tool or workflow, a skill applied to their own work, or a clear decision about where to start.' },
 ];
 
@@ -63,17 +63,17 @@ const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.fo
     <div class="inner">
       <div class="sec-head">
         <h2 id="sessions-h">Three kinds of rooms</h2>
-        <p>I suggest one once I know who is coming. Group size, what you need to provide and who pays are in the <a href="/faq/">common questions</a>.</p>
+        <p>I suggest one once I know who is coming. In person in Austin, and online sessions are available too. Group size, what you need to provide and who pays are in the <a href="/faq/#hosts">common questions</a>.</p>
       </div>
       <ul class="rows">
         {byFormat.map((f) => (
           <li>
             <div>
               <h3>{f.name}</h3>
-              <span class="meta">{f.who}</span>
+              <span class="meta">{f.hostWho ?? f.who}</span>
             </div>
             <div>
-              <p>{f.how}</p>
+              <p>{f.hostHow ?? f.how}</p>
               <p class="cap" style="margin-top:10px">{f.names.join('. ')}.</p>
             </div>
           </li>
@@ -82,7 +82,9 @@ const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.fo
     </div>
   </section>
 
-  <MessageForm kind="host" id="message" heading="Tell me about your members" intro="Who they are, roughly how many, and the dates you have in mind. If you want to know who you would be putting in front of your members first, there is more about me on the About page." button="Send" />
+  <MessageForm kind="host" id="message" heading="Tell me about your members" button="Send">
+    <Fragment slot="intro">Who they are, roughly how many, and the dates you have in mind. If you first want to know who you would be putting in front of your members, read <a href="/about/">more about me</a>.</Fragment>
+  </MessageForm>
 </Odl>
 
 <style>
@@ -97,8 +99,12 @@ const byFormat = FORMATS.map((f) => ({ ...f, names: WORKSHOPS.filter((w) => w.fo
   @media(max-width:860px){
     .host-hero img{object-position:50% 20%}
   }
+  /* Tablet widths crop a wide band, so sit higher to keep the top of his head. */
+  @media(min-width:561px) and (max-width:860px){
+    .host-hero img{object-position:50% 8%}
+  }
   .gets{list-style:none;margin-top:28px;border-top:1.5px solid var(--ink)}
   .gets>li{padding:20px 0 22px;border-bottom:1px solid var(--line)}
   .gets h3{margin-bottom:8px;max-width:28ch}
-  .sec-head p a{color:var(--ink);font-weight:600;text-decoration:underline}
+  .sec-head p a,:global(.msg .lede) a{color:var(--ink);font-weight:600;text-decoration:underline}
 </style>

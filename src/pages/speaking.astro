@@ -7,11 +7,9 @@ import { buildPersonSchema } from '../lib/schema.js';
 import MessageForm from '../components/MessageForm.astro';
 import { SITE, TALKS, BIO, MATERIALS, PRINCIPLES } from '../data/odl';
 
-const description = 'Talks and demos by Jonathan Malkin on making AI useful in a business: the principles I teach from, recent talks and the decks.';
+const description = 'Talks and demos by Jonathan Malkin on making AI useful in a business: the principles he teaches from, recent talks and the decks.';
 const personSchema = buildPersonSchema({
   description: BIO.medium,
-  url: `${SITE.url}/speaking/`,
-  knowsAbout: ['AI for business owners and executives', 'applied AI in small business', 'organizing business knowledge for AI', 'personal AI assistants'],
 });
 
 ---
@@ -56,7 +54,7 @@ const personSchema = buildPersonSchema({
   <section class="sec" id="talks" aria-labelledby="talks-h">
     <div class="inner">
       <div class="sec-head">
-        <h2 id="talks-h">Talks and decks</h2>
+        <h2 id="talks-h">Talks</h2>
         <p>Recent and upcoming. The slides go up here after each talk, free to read, no email required.</p>
       </div>
       <ul class="rows">

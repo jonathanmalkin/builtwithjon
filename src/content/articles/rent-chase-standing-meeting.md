@@ -54,4 +54,4 @@ The same honesty applies to PM software. If you already run software with built-
 
 The rent chase is one of the five recurring situations in [The Same Five Tenant Problems, On a Loop](/articles/same-five-tenant-problems-loop/), and it shares a root cause with vacancies left unfilled because a leasing inquiry sat too long: see [The Leasing Inquiry That Applied Somewhere Else](/articles/leasing-inquiry-applied-somewhere-else/) for the deals-side version.
 
-For more on where workflow fixes fit a property management operation, see [/making-ai-useful/](/making-ai-useful/). If you want a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your cash, time, and deals leaks together and tells you which one to fix first. Free, no call, no pitch.
+For more on where workflow fixes fit a property management operation, see [making AI useful in your business](/making-ai-useful/). If you want help working out which one to fix first, [send me a message](/contact/).

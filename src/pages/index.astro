@@ -15,14 +15,12 @@ const description = 'Hands-on AI workshops in Austin for owners, executives and 
 const personSchema = buildPersonSchema({
   description: BIO.medium,
   url: `${SITE.url}/about/`,
-  knowsAbout: ['AI workshops for business owners', 'AI training for executives and teams', 'personal AI assistants', 'applied AI in small business'],
 });
 const websiteSchema = { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.company, url: SITE.url, description };
 const serviceSchema = buildProfessionalServiceSchema({
   name: SITE.company,
-  description,
+  description: SITE.summary,
   founder: personSchema,
-  makesOffer: WORKSHOPS.map((w) => ({ '@type': 'Offer', name: w.name, description: w.summary, url: `${SITE.url}/workshops/#workshops` })),
 });
 ---
 
@@ -34,7 +32,7 @@ const serviceSchema = buildProfessionalServiceSchema({
     <picture>
       <source media="(min-width: 861px)" type="image/webp" srcset="/home/austin-workshop-desktop-1600.webp 1600w, /home/austin-workshop-desktop-2000.webp 2000w, /home/austin-workshop-desktop-2400.webp 2400w, /home/austin-workshop-desktop-2880.webp 2880w" sizes="max(100vw, 1980px)" />
       <source type="image/webp" srcset="/home/austin-workshop-640.webp 640w, /home/austin-workshop-900.webp 900w, /home/austin-workshop-1200.webp 1200w, /home/austin-workshop-1600.webp 1600w" sizes="100vw" />
-      <img src="/home/austin-workshop.jpg" width="1600" height="1067" alt="Jonathan Malkin teaching from the podium at a workshop in Austin." fetchpriority="high" />
+      <img src="/home/austin-workshop.jpg" width="1600" height="1067" alt="Jonathan Malkin presenting on stage in Austin, beside a laptop on a lectern." fetchpriority="high" />
     </picture>
     <div class="hero-card">
       <h1 id="hero-h">&ldquo;{SITE.cue}&rdquo;</h1>
@@ -109,7 +107,7 @@ const serviceSchema = buildProfessionalServiceSchema({
   <section class="sec" aria-labelledby="jm-h">
     <div class="inner portrait">
       <figure class="photo">
-        <img src="/home/austin-portrait-900.webp" width="900" height="600" loading="lazy" alt="Jonathan Malkin speaking at an event in Austin, wearing a name badge and a lapel microphone." />
+        <img src="/home/austin-portrait-900.webp" width="900" height="600" loading="lazy" alt="Jonathan Malkin speaking at an event in Austin, wearing a name badge and a headset microphone." />
       </figure>
       <div>
         <h2 id="jm-h">Jonathan Malkin</h2>
@@ -122,7 +120,7 @@ const serviceSchema = buildProfessionalServiceSchema({
   </section>
 
   <div class="band-parch" id="tell-me">
-    <MessageForm kind="workshop" id="message" heading="Curious? Start with a message" intro="Tell me what you have tried, what you want AI to do in your business, or about the people you have in mind. I will suggest where to start." />
+    <MessageForm kind="workshop" id="message" heading="Curious? Start with a message" intro="Tell me what you have tried, what you want AI to do in your business, or who you have in mind. I will suggest where to start." />
   </div>
 </Odl>
 

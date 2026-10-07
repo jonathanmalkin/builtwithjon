@@ -9,6 +9,7 @@ const thanksUrl = '/next/thanks';
 <Base
   title="What's Next for Your Assistant?"
   description="You built a personal assistant in the workshop. Tell Jonathan where you want to take it next and he'll follow up personally."
+  noindex={true}
 >
   <div class="container next-page">
     <div class="next-card panel">
@@ -24,7 +25,7 @@ const thanksUrl = '/next/thanks';
         class="next-form"
         data-thanks={thanksUrl}
       >
-      <input type="hidden" name="_subject" value="Cowork workshop — What's Next" />
+      <input type="hidden" name="_subject" value="Cowork workshop: What's Next" />
       <input type="hidden" name="inquiry_type" value="cowork-workshop-next" />
       <input type="hidden" name="form_id" value="workshop-next" />
       <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honeypot" />
@@ -45,7 +46,7 @@ const thanksUrl = '/next/thanks';
 
         <div class="next-actions">
           <button type="submit" class="form-submit next-submit">Send it &rarr;</button>
-          <p class="next-error" hidden role="alert">Something went wrong &mdash; please try again, or just <a href={bookingUrl}>book a quick call</a>.</p>
+          <p class="next-error" hidden role="alert">Something went wrong. Please try again, or <a href={bookingUrl}>book a quick call</a>.</p>
         </div>
       </form>
     </div>
