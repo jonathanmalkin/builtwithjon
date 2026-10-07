@@ -22,7 +22,7 @@ Jonathan approved this update on October 5, 2026. It is the current product brie
 
 **Retired from public pages.** "Knowledge Systems Builder". "Company brain" as the lead noun. The retired one-liner about knowledge trapped in people. The stuck-project hero. "6 to 250". Hidden Profit Review, the scorecard funnel and "Use cases" as navigation. Jules and Claude Code infrastructure as proof for owners.
 
-**Name and address.** Open Door Learning is the company on the site. The header and bios say Jonathan Malkin. The Open Door Learning domain (opendoorlearningai.com, with opendoorlearning.co registered alongside) becomes primary when it is bought and the site is ready; builtwithjon.com redirects. Until then nothing public changes.
+**Name and address, updated October 7.** Open Door Learning is the company on the live site. The header and bios say Jonathan Malkin. opendoorlearningai.com is now primary, with jonathan@opendoorlearningai.com as the visible contact and verified Sender address. builtwithjon.com stays as a permanent redirect and a working Google Workspace inbox. opendoorlearning.co registration remains undecided.
 
 **Visual system.** Starts from the current one: the warm paper palette, the photography, Bricolage Grotesque and Schibsted Grotesk on Home and Workshops. Whether the rebrand changes it is decided with the logo.
 
@@ -61,7 +61,7 @@ implementation work) must stay legible. They do not replace the owner as the pri
 
 ## Product Purpose
 
-builtwithjon.com exists to get the right person into one of two conversations with Jonathan:
+opendoorlearningai.com exists to get the right person into one of two conversations with Jonathan:
 
 1. **Direct.** An owner with a stuck project. The public door is the homepage conversation and
    intake at `/#tell-me`.
@@ -153,7 +153,7 @@ Open:
 
 ## Brand Commitments
 
-Name: Jonathan Malkin / Built with Jon. Voice follows `Workspace/00-HQ/Voice-Profile.md`.
+Name: Jonathan Malkin / Open Door Learning. Voice follows `Workspace/00-HQ/Voice-Profile.md`.
 
 Personality: practical, credible, and human. A working session with an experienced operator.
 Technically capable without tool hype, warm without becoming cute, direct without becoming

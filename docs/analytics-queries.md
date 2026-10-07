@@ -41,8 +41,8 @@ Rows can take a few minutes to appear after the first writes.
 ## Production Smoke Test
 
 ```bash
-curl -sS -X POST https://builtwithjon.com/api/event \
-  -H 'Origin: https://builtwithjon.com' \
+curl -sS -X POST https://opendoorlearningai.com/api/event \
+  -H 'Origin: https://opendoorlearningai.com' \
   -H 'Content-Type: application/json' \
   -d '{"e":"cta:test","p":"/"}'
 ```

@@ -7,7 +7,7 @@ Link in each post: use the article URL, not the homepage.
 ---
 
 ## Article 1: Why Slow Bid Follow-Up Loses Jobs You Already Priced
-`https://builtwithjon.com/articles/slow-bid-follow-up-loses-jobs/`
+`https://opendoorlearningai.com/articles/slow-bid-follow-up-loses-jobs/`
 
 ### Draft A — the math hook
 
@@ -40,7 +40,7 @@ Link in each post: use the article URL, not the homepage.
 ---
 
 ## Article 2: The Missed-Call Math
-`https://builtwithjon.com/articles/missed-call-math-home-services/`
+`https://opendoorlearningai.com/articles/missed-call-math-home-services/`
 
 ### Draft A — the invisible leak
 
@@ -69,7 +69,7 @@ Link in each post: use the article URL, not the homepage.
 ---
 
 ## Article 3: Audit Your Non-Billable Admin Before You Hire
-`https://builtwithjon.com/articles/non-billable-admin-audit/`
+`https://opendoorlearningai.com/articles/non-billable-admin-audit/`
 
 ### Draft A — the expensive admin
 

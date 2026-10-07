@@ -1,5 +1,7 @@
 # MCP Rollout Operations
 
+Historical record: the live site moved to https://opendoorlearningai.com on October 7, 2026. Old domain links redirect. Use README.md and PRODUCT.md for current deployment and product authority; retired routes and historical setup instructions below are not current instructions.
+
 ## Distribution decision
 
 The official MCP Registry listing remains the canonical machine-readable listing.

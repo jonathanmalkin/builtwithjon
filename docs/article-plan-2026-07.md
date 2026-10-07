@@ -1,5 +1,7 @@
 # Customer-Segment Article Plan - July–September 2026
 
+Historical record: the live site moved to https://opendoorlearningai.com on October 7, 2026. Old domain links redirect. Use README.md and PRODUCT.md for current deployment and product authority; retired routes and historical setup instructions below are not current instructions.
+
 Scope: the full article roadmap for builtwithjon.com's customer-facing content - one article per leak axis (deals / time / cash) per scorecard segment, prioritized by 90-day-plan pipeline relevance, with the SEO/GEO spec each article must follow and the distribution loop that turns each article into LinkedIn material.
 
 Companions: `docs/conversion-assessment-2026-07.md` (funnel + §5a topic seeds), `Workspace/01-Strategy/Plans/2026-07-03-90-day-50k-close-plan.md` (priorities + capacity), `Workspace/01-Strategy/Research/2026-06-12-scorecard-segment-benchmarks.md` (every stat an article may quote).

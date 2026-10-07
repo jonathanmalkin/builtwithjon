@@ -81,7 +81,7 @@ const toolsCalculator = count('tools:start:calculator');
 const toolsUseCases = count('tools:start:use-cases');
 const toolsReview = count('tools:hpr-click');
 
-console.log(`Built with Jon funnel — last ${days} day${days === 1 ? '' : 's'}`);
+console.log(`Open Door Learning funnel: last ${days} day${days === 1 ? '' : 's'}`);
 console.log('');
 console.log('Scorecard');
 console.table([

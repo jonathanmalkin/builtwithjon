@@ -1,5 +1,7 @@
 # Website Conversion Assessment — July 2026
 
+Historical record: the live site moved to https://opendoorlearningai.com on October 7, 2026. Old domain links redirect. Use README.md and PRODUCT.md for current deployment and product authority; retired routes and historical setup instructions below are not current instructions.
+
 Scope: full-site assessment of builtwithjon.com focused on (a) attracting the ideal customer — SMB owners/operators, the Hidden Profit Review buyer — and (b) getting them to complete an action and submit their information. This document records what was found, what was changed on branch `claude/website-assessment-conversion-a8b5m5`, what requires a manual step from Jon, and what is recommended but deliberately not built yet.
 
 ---
