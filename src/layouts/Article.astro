@@ -1,6 +1,5 @@
 ---
 import Base from './Base.astro';
-import BusinessBridge from '../components/BusinessBridge.astro';
 interface Props {
   title: string;
   description: string;
@@ -33,11 +32,11 @@ const formattedUpdated = updated?.toLocaleDateString('en-US', {
 const authorSchema = {
   '@type': 'Person',
   name: 'Jonathan Malkin',
-  jobTitle: 'AI Workflow Consultant & Implementation Partner',
+  jobTitle: 'AI Educator and Builder',
   url: 'https://builtwithjon.com/about/',
   worksFor: {
     '@type': 'Organization',
-    name: 'Built with Jon',
+    name: 'Open Door Learning',
     url: 'https://builtwithjon.com/',
   },
   sameAs: [
@@ -46,43 +45,6 @@ const authorSchema = {
     'https://linkedin.com/in/jonathanmalkin',
   ],
 };
-
-const MAGNETS = {
-  calculator: {
-    kicker: 'Free tool',
-    title: 'The Leak Calculator',
-    href: '/tools/leak-calculator/',
-    blurb: 'Turn the math in this article into your own number. Pick the leak, enter three or four figures you already know, and see the monthly and annual cost with the source behind every benchmark. Takes about a minute.',
-    cta: 'Run your numbers',
-  },
-};
-
-const MAGNET_FOR_SLUG: Record<string, keyof typeof MAGNETS> = {
-  'invoice-chase-payroll-problem': 'calculator',
-  'change-order-revenue-never-invoiced': 'calculator',
-  'rent-chase-standing-meeting': 'calculator',
-  'quote-that-waited-until-friday': 'calculator',
-  'inquiry-that-booked-your-competitor': 'calculator',
-  'leads-go-cold-heads-down-creating': 'calculator',
-  'five-minute-reply-window-listing': 'calculator',
-  'leasing-inquiry-applied-somewhere-else': 'calculator',
-  'new-patient-reached-voicemail': 'calculator',
-  'same-day-engagement-letters': 'calculator',
-  'quiet-churn-never-exit-interviewed': 'calculator',
-  'slow-bid-follow-up-loses-jobs': 'calculator',
-  'missed-call-math-home-services': 'calculator',
-  'fourteen-hours-that-never-pour-concrete': 'calculator',
-  'packaging-tax-one-person-brand': 'calculator',
-  'forty-documents-in-flight': 'calculator',
-  'where-deals-actually-fall-through': 'calculator',
-  'same-five-tenant-problems-loop': 'calculator',
-  'empty-chairs-no-show-math': 'calculator',
-  'two-clinical-days-prior-auth': 'calculator',
-  'non-billable-admin-audit': 'calculator',
-};
-
-const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? '';
-const magnet = MAGNET_FOR_SLUG[slug] ? MAGNETS[MAGNET_FOR_SLUG[slug]] : null;
 
 const articleSchema = {
   '@context': 'https://schema.org',
@@ -119,20 +81,17 @@ const articleSchema = {
         <div class="article-author-mark" aria-hidden="true">JM</div>
         <div>
           <p class="article-author-name">By <a href="/about/" rel="author">Jonathan Malkin</a></p>
-          <p class="article-author-bio">AI workflow consultant in Austin, TX. Jonathan runs every Hidden Profit Review personally and builds the operating loops he recommends.</p>
+          <p class="article-author-bio">AI educator and builder in Austin, Texas. Jonathan teaches owners, executives and their teams to solve real business problems with AI, and builds solutions when needed.</p>
         </div>
       </aside>
     </header>
     <div class="article-content">
       <slot />
     </div>
-    {magnet && (
-      <aside class="article-magnet" aria-label="Free resource">
-        <p class="article-magnet-kicker">{magnet.kicker}</p>
-        <p><strong>{magnet.title}.</strong> {magnet.blurb}</p>
-        <p><a href={magnet.href}>{magnet.cta} &rarr;</a></p>
-      </aside>
-    )}
+    <aside class="article-next panel" aria-label="Workshops">
+      <p><strong>Want to do this on your own work?</strong> I teach hands-on AI workshops for owners, executives and their teams in Austin. Ninety minutes, your own task, and you leave with something that works.</p>
+      <p><a href="/workshops/">See the workshops</a> or <a href="/host-a-workshop/">host one for your group</a>.</p>
+    </aside>
     <footer class="article-footer">
       {platforms && (platforms.reddit || platforms.x) && (
         <div class="platforms">
@@ -147,6 +106,5 @@ const articleSchema = {
         </p>
       )}
     </footer>
-    <BusinessBridge story={story} />
   </article>
 </Base>

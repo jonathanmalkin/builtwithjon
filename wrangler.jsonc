@@ -13,6 +13,8 @@
   "assets": {
     "binding": "ASSETS",
     "directory": "dist",
+    // Unknown paths get the site 404 page with a 404 status.
+    "not_found_handling": "404-page",
     // Route protocol/API paths and retirement redirects through the worker
     // before static assets can serve an old generated page.
     "run_worker_first": [
@@ -21,11 +23,26 @@
       "/api/scorecard-report",
       "/api/event",
       "/hidden-profit-review*",
-      "/kits/follow-up-swipe-file*",
-      "/kits/invoice-chase-kit*",
+      "/kits*",
       "/knowledge-os-proof*",
       "/masterclass*",
-      "/construction*"
+      "/construction*",
+      "/materials*",
+      // Open Door Learning rebrand retirements, 2026-10-06. Exact paths for the
+      // /ai-assistant hub and Claude Code page so kept /ai-assistant/cowork/
+      // and /ai-assistant/course/ files still serve straight from assets.
+      "/principles*",
+      "/process*",
+      "/dispositions*",
+      "/use-cases*",
+      "/scorecard*",
+      "/tools*",
+      "/jules*",
+      "/ai-assistant",
+      "/ai-assistant/",
+      "/ai-assistant/claude-code",
+      "/ai-assistant/claude-code/",
+      "/ai-assistant-workshop*"
     ]
   },
   "vars": {

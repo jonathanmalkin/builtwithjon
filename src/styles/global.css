@@ -1,4 +1,4 @@
-/* Built with Jon website design system */
+/* Open Door Learning website design system */
 
 :root {
   --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -927,6 +927,9 @@ hr {
   margin-bottom: 3rem;
 }
 
+.article-next { padding: 1.5rem; margin: 2.5rem 0 0; }
+.article-next p { margin: 0; }
+.article-next p + p { margin-top: 0.6rem; }
 .article-footer {
   border-top: 1px solid var(--color-border);
   padding-top: 1.5rem;
@@ -4991,3 +4994,197 @@ body.contact-exchange { max-width: none; padding: 0; background: var(--ucl-paper
 @media (prefers-reduced-motion: no-preference) { .exchange-success { animation: exchange-arrive .3s cubic-bezier(.16, 1, .3, 1); } @keyframes exchange-arrive { from { transform: translateY(6px); } to { transform: translateY(0); } } }
 @media print { .exchange-downloads { display: none; } .exchange-qr-image { max-width: 3.5in; margin-inline: auto; } }
 
+
+
+/* ==========================================================================
+   Open Door Learning world, October 2026 revamp. Scoped to body.odl.
+   Grounds ivory/parchment/clay, one amber band, ink type, copper for the
+   door and for numerals. Bricolage Grotesque (display) + Schibsted Grotesk
+   (text), self-hosted through fontsource, imported by src/layouts/Odl.astro.
+   The shared header and footer carry their own scoped styles so they also
+   sit correctly on older pages that do not load this world.
+   ========================================================================== */
+
+body.odl{text-align:left;--ink:#191E26;--body-txt:#3F4752;--cap:#5C6570;--ivory:#FBF8F1;--parch:#F3ECDD;--clay:#EDE2CC;--amber:#E8A83C;--amber-soft:#F2CE8A;--copper:#8F4E24;--line:#D2C4A6;--line-strong:#B9A781;--field:#FFFEFA;--disp:'Bricolage Grotesque Variable',sans-serif;--txt:'Schibsted Grotesk Variable',sans-serif;--gutter:5vw;--measure:64ch;max-width:none;padding:0;margin:0;background:var(--ivory);color:var(--ink);font:400 1.0625rem/1.55 var(--txt);line-height:1.55;-webkit-font-smoothing:antialiased;--col-gap:clamp(28px,4vw,64px);--edge:max(var(--gutter),calc((100% - 1240px)/2));overflow-x:clip;min-height:100vh;display:flex;flex-direction:column}
+html:has(body.odl){overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:88px}
+.odl *{box-sizing:border-box}
+.odl ::selection{background:var(--amber-soft);color:var(--ink)}
+.odl main{display:flex;flex-direction:column;flex:1 0 auto;max-width:none;padding:0;margin:0}
+.odl main>:last-child{flex:1 0 auto}
+.odl main a{color:inherit;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.08em}.odl main .btn,.odl main .tile{text-decoration:none}
+.odl main a:hover{color:inherit}.odl main a.btn:hover{color:var(--ivory)}
+.odl :focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:3px}
+.odl .frame:focus-within{outline:3px solid var(--ink);outline-offset:3px}
+.odl .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.odl img,.odl video{display:block;max-width:100%;height:auto;border-radius:0}
+.odl h1,.odl h2,.odl h3,.odl h4{font-family:var(--disp);font-weight:700;letter-spacing:-.022em;text-wrap:balance;margin:0;color:var(--ink);line-height:1.08}
+.odl h1{font-size:clamp(2.2rem,4.1vw,3.5rem);line-height:1.03;letter-spacing:-.028em}
+.odl h2{font-size:clamp(1.9rem,3.2vw,2.75rem);line-height:1.05}
+.odl h3{font-size:clamp(1.3rem,1.8vw,1.55rem);line-height:1.15;letter-spacing:-.015em}
+.odl p{margin:0;color:var(--body-txt);max-width:var(--measure)}
+.odl p.lede{font-size:1.16rem;line-height:1.5}
+.odl p.cap{font-size:.95rem;color:var(--cap)}
+.odl ul,.odl ol{margin:0;padding:0}
+.odl main button{font:inherit;letter-spacing:normal}
+.odl [hidden]{display:none!important}
+.odl .hero{padding:0;text-align:left;animation:none}.odl .hero::before{display:none;content:none}.odl .hero h1{margin:0 0 16px;max-width:none;font-size:clamp(2.2rem,4.1vw,3.5rem);line-height:1.03;letter-spacing:-.028em}
+.odl .meta,.odl .status,.odl .fields label{font-family:var(--txt)}.odl .status{border-radius:0;background:none;padding:0;text-transform:none;letter-spacing:normal;font-size:1.02rem}.odl .status.ok{padding:16px 18px;background:var(--parch);border-radius:6px}
+.odl .lede{color:var(--body-txt)}.odl .portrait{isolation:auto}.odl .portrait::before{display:none;content:none}
+.odl .tile-cover .sc-title{color:var(--ivory)}
+
+/* Buttons and links */
+.odl .btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--ivory);font:600 1.05rem/1 var(--txt);padding:17px 26px;border-radius:6px;text-decoration:none;border:0;cursor:pointer;transition:transform .18s cubic-bezier(.16,1,.3,1),background .18s}
+.odl .btn:hover{background:#000;transform:translateY(-1px)}
+.odl .btn:disabled{opacity:.6;cursor:default;transform:none}.odl .btn:disabled:hover{background:var(--ink)}
+.odl .btn.quiet{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.odl .btn.quiet:hover{background:var(--ink);color:var(--ivory)}
+.odl .arrow{display:inline-block;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.odl a:hover .arrow,.odl .btn:hover .arrow{transform:translateX(4px)}
+.odl .go{display:inline-flex;align-items:center;gap:10px;font:650 1.05rem/1.3 var(--txt);color:var(--ink);text-decoration:underline;text-underline-offset:.22em;text-decoration-thickness:.09em;min-height:44px}
+.odl .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+
+/* Section rhythm */
+.odl .sec{padding:clamp(56px,7vw,104px) var(--gutter)}
+.odl .sec.tight{padding-block:clamp(44px,5vw,72px)}
+.odl .inner{max-width:1240px;margin:0 auto}
+.odl .inner.narrow{max-width:860px;margin-inline:max(0px,calc((100% - 1240px)/2)) auto}
+body.odl{--two:minmax(0,1fr) minmax(0,1.4fr)}
+.odl .band-parch{background:var(--parch)}
+.odl .band-clay{background:var(--clay)}
+.odl .band-amber{background:var(--amber)}
+.odl .band-amber p,.odl .band-amber .cap{color:#3B2D0C}
+.odl .sec-head{display:grid;grid-template-columns:var(--two);gap:24px var(--col-gap);align-items:end;margin-bottom:clamp(28px,3.5vw,44px)}
+.odl .sec-head p{max-width:46ch}
+.odl .sec-head.stack{display:block}
+@media(max-width:860px){.odl .sec-head{grid-template-columns:1fr;align-items:start;gap:14px}}
+.odl .sec-head.stack p{margin-top:16px}
+.odl .rule{border:0;border-top:1.5px solid var(--ink);margin:0}
+
+/* Hero: full-bleed photo with the ivory card bottom-left; the subject sits right of the card. */
+.odl .hero{--h:max(540px,min(80vh,max(660px,38vw)));position:relative;display:grid;align-items:end;min-height:var(--h);padding:48px var(--edge);overflow:hidden;isolation:isolate;background:var(--ink)}
+.odl .hero picture,.odl .hero>img{position:absolute;inset:0;z-index:-1}
+.odl .hero img{width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 42%}
+.odl .hero-card{position:relative;width:min(620px,47vw);background:var(--ivory);border-radius:14px;padding:38px 40px 36px;box-shadow:0 30px 80px -40px rgba(0,0,0,.55)}
+.odl .hero-card h1{margin-bottom:16px;hanging-punctuation:first}
+.odl .hero-card .lede{margin-bottom:26px;max-width:48ch}
+@media(max-width:860px){.odl .hero{display:block;min-height:0;padding:0;overflow:visible;background:none}.odl .hero picture,.odl .hero>img{position:relative;display:block;height:clamp(360px,56vw,480px);overflow:hidden;z-index:auto}.odl .hero img{object-position:58% 30%}.odl .hero-card{width:auto;margin:-56px 4vw 0;padding:28px 24px 26px}}
+@media(max-width:520px){.odl .hero picture,.odl .hero>img{height:280px}.odl .hero-card{margin:-36px 12px 0;padding:24px 20px 22px}}
+
+/* Split hero: copy beside media, parchment ground. */
+.odl .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--col-gap);align-items:center;padding:clamp(40px,5vw,72px) var(--gutter) clamp(48px,6vw,84px)}
+.odl .split h1{margin-bottom:18px}
+.odl .split .lede{margin-bottom:26px}
+.odl .split figure{margin:0}
+.odl .split figcaption{margin-top:12px;color:var(--cap);font-size:.95rem}
+.odl .split.media-left>figure{order:-1}
+@media(max-width:700px){.odl .split{grid-template-columns:1fr}.odl .split.media-left>figure{order:0}}
+
+/* Media frames */
+.odl .frame{border-radius:14px;overflow:hidden;background:var(--ink);box-shadow:0 34px 80px -44px rgba(0,0,0,.6)}
+.odl .frame video,.odl .frame>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.odl .photo{border-radius:14px;overflow:hidden}
+.odl .photo picture{display:block;width:100%;height:100%}
+.odl .photo img{width:100%;height:100%;object-fit:cover}
+
+/* Steps: what happens in the room. Sequence matters, so numerals stay. */
+.odl .steps{list-style:none;counter-reset:step;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 48px;border-top:1.5px solid var(--ink)}
+.odl .steps>li{counter-increment:step;padding:26px 0 30px;border-bottom:1px solid var(--line)}
+.odl .steps>li::before{content:counter(step);display:block;font:800 3rem/1 var(--disp);color:var(--copper);letter-spacing:-.03em;margin-bottom:14px}
+.odl .steps h3{margin-bottom:10px}
+.odl .steps p+p{margin-top:10px}
+@media(max-width:860px){.odl .steps{grid-template-columns:1fr}}
+
+/* Rows: editorial list with a strong top rule. */
+.odl .rows{list-style:none;border-top:1.5px solid var(--ink)}
+.odl .rows>li{display:grid;grid-template-columns:var(--two);gap:12px var(--col-gap);padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
+.odl .rows h3{max-width:22ch}
+.odl .rows .meta{display:block;margin-top:8px;font-size:.95rem;color:var(--cap)}
+.odl .rows .leave{display:block;margin-top:10px;font-weight:600;color:var(--ink);max-width:52ch}
+.odl .rows .go{margin-top:12px;font-size:.98rem}
+.odl .rows.three>li{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto}
+.odl .rows.three .chip{justify-self:start}.odl .chip{display:inline-block;font:600 .8rem/1 var(--txt);background:var(--clay);color:var(--ink);padding:8px 10px;border-radius:4px;white-space:nowrap}
+@media(max-width:860px){.odl .rows>li,.odl .rows.three>li{grid-template-columns:1fr;gap:8px}}
+
+/* Tiles: materials. */
+.odl .tiles{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.odl .tile{display:flex;flex-direction:column;height:100%;text-decoration:none;color:inherit;border:1.5px solid var(--line-strong);border-radius:12px;overflow:hidden;background:var(--ivory);transition:transform .18s cubic-bezier(.16,1,.3,1),border-color .18s}
+.odl .tile:hover{transform:translateY(-2px);border-color:var(--ink)}
+.odl .tile-shot{display:block;aspect-ratio:16/10;background:var(--parch);border-bottom:1px solid var(--line);overflow:hidden}
+.odl .tile-shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.odl .tile-cover{display:flex;flex-direction:column;justify-content:space-between;height:100%;padding:18px 20px;background:var(--ink);color:var(--ivory)}
+.odl .tile-cover .sc-top{font:600 .78rem/1 var(--txt);letter-spacing:.04em;text-transform:uppercase;color:var(--amber-soft)}
+.odl .tile-cover .sc-title{font:700 clamp(1.15rem,1.6vw,1.45rem)/1.12 var(--disp);letter-spacing:-.02em;max-width:16ch}
+.odl .tile-body{display:flex;flex-direction:column;flex:1;gap:8px;padding:18px 20px 20px}
+.odl .tile-body strong{font:700 1.15rem/1.2 var(--disp);letter-spacing:-.015em;color:var(--ink)}
+.odl .tile-body .tile-desc{font-size:.98rem;color:var(--body-txt)}
+.odl .tile-body .chip{align-self:flex-start;margin-top:auto}
+.odl .tiles.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1000px){.odl .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.odl .tiles,.odl .tiles.two{grid-template-columns:1fr}}
+
+/* Two-column prose block with a figure. */
+.odl .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--col-gap);align-items:center}
+.odl .duo h2{margin-bottom:16px}
+.odl .duo p+p{margin-top:14px}
+.odl .duo .actions{margin-top:24px}
+@media(max-width:700px){.odl .duo{grid-template-columns:1fr}}
+
+/* Portrait strip */
+.odl .portrait{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--col-gap);align-items:center}
+.odl .portrait .photo{aspect-ratio:4/3}
+@media(max-width:700px){.odl .portrait{grid-template-columns:1fr}}
+
+/* Definition-style facts (About, Speaking) */
+.odl .facts{list-style:none;display:grid;gap:14px;border-top:1.5px solid var(--ink)}
+.odl .facts>li{display:grid;grid-template-columns:minmax(0,.4fr) minmax(0,1fr);gap:8px 32px;padding:14px 0;border-bottom:1px solid var(--line)}
+.odl .facts strong{font:700 1.05rem/1.3 var(--disp);color:var(--ink)}
+@media(max-width:600px){.odl .facts>li{grid-template-columns:1fr}}
+
+/* Questions and answers */
+.odl .qa{list-style:none;display:grid;gap:0;border-top:1.5px solid var(--ink)}
+.odl .qa>li{padding:22px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:var(--two);gap:8px var(--col-gap)}
+.odl .qa h3{font-size:1.2rem}
+@media(max-width:860px){.odl .qa>li{grid-template-columns:1fr}}
+
+/* Message form */
+.odl .msg{display:grid;grid-template-columns:var(--two);gap:var(--col-gap);align-items:start}
+.odl .msg h1,.odl .msg h2{margin-bottom:16px}
+.odl .msg .alt{margin-top:18px;font-size:.98rem}
+.odl .fields{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.odl .fields label{display:grid;gap:8px;font-weight:600;font-size:.98rem;color:var(--ink)}
+.odl .fields .wide{grid-column:1/-1}
+.odl .fields .opt{font-weight:400;color:var(--cap)}
+.odl .fields input,.odl .fields textarea{width:100%;font:inherit;padding:13px 14px;border:1.5px solid #857650;border-radius:6px;background:var(--field);color:var(--ink);transition:border-color .15s}
+.odl .fields input:hover,.odl .fields textarea:hover{border-color:var(--ink)}
+.odl .fields input:focus-visible,.odl .fields textarea:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-color:var(--ink)}
+.odl .fields ::placeholder{color:var(--cap);opacity:1}
+.odl .fields textarea{min-height:150px;resize:vertical}
+.odl .form-honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.odl .msg .btn{margin-top:22px}
+.odl .interest{margin:0 0 18px;padding:12px 14px;background:var(--parch);border-radius:6px;font-size:.98rem;color:var(--ink)}
+.odl .interest button{border:0;background:none;text-decoration:underline;cursor:pointer;padding:6px 10px;min-height:44px;color:inherit}
+.odl .status{margin-top:16px;font-size:1.02rem;line-height:1.55}
+.odl .status:empty{display:none}
+.odl .status.err{color:#8C2923}
+.odl .status.ok{padding:16px 18px;background:var(--parch);border-radius:6px;color:var(--ink)}
+@media(max-width:860px){.odl .msg{grid-template-columns:1fr}}
+@media(max-width:600px){.odl .fields{grid-template-columns:1fr}}
+
+/* Short closing band: when something needs building */
+.odl .aside-band{display:grid;grid-template-columns:var(--two);gap:24px var(--col-gap);align-items:start}
+.odl .aside-band h2{font-size:clamp(1.6rem,2.4vw,2.1rem)}
+.odl .aside-band .go{margin-top:16px}
+@media(max-width:860px){.odl .aside-band{grid-template-columns:1fr}}
+
+/* Big quote (About) */
+.odl .pull{font:600 clamp(1.4rem,2.4vw,2rem)/1.25 var(--disp);letter-spacing:-.02em;color:var(--ink);max-width:28ch;hanging-punctuation:first}
+.odl .promise .inner{display:grid;justify-items:start;gap:22px}
+.odl .promise img{width:56px;height:auto;border-radius:6px}
+.odl .pull.big{font-size:clamp(2rem,4.6vw,4rem);line-height:1.08;letter-spacing:-.03em;max-width:18ch;text-wrap:balance}
+
+/* Door symbol used as a small ornament (ink frame, copper leaf) */
+.odl .door{display:inline-block;width:22px;height:32px;vertical-align:-6px}
+.odl .door-line{display:flex;align-items:center;gap:20px;margin-top:28px}
+.odl .door-line img{flex:none;width:48px;height:48px;border-radius:6px}
+
+@media(prefers-reduced-motion:reduce){body.odl{scroll-behavior:auto}.odl .btn,.odl .arrow,.odl .tile{transition:none}.odl .btn:hover,.odl .tile:hover{transform:none}}

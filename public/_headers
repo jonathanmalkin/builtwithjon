@@ -1,0 +1,12 @@
+# Fingerprinted build output never changes under the same name.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Photos, brand marks and workshop media keep their names when replaced, so
+# they revalidate after a day.
+/home/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/workshops/media/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

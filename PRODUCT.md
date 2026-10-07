@@ -2,9 +2,45 @@
 
 <!-- impeccable:product-schema 1 -->
 
+## Current authority update: October 5, 2026
+
+Jonathan approved this update on October 5, 2026. It is the current product brief for the full revamp. Everything below it, including the September updates, the Users, Product Purpose and Positioning sections, describes the site as built and earlier decisions; where they conflict with this update, this update wins. Exact page copy and deployment still need his approval. Plan: `Workspace/01-Lab/Active-Projects/Open-Door-Learning-Rebrand-and-Website/PROJECT.md`.
+
+**Who it is.** Jonathan Malkin, AI educator and builder, working as Open Door Learning. Site title: AI Educator and Builder.
+
+**Positioning, word for word from Identity.** He works with owners and executives who are using AI and want to make it more useful in their business. He teaches them and their teams to solve real business problems with AI, and builds solutions when needed.
+
+**Users.** Two, in this order on every shared page. First, owners and executives who have tried AI and want it to do real work; the recognition line is "We've tried AI. Now we need help making it work in our business." Beginners are welcome; prior use is a cue, not a gate. Second, hosts: organizations and leaders who gather owners and executives and want useful AI education for them. Organizers and podcast hosts are a third, smaller reader served by Speaking.
+
+**Purpose.** Get the right person into one of two conversations. An owner or executive sends a message about a workshop or a problem. A host sends a message about their group. Success is a message sent from Workshops or from Host a workshop.
+
+**What leads.** Teaching. Workshops, real rooms described by type, upcoming public dates, and materials people can use themselves. Building is offered in one short section, "when something needs building", that leads to a conversation. It is not in the navigation.
+
+**Evidence allowed.** Kinds of rooms taught, without host names. AI Implementation Club by name once its organizer agrees. Published decks, take-home files, the approved workshop clip, real event photography. 20+ years in enterprise technology; eight years at Automation Anywhere; Austin.
+
+**Still not allowed.** Prices. Client or host names without clearance. Measured results or ROI. The Raelan project. "Consultant" as a title. Em dashes. A sales pitch presented as education.
+
+**Retired from public pages.** "Knowledge Systems Builder". "Company brain" as the lead noun. The retired one-liner about knowledge trapped in people. The stuck-project hero. "6 to 250". Hidden Profit Review, the scorecard funnel and "Use cases" as navigation. Jules and Claude Code infrastructure as proof for owners.
+
+**Name and address.** Open Door Learning is the company on the site. The header and bios say Jonathan Malkin. The Open Door Learning domain (opendoorlearningai.com, with opendoorlearning.co registered alongside) becomes primary when it is bought and the site is ready; builtwithjon.com redirects. Until then nothing public changes.
+
+**Visual system.** Starts from the current one: the warm paper palette, the photography, Bricolage Grotesque and Schibsted Grotesk on Home and Workshops. Whether the rebrand changes it is decided with the logo.
+
 ## Current authority update: September 8, 2026
 
 Jonathan’s latest correction keeps the published homepage and focuses the refresh on Workshops, with other pages changed only as needed. Lead with business impact and make a curiosity message the next step. Four 90-minute workshops and the distinct implementation offer remain valid. Use Personal AI Assistant consistently; meeting lifecycle belongs in its description. `Workspace/04-Marketing/Website/education-first-refresh.md` owns the revised scope and review gates. The homepage proposal is superseded. Jonathan approved selected A, the walking video excerpt and publication after a polish review panel on September 8. This release integrates that Workshops page and only the supporting label, metadata and empty-player corrections needed for consistency. The subsequent navigation correction restores the shared site header on Workshops. Jonathan retired the Construction page on September 8; its inbound route redirects to the homepage and its navigation entry is removed. Older positioning below is reference, not the current refresh brief.
+
+## Current authority update: September 5, 2026
+
+Active-Work's `Workspace/00-HQ/Strategy.md` owns the current education-led direction and open
+industry/avatar decision. Partner-hosted workshops can be complete products; implementation is an
+optional continuation. The former September GC campaign and October 1 market gate are superseded.
+
+The page descriptions and older public positioning below document the existing site and prior
+decisions. They do not approve new public wording or establish construction as the current niche.
+Use the exact approved page-level copy for a named change, the current Voice Profile, and the
+applicable copy/deployment approval. The superseded August copy kernel is historical evidence.
+This internal authority update changes no live page, intake behavior, or public promise.
 
 ## Platform
 
@@ -87,8 +123,8 @@ event names). Submissions route to Jonathan for a direct reply.
 
 `/construction/` was retired at Jonathan’s request on September 8, 2026. Its inbound route redirects to the homepage and is excluded from navigation and the sitemap. Existing attribution and historical analytics remain intact.
 
-Durable product truth lives in this file, `Workspace/00-HQ/`, and
-`Workspace/04-Marketing/Website/copy-kernel-2026-08-15.md`. Current page briefs and lab HTML live
+Implementation truth lives in this repository; current business direction lives in Active-Work's
+`Workspace/00-HQ/Strategy.md`. Current approved page briefs and lab HTML live
 in `Workspace/04-Marketing/Website/`. Implementation lives only in this repo.
 
 ## Capabilities and Constraints
@@ -142,7 +178,8 @@ Use only documented atoms. Do not invent customers, quotes, counts, or results.
 - Privacy-treatment and killed-feature trust stories, as scoped in the copy kernel.
 - Real Capital Factory / Austin event photography in `public/home/`.
 - Credibility allowed publicly: 20+ years enterprise tech; 8 years at Automation Anywhere;
-  scaled a global SE org from 6 to 250; Austin-based; met in Austin, delivered anywhere.
+  Austin-based; met in Austin, delivered anywhere. The current Voice Profile prohibits the
+  six-to-250 employment claim in future external materials; older notes do not restore it.
 
 Do not fabricate a second client, a testimonial, a measured ROI, or a photographer-unverified
 photo credit.

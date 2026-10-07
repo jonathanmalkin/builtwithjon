@@ -1,0 +1,103 @@
+---
+// Speaking, October 2026 revamp. For event organizers and podcast hosts.
+// Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
+// Pages approved as built by Jonathan on October 6, 2026. Nothing deploys without his word.
+import Odl from '../layouts/Odl.astro';
+import { buildPersonSchema } from '../lib/schema.js';
+import MessageForm from '../components/MessageForm.astro';
+import { SITE, TALKS, BIO, MATERIALS, PRINCIPLES } from '../data/odl';
+
+const description = 'Talks and demos by Jonathan Malkin on making AI useful in a business: the principles I teach from, recent talks and the decks.';
+const personSchema = buildPersonSchema({
+  description: BIO.medium,
+  url: `${SITE.url}/speaking/`,
+  knowsAbout: ['AI for business owners and executives', 'applied AI in small business', 'organizing business knowledge for AI', 'personal AI assistants'],
+});
+
+---
+
+<Odl title="Speaking: Jonathan Malkin, AI Educator in Austin" description={description} image="/home/austin-keynote.jpg" imageWidth={1600} imageHeight={1066} schema={personSchema}>
+
+  <section class="sec band-parch" aria-labelledby="hero-h">
+    <div class="inner split media-left" style="padding:0">
+      <div>
+        <h1 id="hero-h">Talks and demos on making AI useful in a business.</h1>
+        <p class="lede">I speak and teach on one subject: making AI useful in a real business. Audiences are owners, executives and their teams, and the people who build for them. I keep it practical and I show the work.</p>
+        <div class="actions">
+          <a class="btn" href="#message" data-track="cta:speaking-hero">Invite me to speak <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <figure class="photo" style="aspect-ratio:3/2">
+        <picture>
+          <source type="image/webp" srcset="/home/austin-keynote-800.webp 800w, /home/austin-keynote-1200.webp 1200w, /home/austin-keynote-1600.webp 1600w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+          <img src="/home/austin-keynote.jpg" width="1600" height="1066" fetchpriority="high" alt="Jonathan Malkin presenting beside a laptop, with his name on the screen behind him." />
+        </picture>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="topics-h">
+    <div class="inner">
+      <div class="sec-head">
+        <h2 id="topics-h">What I talk about</h2>
+        <p>Five principles I come back to in every room. A talk takes one or two of them and shows the work.</p>
+      </div>
+      <ul class="rows">
+        {PRINCIPLES.map((t) => (
+          <li>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="talks" aria-labelledby="talks-h">
+    <div class="inner">
+      <div class="sec-head">
+        <h2 id="talks-h">Talks and decks</h2>
+        <p>Recent and upcoming. The slides go up here after each talk, free to read, no email required.</p>
+      </div>
+      <ul class="rows">
+        {TALKS.map((t) => (
+          <li>
+            <div>
+              <h3>{t.title}</h3>
+              <span class="meta">{t.event}<br />{t.where}<br />{t.date}</span>
+            </div>
+            <div>
+              <p>{t.desc}</p>
+              {t.href && <a class="go" href={t.href}>{t.linkLabel} <span class="arrow" aria-hidden="true">→</span></a>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec band-parch" id="decks" aria-labelledby="decks-h">
+    <div class="inner">
+      <div class="sec-head">
+        <h2 id="decks-h">The decks</h2>
+        <p>As they were shown. A workshop is where you build your own version, with help beside you.</p>
+      </div>
+      <ul class="tiles two">
+        {MATERIALS.map((m) => (
+          <li>
+            <a class="tile" href={m.href}>
+              <span class="tile-shot"><img src={m.cover.src} alt={m.cover.alt} loading="lazy" width="800" height="500" /></span>
+              <span class="tile-body"><strong>{m.title}</strong><span class="tile-desc">{m.desc}</span><span class="chip">{m.tag}</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <MessageForm kind="contact" id="message" heading="Invite me to speak" intro="The date, the audience and the slot you have. I will suggest the format that fits." button="Send the invitation" track="contact" />
+</Odl>
+
+<style>
+  .sec-head p a{color:var(--ink);font-weight:600;text-decoration:underline}
+</style>

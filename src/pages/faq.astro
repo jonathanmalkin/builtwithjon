@@ -1,111 +1,52 @@
 ---
-import Base from '../layouts/Base.astro';
-import JsonLd from '../components/JsonLd.astro';
+// Common questions, October 6, 2026. Moved off the host page at Jonathan's
+// request so the answers have one address that search and AI engines can
+// cite. Questions live in src/data/odl.ts (FAQ). No prices here.
+// Pages approved as built by Jonathan on October 6, 2026. Nothing deploys without his word.
+import Odl from '../layouts/Odl.astro';
+import MessageForm from '../components/MessageForm.astro';
 import { buildFaqPageSchema } from '../lib/schema.js';
+import { FAQ } from '../data/odl';
 
-// Copy: finalized from Workspace/04-Marketing/Website/faq-page-copy-DRAFT-2026-08-15.md
-// via voice-editor. Answers lead with the direct answer, one idea per line,
-// and the page copy is the single source for the FAQPage JSON-LD below.
-
-const faqs = [
-  {
-    question: "Why can't I just book a call?",
-    answer: [
-      "Most weeks I'm inside a build.",
-      'The short intake makes sure the next conversation is worth both our time.',
-      'I reply by email.',
-      'I take one build at a time. The next one can start as the current build wraps.',
-    ],
-  },
-  {
-    question: 'What is a company brain?',
-    answer: [
-      "It's folders and files your team and your AI assistants can both read and use.",
-      'I call the finished system a company brain.',
-      'The name is mine. The system is yours.',
-    ],
-  },
-  {
-    question: 'What happens first?',
-    answer: [
-      'Your people, process, and systems on one page.',
-      'Plus a clear decision about what to build first.',
-      "It's the first phase of a build, not a standalone report. It ends in a real decision: continue or stop.",
-    ],
-  },
-  {
-    question: 'Is this only for owners trying to grow?',
-    answer: [
-      "No. The same trapped knowledge blocks three different moments: the growth project that never moves, the key hire who needs what's in your head, and the sale where owner-dependency costs you at the table.",
-      'The work is the same. The moment it matters is yours.',
-    ],
-  },
-  {
-    question: 'What happens after the system is built?',
-    answer: [
-      'Ongoing support keeps it current: regular working meetings, not a monthly check-the-box call.',
-      'Later, once the brain exists, it can extend. A relationship system that preps your meetings and drafts your follow-ups is the first example.',
-      "That's a later conversation. It starts with seeing the whole picture.",
-    ],
-  },
-  {
-    question: 'Is my data safe?',
-    answer: [
-      'Sensitive material gets privacy treatment before anyone or anything uses it.',
-      "That's treatment, not a guarantee. A human reviews it too.",
-      'You own the platform, the credentials, the data, and the final system. Every high-stakes decision stays with people.',
-    ],
-  },
-  {
-    question: 'How much does it cost?',
-    answer: [
-      "There's no public price because the work isn't generic.",
-      "Cost gets scoped after we see the whole picture, once we know what's actually there to build.",
-      "Start with a conversation and you'll have a real number, not a guess.",
-    ],
-  },
+const description = 'Common questions about Jonathan Malkin’s hands-on AI workshops: who they are for, how long they run, which tools, group size, and what a host provides.';
+const groups = [
+  { id: 'workshops', title: 'About the workshops', items: FAQ.general },
+  { id: 'hosts', title: 'Bringing one to your group', items: FAQ.hosts },
 ];
-
-const faqSchema = buildFaqPageSchema(
-  faqs.map(({ question, answer }) => ({ question, answer: answer.join(' ') }))
-);
-
-const description =
-  'Direct answers about how the work starts, the company brain, data privacy, ongoing support, and cost. One idea per line, no runaround.';
+const faqSchema = buildFaqPageSchema([...FAQ.general, ...FAQ.hosts]);
 ---
 
-<Base
-  title="FAQ: The Company Brain"
-  description={description}
->
-  <JsonLd schema={faqSchema} />
-
-  <div class="letter">
-    <header class="letter-open">
-      <p class="letter-dateline">FAQ</p>
-      <h1>Questions owners actually ask</h1>
-      <p class="letter-lede">
-        Direct answers, one idea per line. Anything else, email
-        <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a>.
-      </p>
-    </header>
-
-    <div class="faq-list">
-      {faqs.map(({ question, answer }) => (
-        <section>
-          <h2>{question}</h2>
-          {answer.map((line) => (
-            <p>{line}</p>
-          ))}
-        </section>
-      ))}
+<Odl title="Common Questions About the AI Workshops" description={description} schema={faqSchema}>
+  <section class="sec band-parch" aria-labelledby="hero-h">
+    <div class="inner narrow">
+      <h1 id="hero-h">Common questions</h1>
+      <p class="lede" style="margin-top:16px">Short answers about the workshops and about bringing one to your group. If yours is not here, ask at the bottom of the page.</p>
     </div>
+  </section>
 
-    <section aria-labelledby="start-h" style="margin-top: 2.6rem;">
-      <h2 id="start-h">Ready to start?</h2>
-      <div class="letter-cta">
-        <a href="/#tell-me" class="hero-btn" data-track="cta:business-map-faq">Tell me about it</a>
+  {groups.map((g) => (
+    <section class="sec" id={g.id} aria-labelledby={`${g.id}-h`}>
+      <div class="inner">
+        <div class="sec-head">
+          <h2 id={`${g.id}-h`}>{g.title}</h2>
+        </div>
+        <ul class="qa">
+          {g.items.map((q) => (
+            <li>
+              <h3>{q.question}</h3>
+              <p>{q.answer}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
+  ))}
+
+  <div class="band-parch">
+    <MessageForm kind="workshop" id="message" heading="Ask your own question" intro="Tell me what you are trying to work out. I will answer it, or suggest where to start." />
   </div>
-</Base>
+</Odl>
+
+<style>
+  #hosts{padding-top:0}
+</style>

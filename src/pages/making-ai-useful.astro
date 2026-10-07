@@ -1,0 +1,102 @@
+---
+import { FAQ } from '../data/odl';
+// Making AI useful, October 2026 revamp. For owners arriving from search who
+// have tried AI and want it to do real work.
+// Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
+// Pages approved as built by Jonathan on October 6, 2026. Nothing deploys without his word.
+import Odl from '../layouts/Odl.astro';
+import MessageForm from '../components/MessageForm.astro';
+
+const title = 'Tried AI and it didn’t stick? How to make it useful in your business';
+const description = 'You tried ChatGPT and it stalled. Five things that help AI do real work in a business, and three ways to get hands-on help in Austin.';
+
+const helps = [
+  { h: 'Start with one recurring task.', p: 'Pick work that comes back every week and gets rebuilt from scratch each time. A strategy can wait until one task works.' },
+  { h: 'Put the information where people and AI can both find it.', p: 'AI gives general answers when it has general information. Your procedures, your customer questions and your priorities are what make the answers yours.' },
+  { h: 'Teach the team on their own work.', p: 'People keep using what they built themselves in the room. Demos of someone else’s work fade by Monday.' },
+  { h: 'Keep a person responsible for the result.', p: 'AI drafts and prepares. Someone on your team reviews and decides.' },
+  { h: 'Use what you already pay for first.', p: 'Check your existing software before buying something new or building something custom.' },
+];
+
+const ways = [
+  { h: 'Workshops', p: 'Ninety-minute sessions for owners, executives and their teams. Each ends with something you can use.', href: '/workshops/', label: 'See the workshops', track: 'cta:useful-workshops' },
+  { h: 'For your members', p: 'A session for a chamber, an association, a peer group or a portfolio of companies.', href: '/host-a-workshop/', label: 'Bring a workshop to your members', track: 'cta:useful-host' },
+  { h: 'When something needs building', p: 'Some problems need more than a workshop. It starts with a conversation about the problem.', href: '#message', label: 'Tell me about it', track: 'cta:useful-build' },
+];
+
+const questions = FAQ.general;
+---
+
+<Odl title={title} description={description}>
+  <section class="sec band-parch" aria-labelledby="useful-h">
+    <div class="inner narrow opening">
+      <h1 id="useful-h">You&rsquo;ve tried AI. Now you want it to be useful.</h1>
+      <p class="lede">You have already used ChatGPT or a tool like it. You asked it questions, drafted an email or two, maybe paid for a few seats. Then it stalled. A few people use it. Nobody can say what it changed.</p>
+      <p class="lede">That is a normal place to be. Trying it is common. Making it part of the work is still rare. I&rsquo;m Jonathan Malkin, an AI educator and builder in Austin, Texas. I teach owners, executives and their teams to solve real business problems with AI, and I build solutions when needed.</p>
+      <div class="actions">
+        <a class="btn" href="#message" data-track="cta:useful-hero">Send a message <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="helps-h">
+    <div class="inner">
+      <div class="sec-head stack">
+        <h2 id="helps-h">What usually helps</h2>
+      </div>
+      <ul class="rows">
+        {helps.map((x) => (
+          <li>
+            <h3>{x.h}</h3>
+            <p>{x.p}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec band-clay" aria-labelledby="ways-h">
+    <div class="inner">
+      <div class="sec-head stack">
+        <h2 id="ways-h">Three ways to work together</h2>
+      </div>
+      <ul class="rows">
+        {ways.map((w) => (
+          <li>
+            <h3>{w.h}</h3>
+            <div>
+              <p>{w.p}</p>
+              <a class="go" href={w.href} data-track={w.track}>{w.label} <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="qa-h">
+    <div class="inner">
+      <div class="sec-head stack">
+        <h2 id="qa-h">Common questions</h2>
+      </div>
+      <ul class="qa">
+        {questions.map((q) => (
+          <li>
+            <h3>{q.question}</h3>
+            <p>{q.answer}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <div class="band-parch">
+    <MessageForm kind="workshop" id="message" heading="Curious? Send me a message" intro="Tell me what you have tried and what you want it to do." track="useful" />
+  </div>
+</Odl>
+
+<style>
+  :global(body.odl) .opening h1{margin-bottom:20px}
+  :global(body.odl) .opening p+p{margin-top:14px}
+  :global(body.odl) .opening .actions{margin-top:28px}
+</style>

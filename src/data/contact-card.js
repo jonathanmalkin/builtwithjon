@@ -21,7 +21,7 @@ export function smsLink(body = INTRO_TEXT, apple = false) {
 }
 export const VCARD = [
   'BEGIN:VCARD', 'VERSION:3.0', 'N:Malkin;Jonathan;;;',
-  `FN:${CONTACT.name}`, 'ORG:Built with Jon',
+  `FN:${CONTACT.name}`, 'ORG:Open Door Learning',
   `TEL;TYPE=CELL,VOICE:${CONTACT.phone}`, `EMAIL;TYPE=INTERNET,WORK:${CONTACT.email}`,
   `URL:${CONTACT.website}`, `URL:${CONTACT.linkedin}`, 'END:VCARD', '',
 ].join('\r\n');

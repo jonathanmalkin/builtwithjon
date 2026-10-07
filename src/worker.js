@@ -25,6 +25,9 @@ const WORKSHOP_INTERESTS = new Set([
   "Build One Useful AI Workflow",
   "Build Your Personal AI Assistant",
   "See Where AI Could Help Your Business",
+  "Hand Off Your First Task to an AI Agent",
+  "Set Your Team’s AI Direction",
+  "Give Your AI Agents a Map",
 ]);
 const MAX_FORM_BODY_BYTES = 32_000;
 const MAX_SCORECARD_BODY_BYTES = 32_000;
@@ -35,47 +38,65 @@ const TURNSTILE_ACTION = "lead-form";
 const AGENT_DOWNLOAD_URL = "https://builtwithjon.com/ai-assistant/cowork/personal-assistant-cowork-plugin.zip";
 const AGENT_SHORT_PATHS = new Set(["/agent", "/agent/"]);
 const PERMANENT_REDIRECTS = new Map([
+  // Open Door Learning rebrand, October 6, 2026. Every page outside the new site
+  // map 301s to the nearest new page before static assets can serve it.
+  ["/principles", "/making-ai-useful/"],
+  ["/principles/", "/making-ai-useful/"],
+  ["/process", "/making-ai-useful/"],
+  ["/process/", "/making-ai-useful/"],
+  ["/dispositions", "/making-ai-useful/"],
+  ["/dispositions/", "/making-ai-useful/"],
+  ["/use-cases", "/making-ai-useful/"],
+  ["/use-cases/", "/making-ai-useful/"],
+  ["/scorecard", "/"],
+  ["/scorecard/", "/"],
+  ["/tools", "/"],
+  ["/tools/", "/"],
+  ["/tools/leak-calculator", "/"],
+  ["/tools/leak-calculator/", "/"],
+  ["/jules", "/about/"],
+  ["/jules/", "/about/"],
+  ["/ai-assistant", "/workshops/"],
+  ["/ai-assistant/", "/workshops/"],
+  ["/ai-assistant/claude-code", "/ai-assistant/cowork/"],
+  ["/ai-assistant/claude-code/", "/ai-assistant/cowork/"],
+  // Earlier retirements, repointed so none chains through a retired page.
   ["/construction", "/"],
   ["/construction/", "/"],
+  // Materials folded into Speaking, October 6, 2026.
+  ["/materials", "/speaking/#decks"],
+  ["/materials/", "/speaking/#decks"],
   ["/masterclass", "/ai-assistant/cowork/"],
   ["/masterclass/", "/ai-assistant/cowork/"],
-  // NOTE: '/workshops' itself is now a real page (src/pages/workshops.astro,
-  // 2026-08-15 revamp), so it is intentionally not in this map.
-  ["/ai-assistant-workshop", "/ai-assistant/"],
-  ["/ai-assistant-workshop/", "/ai-assistant/"],
-  ["/ai-assistant-workshop/thanks", "/ai-assistant/"],
-  ["/ai-assistant-workshop/thanks/", "/ai-assistant/"],
-  ["/ai-assistant-workshop-austin", "/ai-assistant/"],
-  ["/ai-assistant-workshop-austin/", "/ai-assistant/"],
-  ["/ai-assistant/claude-code", "/ai-assistant/course/"],
-  ["/ai-assistant/claude-code/", "/ai-assistant/course/"],
-  // Direct public door is /#tell-me. Keep business-map:* event names as-is.
+  ["/ai-assistant-workshop", "/workshops/"],
+  ["/ai-assistant-workshop/", "/workshops/"],
+  ["/ai-assistant-workshop/thanks", "/workshops/"],
+  ["/ai-assistant-workshop/thanks/", "/workshops/"],
+  ["/ai-assistant-workshop-austin", "/workshops/"],
+  ["/ai-assistant-workshop-austin/", "/workshops/"],
+  ["/knowledge-os-proof", "/map-not-dump/"],
+  ["/knowledge-os-proof/", "/map-not-dump/"],
+  ["/hidden-profit-review", "/"],
+  ["/hidden-profit-review/", "/"],
+  ["/kits/follow-up-swipe-file", "/"],
+  ["/kits/follow-up-swipe-file/", "/"],
+  ["/kits/invoice-chase-kit", "/"],
+  ["/kits/invoice-chase-kit/", "/"],
+  // Direct public door is the homepage conversation. Keep business-map:* event names as-is.
   ["/knowledge-os-product", "/#tell-me"],
   ["/knowledge-os-product/", "/#tell-me"],
   ["/business-map", "/#tell-me"],
   ["/business-map/", "/#tell-me"],
-  // Quiet pages retired 2026-08-19. Keep the incoming visitor on the closest
-  // surviving path before the static asset handler can serve the old page.
-  ["/hidden-profit-review", "/#tell-me"],
-  ["/hidden-profit-review/", "/#tell-me"],
-  ["/hidden-profit-review/thanks", "/#tell-me"],
-  ["/hidden-profit-review/thanks/", "/#tell-me"],
-  ["/hidden-profit-review/sample", "/scorecard/"],
-  ["/hidden-profit-review/sample/", "/scorecard/"],
-  ["/hidden-profit-review/profit-leak-assessment", "/scorecard/"],
-  ["/hidden-profit-review/profit-leak-assessment/", "/scorecard/"],
-  ["/hidden-profit-review/sample-assessment", "/scorecard/"],
-  ["/hidden-profit-review/sample-assessment/", "/scorecard/"],
-  ["/kits/follow-up-swipe-file", "/tools/leak-calculator/"],
-  ["/kits/follow-up-swipe-file/", "/tools/leak-calculator/"],
-  ["/kits/invoice-chase-kit", "/tools/leak-calculator/"],
-  ["/kits/invoice-chase-kit/", "/tools/leak-calculator/"],
-  ["/knowledge-os-proof", "/map-not-dump/"],
-  ["/knowledge-os-proof/", "/map-not-dump/"],
 ]);
-// Catch old, unlisted Hidden Profit Review child URLs while keeping its former
-// sample aliases on the scorecard via the exact rules above.
-const PERMANENT_REDIRECT_PREFIXES = [["/hidden-profit-review/", "/#tell-me"]];
+// Catch unlisted children of retired sections (old Hidden Profit Review
+// samples, every tool and kit page).
+const PERMANENT_REDIRECT_PREFIXES = [
+  ["/hidden-profit-review/", "/"],
+  ["/tools/", "/"],
+  ["/kits/", "/"],
+];
+// Bare retired roots with no generated page behind them.
+const PERMANENT_REDIRECT_BARE = new Map([["/kits", "/"]]);
 const ALLOWED_EVENT_NAMES = new Set([
   "page:view",
   "cta:masterclass-map",
@@ -86,13 +107,16 @@ const ALLOWED_EVENT_NAMES = new Set([
   "cta:business-map-resource", "cta:business-map-contact", "cta:business-map-scorecard",
   "cta:business-map-use-cases", "cta:workshops-contact",
   "cta:home-hero", "cta:home-loop", "cta:home-finale", "cta:home-picture",
+  "cta:home-company", "cta:home-host", "cta:host-hero", "cta:speaking-hero", "cta:about-hero",
+  "cta:useful-hero", "cta:useful-workshops", "cta:useful-host", "cta:useful-build",
+  "useful:start", "useful:submit", "useful:success",
   "cta:construction-hero", "cta:construction-trace", "cta:construction-loop", "cta:construction-final",
   "cta:talk-nav", "cta:talk-footer",
   "cta:workshops-hero", "cta:workshops-room", "cta:workshops-finale",
   "cta:workshops-deck-map", "cta:workshops-deck-pa",
   "cta:workshops-interest", "cta:workshops-guide",
   "workshop-host:start", "workshop-host:submit", "workshop-host:success",
-  "contact:start", "contact:submit",
+  "contact:start", "contact:submit", "contact:success",
   "cta:wou-paid-assessment", "cta:wou-send-list", "wou:print", "wou-list:start", "wou-list:submit", "wou-list:success",
   "cta:scorecard-article", "cta:scorecard-article-s2", "cta:scorecard-article-s3",
   "cta:scorecard-contact", "cta:scorecard-final", "cta:scorecard-footer",
@@ -185,7 +209,7 @@ export default {
       return Response.redirect(AGENT_DOWNLOAD_URL, 302);
     }
 
-    const permanentTarget = PERMANENT_REDIRECTS.get(url.pathname);
+    const permanentTarget = PERMANENT_REDIRECTS.get(url.pathname) || PERMANENT_REDIRECT_BARE.get(url.pathname);
     if (permanentTarget) {
       const dest = new URL(permanentTarget, url.origin);
       url.searchParams.forEach((value, key) => {
@@ -496,12 +520,16 @@ async function handleContact(request, env) {
   const attribution = safeText(form.get("attribution"), 240);
   const inquiryType = safeText(form.get("inquiry_type"), 80);
   const workshopInterest = safeText(form.get("workshop_interest"), 100);
+  const organization = inquiryType === "workshop-host" ? safeText(form.get("organization"), 160) : "";
+  const groupSize = inquiryType === "workshop-host" ? safeText(form.get("group_size"), 40) : "";
   let lead = {
     email,
     name,
     form_id: "contact",
     inquiry_type: inquiryType,
     ...(workshopInterest ? { workshop_interest: workshopInterest } : {}),
+    ...(organization ? { organization } : {}),
+    ...(groupSize ? { group_size: groupSize } : {}),
     message,
     source_url: sourceUrl,
     attribution,
@@ -529,7 +557,7 @@ async function handleContact(request, env) {
     return json({ ok: false, error: "lead_store_failed" }, 502);
   }
   if (!leadStored) return json({ ok: false, error: "lead_store_failed" }, 502);
-  const contactId = scan ? lead.capture_id : await stableContactKey(name, email, message, workshopInterest);
+  const contactId = scan ? lead.capture_id : await stableContactKey(name, email, message, workshopInterest, { inquiry_type: inquiryType, organization, group_size: groupSize });
   const senderKey = `contact:sender:${contactId}`;
   let delivery = null;
   let deliveryReadable = true;
@@ -578,8 +606,11 @@ async function handleContact(request, env) {
   return json({ ok: true, notified, archived: leadStored, stored: leadStored });
 }
 
-async function stableContactKey(name, email, message, workshopInterest = "") {
-  return stableLeadKey({ name, email, message, ...(workshopInterest ? { workshop_interest: workshopInterest } : {}) });
+// Two messages that differ only in which form they came from, or in the
+// organization or group size given, are different messages.
+async function stableContactKey(name, email, message, workshopInterest = "", extra = {}) {
+  const present = Object.fromEntries(Object.entries(extra).filter(([, value]) => value));
+  return stableLeadKey({ name, email, message, ...(workshopInterest ? { workshop_interest: workshopInterest } : {}), ...present });
 }
 
 async function stableLeadKey(value) {
@@ -877,7 +908,7 @@ async function sendOwnerLeadNotification(env, lead) {
     </tr>`).join("");
   const html = `
     <div style="max-width:680px;margin:0 auto;padding:24px;background:#fff;color:#1F1713;">
-      <p style="margin:0 0 8px;color:#8F4E24;font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;">Built with Jon website</p>
+      <p style="margin:0 0 8px;color:#8F4E24;font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;">Open Door Learning website</p>
       <h1 style="margin:0 0 20px;font:700 24px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">New lead: ${escapeHtml(formLabel)}</h1>
       ${isQrContact ? (lead.phone ? `<p><a href="sms:${escapeHtml(lead.phone)}">Text ${escapeHtml(lead.name)}</a></p>` : `<p><a href="mailto:${escapeHtml(lead.email)}">Email ${escapeHtml(lead.name)}</a></p>`) : ""}
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:1px solid #E5D7C3;">${htmlRows}</table>
@@ -905,6 +936,8 @@ function leadFieldLabel(key) {
     submitted_at: "Submitted at",
     inquiry_type: "Inquiry type",
     workshop_interest: "Workshop interest",
+    organization: "Organization",
+    group_size: "Group size",
   };
   return labels[key] || key.replace(/_/g, " ").replace(/^./, (character) => character.toUpperCase());
 }
@@ -974,11 +1007,13 @@ function validateContactForm(form) {
     _subject: 240,
     inquiry_type: 80,
     workshop_interest: 100,
+    organization: 160,
+    group_size: 40,
     attribution: 240,
     "cf-turnstile-response": 2048,
     ...(scan ? { phone: 32, company: 160, linkedin: 300, submission_id: 36 } : {}),
   };
-  if ([...form.keys()].length > (scan ? 14 : 10)) return false;
+  if ([...form.keys()].length > (scan ? 14 : 12)) return false;
   if (scan) {
     if (form.get("linkedin") && !validLinkedIn(form.get("linkedin"))) return false;
     if (form.get("submission_id") && !/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(form.get("submission_id"))) return false;
@@ -1309,7 +1344,7 @@ function renderHtmlEmail(model) {
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;margin:0 auto;background:#FFFDF8;border:1px solid #E5D7C3;border-radius:14px;">
       <tr>
         <td style="padding:28px 28px 10px;">
-          <p style="margin:0 0 10px;font:700 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#8F4E24;">Built with Jon scorecard</p>
+          <p style="margin:0 0 10px;font:700 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#8F4E24;">Open Door Learning scorecard</p>
           <h1 style="margin:0 0 16px;font:750 28px/1.12 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Your workflow leak report</h1>
           <p style="margin:0 0 18px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Hi${model.firstName ? ` ${escapeHtml(model.firstName)}` : ""},</p>
           <p style="margin:0 0 16px;font:400 16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">You just ran the scorecard for ${escapeHtml(model.businessPhrase)} and came out <strong>${escapeHtml(model.tier)}</strong>. Here is what that means, in plain numbers.</p>
@@ -1343,7 +1378,7 @@ function renderHtmlEmail(model) {
       <tr>
         <td style="padding:18px 28px 24px;border-top:1px solid #E5D7C3;">
           <p style="margin:0 0 8px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Either way, you keep the report. Reply to this email if you want a second pair of eyes on any of it.</p>
-          <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Jonathan<br>Built with Jon</p>
+          <p style="margin:0 0 16px;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1F1713;">Jonathan<br>Open Door Learning</p>
           <p style="margin:0;font:400 12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#5E5047;">You got this because you ran the scorecard at builtwithjon.com. <a href="${escapeAttribute(siteOrigin(model))}/privacy" style="color:#1D4ED8;">Privacy policy</a> · jonathan@builtwithjon.com</p>
         </td>
       </tr>
@@ -1379,7 +1414,7 @@ function renderTextEmail(model) {
     "Either way, you keep the report. Reply to this email if you want a second pair of eyes on any of it.",
     "",
     "Jonathan",
-    "Built with Jon",
+    "Open Door Learning",
   ];
   return lines.join("\n");
 }

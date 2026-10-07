@@ -2,9 +2,9 @@
 /articles/kink-quiz-vs-bdsm-test/ / 301
 /articles/what-is-kink-archetype/ / 301
 /articles/what-i-actually-do-with-claude-code/ / 301
-# MCP server article unpublished 2026-08-18 (endpoint never built). Send inbound to the live tools.
-/articles/website-mcp-server-run-scorecard/ /tools/ 301
-/articles/website-mcp-server-run-scorecard /tools/ 301
+# MCP server article unpublished 2026-08-18 (endpoint never built). Tools retired 2026-10-06; send inbound to Articles.
+/articles/website-mcp-server-run-scorecard/ /articles/ 301
+/articles/website-mcp-server-run-scorecard /articles/ 301
 # Approach trio + Knowledge OS pages retired 2026-08-15 (company-brain revamp).
 # Direct offer door is the homepage conversation as of 2026-08-19.
 /knowledge-os-product/ /#tell-me 301
@@ -14,17 +14,18 @@
 /business-map/ /#tell-me 301
 /business-map /#tell-me 301
 
-# Quiet-page retirements 2026-08-19. Preserve the closest still-live path.
-/hidden-profit-review/ /#tell-me 301
-/hidden-profit-review /#tell-me 301
-/hidden-profit-review/thanks/ /#tell-me 301
-/hidden-profit-review/thanks /#tell-me 301
-/hidden-profit-review/sample/ /scorecard/ 301
-/hidden-profit-review/sample /scorecard/ 301
-/kits/follow-up-swipe-file/ /tools/leak-calculator/ 301
-/kits/follow-up-swipe-file /tools/leak-calculator/ 301
-/kits/invoice-chase-kit/ /tools/leak-calculator/ 301
-/kits/invoice-chase-kit /tools/leak-calculator/ 301
+# Quiet-page retirements 2026-08-19, repointed home 2026-10-06 when the
+# scorecard, tools and kits retired.
+/hidden-profit-review/ / 301
+/hidden-profit-review / 301
+/hidden-profit-review/thanks/ / 301
+/hidden-profit-review/thanks / 301
+/hidden-profit-review/sample/ / 301
+/hidden-profit-review/sample / 301
+/kits/follow-up-swipe-file/ / 301
+/kits/follow-up-swipe-file / 301
+/kits/invoice-chase-kit/ / 301
+/kits/invoice-chase-kit / 301
 /knowledge-os-proof/ /map-not-dump/ 301
 /knowledge-os-proof /map-not-dump/ 301
 
@@ -47,23 +48,22 @@
 /projects /articles/ 301
 
 # Workshop follow-up + setup pages forwarded to the AI assistant hub 2026-06-05.
-# Attendees now land on the hub to choose Cowork DIY, Claude Code DIY, or the class.
+# Hub retired 2026-10-06, so attendees now land on the Cowork DIY guide directly.
 # Splats cover the old downloadable assets too (plugin zip, slides, resource pack).
-/cowork/* /ai-assistant/ 301
-/cowork /ai-assistant/ 301
-/workshop-setup/* /ai-assistant/ 301
-/workshop-setup /ai-assistant/ 301
+/cowork/* /ai-assistant/cowork/ 301
+/cowork /ai-assistant/cowork/ 301
+/workshop-setup/* /ai-assistant/cowork/ 301
+/workshop-setup /ai-assistant/cowork/ 301
 
-# Historic audit and sample aliases now point directly to the retained scorecard
-# rather than chaining through a retired review page.
-/ai-workflow-audit/sample-assessment/ /scorecard/ 301
-/ai-workflow-audit/sample-assessment /scorecard/ 301
-/ai-workflow-audit/profit-leak-assessment/ /scorecard/ 301
-/ai-workflow-audit/profit-leak-assessment /scorecard/ 301
-/hidden-profit-review/profit-leak-assessment/ /scorecard/ 301
-/hidden-profit-review/profit-leak-assessment /scorecard/ 301
-/hidden-profit-review/sample-assessment/ /scorecard/ 301
-/hidden-profit-review/sample-assessment /scorecard/ 301
+# Historic audit and sample aliases. Scorecard retired 2026-10-06; send home.
+/ai-workflow-audit/sample-assessment/ / 301
+/ai-workflow-audit/sample-assessment / 301
+/ai-workflow-audit/profit-leak-assessment/ / 301
+/ai-workflow-audit/profit-leak-assessment / 301
+/hidden-profit-review/profit-leak-assessment/ / 301
+/hidden-profit-review/profit-leak-assessment / 301
+/hidden-profit-review/sample-assessment/ / 301
+/hidden-profit-review/sample-assessment / 301
 
 # Old /ai-workflow-audit paths. Point straight at Direct intake so they do not
 # chain through the retired /business-map/ page.
@@ -79,3 +79,37 @@
 # Construction page retired September 8, 2026.
 /construction / 301
 /construction/ / 301
+
+# Open Door Learning rebrand, October 6, 2026. Every page outside the new site
+# map 301s to the nearest new page. Mirrors PERMANENT_REDIRECTS in src/worker.js.
+/principles/ /making-ai-useful/ 301
+/principles /making-ai-useful/ 301
+/process/ /making-ai-useful/ 301
+/process /making-ai-useful/ 301
+/dispositions/ /making-ai-useful/ 301
+/dispositions /making-ai-useful/ 301
+/use-cases/ /making-ai-useful/ 301
+/use-cases /making-ai-useful/ 301
+/scorecard/ / 301
+/scorecard / 301
+/tools/* / 301
+/tools / 301
+/kits / 301
+/kits/* / 301
+/hidden-profit-review/* / 301
+/jules/ /about/ 301
+/jules /about/ 301
+/ai-assistant/ /workshops/ 301
+/ai-assistant /workshops/ 301
+/ai-assistant/claude-code/ /ai-assistant/cowork/ 301
+/ai-assistant/claude-code /ai-assistant/cowork/ 301
+/ai-assistant-workshop/thanks/ /workshops/ 301
+/ai-assistant-workshop/thanks /workshops/ 301
+/ai-assistant-workshop/ /workshops/ 301
+/ai-assistant-workshop /workshops/ 301
+/ai-assistant-workshop-austin/ /workshops/ 301
+/ai-assistant-workshop-austin /workshops/ 301
+
+# Materials folded into Speaking, October 6, 2026.
+/materials /speaking/#decks 301
+/materials/ /speaking/#decks 301

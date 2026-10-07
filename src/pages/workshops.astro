@@ -1,78 +1,97 @@
 ---
-import Base from '../layouts/Base.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
+// Workshops, October 2026 revamp. For owners and executives.
+// Three sections (October 6, 13:00): hero with a room photo (the clip was
+// cut October 6, 18:47), the three kinds of
+// rooms with their workshops as short rows, the form. Particulars that were
+// here (practical details, the promise) were cut at Jonathan's request.
+// Site map: Workspace/04-Marketing/Website/2026-10-05-workshops-led-update.md
+// Pages approved as built by Jonathan on October 6, 2026. Nothing deploys without his word.
+import Odl from '../layouts/Odl.astro';
+import MessageForm from '../components/MessageForm.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
-import '@fontsource-variable/bricolage-grotesque';
-import '@fontsource-variable/schibsted-grotesk';
+import { SITE, WORKSHOPS, FORMATS, BIO } from '../data/odl';
 
-// Approved September 8, 2026: business impact first, four 90-minute workshops,
-// curiosity-led inquiry, documentary footage, and the existing warm photo palette.
-const description = 'Four 90-minute workshops for business owners and teams: organize knowledge, improve a recurring task, build a Personal AI Assistant, or explore where AI could help.';
-const personSchema = buildPersonSchema({
-  description: 'Jonathan Malkin teaches practical workshops and builds useful systems through Built with Jon. Based in Austin, with 20+ years in enterprise technology.',
-  url: 'https://builtwithjon.com/about/',
-});
-const workshops = [
-  {
-    "name": "Put Your Business Knowledge to Work",
-    "description": "Make essential business information easier to find and use. Organize what matters about your customers, services, processes and priorities into a shared reference, then practice using it with a teammate and AI to answer questions and prepare work."
-  },
-  {
-    "name": "Build One Useful AI Workflow",
-    "description": "Give a recurring task a repeatable approach. Work through what you start with, what a useful result looks like, and where AI can help. Try the method and check the result."
-  },
-  {
-    "name": "Build Your Personal AI Assistant",
-    "description": "Prepare for meetings with the right information at hand and keep track of what comes next. Set up a personal assistant, turn meeting notes into clear next steps, and bring saved information and commitments into a daily brief."
-  },
-  {
-    "name": "See Where AI Could Help Your Business",
-    "description": "Look at everyday business tasks and discuss where a different approach could help. Explore practical AI examples and what they could mean for your own work, with room for questions."
-  }
-];
+const description = 'Hands-on AI workshops in Austin for owners, executives and their teams, leadership sessions, and a technical workshop for IT. Ninety minutes, on your own work.';
+const personSchema = buildPersonSchema({ description: BIO.medium, url: `${SITE.url}/about/` });
 const serviceSchema = buildProfessionalServiceSchema({
+  name: SITE.company,
   description,
-  url: 'https://builtwithjon.com/workshops/',
+  url: `${SITE.url}/workshops/`,
   founder: personSchema,
-  makesOffer: workshops.map((workshop) => ({
-    '@type': 'Offer',
-    ...workshop,
-    description: `${workshop.description} Format: 90 minutes.`,
-    url: 'https://builtwithjon.com/workshops/#workshops',
-  })),
+  makesOffer: WORKSHOPS.map((w) => ({ '@type': 'Offer', name: w.name, description: w.summary, url: `${SITE.url}/workshops/#workshops` })),
 });
 ---
 
-<Base title="Workshops for Business Owners and Teams" description={description} image="/home/austin-workshop-desktop-1200.webp" imageWidth={1200} imageHeight={500} schema={personSchema} bare bodyClass="ws26">
-  <Fragment slot="header">
-    <a class="skip-link" href="#main">Skip to content</a>
-    <Header />
-  </Fragment>
+<Odl title="AI Workshops for Owners, Executives and Teams" description={description} schema={personSchema}>
   <JsonLd schema={serviceSchema} />
 
-<section class="workshop-hero" aria-labelledby="hero-title"><picture class="hero-photo"><source media="(min-width:1001px)" srcset="/home/austin-workshop-desktop-2000.webp"><img src="/home/austin-workshop-900.webp" alt="Jonathan Malkin teaching at Capital Factory in Austin." width="900" height="600" fetchpriority="high"></picture><div class="intro"><h1 id="hero-title">The same work keeps filling your day. Finding a better way keeps getting pushed aside.</h1><p>Information is scattered, familiar tasks start from scratch, and follow-ups depend on memory. Working out how to change that becomes another job.</p><div class="actions"><a class="primary" href="#tell-me" data-track="cta:workshops-hero">Curious? Send me a message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a class="secondary" href="#workshops">See the four workshops</a></div></div>
-<a class="moment-cue" href="#moment"><span class="cue-frame"><img src="/workshops/media/workshop-walking-poster-v3.webp" width="960" height="540" alt="Jonathan Malkin moving between participants while teaching." loading="lazy"><span class="cue-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span></span><span class="cue-label">Watch a workshop moment</span><span class="cue-meta">10 seconds · captions · plays on this page</span></a>
-</section>
-<section class="workshops" id="workshops" tabindex="-1" aria-labelledby="workshops-title"><div class="section-head"><h2 id="workshops-title">What would help your business?</h2><p>Four workshops, each 90 minutes. Explore the options below. You do not need to choose one before getting in touch.</p></div><div class="offers">
-<article class="offer"><h3>Put Your Business Knowledge to Work</h3><div class="offer-copy"><p>Make essential business information easier to find and use. Organize what matters about your customers, services, processes and priorities into a shared reference, then practice using it with a teammate and AI to answer questions and prepare work.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="Put Your Business Knowledge to Work" aria-label="Ask about Put Your Business Knowledge to Work">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
-<article class="offer"><h3>Build One Useful AI Workflow</h3><div class="offer-copy"><p>Give a recurring task a repeatable approach. Work through what you start with, what a useful result looks like, and where AI can help. Try the method and check the result.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="Build One Useful AI Workflow" aria-label="Ask about Build One Useful AI Workflow">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
-<article class="offer"><h3>Build Your Personal AI Assistant</h3><div class="offer-copy"><p>Prepare for meetings with the right information at hand and keep track of what comes next. Set up a personal assistant, turn meeting notes into clear next steps, and bring saved information and commitments into a daily brief.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="Build Your Personal AI Assistant" aria-label="Ask about Build Your Personal AI Assistant">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
-<article class="offer"><h3>See Where AI Could Help Your Business</h3><div class="offer-copy"><p>Look at everyday business tasks and discuss where a different approach could help. Explore practical AI examples and what they could mean for your own work, with room for questions.</p><a class="offer-ask" data-track="cta:workshops-interest" href="#tell-me" data-interest="See Where AI Could Help Your Business" aria-label="Ask about See Where AI Could Help Your Business">Ask about this workshop <span aria-hidden="true">→</span></a></div><span class="duration">90 minutes</span></article>
-</div></section>
-<section class="moment" id="moment" tabindex="-1" aria-labelledby="moment-title"><div class="moment-layout"><div><p class="kicker">A workshop moment</p><h2 id="moment-title">Watch a workshop moment.</h2><p>From the Personal AI Assistant workshop: helping participants use voice input.</p><p class="moment-meta">10 seconds · English captions · sound optional</p></div><figure class="moment-figure"><div class="moment-frame"><img class="excerpt-poster" src="/workshops/media/workshop-walking-poster-v3.webp" width="960" height="540" alt="Jonathan Malkin moving between participants at the Personal AI Assistant workshop." loading="lazy"><video id="verified-excerpt" controls playsinline muted preload="none" poster="/workshops/media/workshop-walking-poster-v3.webp" width="1280" height="720" aria-label="Personal AI Assistant workshop excerpt" hidden data-src="/workshops/media/workshop-walking-v3.mp4"><track kind="captions" src="/workshops/media/workshop-walking-v3.vtt" srclang="en" label="English" default></video></div><div class="excerpt-controls"><button class="excerpt-toggle" type="button" aria-controls="verified-excerpt">Play workshop excerpt</button><button class="excerpt-sound excerpt-toggle" type="button" aria-controls="verified-excerpt" hidden>Watch with sound</button></div><noscript><p><a href="/workshops/media/workshop-walking-v3.mp4">Open the workshop excerpt</a>.</p></noscript><p id="moment-status" role="status"></p></figure></div></section>
-<section class="about-doc" id="about" tabindex="-1" aria-labelledby="about-title"><div class="about-inner"><figure class="portrait"><img src="/home/austin-portrait-900.webp" width="900" height="600" alt="Jonathan Malkin speaking at an event in Austin, wearing a name badge and a lapel microphone." loading="lazy"><figcaption>Austin, Texas</figcaption></figure><div class="about-copy"><p class="kicker">About</p><h2 id="about-title">I teach this because I build it.</h2><p class="lead">After 20+ years in enterprise technology, I now teach practical workshops and build useful systems through Built with Jon. I work directly with businesses and with organizations that serve them.</p><p class="about-link"><a href="/about/">More about Jonathan <span aria-hidden="true">→</span></a></p></div></div></section>
-<section class="gallery" id="resources" tabindex="-1" aria-labelledby="materials-title"><div class="gallery-inner">
-<header class="gallery-head"><h2 id="materials-title">Explore at your own pace.</h2><p>Explore a sample daily brief and material from the Personal AI Assistant workshop.</p></header>
-<a class="tile tile-brief" data-track="cta:workshops-guide" href="/ai-assistant/cowork/"><span class="tile-shot"><img src="/ai-assistant/cowork/sample-outputs/daily-brief-sample.png" width="2080" height="2176" alt="A Daily Brief sample output: today&rsquo;s schedule, goal progress, meeting prep with briefs, a to-do list, email drafts awaiting approval, and items waiting on other people." loading="lazy"></span><span class="tile-meta"><strong>Personal AI Assistant setup guide <span aria-hidden="true">→</span></strong><span class="tile-desc">A self-serve guide to setting up an assistant in Claude Cowork.</span><span class="tile-tag">Sample output</span></span></a>
-<a class="tile tile-slides" data-track="cta:workshops-deck-pa" href="/workshops/personal-assistant/"><span class="tile-shot"><span class="slide-cover" aria-hidden="true"><span class="sc-top">Built with Jon · Workshop</span><span class="sc-title">Build Your Personal AI Assistant</span><span class="sc-rule"></span><span class="sc-foot">Workshop slides</span></span></span><span class="tile-meta"><strong>Personal AI Assistant workshop slides <span aria-hidden="true">→</span></strong><span class="tile-desc">Browse material from the existing workshop.</span><span class="tile-tag">Workshop deck</span></span></a>
-</div></section>
-<section class="workshops" id="tell-me" tabindex="-1" aria-labelledby="inquiry-title"><div class="section-head"><h2 id="inquiry-title">Curious? Tell me what caught your attention.</h2><p>A question is enough to start. Tell me what is on your mind, or about the group you have in mind.</p></div><form id="workshop-inquiry" action="/api/contact" method="POST" data-track-form="workshop-host"><input type="hidden" name="_subject" value="Workshop inquiry"><input type="text" name="company_website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true"><input type="hidden" name="inquiry_type" value="workshop-host"><input type="hidden" name="workshop_interest" value=""><p class="interest-note" id="interest-context" hidden>Interested in: <strong id="selected-interest"></strong> <button type="button" id="clear-interest">Clear</button></p><div class="inquiry-fields"><label>Name<input maxlength="120" name="name" autocomplete="name" aria-describedby="interest-context" required></label><label>Email<input maxlength="254" name="email" type="email" autocomplete="email" required></label><label class="message-label">Message<textarea maxlength="2000" name="message" rows="4" required></textarea></label></div><button class="primary" type="submit">Send a message</button><p class="email-alternative">Or email <a href="mailto:jonathan@builtwithjon.com">jonathan@builtwithjon.com</a>.</p><p id="form-status" role="status" tabindex="-1"></p></form></section>
-  <Footer slot="footer" showCta={false} />
-</Base>
+  <section class="sec band-parch" aria-labelledby="hero-h">
+    <div class="inner split" style="padding:0">
+      <div>
+        <h1 id="hero-h">Hands-on AI workshops for owners, executives and their teams.</h1>
+        <p class="lede">You work on a real task from your own week, on your own laptop, with help beside you. Ninety minutes, and you leave with something you can use on Monday. In person in Austin. Online sessions are available too. Ask and I will tell you what fits.</p>
+        <div class="actions">
+          <a class="btn" href="#message" data-track="cta:workshops-hero">Ask about a workshop <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <figure class="photo" style="aspect-ratio:3/2">
+          <picture>
+            <source type="image/webp" srcset="/home/room-working-800.webp 800w, /home/room-working-1200.webp 1200w, /home/room-working-1800.webp 1800w" sizes="(max-width: 700px) 92vw, min(45vw, 590px)" />
+            <img src="/home/room-working.jpg" width="1600" height="1067" fetchpriority="high" alt="A workshop in Austin, seen from the back of the room: people along a long table working on their own laptops while Jonathan Malkin teaches at the screen." />
+          </picture>
+        </figure>
+    </div>
+  </section>
 
-<script>
-  import '../scripts/workshop-page.js';
-  import '../scripts/workshop-video.js';
-</script>
+  <section class="sec" id="workshops" tabindex="-1" aria-labelledby="ws-h">
+    <div class="inner">
+      <div class="sec-head">
+        <h2 id="ws-h">Three kinds of rooms</h2>
+        <p>Pick by who will be in the room. You do not need to choose before getting in touch; tell me what is on your mind and I will suggest where to start.</p>
+      </div>
+      {FORMATS.map((f) => (
+        <div class="format" id={`format-${f.id}`}>
+          <div class="format-intro">
+            <figure class="photo" style="aspect-ratio:3/2">
+              <picture>
+                {f.image.base && <source type="image/webp" srcset={f.image.widths.map((w) => `${f.image.base}-${w}.webp ${w}w`).join(', ')} sizes="(max-width: 700px) 92vw, min(38vw, 500px)" />}
+                <img src={f.image.src} alt={f.image.alt} width="1200" height="800" loading="lazy" style={f.image.pos ? `object-position:${f.image.pos}` : undefined} />
+              </picture>
+            </figure>
+            <div>
+              <h3>{f.name}</h3>
+              <p class="lede">{f.how}</p>
+              <p class="cap">{f.who}</p>
+            </div>
+          </div>
+          <ul class="rows short">
+            {WORKSHOPS.filter((w) => w.format === f.id).map((w) => (
+              <li>
+                <h4><a href="#message" data-interest={w.name} data-track="cta:workshops-interest"><span class="vh">Ask about </span>{w.name} <span class="arrow" aria-hidden="true">→</span></a></h4>
+                <p>You leave with {w.leaveWith.charAt(0).toLowerCase() + w.leaveWith.slice(1)}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div class="band-parch">
+    <MessageForm kind="workshop" id="message" heading="Bring one into your business" intro="Tell me which room sounds like yours, what you have tried so far, or who would be in it. I will suggest where to start." button="Ask about a workshop" />
+  </div>
+</Odl>
+
+<style>
+  .format+.format{margin-top:clamp(48px,6vw,88px)}
+  .format-intro{display:grid;grid-template-columns:var(--two);gap:var(--col-gap);align-items:center;margin-bottom:24px}
+  .format-intro h3{font:600 clamp(1.6rem,2.6vw,2.3rem)/1.1 var(--disp);letter-spacing:-.02em;margin-bottom:14px}
+  .format-intro .lede{margin-bottom:10px}
+  .rows.short>li{padding:18px 0}
+  .rows.short h4{font:600 1.2rem/1.25 var(--disp);letter-spacing:-.015em;max-width:24ch}
+  .rows.short h4 a{display:inline-block;padding:9px 0;margin:-9px 0;color:var(--ink);text-decoration:none}
+  .rows.short h4 a:hover{text-decoration:underline}
+  .rows.short p{color:var(--body-txt)}
+  @media(max-width:700px){.format-intro{grid-template-columns:1fr}}
+</style>
