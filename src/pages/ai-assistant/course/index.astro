@@ -76,7 +76,7 @@ const days = [
 
 <Base
   title="Build Your Own AI Personal Assistant — Free Email Course"
-  description="A free email course. One email a day for a week, each ending with your assistant doing something real: daily brief, meeting prep, email triage, your first custom skill."
+  description="A free email course: one email a day for a week, each ending with your assistant doing something real, from a daily brief to your first custom skill."
   schema={schema}
 >
   <section class="container course-hero">
@@ -304,7 +304,8 @@ const days = [
     font-family: var(--font-mono);
     font-size: 0.8rem;
     letter-spacing: 0.04em;
-    color: var(--day-hue);
+    /* Darkened toward ink so every day hue clears WCAG AA on its tint. */
+    color: color-mix(in srgb, var(--day-hue) 60%, var(--color-text));
     background: color-mix(in srgb, var(--day-hue) 9%, var(--color-surface));
     border: 1px solid color-mix(in srgb, var(--day-hue) 35%, var(--color-border));
     border-radius: 999px;

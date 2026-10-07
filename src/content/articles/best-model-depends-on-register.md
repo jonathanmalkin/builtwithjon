@@ -1,5 +1,6 @@
 ---
 title: "Sonnet Lost to GPT-5.4 by 12 Points. Then I Switched Registers and Sonnet Won by 5."
+seoTitle: "Sonnet Lost to GPT-5.4 by 12 Points, Then Won by 5 on Register"
 date: 2026-04-23
 description: "Same seven models. Same three-judge panel. Same day. Change the writing register from technical build-log to reflective essay and the leaderboard inverts. 'Best model' is the wrong unit."
 story: 2
@@ -121,4 +122,3 @@ Full run artifacts, judge rubrics, and per-draft transcripts live in my benchmar
 
 Best model isn't a question with one answer. Stop looking for one.
 
-*Full benchmark source: [github.com/jonathanmalkin/practitioner-voice-benchmarks](https://github.com/jonathanmalkin/practitioner-voice-benchmarks)*

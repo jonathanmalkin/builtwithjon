@@ -1,7 +1,7 @@
 ---
 title: "Build Your Own Alex Hormozi Brain Agent"
 date: 2026-04-08
-description: "I collected 99 YouTube transcripts, 3 audiobook transcripts, 15 guest podcast transcripts, and built a voice analysis to create a Hormozi advisor I can chat with through Claude Projects. Here's the full process."
+description: "99 YouTube, 3 audiobook and 15 podcast transcripts plus a voice analysis became a Hormozi advisor I can chat with in Claude Projects. The full process."
 story: 3
 tags: ["ai-agents", "claude-code", "claude-projects", "alex-hormozi"]
 platforms: {}

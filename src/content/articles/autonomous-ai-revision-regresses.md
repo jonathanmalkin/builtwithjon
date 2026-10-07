@@ -149,4 +149,3 @@ Until then: one draft, then me.
 
 Full run artifacts, judge rubrics, and per-draft transcripts live in my benchmark repo. Run dates: 2026-04-23 (both).
 
-*Full benchmark source: [github.com/jonathanmalkin/practitioner-voice-benchmarks](https://github.com/jonathanmalkin/practitioner-voice-benchmarks)*

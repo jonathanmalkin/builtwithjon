@@ -1,5 +1,6 @@
 ---
 title: "I Burned Through My Claude Max Block in 4 Hours. Here's What the Data Shows."
+seoTitle: "I Burned Through My Claude Max Block in 4 Hours: What the Data Shows"
 date: 2026-03-17
 description: "Real usage data from running Claude Code across two machines on one Claude Max account. Five days of billing block analysis with ccusage, promo window math, and practical takeaways for managing usage."
 story: 1
@@ -29,7 +30,7 @@ Even working mostly on one machine at a time, the secondary machine's usage stil
 
 ## The Promo Math
 
-Anthropic is running a [promotion through March 28](https://support.claude.com/en/articles/14063676-claude-march-2026-usage-promotion) that doubles your usage capacity during off-peak hours. Peak is 7 AM to 1 PM CT on weekdays. Everything outside that window (including all weekend) gets 2x capacity.
+Anthropic is running a promotion through March 28 that doubles your usage capacity during off-peak hours. Peak is 7 AM to 1 PM CT on weekdays. Everything outside that window (including all weekend) gets 2x capacity.
 
 Today: my block started at 6 AM during the 2x window. At 7 AM, back to 1x. Most of my heavy Opus usage (interactive work plus subagents) happened after 7 AM. One hour of double capacity wasn't enough cushion for four hours of concentrated work.
 

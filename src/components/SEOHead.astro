@@ -27,12 +27,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 const siteName = 'Open Door Learning';
 const isDefaultImage = image === '/og-default.png';
+// Long descriptions end at the last whole sentence that fits, so snippets read
+// as finished thoughts. The word cut with an ellipsis is the fallback when no
+// sentence boundary lands in a useful range.
+const lastSentenceEnd = Math.max(
+  ...['. ', '! ', '? '].map((mark) => description.slice(0, 161).lastIndexOf(mark)),
+);
 const metaDescription = description.length <= 160
   ? description
-  : `${description.slice(0, 157).replace(/\s+\S*$/, '')}…`;
+  : lastSentenceEnd >= 70
+    ? description.slice(0, lastSentenceEnd + 1)
+    : `${description.slice(0, 157).replace(/\s+\S*$/, '')}…`;
 ---
 
-<link rel="canonical" href={canonicalURL} />
+{!noindex && <link rel="canonical" href={canonicalURL} />}
 <meta name="description" content={metaDescription} />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 

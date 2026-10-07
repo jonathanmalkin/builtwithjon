@@ -1,7 +1,8 @@
 ---
 title: "I Automated My Morning Briefing With Claude Code and a 990-Line Shell Script"
+seoTitle: "My Morning Briefing: Claude Code and a 990-Line Shell Script"
 date: 2026-03-21
-description: "A deep dive into running Claude Code as a background service. Three-phase orchestrator, parallel dispatch, memory synthesis safety rails, and every claude -p gotcha I discovered the hard way."
+description: "Running Claude Code as a background service: a three-phase orchestrator, parallel dispatch, memory safety rails, and every claude -p gotcha I hit the hard way."
 story: 1
 tags: ["claude-code", "jules", "automation", "bash", "morning-briefing", "claude-p"]
 draft: false

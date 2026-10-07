@@ -1,7 +1,7 @@
 ---
 title: "The Rent Chase Is a Standing Meeting Nobody Booked"
 date: 2026-07-03
-description: "Late rent isn't one bad month — it's a chase that restarts from zero every month, on a portion of every portfolio, whether or not anyone scheduled the time for it. What the chase actually costs a property manager, and the fix that doesn't require a collections hire."
+description: "Late rent is a chase that restarts from zero every month. What it actually costs a property manager, and the fix that doesn't require a collections hire."
 story: 2
 tags: ["smb", "property-management", "workflows", "rent-collection"]
 draft: false
@@ -54,4 +54,4 @@ The same honesty applies to PM software. If you already run software with built-
 
 The rent chase is one of the five recurring situations in [The Same Five Tenant Problems, On a Loop](/articles/same-five-tenant-problems-loop/), and it shares a root cause with vacancies left unfilled because a leasing inquiry sat too long: see [The Leasing Inquiry That Applied Somewhere Else](/articles/leasing-inquiry-applied-somewhere-else/) for the deals-side version.
 
-For more on where workflow fixes fit a property management operation, see [/use-cases/](/use-cases/). If you want a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your cash, time, and deals leaks together and tells you which one to fix first. Free, no call, no pitch.
+For more on where workflow fixes fit a property management operation, see [/making-ai-useful/](/making-ai-useful/). If you want a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your cash, time, and deals leaks together and tells you which one to fix first. Free, no call, no pitch.

@@ -1,7 +1,7 @@
 ---
 title: "Where Deals Actually Fall Through"
 date: 2026-07-03
-description: "Commission is paid at closing, not invoiced along the way, which hides the real leak: the follow-through gap between contract and close, where an unchecked contingency or a missed update quietly costs a deal. No fall-through rate to quote — just where to look in your own pipeline."
+description: "Commission paid at closing hides the real leak: the follow-through gap between contract and close, where a missed contingency quietly costs a deal."
 story: 2
 tags: ["smb", "real-estate", "workflows", "transaction-followthrough"]
 draft: false
@@ -52,4 +52,4 @@ If you're routinely running eight or more contracts at once and the follow-throu
 
 ## Find out if this is where you're leaking
 
-Follow-through after contract is one of three places real estate agents and small brokerages leak — the other two are the [5-minute reply window](/articles/five-minute-reply-window-listing/) that decides who wins the lead in the first place, and [forty documents in flight](/articles/forty-documents-in-flight/) during the transaction-coordination week. For the fuller picture, see [/use-cases/](/use-cases/). The [3-minute scorecard](/scorecard/) scores all three leaks for your business and tells you which one to fix first. Free, no call, no pitch.
+Follow-through after contract is one of three places real estate agents and small brokerages leak — the other two are the [5-minute reply window](/articles/five-minute-reply-window-listing/) that decides who wins the lead in the first place, and [forty documents in flight](/articles/forty-documents-in-flight/) during the transaction-coordination week. For the fuller picture, see [/making-ai-useful/](/making-ai-useful/). The [3-minute scorecard](/scorecard/) scores all three leaks for your business and tells you which one to fix first. Free, no call, no pitch.

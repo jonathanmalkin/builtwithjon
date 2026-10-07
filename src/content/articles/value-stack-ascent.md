@@ -1,5 +1,6 @@
 ---
 title: "Solo Founder + AI Isn't About Productivity. It's About What Kind of Thinking You're Doing."
+seoTitle: "Solo Founder + AI: It's About What Kind of Thinking You're Doing"
 date: 2026-03-19
 description: "The 5-layer value stack model for solo founders using AI. Infrastructure, workflow, tasks, agent management, strategy. The real leverage isn't doing more. It's doing different work."
 story: 3

@@ -1,7 +1,7 @@
 ---
 title: "14 Hours a Week That Never Pour Concrete"
 date: 2026-07-03
-description: "On the average construction job, roughly a third of the work week goes to hunting for information, resolving conflicts, and redoing work that miscommunication caused — not to building anything. The math on what that costs a general contracting crew, and the fix that starts with where information lives."
+description: "A third of a construction work week goes to hunting for information and redoing work. What that costs a GC crew, and the fix that starts with where info lives."
 story: 2
 tags: ["smb", "general-contracting", "workflows", "field-office-communication"]
 draft: false
@@ -45,4 +45,4 @@ If your team is already disciplined about logging and checking a shared source o
 
 ## Find out where your week is actually going
 
-The 14 hours are the time leak in a contracting business — the other two are the bids that go quiet after they're sent ([why slow bid follow-up loses jobs you already priced](/articles/slow-bid-follow-up-loses-jobs/)) and the change-order work that gets done but never invoiced ([the change-order revenue you never invoice](/articles/change-order-revenue-never-invoiced/)). The [3-minute scorecard](/scorecard/) puts a rough number on all three for your business — deals, time, and cash — and tells you which one to fix first. See how this shows up across the rest of a GC's operation on the [use cases page](/use-cases/). Free, no call, no pitch.
+The 14 hours are the time leak in a contracting business — the other two are the bids that go quiet after they're sent ([why slow bid follow-up loses jobs you already priced](/articles/slow-bid-follow-up-loses-jobs/)) and the change-order work that gets done but never invoiced ([the change-order revenue you never invoice](/articles/change-order-revenue-never-invoiced/)). The [3-minute scorecard](/scorecard/) puts a rough number on all three for your business — deals, time, and cash — and tells you which one to fix first. See how this shows up across the rest of a GC's operation on the [use cases page](/making-ai-useful/). Free, no call, no pitch.

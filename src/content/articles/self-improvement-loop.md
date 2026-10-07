@@ -1,5 +1,6 @@
 ---
 title: "Self-Improvement Loop: My Favorite Claude Code Skill Isn't Flashy. It's a Checklist."
+seoTitle: "Self-Improvement Loop: My Favorite Claude Code Skill Is a Checklist"
 date: 2026-02-19
 description: "The wrap-up skill commits code, updates memory, runs a self-improvement review, and flags publishable content. Four phases that make every session compound."
 story: 1

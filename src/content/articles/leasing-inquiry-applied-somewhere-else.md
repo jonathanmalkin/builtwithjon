@@ -1,7 +1,7 @@
 ---
 title: "The Leasing Inquiry That Applied Somewhere Else"
 date: 2026-07-03
-description: "A leasing inquiry that sits for even a day doesn't wait — the prospect applies wherever answered first, and the vacancy clock keeps running on the unit that lost them. The math on what slow response actually costs a property manager, and the fix that starts with triage, not a bigger leasing team."
+description: "A leasing inquiry that sits for a day applies wherever answered first. What slow response costs a property manager, and why the fix starts with triage."
 story: 2
 tags: ["smb", "property-management", "workflows", "leasing-response"]
 draft: false
@@ -55,4 +55,4 @@ The same honesty applies to listing software. If you already post to Zillow and 
 
 A missed leasing inquiry is often the direct result of the application backlog described in [The Same Five Tenant Problems, On a Loop](/articles/same-five-tenant-problems-loop/), where weekend interest piles up until Monday. A vacancy filled late is revenue the manager needed, on top of rent already going uncollected elsewhere — see [The Rent Chase Is a Standing Meeting Nobody Booked](/articles/rent-chase-standing-meeting/) for the cash-side version of the same pattern.
 
-For more on where workflow fixes fit a property management operation, see [/use-cases/](/use-cases/). If you want a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your deals, time, and cash leaks together and tells you which one is costing the most right now. Free, no call, no pitch.
+For more on where workflow fixes fit a property management operation, see [/making-ai-useful/](/making-ai-useful/). If you want a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your deals, time, and cash leaks together and tells you which one is costing the most right now. Free, no call, no pitch.

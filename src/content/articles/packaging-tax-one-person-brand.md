@@ -1,7 +1,7 @@
 ---
 title: "The Packaging Tax on a One-Person Brand"
 date: 2026-07-03
-description: "For a solo coach or creator, the hours that disappear aren't spent making the thing — they're spent repackaging it into six formats, chasing the right crop size, and re-scheduling posts by hand. The math on what that packaging tax costs your own week, and where to actually cut it."
+description: "A solo creator's lost hours go to repackaging, not making: six formats, crop sizes, hand-scheduled posts. What that packaging tax costs, and where to cut it."
 story: 2
 tags: ["smb", "coaches-creators", "workflows", "content-operations"]
 draft: false
@@ -46,4 +46,4 @@ If you've cut the formats you don't need and you're still buried, that's not a w
 
 ## Find your actual leak
 
-Packaging time is one of three places a one-person brand loses ground — the other two are the inquiries that go cold while you're heads-down creating (see [leads go cold while you're heads-down creating](/articles/leads-go-cold-heads-down-creating/)) and the members and clients who lapse quietly with no exit conversation (see [the quiet churn you never exit-interviewed](/articles/quiet-churn-never-exit-interviewed/)). See how this plays out across other one-person and small-team businesses at [/use-cases/](/use-cases/), or get your own number: the [3-minute scorecard](/scorecard/) scores all three leaks and tells you which one to fix first. Free, no call, no pitch.
+Packaging time is one of three places a one-person brand loses ground — the other two are the inquiries that go cold while you're heads-down creating (see [leads go cold while you're heads-down creating](/articles/leads-go-cold-heads-down-creating/)) and the members and clients who lapse quietly with no exit conversation (see [the quiet churn you never exit-interviewed](/articles/quiet-churn-never-exit-interviewed/)). See how this plays out across other one-person and small-team businesses at [/making-ai-useful/](/making-ai-useful/), or get your own number: the [3-minute scorecard](/scorecard/) scores all three leaks and tells you which one to fix first. Free, no call, no pitch.

@@ -1,7 +1,7 @@
 ---
 title: "Audit Your Non-Billable Admin Before You Hire"
 date: 2026-07-03
-description: "For law, accounting, and consulting firms, the expensive leak is expert hours going to non-billable admin: reconstructing documents, chasing status, drafting engagement letters from scratch. How to audit it in one week, and the math on fixing the workflow before adding headcount."
+description: "For law, accounting, and consulting firms, expert hours leak into non-billable admin. How to audit it in one week, and fix the workflow before adding headcount."
 story: 2
 tags: ["smb", "professional-services", "workflows", "billable-hours"]
 draft: false

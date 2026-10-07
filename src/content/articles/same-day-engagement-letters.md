@@ -1,7 +1,7 @@
 ---
 title: "Engagement Letters That Go Out Same-Day"
 date: 2026-07-03
-description: "Billable utilization at professional services firms fell to 68.9% in 2024, and 56% of small businesses are owed an average $17,500 in late payments, per 2024–2025 industry benchmarks. The fee clock starts when the engagement letter goes out, not when you shook hands — here's the math on what a slow letter costs."
+description: "The fee clock starts when the engagement letter goes out, not when you shook hands. The math on what a slow letter costs a professional services firm."
 story: 2
 tags: ["smb", "professional-services", "workflows", "billing-cycle"]
 draft: false
@@ -43,4 +43,4 @@ If your firm's real bottleneck is that engagement data lives in three disconnect
 
 ## Find out if this is your leak
 
-This is the cash leak in the same three-leak framing as [the inquiry that never got answered](/articles/inquiry-that-booked-your-competitor/) and [the non-billable admin eating your billable week](/articles/non-billable-admin-audit/) — inquiries, hours, and invoices are the three places a professional services firm loses money without anyone deciding to lose it. The [3-minute scorecard](/scorecard/) scores all three for your firm and tells you which one to fix first, alongside the [professional services use cases](/use-cases/) that map to each. Free, no call, no pitch.
+This is the cash leak in the same three-leak framing as [the inquiry that never got answered](/articles/inquiry-that-booked-your-competitor/) and [the non-billable admin eating your billable week](/articles/non-billable-admin-audit/) — inquiries, hours, and invoices are the three places a professional services firm loses money without anyone deciding to lose it. The [3-minute scorecard](/scorecard/) scores all three for your firm and tells you which one to fix first, alongside the [professional services use cases](/making-ai-useful/) that map to each. Free, no call, no pitch.
