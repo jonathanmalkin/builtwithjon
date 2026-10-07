@@ -56,4 +56,4 @@ And if your bids go quiet because they're priced wrong or scoped wrong, follow-u
 
 ## Find out if this is your leak
 
-The follow-up gap is one of three places contracting businesses leak — the other two are time (the week disappearing into chasing information between field and office) and cash (work finished, invoice late, retainage unchased). The [3-minute scorecard](/scorecard/) puts a rough number on all three for your business and tells you which one to fix first. Free, no call, no pitch.
+The follow-up gap is one of three places contracting businesses leak — the other two are time (the week disappearing into chasing information between field and office) and cash (work finished, invoice late, retainage unchased). If you want help working out which one to fix first, [send me a message](/contact/).

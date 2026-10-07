@@ -1,7 +1,7 @@
 ---
 title: "Why Your Invoice Chase Is a Payroll Problem"
 date: 2026-07-03
-description: "56% of small businesses are owed money on unpaid invoices, averaging about $17,500, and nearly half have invoices 30+ days overdue. For a home services shop, that gap doesn't stay an accounting problem — it becomes a Friday payroll problem. The math on a 6-truck shop, and the fix that doesn't require a bookkeeper."
+description: "56% of small businesses are owed money on unpaid invoices, averaging about $17,500, and nearly half have invoices 30+ days overdue. For a home services shop, that gap doesn't stay an accounting problem. It becomes a Friday payroll problem. The math on a 6-truck shop, and the fix that doesn't require a bookkeeper."
 story: 2
 tags: ["smb", "home-services", "workflows", "invoice-chase"]
 draft: false
@@ -58,4 +58,4 @@ This is the cash-side leak. The time-side version of the same problem — quotes
 
 ## Find your shop's number
 
-The [3-minute scorecard](/scorecard/) scores all three leaks for a home services business — the calls you lose, the week that disappears into squeezed-in admin, and the invoices that drag into next month's payroll — and tells you which one is costing the most right now. Free, no call, no pitch.
+If you want help working out which one to fix first, [send me a message](/contact/).

@@ -1,7 +1,7 @@
 ---
 title: "AI Job Search: Tools, Workflows, and Repos That Actually Help"
 date: 2026-05-08
-description: "A practical guide to AI-assisted job search for executives and operators. Tracker + LLM + manual review — the workflow that works, plus 11 open-source repos, X threads to inspect, and a copy-paste prompt pack."
+description: "A practical guide to AI-assisted job search for executives and operators. Tracker + LLM + manual review: the workflow that works, plus 11 open-source repos, X threads to inspect, and a copy-paste prompt pack."
 story: 3
 tags: ["ai-tools", "job-search", "claude", "open-source", "productivity"]
 draft: false

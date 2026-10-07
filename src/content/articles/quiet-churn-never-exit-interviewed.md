@@ -1,7 +1,7 @@
 ---
 title: "The Quiet Churn You Never Exit-Interviewed"
 date: 2026-07-03
-description: "Members and clients rarely announce they're leaving a one-person brand — they just stop renewing, stop opening emails, and let the subscription lapse. Reliable churn benchmarks for coaches and creators don't exist, so the real fix is a renewal and offboarding workflow that catches the silence before it becomes a pattern, not a number to chase."
+description: "Members and clients rarely announce they're leaving a one-person brand. They just stop renewing, stop opening emails, and let the subscription lapse. Reliable churn benchmarks for coaches and creators don't exist, so the real fix is a renewal and offboarding workflow that catches the silence before it becomes a pattern, not a number to chase."
 story: 2
 tags: ["smb", "coaches-creators", "workflows", "retention"]
 draft: false
@@ -46,4 +46,4 @@ If people are leaving because the product itself has stopped delivering — the 
 
 ## Find your actual leak
 
-Silent churn is one of three places a one-person brand loses ground — the other two are inquiries that go cold while you're heads-down creating (see [leads go cold while you're heads-down creating](/articles/leads-go-cold-heads-down-creating/)) and the hours that disappear into repackaging content instead of making it (see [the packaging tax on a one-person brand](/articles/packaging-tax-one-person-brand/)). See how this shows up for other one-person and small-team businesses at [/making-ai-useful/](/making-ai-useful/), or get a specific answer for yours: the [3-minute scorecard](/scorecard/) scores all three leaks and tells you which one to fix first. Free, no call, no pitch.
+Silent churn is one of three places a one-person brand loses ground — the other two are inquiries that go cold while you're heads-down creating (see [leads go cold while you're heads-down creating](/articles/leads-go-cold-heads-down-creating/)) and the hours that disappear into repackaging content instead of making it (see [the packaging tax on a one-person brand](/articles/packaging-tax-one-person-brand/)). If you want help working out which one to fix first, [send me a message](/contact/).

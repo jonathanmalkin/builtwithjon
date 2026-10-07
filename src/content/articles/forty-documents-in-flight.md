@@ -1,7 +1,7 @@
 ---
 title: "Forty Documents in Flight"
 date: 2026-07-03
-description: "Every active real estate transaction is a moving stack of disclosures, addenda, and deadlines spread across a dozen parties. The transaction-coordination week has no clean hours-per-week number worth quoting — but the math on your own file load shows exactly where it's crowding out client-facing work."
+description: "Every active real estate transaction is a moving stack of disclosures, addenda, and deadlines spread across a dozen parties. The transaction-coordination week has no clean hours-per-week number worth quoting, but the math on your own file load shows exactly where it's crowding out client-facing work."
 story: 2
 tags: ["smb", "real-estate", "workflows", "transaction-coordination"]
 draft: false
@@ -52,4 +52,4 @@ If you're running six or more files at once and the coordination work is genuine
 
 ## Find out if this is where you're leaking
 
-Transaction coordination is one of three places real estate agents and small brokerages leak — the other two are the [5-minute reply window](/articles/five-minute-reply-window-listing/) that decides who gets the lead, and [where deals actually fall through](/articles/where-deals-actually-fall-through/) between contract and close. For the fuller picture of how these connect, see [/making-ai-useful/](/making-ai-useful/). The [3-minute scorecard](/scorecard/) scores all three leaks for your business and tells you which one to fix first. Free, no call, no pitch.
+Transaction coordination is one of three places real estate agents and small brokerages leak — the other two are the [5-minute reply window](/articles/five-minute-reply-window-listing/) that decides who gets the lead, and [where deals actually fall through](/articles/where-deals-actually-fall-through/) between contract and close. For the fuller picture of how these connect, see [making AI useful in your business](/making-ai-useful/). If you want help working out which one to fix first, [send me a message](/contact/).

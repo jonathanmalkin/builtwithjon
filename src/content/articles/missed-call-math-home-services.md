@@ -2,7 +2,7 @@
 title: "The Missed-Call Math: What Voicemail Actually Costs a Home Services Shop"
 seoTitle: "The Missed-Call Math: What Voicemail Costs a Home Services Shop"
 date: 2026-07-03
-description: "When a homeowner's call hits voicemail, most don't leave a message — they call the next contractor on the list. The math on missed calls for a plumbing, HVAC, or electrical shop, and the first fix that doesn't require hiring a dispatcher."
+description: "When a homeowner's call hits voicemail, most don't leave a message. They call the next contractor on the list. The math on missed calls for a plumbing, HVAC, or electrical shop, and the first fix that doesn't require hiring a dispatcher."
 story: 2
 tags: ["smb", "home-services", "workflows", "lead-response"]
 draft: false
@@ -45,4 +45,4 @@ The intake leak has a twin at the end of the job — work finished, invoice sent
 
 ## Put a number on it
 
-The [3-minute scorecard](/scorecard/) scores all three leaks for a home services business — the calls you lose, the week that disappears into squeezed-in admin, and the invoices that drag — and tells you which one is costing the most right now. Free, no call, no pitch. Ironically, it works even if you're reading this from a crawl space.
+If you want help working out which one to fix first, [send me a message](/contact/).

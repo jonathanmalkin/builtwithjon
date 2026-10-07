@@ -55,4 +55,4 @@ The same honesty applies to listing software. If you already post to Zillow and 
 
 A missed leasing inquiry is often the direct result of the application backlog described in [The Same Five Tenant Problems, On a Loop](/articles/same-five-tenant-problems-loop/), where weekend interest piles up until Monday. A vacancy filled late is revenue the manager needed, on top of rent already going uncollected elsewhere — see [The Rent Chase Is a Standing Meeting Nobody Booked](/articles/rent-chase-standing-meeting/) for the cash-side version of the same pattern.
 
-For more on where workflow fixes fit a property management operation, see [/making-ai-useful/](/making-ai-useful/). If you want a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your deals, time, and cash leaks together and tells you which one is costing the most right now. Free, no call, no pitch.
+For more on where workflow fixes fit a property management operation, see [making AI useful in your business](/making-ai-useful/). If you want help working out which one to fix first, [send me a message](/contact/).

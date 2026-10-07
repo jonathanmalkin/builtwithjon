@@ -1,7 +1,7 @@
 # Security headers for every response served from static assets.
 # CSP keeps 'unsafe-inline' because Astro inlines page scripts and Shiki emits
 # inline styles; its value is the origin allowlist. Origins: Google Fonts,
-# Cloudflare Turnstile and Web Analytics, and the Loom embed on the course page.
+# Cloudflare Turnstile and Web Analytics, and the Loom embed on the Cowork page.
 # Same-origin framing stays allowed for the workshop slide-deck iframe.
 /*
   Strict-Transport-Security: max-age=31536000
@@ -13,6 +13,23 @@
 
 /rss.xml
   Content-Type: application/rss+xml; charset=utf-8
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+# Standalone HTML files (embedded decks, workshop handouts, samples). They
+# have no canonical or robots tag of their own, so keep them out of search.
+/workshops/decks/personal-assistant
+  X-Robots-Tag: noindex
+/workshops/decks/generated-diagrams/*
+  X-Robots-Tag: noindex
+/ai-assistant/cowork/Workshop-Slides
+  X-Robots-Tag: noindex
+/ai-assistant/cowork/report-templates/*
+  X-Robots-Tag: noindex
+/ai-assistant/cowork/sample-outputs/*
+  X-Robots-Tag: noindex
+/ai-assistant/claude-code/*
+  X-Robots-Tag: noindex
 
 # Fingerprinted build output never changes under the same name.
 /_astro/*

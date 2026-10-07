@@ -2,7 +2,7 @@
 title: "I Benchmarked 4 Models for Writing in My Voice. The Local One Was Fastest and Worst."
 seoTitle: "4 Models Benchmarked on My Voice: The Local One Was Fastest and Worst"
 date: 2026-04-23
-description: "Qwen3.6-35B-A3B running locally on my M4 hit 40 tokens/sec on long writing — faster than GPT-5.4, Kimi K2.6, and MiniMax M2.7. It also scored 20+ quality points lower than all three. The local-cloud speed story is solved. The quality story is not."
+description: "Qwen3.6-35B-A3B running locally on my M4 hit 40 tokens/sec on long writing, faster than GPT-5.4, Kimi K2.6, and MiniMax M2.7. It also scored 20+ quality points lower than all three. The local-cloud speed story is solved. The quality story is not."
 story: 1
 tags: ["benchmarks", "local-llm", "mlx", "qwen", "ai-models", "apple-silicon"]
 platforms: {}

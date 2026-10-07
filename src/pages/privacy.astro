@@ -8,21 +8,21 @@ import Base from '../layouts/Base.astro';
 >
   <div class="container">
     <h1>Privacy Policy</h1>
-    <p class="legal-updated">Last Updated: October 6, 2026</p>
+    <p class="legal-updated">Last Updated: October 7, 2026</p>
 
     <h2>1. Introduction</h2>
     <p>
       This Privacy Policy explains how Open Door Learning LLC, operated by Jonathan Malkin ("I," "me," "my"), collects, uses, and protects information when you visit builtwithjon.com (the "Site").
     </p>
-    <p>The Site covers Jonathan’s workshops, talks, educational resources and business inquiries. I aim to collect as little data as possible.</p>
+    <p>The Site covers my workshops, talks, educational resources and business inquiries. I aim to collect as little data as possible.</p>
 
     <h2>2. Information I Collect</h2>
 
     <h3>2.1 Information You Provide</h3>
     <p>
-      <strong>Form information</strong>: If you subscribe to my newsletter, contact me, request a
-      review, join a waitlist, or submit a scorecard, I collect the information you provide. This
-      may include your email address, name, company, message details, and selected form responses.
+      <strong>Form information</strong>: If you send me a message, subscribe to my newsletter, join a
+      waitlist, or request a resource, I collect the information you provide. This may include your
+      email address, name, organization, group size, and message.
     </p>
 
     <h3>2.2 Information Collected Automatically</h3>
@@ -42,7 +42,7 @@ import Base from '../layouts/Base.astro';
       <li><strong>Newsletter</strong>: To send you articles and updates when new content is published.
         You can unsubscribe at any time using the link in any email.</li>
       <li><strong>Forms and requests</strong>: To respond to your message, send the requested
-        resource, follow up about a review, or process your waitlist details.</li>
+        resource, or process your waitlist details.</li>
       <li><strong>Analytics</strong>: To understand overall traffic patterns and improve the Site.
         I do not track individual visitors.</li>
     </ul>
@@ -50,15 +50,21 @@ import Base from '../layouts/Base.astro';
     <h2>4. Third-Party Services</h2>
     <p>I use the following services to operate the Site:</p>
     <ul>
-      <li><strong>Forms and email</strong>: Forms are processed by our Cloudflare Worker. Email delivery
+      <li><strong>Forms and email</strong>: Forms are processed by my Cloudflare Worker. Email delivery
         and subscriber management use <a href="https://www.sender.net/privacy-policy/">Sender</a>.
         Form submissions are stored first-party in a private Cloudflare KV namespace for up to two years
         so a third-party outage does not lose your request.</li>
-      <li><strong>Cloudflare</strong>: Website hosting (Cloudflare Workers) and analytics
-        (Cloudflare Web Analytics).
+      <li><strong>Cloudflare</strong>: Website hosting (Cloudflare Workers), analytics
+        (Cloudflare Web Analytics), and Cloudflare Turnstile, a security check that loads on pages
+        with a form to tell people from automated submissions. Turnstile runs in your browser and
+        sends Cloudflare technical details such as your IP address and browser type.{' '}
         <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare's Privacy Policy</a></li>
+      <li><strong>Google Fonts</strong>: Some older pages, including articles and this page, load
+        typefaces from Google, so your browser contacts Google's servers and shares your IP address
+        to fetch them.{' '}
+        <a href="https://policies.google.com/privacy">Google's Privacy Policy</a></li>
     </ul>
-    <p>I do not sell, rent, or share your personal information with anyone else.</p>
+    <p>I do not sell or rent your personal information, and I do not share it with anyone else.</p>
 
     <h2>5. Cookies</h2>
     <p>The Site does not use cookies. Cloudflare Web Analytics is cookieless by design. Local browser
@@ -76,8 +82,8 @@ import Base from '../layouts/Base.astro';
     <h2>7. Your Rights and Choices</h2>
     <ul>
       <li><strong>Unsubscribe</strong>: Use the unsubscribe link in any newsletter email.</li>
-      <li><strong>Access or delete</strong>: Contact me to request access to or deletion of your
-        email address.</li>
+      <li><strong>Access or delete</strong>: Contact me to request access to or deletion of the
+        information you sent.</li>
     </ul>
     <p>
       If you are a California resident (CCPA) or Texas resident (TDPSA), you have additional rights

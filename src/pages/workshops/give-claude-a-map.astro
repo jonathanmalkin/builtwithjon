@@ -22,13 +22,13 @@ const slides = [
 ---
 
 <Base
-  title="Give Claude a Map — Workshop Deck"
-  description="The 14-slide talk Jonathan closed the Austin Claude meetup with: connected is not organized, and a map is what makes Claude useful."
+  title="Give Claude a Map, Not a Dump: Talk Deck"
+  description="The 14-slide talk Jonathan closed the Austin Claude Code Meetup with: connected is not organized, and a map is what makes Claude useful."
   bare
 >
   <div class="deck-page">
     <header class="deck-top">
-      <a href="/workshops/">Back to workshops</a>
+      <a href="/speaking/#decks">Back to talks and decks</a>
       <h1>Give Claude a Map <span>· 14 slides · arrow keys work</span></h1>
     </header>
     <div
@@ -52,7 +52,7 @@ const slides = [
     </div>
     <div class="deck-bottom">
       <button type="button" data-flip="prev">Prev</button>
-      <span data-count>1 / {slides.length}</span>
+      <span data-count aria-live="polite">1 / {slides.length}</span>
       <button type="button" data-flip="next">Next</button>
     </div>
   </div>
@@ -104,6 +104,7 @@ const slides = [
     padding: 14px 20px;
   }
   .deck-top a { color: var(--ivory); font-weight: 600; }
+  .deck-top a:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
   .deck-top h1 { margin: 0; font: 700 12px/1 var(--txt); letter-spacing: .12em; text-transform: uppercase; color: #C9C2B2; }
   .stage { display: grid; place-items: center; padding: 0 20px; min-height: 0; }
   .stage img { width: min(100%, calc((100vh - 140px) * 16 / 9)); height: auto; background: #111; }

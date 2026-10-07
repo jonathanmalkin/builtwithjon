@@ -5,8 +5,6 @@ date: 2026-03-13
 description: "I ran my 116-configuration Claude Code setup against @darnoux's 10-level mastery framework. Level by level breakdown with practical details at each stage."
 story: 1
 tags: ["claude-code", "skills", "hooks", "infrastructure", "vps", "agents"]
-platforms:
-  reddit: "https://www.reddit.com/r/ClaudeCode/comments/..."
 draft: false
 ---
 

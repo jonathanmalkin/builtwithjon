@@ -12,14 +12,14 @@ import JsonLd from '../components/JsonLd.astro';
 import { buildPersonSchema, buildProfessionalServiceSchema } from '../lib/schema.js';
 import { SITE, WORKSHOPS, FORMATS, BIO } from '../data/odl';
 
-const description = 'Hands-on AI workshops in Austin for owners, executives and their teams, leadership sessions, and a technical workshop for IT. Ninety minutes, on your own work.';
+const description = 'AI workshops in Austin: hands-on sessions for owners, executives and their teams, leadership sessions, and a technical workshop for IT.';
 const personSchema = buildPersonSchema({ description: BIO.medium, url: `${SITE.url}/about/` });
 const serviceSchema = buildProfessionalServiceSchema({
   name: SITE.company,
-  description,
-  url: `${SITE.url}/workshops/`,
+  description: SITE.summary,
   founder: personSchema,
-  makesOffer: WORKSHOPS.map((w) => ({ '@type': 'Offer', name: w.name, description: w.summary, url: `${SITE.url}/workshops/#workshops` })),
+  // Offer text is what the page shows under each name.
+  makesOffer: WORKSHOPS.map((w) => ({ '@type': 'Offer', name: w.name, description: w.leaveWith, url: `${SITE.url}/workshops/#workshops` })),
 });
 ---
 
@@ -30,7 +30,7 @@ const serviceSchema = buildProfessionalServiceSchema({
     <div class="inner split" style="padding:0">
       <div>
         <h1 id="hero-h">Hands-on AI workshops for owners, executives and their teams.</h1>
-        <p class="lede">You work on a real task from your own week, on your own laptop, with help beside you. Ninety minutes, and you leave with something you can use on Monday. In person in Austin. Online sessions are available too. Ask and I will tell you what fits.</p>
+        <p class="lede">In the hands-on workshops you work on a real task from your own week, on your own laptop, with help beside you. Ninety minutes, and you leave with something you can use on Monday. In person in Austin. Online sessions are available too. Ask and I will tell you what fits.</p>
         <div class="actions">
           <a class="btn" href="#message" data-track="cta:workshops-hero">Ask about a workshop <span class="arrow" aria-hidden="true">→</span></a>
         </div>
