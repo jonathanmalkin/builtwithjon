@@ -202,6 +202,18 @@ const FORM_LABELS = {
   scorecard: "AI Readiness Scorecard",
 };
 
+// The shared message form posts as form_id "contact"; the inquiry type says
+// which form it was. "workshop-host" is the pre-split name, still accepted
+// from pages cached or open before the split.
+const INQUIRY_LABELS = {
+  workshop: "Workshop inquiry",
+  host: "Host a workshop inquiry",
+  "workshop-host": "Workshop inquiry",
+  contact: "Contact inquiry",
+};
+const HOST_INQUIRY_TYPES = new Set(["host", "workshop-host"]);
+const INTEREST_INQUIRY_TYPES = new Set(["workshop", "workshop-host"]);
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -521,8 +533,8 @@ async function handleContact(request, env) {
   const attribution = safeText(form.get("attribution"), 240);
   const inquiryType = safeText(form.get("inquiry_type"), 80);
   const workshopInterest = safeText(form.get("workshop_interest"), 100);
-  const organization = inquiryType === "workshop-host" ? safeText(form.get("organization"), 160) : "";
-  const groupSize = inquiryType === "workshop-host" ? safeText(form.get("group_size"), 40) : "";
+  const organization = HOST_INQUIRY_TYPES.has(inquiryType) ? safeText(form.get("organization"), 160) : "";
+  const groupSize = HOST_INQUIRY_TYPES.has(inquiryType) ? safeText(form.get("group_size"), 40) : "";
   let lead = {
     email,
     name,
@@ -899,7 +911,8 @@ async function sendReportEmailSender(report, env) {
 async function sendOwnerLeadNotification(env, lead) {
   const formId = safeText(lead.form_id, 80) || "website-form";
   const isQrContact = lead.capture_kind === "qr-contact";
-  const formLabel = isQrContact ? "QR contact exchange" : (FORM_LABELS[formId] || formId);
+  const inquiryLabel = formId === "contact" && Object.hasOwn(INQUIRY_LABELS, lead.inquiry_type) ? INQUIRY_LABELS[lead.inquiry_type] : "";
+  const formLabel = isQrContact ? "QR contact exchange" : (inquiryLabel || FORM_LABELS[formId] || formId);
   const rows = Object.entries(lead).filter(([, value]) =>
     value !== "" && value !== null && value !== undefined
   );
@@ -1030,7 +1043,7 @@ function validateContactForm(form) {
   }
   if (form.getAll("workshop_interest").length > 1) return false;
   const workshopInterest = form.get("workshop_interest");
-  if (workshopInterest && (!WORKSHOP_INTERESTS.has(workshopInterest) || form.get("inquiry_type") !== "workshop-host")) return false;
+  if (workshopInterest && (!WORKSHOP_INTERESTS.has(workshopInterest) || !INTEREST_INQUIRY_TYPES.has(form.get("inquiry_type")))) return false;
   for (const [key, value] of form.entries()) {
     if (!(key in limits) || typeof value !== "string" || value.length > limits[key]) return false;
   }

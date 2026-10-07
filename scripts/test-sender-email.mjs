@@ -329,7 +329,7 @@ async function run() {
           name: `Workshop Host ${index + 1}`,
           email: `workshop-interest-${index + 1}@example.test`,
           message: `Please include the agenda and timing for workshop ${index + 1}.`,
-          inquiry_type: "workshop-host",
+          inquiry_type: "workshop",
           workshop_interest: workshopInterest,
           attribution: `s=workshop|interest=${index + 1}`,
         });
@@ -342,6 +342,36 @@ async function run() {
         assert(notification.text?.includes(`Attribution: s=workshop|interest=${index + 1}`), "attribution was not preserved");
         assert(notification.text?.includes(`Workshop interest: ${workshopInterest}`), "approved workshop name was not rendered separately");
         assert(notification.html?.includes("Workshop interest") && notification.html?.includes(workshopInterest), "workshop interest missing from HTML notification");
+        assert(notification.subject === "New website lead: Workshop inquiry", "workshop subject line wrong");
+      });
+    });
+
+    await test("8b. Each message form names itself in the subject, and host fields stay with host forms", async () => {
+      await reset();
+      const cases = [
+        ["host", "New website lead: Host a workshop inquiry", true],
+        ["contact", "New website lead: Contact inquiry", false],
+        ["workshop", "New website lead: Workshop inquiry", false],
+        ["workshop-host", "New website lead: Workshop inquiry", true],
+      ];
+      for (const [index, [inquiryType]] of cases.entries()) {
+        const response = await form("/api/contact", {
+          name: `Inquiry Type ${index + 1}`,
+          email: `inquiry-type-${index + 1}@example.test`,
+          message: `Message for inquiry type ${index + 1}.`,
+          inquiry_type: inquiryType,
+          organization: "Example Chamber",
+          group_size: "40",
+        });
+        assert(response.ok, `${inquiryType} contact failed`);
+      }
+      assert(senderBodies.length === cases.length, "inquiry type notifications missing");
+      cases.forEach(([inquiryType, subject, keepsHostFields], index) => {
+        const notification = senderBodies[index];
+        assert(notification.subject === subject, `${inquiryType} subject was ${notification.subject}`);
+        assert(notification.text?.includes(`Inquiry type: ${inquiryType}`), `${inquiryType} type missing from notification`);
+        assert(Boolean(notification.text?.includes("Organization: Example Chamber")) === keepsHostFields, `${inquiryType} organization handling wrong`);
+        assert(Boolean(notification.text?.includes("Group size: 40")) === keepsHostFields, `${inquiryType} group size handling wrong`);
       });
     });
 
@@ -351,7 +381,7 @@ async function run() {
         name: "Uncertain Host",
         email: "workshop-empty@example.test",
         message: "I am still deciding what would help.",
-        inquiry_type: "workshop-host",
+        inquiry_type: "workshop",
         workshop_interest: "",
       });
       assert(response.ok, "empty workshop interest rejected");
@@ -365,7 +395,7 @@ async function run() {
         name: "Unknown Host",
         email: "workshop-unknown@example.test",
         message: "Please help me choose.",
-        inquiry_type: "workshop-host",
+        inquiry_type: "workshop",
         workshop_interest: "unknown-workshop",
       });
       assert(unknown.status === 400, "unknown workshop interest accepted");
@@ -374,7 +404,7 @@ async function run() {
         ["name", "Duplicate Host"],
         ["email", "workshop-duplicate@example.test"],
         ["message", "Please help me choose."],
-        ["inquiry_type", "workshop-host"],
+        ["inquiry_type", "workshop"],
         ["workshop_interest", "Put Your Business Knowledge to Work"],
         ["workshop_interest", "Put Your Business Knowledge to Work"],
       ]);
@@ -523,7 +553,7 @@ async function run() {
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 21 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
+  assert(results.length === 22 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
 }
 
 run().catch((error) => {
