@@ -72,8 +72,10 @@ const slides = [
     document.querySelector('[data-flip="prev"]')?.addEventListener('click', () => show(index - 1));
     document.querySelector('[data-flip="next"]')?.addEventListener('click', () => show(index + 1));
     document.addEventListener('keydown', (event) => {
+      // Space on a focused button or link activates that control, not the deck.
+      const onControl = event.target instanceof Element && event.target.closest('button, a');
       if (event.key === 'ArrowLeft') { event.preventDefault(); show(index - 1); }
-      if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); show(index + 1); }
+      if (event.key === 'ArrowRight' || (event.key === ' ' && !onControl)) { event.preventDefault(); show(index + 1); }
     });
     root.focus();
   }
