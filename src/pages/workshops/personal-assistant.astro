@@ -8,15 +8,17 @@ import Base from '../../layouts/Base.astro';
   bare
 >
   <div class="pa-wrap">
+    <h1 class="sr-only">Personal AI Assistant workshop slides</h1>
     <a class="back" href="/workshops/">Back to workshops</a>
     <iframe
-      src="/workshops/decks/personal-assistant.html"
+      src="/workshops/decks/personal-assistant"
       title="Personal AI Assistant workshop slides"
     ></iframe>
   </div>
 </Base>
 
 <style>
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .pa-wrap { height: 100vh; display: grid; grid-template-rows: auto 1fr; background: #1f1713; }
   .back {
     color: #fbf6ec;

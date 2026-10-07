@@ -1,5 +1,6 @@
 ---
 title: "I Replaced Claude Code's Built-In Explore Agent. Here's What Actually Worked."
+seoTitle: "I Replaced Claude Code's Explore Agent. Here's What Worked."
 date: 2026-03-16
 description: "Claude Code's Explore agent rediscovers your workspace from scratch every time. A pre-computed structural index cuts that to one read. Full code for both the index generator and the custom agent."
 story: 1

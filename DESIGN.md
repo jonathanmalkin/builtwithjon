@@ -6,7 +6,7 @@ colors:
   surface: "#FFFDF8"
   ink: "#1B1813"
   ink-muted: "#5A5347"
-  ink-tertiary: "#8B8475"
+  ink-tertiary: "#6E6759"
   line: "#E2DBCC"
   line-strong: "#D2C9B5"
   deals: "#E8752B"
@@ -128,7 +128,7 @@ The palette begins with paper and ink. Saturated colors are reserved for informa
 
 - **Working Surface** (`#FFFDF8`): Cards, forms, and readable foreground surfaces.
 - **Muted Ink** (`#5A5347`): Secondary explanatory copy that still meets contrast requirements.
-- **Tertiary Ink** (`#8B8475`): Short metadata only; never body paragraphs or placeholders.
+- **Tertiary Ink** (`#6E6759`, 4.76:1 or better on every paper surface): Short metadata only; never body paragraphs or placeholders.
 - **Quiet Line** (`#E2DBCC`): Dividers and low-emphasis boundaries.
 - **Strong Line** (`#D2C9B5`): Card and form borders that must remain visible on paper.
 

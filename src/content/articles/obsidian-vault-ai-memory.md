@@ -1,5 +1,6 @@
 ---
 title: "How to Set Up an Obsidian Vault as a Real AI Memory System (6 Steps, Including the MCP Layer Everyone Skips)"
+seoTitle: "Obsidian Vault as a Real AI Memory System: 6 Steps Including MCP"
 date: 2026-06-16
 description: "A folder of markdown is not AI memory. Six steps turn an Obsidian vault into something an agent can query, including the MCP layer everyone skips."
 story: 1
@@ -11,7 +12,7 @@ Most people do the same three things. They collect their markdown into one folde
 
 The gap between those two things is six deliberate setup steps. Five of them are the kind of thing a careful PKM person already half-does: a real home, a real folder structure, wikilinks, structured notes. The sixth is the one almost everyone skips, and it is the one that actually matters. You have to stand up an MCP server so an AI agent can query the vault directly, without you copying and pasting note contents into a chat window.
 
-I built this alongside a larger memory project (three AI surfaces sharing one substrate, documented in full at [builtwithjon.com/articles/memory-systems-history](https://builtwithjon.com/articles/memory-systems-history)). This piece is the vault walkthrough pulled out and expanded, with the real config, the real summarizer code, and the real eval numbers, including a measurement bug I had to confess. The receipts are at the bottom.
+I built this alongside a larger memory project (three AI surfaces sharing one substrate, documented in full at [builtwithjon.com/articles/memory-systems-history](/articles/memory-systems-history/)). This piece is the vault walkthrough pulled out and expanded, with the real config, the real summarizer code, and the real eval numbers, including a measurement bug I had to confess. The receipts are at the bottom.
 
 ---
 
@@ -272,7 +273,7 @@ Decomposed by query type:
 
 Read those numbers honestly. The `candidate_hit_rate` of 1.0 means the vault returned some relevant document for every single probe. It always has something useful to say. That is exactly what you want for a knowledge query like "what are my durable principles for structuring AI system prompts." The vault is strong there.
 
-The `session_hit_rate` of 0.378 overall (53.1% on the realistic intent-mode queries) means it surfaces the one specific note you expected a little over half the time on realistic queries, and much worse on adversarial bag-of-words queries. That is honest, and it is the part to be clear-eyed about: the vault is a strong knowledge retriever and not yet a reliable replacement for session-history recall. For "what exactly did I decide in that session three weeks ago," a dedicated session-recall engine still wins. The full head-to-head against that engine is in the [flagship article](https://builtwithjon.com/articles/memory-systems-history).
+The `session_hit_rate` of 0.378 overall (53.1% on the realistic intent-mode queries) means it surfaces the one specific note you expected a little over half the time on realistic queries, and much worse on adversarial bag-of-words queries. That is honest, and it is the part to be clear-eyed about: the vault is a strong knowledge retriever and not yet a reliable replacement for session-history recall. For "what exactly did I decide in that session three weeks ago," a dedicated session-recall engine still wins. The full head-to-head against that engine is in the [flagship article](/articles/memory-systems-history/).
 
 ---
 
@@ -296,7 +297,7 @@ A notes app stops at step 1. Some careful PKM setups reach step 3. Almost nobody
 
 You do not need a vector database, an embeddings pipeline, or a Docker stack to make a markdown vault readable by an AI. You need one place, a real structure, wikilinks, deterministic notes, a filesystem MCP server, and an eval. Six steps. The fifth is the one to stop skipping.
 
-The full memory-systems story, including the engines I ran alongside this vault, the ones I tore down, and the head-to-head numbers, lives in the flagship piece at [builtwithjon.com/articles/memory-systems-history](https://builtwithjon.com/articles/memory-systems-history).
+The full memory-systems story, including the engines I ran alongside this vault, the ones I tore down, and the head-to-head numbers, lives in the flagship piece at [builtwithjon.com/articles/memory-systems-history](/articles/memory-systems-history/).
 
 ---
 

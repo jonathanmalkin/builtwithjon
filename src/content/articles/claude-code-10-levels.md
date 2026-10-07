@@ -1,5 +1,6 @@
 ---
 title: "Claude Code 10 Levels: Running My Production Setup Against the Mastery Framework"
+seoTitle: "Claude Code 10 Levels: My Production Setup vs. the Mastery Framework"
 date: 2026-03-13
 description: "I ran my 116-configuration Claude Code setup against @darnoux's 10-level mastery framework. Level by level breakdown with practical details at each stage."
 story: 1

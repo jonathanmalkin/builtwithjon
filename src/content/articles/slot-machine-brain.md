@@ -1,5 +1,6 @@
 ---
 title: "Some Brains Were Built for the Slot Machine. Here's How I Added a Kill Switch."
+seoTitle: "Some Brains Were Built for the Slot Machine. I Added a Kill Switch."
 date: 2026-03-18
 description: "Flow-state builders don't need less AI. They need an off-ramp built into the tool itself. Here's how I used Claude Code to solve the problem Claude Code creates."
 story: 3

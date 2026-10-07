@@ -1,7 +1,8 @@
 ---
 title: "I Stopped Using Claude Code for Just Code. Here's the Decision Advisor I Built Instead."
+seoTitle: "Beyond Code: The Decision Advisor I Built in Claude Code"
 date: 2026-03-24
-description: "How a Claude Code skill with challenging questions, decision science frameworks, and personal context integration turned a coding tool into a genuine thinking partner for life and business decisions."
+description: "How a Claude Code skill with challenging questions, decision science frameworks, and personal context became a thinking partner for life and business decisions."
 story: 1
 tags: ["claude-code", "jules", "decisions", "advisory", "skills", "beyond-code"]
 draft: false

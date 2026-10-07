@@ -7,6 +7,18 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 
+// Markdown tables scroll sideways on narrow screens (global.css), so keyboard
+// users need to be able to focus them to scroll (WCAG 2.1.1).
+function rehypeFocusableTables() {
+  const visit = (node) => {
+    if (node.type === 'element' && node.tagName === 'table') {
+      node.properties = { ...node.properties, tabIndex: 0 };
+    }
+    node.children?.forEach(visit);
+  };
+  return visit;
+}
+
 // Article dates keyed by slug, so sitemap entries can carry a real lastmod.
 // Google schedules recrawls off lastmod; without it the 52 articles give no
 // freshness signal at all. Pages with no known date get no lastmod rather than
@@ -40,6 +52,12 @@ const unlistedOrRetiredPaths = new Set([
 
 export default defineConfig({
   site: 'https://builtwithjon.com',
+  markdown: {
+    // github-dark's comment colour fails WCAG AA contrast (3.0:1); the
+    // -default variant keeps the look and passes (6.2:1).
+    shikiConfig: { theme: 'github-dark-default' },
+    rehypePlugins: [rehypeFocusableTables],
+  },
   integrations: [
     mdx(),
     sitemap({

@@ -1,7 +1,7 @@
 ---
 title: "Leads Go Cold While You're Heads-Down Creating"
 date: 2026-07-03
-description: "A DM or inquiry from your content is a lead the same as any other, and it decays the same way — the odds of qualifying it drop roughly 21× once response time slips from 5 minutes to 30. How a one-person expertise brand keeps the reply fast without breaking the recording block."
+description: "A DM from your content decays like any lead: odds drop about 21× when replies slip from 5 to 30 minutes. How a one-person brand replies fast and keeps creating."
 story: 2
 tags: ["smb", "coaches-creators", "workflows", "lead-response"]
 draft: false
@@ -46,4 +46,4 @@ If your inquiry volume has grown past what one focused hour a day can clear — 
 
 ## Find out where your leak actually is
 
-Slow reply is one of three places a one-person expertise brand loses ground — the other two are the hours that go to repackaging content instead of making it (see [the packaging tax on a one-person brand](/articles/packaging-tax-one-person-brand/)) and the renewals and members who lapse without anyone asking why (see [the quiet churn you never exit-interviewed](/articles/quiet-churn-never-exit-interviewed/)). Browse how this shows up across different one-person and small-team businesses at [/use-cases/](/use-cases/), or get a specific answer for your business: the [3-minute scorecard](/scorecard/) scores all three leaks and tells you which one is costing you the most right now. Free, no call, no pitch.
+Slow reply is one of three places a one-person expertise brand loses ground — the other two are the hours that go to repackaging content instead of making it (see [the packaging tax on a one-person brand](/articles/packaging-tax-one-person-brand/)) and the renewals and members who lapse without anyone asking why (see [the quiet churn you never exit-interviewed](/articles/quiet-churn-never-exit-interviewed/)). Browse how this shows up across different one-person and small-team businesses at [/making-ai-useful/](/making-ai-useful/), or get a specific answer for your business: the [3-minute scorecard](/scorecard/) scores all three leaks and tells you which one is costing you the most right now. Free, no call, no pitch.

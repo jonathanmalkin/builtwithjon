@@ -70,7 +70,7 @@ The directory name is a transformed version of your project path. Note: this dep
 
 The container has no persistent home directory between rebuilds. Anything written to `~/.claude/settings.json` inside a running container survives until the next rebuild.
 
-The fix: write `settings.json` at container startup via [`entrypoint.sh`](https://github.com/jonathanmalkin/jules/blob/main/.claude/container/entrypoint.sh). In my case, I own the full settings.json in the container (no platform hooks to preserve), so a clean write is safe here. That's different from cloud environments where you need to merge.
+The fix: write `settings.json` at container startup via `entrypoint.sh`. In my case, I own the full settings.json in the container (no platform hooks to preserve), so a clean write is safe here. That's different from cloud environments where you need to merge.
 
 ```bash
 # entrypoint.sh — runs before anything else
@@ -216,4 +216,4 @@ Three environments, three mechanisms, one memory directory.
 
 Happy to answer questions about any of the above or help you adapt this to your setup.
 
-*Source: [entrypoint.sh](https://github.com/jonathanmalkin/jules/blob/main/.claude/container/entrypoint.sh) (container) | [cloud-bootstrap.sh](https://github.com/jonathanmalkin/jules/blob/main/.claude/hooks/cloud-bootstrap.sh) (cloud web) | [Full repo](https://github.com/jonathanmalkin/jules)*
+*Source: [the Jules repo](https://github.com/jonathanmalkin/jules)*

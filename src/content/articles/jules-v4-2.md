@@ -7,7 +7,6 @@ tags: [claude-code, jules, open-source, infrastructure]
 draft: false
 platforms:
   reddit: https://www.reddit.com/r/ClaudeCode/comments/1sf7epi/jules_v42_19_skills_3_hooks_the_system_keeps/
-  x: https://x.com/builtwithjon/status/2041611142313672935
 ---
 
 Quick update on Jules, the open source Claude Code setup.

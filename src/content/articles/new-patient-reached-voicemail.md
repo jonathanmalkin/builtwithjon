@@ -1,7 +1,7 @@
 ---
 title: "The New Patient Who Reached Voicemail"
 date: 2026-07-03
-description: "A new patient calls, gets voicemail, and calls the next practice on the list — research on response speed shows the odds of ever qualifying that lead drop roughly 21-fold once response time slips from five minutes to thirty. The compliance-aware intake loop that answers fast without letting a bot near patient information, and the lifetime-value math on why it matters."
+description: "A new patient who reaches voicemail calls the next practice. A compliance-aware intake loop that answers fast without letting a bot near patient information."
 story: 2
 tags: ["smb", "health-wellness", "workflows", "patient-intake"]
 draft: false
@@ -48,4 +48,4 @@ If your call volume genuinely exceeds what current staff can pick up — not occ
 
 ## Find your clinic's leak
 
-This is the deals leak — the new-patient pipeline emptying out before anyone ever talks to a patient. The [3-minute scorecard](/scorecard/) also scores the other two for a health and wellness practice: [what empty chairs cost from no-shows](/articles/empty-chairs-no-show-math/), and [the clinical days lost to prior authorization](/articles/two-clinical-days-prior-auth/). See how it plays out across [other practice types](/use-cases/), or run your own number now — free, no call, no pitch.
+This is the deals leak — the new-patient pipeline emptying out before anyone ever talks to a patient. The [3-minute scorecard](/scorecard/) also scores the other two for a health and wellness practice: [what empty chairs cost from no-shows](/articles/empty-chairs-no-show-math/), and [the clinical days lost to prior authorization](/articles/two-clinical-days-prior-auth/). See how it plays out across [other practice types](/making-ai-useful/), or run your own number now — free, no call, no pitch.

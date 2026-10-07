@@ -54,7 +54,7 @@ The workflow fix and the hire aren't in competition. But fixing the chase first 
 
 ## Related reading
 
-This is the cash-side leak. The time-side version of the same problem — quotes that go out and never get followed up — is in [The Quote That Waited Until Friday](/articles/quote-that-waited-until-friday/). The deals-side leak that starts the whole cycle is in [The Missed-Call Math](/articles/missed-call-math-home-services/): work you never win in the first place. See how these leaks show up across trades in [use cases](/use-cases/).
+This is the cash-side leak. The time-side version of the same problem — quotes that go out and never get followed up — is in [The Quote That Waited Until Friday](/articles/quote-that-waited-until-friday/). The deals-side leak that starts the whole cycle is in [The Missed-Call Math](/articles/missed-call-math-home-services/): work you never win in the first place. See how these leaks show up across trades in [use cases](/making-ai-useful/).
 
 ## Find your shop's number
 

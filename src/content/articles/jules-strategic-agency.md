@@ -1,5 +1,6 @@
 ---
 title: "I Built a 240-Line Claude Code Personality That Challenges My Decisions"
+seoTitle: "A 240-Line Claude Code Personality That Challenges My Decisions"
 date: 2026-03-08
 description: "A structured Claude Code personality with voice registers, decision authority, standing orders, proactive behaviors, and a builder's trap detector. Full implementation shared."
 story: 1

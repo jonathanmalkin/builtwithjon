@@ -1469,7 +1469,8 @@ a.method-card:hover {
 }
 
 .starter-gate-label {
-  color: var(--color-copper);
+  /* --color-copper resolves to --ucl-simplify here, 4.34:1 on the card; this amber clears AA. */
+  color: #936019;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 800;
@@ -3563,7 +3564,7 @@ select.form-input {
   --ucl-paper-card: #FFFDF8;
   --ucl-ink: #1B1813;
   --ucl-ink-2: #5A5347;
-  --ucl-ink-3: #8B8475;
+  --ucl-ink-3: #6E6759;
   --ucl-line: #E2DBCC;
   --ucl-line-2: #D2C9B5;
   --ucl-eliminate: #BB3A2B;

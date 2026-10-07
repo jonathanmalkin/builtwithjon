@@ -1,7 +1,7 @@
 ---
 title: "Kimi K2.6 and MiniMax M2.7 Quietly Caught GPT-5.4"
 date: 2026-04-23
-description: "Two open-weight cloud models shipped generation upgrades this month. Both are now within 5 quality points of GPT-5.4 on writing tasks, half the cost, and faster on tool-use workloads. The frontier is getting crowded."
+description: "Two open-weight cloud models are now within 5 quality points of GPT-5.4 on writing tasks, at half the cost and faster on tool use. The frontier is crowded."
 story: 1
 tags: ["benchmarks", "ai-models", "kimi", "minimax", "gpt-5", "openrouter"]
 platforms: {}
@@ -99,4 +99,3 @@ I'll rerun this when the next ones land. For now, my production writing uses GPT
 
 Full run artifacts and per-task transcripts live in my benchmark repo. Run date: 2026-04-23.
 
-*Full benchmark source: [github.com/jonathanmalkin/practitioner-voice-benchmarks](https://github.com/jonathanmalkin/practitioner-voice-benchmarks)*

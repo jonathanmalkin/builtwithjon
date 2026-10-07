@@ -250,7 +250,7 @@ export default {
 
 async function handleScorecardReport(request, env) {
   if (request.method !== "POST") {
-    return json({ ok: false, error: "method_not_allowed" }, 405);
+    return json({ ok: false, error: "method_not_allowed" }, 405, { Allow: "POST" });
   }
 
   if (!originAllowed(request)) {
@@ -365,7 +365,7 @@ async function handleScorecardReport(request, env) {
 }
 
 async function handleSubscribe(request, env) {
-  if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405);
+  if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405, { Allow: "POST" });
   if (!originAllowed(request)) return json({ ok: false, error: "origin_not_allowed" }, 403);
   const parsed = await boundedRequestData(request, MAX_FORM_BODY_BYTES);
   if (parsed.tooLarge) return json({ ok: false, error: "payload_too_large" }, 413);
@@ -492,7 +492,7 @@ async function handleSubscribe(request, env) {
 }
 
 async function handleContact(request, env) {
-  if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405);
+  if (request.method !== "POST") return json({ ok: false, error: "method_not_allowed" }, 405, { Allow: "POST" });
   if (!originAllowed(request)) return json({ ok: false, error: "origin_not_allowed" }, 403);
   const parsed = await boundedRequestData(request, MAX_FORM_BODY_BYTES);
   if (parsed.tooLarge) return json({ ok: false, error: "payload_too_large" }, 413);
@@ -717,7 +717,7 @@ async function handleEvent(request, env) {
   }
 
   if (request.method !== "POST") {
-    return json({ ok: false, error: "method_not_allowed" }, 405);
+    return json({ ok: false, error: "method_not_allowed" }, 405, { Allow: "POST" });
   }
 
   if (!originAllowed(request)) {
@@ -1468,13 +1468,14 @@ function parseJsonField(value, fallback) {
   }
 }
 
-function json(body, status = 200) {
+function json(body, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store",
       "X-Robots-Tag": "noindex",
+      ...extraHeaders,
     },
   });
 }

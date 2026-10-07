@@ -1,7 +1,7 @@
 ---
 title: "I evaluated 21+ AI memory systems just to get three agents to talk"
 date: 2026-06-16
-description: "The full archaeology of building one shared memory for three AI agents: 21+ systems scored on paper, 7 actually deployed and torn down, a 180-probe eval harness, and the failures I almost shipped (a 27% baseline that was lying, a V8 ceiling that killed semantic search, and a fancy engine that lost 0-to-6 to a SQLite file)."
+description: "Building one shared memory for three AI agents: 21+ systems scored, 7 deployed and torn down, a 180-probe eval harness, and the failures I almost shipped."
 story: 1
 tags: ["ai-memory", "agentmemory", "local-llm", "claude-code", "bm25", "self-hosted", "evals"]
 platforms:

@@ -52,4 +52,4 @@ The workflow fix and the hire aren't in competition. The audit — actually trac
 
 ## Put a number on your clinic's leak
 
-This is the time leak. The [3-minute scorecard](/scorecard/) also scores the other two for a health and wellness practice: [what empty chairs cost from no-shows](/articles/empty-chairs-no-show-math/), and [the new patient who called twice and booked somewhere else](/articles/new-patient-reached-voicemail/). See how these patterns show up across [other practice types](/use-cases/), or just run your own number — free, no call, no pitch.
+This is the time leak. The [3-minute scorecard](/scorecard/) also scores the other two for a health and wellness practice: [what empty chairs cost from no-shows](/articles/empty-chairs-no-show-math/), and [the new patient who called twice and booked somewhere else](/articles/new-patient-reached-voicemail/). See how these patterns show up across [other practice types](/making-ai-useful/), or just run your own number — free, no call, no pitch.

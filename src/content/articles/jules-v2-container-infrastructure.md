@@ -1,7 +1,8 @@
 ---
 title: "Jules v2 is live. Container infrastructure, 7 scheduled jobs, Slack daemon for phone access. Open source."
+seoTitle: "Jules v2: Container Infrastructure, 7 Scheduled Jobs, Slack Daemon"
 date: 2026-03-17
-description: "Jules v2 container infrastructure: 8-phase boot sequence, 7 scheduled jobs, Slack daemon, credential flow, and the architectural patterns that make an AI agent truly autonomous."
+description: "Jules v2 container infrastructure: 8-phase boot sequence, 7 scheduled jobs, Slack daemon, credential flow, and the patterns that make an AI agent autonomous."
 story: 1
 tags: ["claude-code", "jules", "infrastructure", "docker", "automation", "slack", "cron"]
 draft: false

@@ -40,9 +40,12 @@ const {
   bodyClass,
 } = Astro.props;
 
-const pageTitle = !titleSuffix || title === 'Jonathan Malkin'
+// The brand suffix is dropped when it would push the title past what search
+// results display (~70 characters).
+const suffixedTitle = `${title} | Open Door Learning`;
+const pageTitle = !titleSuffix || title === 'Jonathan Malkin' || suffixedTitle.length > 70
   ? title
-  : `${title} | Open Door Learning`;
+  : suffixedTitle;
 
 ---
 

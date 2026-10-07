@@ -5,6 +5,8 @@ const articles = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
   schema: z.object({
     title: z.string(),
+    // Shorter <title> for search results when the headline runs past ~70 characters.
+    seoTitle: z.string().max(70).optional(),
     date: z.date(),
     updated: z.date().optional(),
     description: z.string(),

@@ -54,7 +54,7 @@ The workflow fix and the hire aren't opposites. But once the follow-up clock exi
 
 ## Related reading
 
-This is the time-axis leak — the follow-up that never happens because the day filled up first. The cash-side version, where the money's already earned and still doesn't arrive, is in [Why Your Invoice Chase Is a Payroll Problem](/articles/invoice-chase-payroll-problem/). The deals-side leak that happens before the quote is even sent is in [The Missed-Call Math](/articles/missed-call-math-home-services/). See how this plays out across trades in [use cases](/use-cases/).
+This is the time-axis leak — the follow-up that never happens because the day filled up first. The cash-side version, where the money's already earned and still doesn't arrive, is in [Why Your Invoice Chase Is a Payroll Problem](/articles/invoice-chase-payroll-problem/). The deals-side leak that happens before the quote is even sent is in [The Missed-Call Math](/articles/missed-call-math-home-services/). See how this plays out across trades in [use cases](/making-ai-useful/).
 
 ## Find your shop's number
 

@@ -55,4 +55,4 @@ The same test applies to buying PM software from scratch. If you already run it 
 
 The rent chase that restarts every month is also a cash problem — see [The Rent Chase Is a Standing Meeting Nobody Booked](/articles/rent-chase-standing-meeting/) for what unpaid rent costs twice. The application backlog that costs a tenant on a slow weekend is a deals problem — see [The Leasing Inquiry That Applied Somewhere Else](/articles/leasing-inquiry-applied-somewhere-else/) for what a slow response costs.
 
-For where AI workflows fit a property management operation, see [/use-cases/](/use-cases/). For a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your time, cash, and deals leaks together and tells you which one is costing the most right now. Free, no call, no pitch.
+For where AI workflows fit a property management operation, see [/making-ai-useful/](/making-ai-useful/). For a number specific to your own portfolio, the [3-minute scorecard](/scorecard/) scores your time, cash, and deals leaks together and tells you which one is costing the most right now. Free, no call, no pitch.
