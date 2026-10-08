@@ -254,6 +254,9 @@ async function run() {
       assert(created[0].body.trigger_automation === false, "asset signup triggered consent automation");
       assert(!containsStatusField(created[0].body), "status field was written");
       assert(pathRequests(all, "/v2/message/send", "POST").length === 1, "asset lead notification missing");
+      const replyUrl = "mailto:asset%40example.test?subject=Your%20message%20to%20Open%20Door%20Learning";
+      assert(senderBodies[0].html.includes(`href="${replyUrl}">Reply to asset@example.test</a>`), "nameless lead reply link missing");
+      assert(senderBodies[0].text.includes(`Reply to asset@example.test: ${replyUrl}`), "nameless lead text reply missing");
     });
 
     await test("2. Explicit opt-in enters pending and triggers confirmation", async () => {
@@ -314,6 +317,38 @@ async function run() {
       assert(sent.length === 1, "contact notification duplicated");
       assert(!/[\r\n]/.test(sent[0].body.subject), "header injection survived");
       assert(sent[0].body.html?.containsEscapedScript && !sent[0].body.html?.containsRawScript, "HTML was not escaped");
+    });
+
+    await test("7b. Reply links encode the address and subject and escape the lead name", async () => {
+      await reset();
+      const response = await form("/api/contact", {
+        name: 'Renée & <Alex> "Test"',
+        email: "reply+tag&x?=y@example.test",
+        message: "Please reply to my message.",
+      });
+      assert(response.ok && senderBodies.length === 1, "reply-link contact failed");
+      const notification = senderBodies[0];
+      const replyUrl = "mailto:reply%2Btag%26x%3F%3Dy%40example.test?subject=Your%20message%20to%20Open%20Door%20Learning";
+      const htmlLink = `<a href="${replyUrl}">Reply to Renée &amp; &lt;Alex&gt; &quot;Test&quot;</a>`;
+      assert(notification.html.includes(htmlLink), "escaped HTML reply link missing");
+      assert(notification.html.indexOf(htmlLink) < notification.html.indexOf("<h1"), "reply link is not at the top");
+      assert(notification.text.split("\n")[2] === `Reply to Renée & <Alex> "Test": ${replyUrl}`, "matching text reply line missing");
+      const [address, query] = replyUrl.slice("mailto:".length).split("?");
+      assert(decodeURIComponent(address) === "reply+tag&x?=y@example.test", "reply address changed");
+      assert(new URLSearchParams(query).get("subject") === "Your message to Open Door Learning", "reply subject changed");
+      for (const phone of ["", "+15125550124"]) {
+        const qrResponse = await form("/api/contact", {
+          name: "QR Reply", email: "qr-reply@example.test", phone, inquiry_type: "scan:card",
+        });
+        assert(qrResponse.ok, "QR reply contact failed");
+        const qrNotification = senderBodies.at(-1);
+        const qrReplyUrl = "mailto:qr-reply%40example.test?subject=Your%20message%20to%20Open%20Door%20Learning";
+        assert(qrNotification.html.includes(`href="${qrReplyUrl}">Reply to QR Reply</a>`), "QR email reply link missing");
+        assert(qrNotification.text.includes(`Reply to QR Reply: ${qrReplyUrl}`), "QR text reply missing");
+        const contactUrl = phone ? `sms:${phone}` : "mailto:qr-reply@example.test";
+        assert(qrNotification.html.includes(`href="${contactUrl}"`), "existing QR contact link changed");
+        assert(qrNotification.text.includes(contactUrl) && qrNotification.text.includes("BEGIN BWJ CONTACT EXCHANGE JSON"), "QR contact text or envelope changed");
+      }
     });
 
     await test("8. Workshop interests render as separate approved notification fields", async () => {
@@ -426,6 +461,7 @@ async function run() {
       assert(envelope.phone === "+15125550123" && envelope.company === "Example & Co", "contact fields lost");
       assert(envelope.capture_schema === "bwj.contact-exchange.v1" && /^[a-f0-9]{64}$/.test(envelope.capture_id), "capture identity invalid");
       assert(notification.html.includes('href="sms:+15125550123"'), "tap-to-text missing");
+      assert(!notification.html.includes("Reply to ") && !notification.text.includes("Reply to "), "phone-only contact gained an email reply link");
       assert(pathRequests(await requests(), "/v2/subscribers", "POST").length === 0, "QR contact subscribed to marketing");
     });
     await test("QR contact rejects malformed and duplicate fields without changing generic requirements", async () => {
@@ -553,7 +589,7 @@ async function run() {
     for (const [name, result] of results) console.log(`${result} ${name}`);
   }
 
-  assert(results.length === 22 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
+  assert(results.length === 23 && results.every(([, result]) => result === "PASS"), "not all Sender tests passed");
 }
 
 run().catch((error) => {

@@ -915,12 +915,16 @@ async function sendOwnerLeadNotification(env, lead) {
   const isQrContact = lead.capture_kind === "qr-contact";
   const inquiryLabel = formId === "contact" && Object.hasOwn(INQUIRY_LABELS, lead.inquiry_type) ? INQUIRY_LABELS[lead.inquiry_type] : "";
   const formLabel = isQrContact ? "QR contact exchange" : (inquiryLabel || FORM_LABELS[formId] || formId);
+  const replyEmail = normalizeEmail(lead.email);
+  const replyName = safeText(lead.name, 120) || replyEmail;
+  const replyUrl = replyEmail ? `mailto:${encodeURIComponent(replyEmail)}?subject=${encodeURIComponent("Your message to Open Door Learning")}` : "";
   const rows = Object.entries(lead).filter(([, value]) =>
     value !== "" && value !== null && value !== undefined
   );
   const text = [
     `New website lead: ${formLabel}`,
     "",
+    ...(replyUrl ? [`Reply to ${replyName}: ${replyUrl}`, ""] : []),
     ...rows.map(([key, value]) => `${leadFieldLabel(key)}: ${leadFieldValue(value)}`),
     ...(isQrContact ? ["", lead.phone ? `Text this person: sms:${lead.phone}` : `Email this person: mailto:${lead.email}`, "", "BEGIN BWJ CONTACT EXCHANGE JSON", JSON.stringify(lead), "END BWJ CONTACT EXCHANGE JSON"] : []),
   ].join("\n");
@@ -931,6 +935,7 @@ async function sendOwnerLeadNotification(env, lead) {
     </tr>`).join("");
   const html = `
     <div style="max-width:680px;margin:0 auto;padding:24px;background:#fff;color:#1F1713;">
+      ${replyUrl ? `<p><a href="${escapeHtml(replyUrl)}">Reply to ${escapeHtml(replyName)}</a></p>` : ""}
       <p style="margin:0 0 8px;color:#8F4E24;font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;">Open Door Learning website</p>
       <h1 style="margin:0 0 20px;font:700 24px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">New lead: ${escapeHtml(formLabel)}</h1>
       ${isQrContact ? (lead.phone ? `<p><a href="sms:${escapeHtml(lead.phone)}">Text ${escapeHtml(lead.name)}</a></p>` : `<p><a href="mailto:${escapeHtml(lead.email)}">Email ${escapeHtml(lead.name)}</a></p>`) : ""}
@@ -940,7 +945,7 @@ async function sendOwnerLeadNotification(env, lead) {
   return senderTransactionalSend(env, {
     to: "jonathan@opendoorlearningai.com",
     subject: `New website lead: ${formLabel}`,
-    replyTo: normalizeEmail(lead.email) || undefined,
+    replyTo: replyEmail || undefined,
     text,
     html,
     variables: { source: formId },
