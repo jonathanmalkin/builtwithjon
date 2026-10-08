@@ -20,11 +20,11 @@ Hands-on build workshops (laptops open, one real task each):
 - Put Your Business Knowledge to Work: a shared reference the team and their AI can both use.
 - Build One Useful AI Workflow: a repeatable method for one recurring task.
 - Build Your Personal AI Assistant: an assistant set up for meeting preparation, next steps and a daily brief.
-- Hand Off Your First Task to an AI Agent: one recurring task running under the participant’s own approval rules, and a short list of what an agent may and may not do.
+- Hand Off Your First Task to an AI Agent: one recurring task running under the participant's own approval rules, and a short list of what an agent may and may not do.
 
 Leadership sessions (no laptops; decisions written down):
 - See Where AI Could Help Your Business: a short list of places to start, drawn from the participant's own week.
-- Set Your Team’s AI Direction: a one-page AI direction for the team: the rules, three first projects with a person responsible for each, and what to check in ninety days.
+- Set Your Team's AI Direction: a one-page AI direction for the team: the rules, three first projects with a person responsible for each, and what to check in ninety days.
 
 For IT and technical teams:
 - Give Your AI Agents a Map: a folder structure and instruction files an agent can find its way around, tested with two AI tools on the team's own files.
