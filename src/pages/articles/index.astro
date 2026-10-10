@@ -2,7 +2,20 @@
 import Base from '../../layouts/Base.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import multipleEmailHero from '../../assets/articles/multiple-email-accounts-with-claude/option-c-whiteboard-v3.png';
+import decisionModelsCover from '../../assets/articles/113-decision-models-in-3-weeks/cover.jpg';
+
+const cardImages: Record<string, { image: ImageMetadata; alt: string }> = {
+  'multiple-email-accounts-with-claude': {
+    image: multipleEmailHero,
+    alt: 'Hand-drawn whiteboard sketch showing three numbered groups of options for connecting multiple email accounts to Claude.',
+  },
+  '113-decision-models-in-3-weeks': {
+    image: decisionModelsCover,
+    alt: 'Hand-drawn whiteboard sketch of a fox feeding papers into a decision machine that sorts cards into yes, no and unsure trays with confidence percentages.',
+  },
+};
 
 const contentArticles = (await getCollection('articles', ({ data }) => !data.draft))
   .map((article) => ({
@@ -11,10 +24,8 @@ const contentArticles = (await getCollection('articles', ({ data }) => !data.dra
     date: article.data.date,
     description: article.data.description,
     story: article.data.story,
-    image: article.id === 'multiple-email-accounts-with-claude' ? multipleEmailHero : undefined,
-    imageAlt: article.id === 'multiple-email-accounts-with-claude'
-      ? 'Hand-drawn whiteboard sketch showing three numbered groups of options for connecting multiple email accounts to Claude.'
-      : undefined,
+    image: cardImages[article.id]?.image,
+    imageAlt: cardImages[article.id]?.alt,
   }));
 
 const articles = contentArticles

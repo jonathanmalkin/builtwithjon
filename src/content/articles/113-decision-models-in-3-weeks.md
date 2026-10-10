@@ -1,5 +1,5 @@
 ---
-title: "113 Decision Models in 3 Weeks (Mostly Qwen and Gemma Fine-Tunes): A Deep Dive"
+title: "113 Decision Models in 3 Weeks"
 seoTitle: "113 Decision Models in 3 Weeks: A Deep Dive"
 date: 2026-10-10
 description: "Decision models return typed answers with probabilities for a fraction of a cent in tens to hundreds of milliseconds. I compared the 113 that appeared in three weeks on quality, calibration, speed and price, and sketched an email triage setup that cuts an estimated $353 a month to $28."
@@ -7,11 +7,13 @@ story: 1
 tags: ["decision-models", "benchmarks", "ai-models", "local-llm", "automation", "email-triage"]
 platforms:
   reddit: "https://www.reddit.com/r/AI_Agents/comments/1x048af/113_decision_models_in_3_weeks_mostly_qwen_and/"
-image: "/articles/113-decision-models-in-3-weeks/02-quality-scores.png"
+image: "/articles/113-decision-models-in-3-weeks/cover.jpg"
 draft: false
 ---
 
 A decision model takes evidence plus closed questions and returns typed answers with probabilities, for a tiny fraction of a cent in tens to hundreds of milliseconds. 113 of them showed up in three weeks. Most are Qwen or Gemma fine-tunes, Perplexity Decider v1.1 leads the independent Decision Index, and calibration, price and where you can run one separate the leaders more than accuracy does.
+
+![Hand-drawn whiteboard sketch of a fox feeding papers into a decision machine that sorts cards into yes, no and unsure trays with confidence percentages.](/articles/113-decision-models-in-3-weeks/cover.jpg)
 
 *I used Claude for the research and first draft, then spent a few hours of my own time checking and assembling it. This first appeared on r/AI_Agents on October 7, 2026.*
 
